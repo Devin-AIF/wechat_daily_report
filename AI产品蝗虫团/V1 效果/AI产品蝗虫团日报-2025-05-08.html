@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>AI产品蝗虫团日报 - 2025-05-08</title>
+    <style>
+        /* 严格定义的CSS样式，确保风格一致性 */
+        :root {
+            --bg-primary: #0f0e17;
+            --bg-secondary: #1a1925;
+            --bg-tertiary: #252336;
+            --text-primary: #fffffe;
+            --text-secondary: #a7a9be;
+            --accent-primary: #ff8906;
+            --accent-secondary: #f25f4c;
+            --accent-tertiary: #e53170;
+            --accent-blue: #3da9fc;
+            --accent-purple: #7209b7;
+            --accent-cyan: #00b4d8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'SF Pro Display', 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+            width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            background-color: var(--bg-secondary);
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+        
+        .date {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+        
+        .meta-info {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .meta-info span {
+            background-color: var(--bg-tertiary);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        
+        section {
+            background-color: var(--bg-secondary);
+            margin-bottom: 30px;
+            padding: 25px;
+        }
+        
+        h2 {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--accent-blue);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent-blue);
+        }
+        
+        h3 {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--accent-primary);
+            margin: 15px 0 10px 0;
+        }
+        
+        h4 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--accent-secondary);
+            margin: 12px 0 8px 0;
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 8px; /* Increased spacing for better readability */
+        }
+        
+        a {
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        /* 卡片容器样式 */
+        .topics-container, .discussions-container, .links-container, .members-container {
+            display: grid;
+            grid-template-columns: 1fr; /* Default to 1 column, can be adjusted with media queries */
+            gap: 20px;
+        }
+        
+        /* 卡片样式 */
+        .topic-card, .discussion-card, .link-item, .member-item, .summary-card {
+            background-color: var(--bg-tertiary);
+            padding: 20px;
+        }
+        
+        /* 话题卡片 */
+        .topic-category {
+            display: inline-block;
+            background-color: var(--accent-blue);
+            color: var(--text-primary);
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .topic-keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 10px 0;
+        }
+        
+        .keyword {
+            background-color: rgba(61, 169, 252, 0.2);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 14px;
+        }
+
+        .link-list li a {
+            word-break: break-all; /* Ensure long links don't break layout */
+        }
+        
+        /* 底部 */
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 50px;
+            background-color: var(--bg-secondary);
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        footer p {
+            margin: 5px 0;
+        }
+        
+        .disclaimer {
+            margin-top: 15px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>AI产品蝗虫团日报</h1>
+        <p class="date">2025-05-08</p>
+        <div class="meta-info">
+            <span>总消息数：大量</span>
+            <span>活跃用户：多位</span>
+            <span>时间范围：全天</span>
+        </div>
+    </header>
+
+    <!-- 1. 今日讨论热点 -->
+    <section class="hot-topics">
+        <h2>今日热点讨论</h2>
+        <div class="topics-container">
+            <div class="topic-card">
+                <h3>1. Cursor Pro 学生/教育优惠获取 (持续整日)</h3>
+                <div class="topic-category">工具优惠</div>
+                <p>今天群内关于如何获取Cursor Pro免费一年学生/教育优惠的讨论贯穿全天，热度极高。主要内容包括：</p>
+                <h4>认证方式变化:</h4>
+                <ul>
+                    <li>昨日（5月7日）通过SheerID认证（特别是中国区）的方法在今日早些时候失效或变得困难。</li>
+                    <li>有群友反馈国家/地区选项中移除了香港、台湾，后来又发现美国（US）选项仍在。</li>
+                    <li>讨论了SheerID认证机制，以及与ChatGPT学生优惠认证的异同。</li>
+                    <li>提及部分通过非官方渠道（如咸鱼）购买的认证可能被官方取消。</li>
+                </ul>
+                <h4>.edu 邮箱的重要性:</h4>
+                <ul>
+                    <li>获取和使用.edu邮箱（尤其是美国.edu邮箱）成为关键。</li>
+                    <li>讨论了购买.edu邮箱的渠道（如咸鱼），价格从20多元到更高不等，以及邮箱的稳定性问题。有群友分享了之前乔木老师推荐的咸鱼店铺。</li>
+                    <li>强调了IP地址（干净IP、家宽）、指纹浏览器（如adspower）在认证过程中的作用。</li>
+                </ul>
+                <h4>中科大邮箱新途径 (晚间热点):</h4>
+                <ul>
+                    <li>晚间，群友分享了通过注册中国科技云邮箱（<code>@escience.cn</code>，被认为是中科大相关邮箱），并利用此邮箱在Cursor上选择中科大相关机构（如半导体研究院）进行学生认证的新方法。</li>
+                    <li>此方法据称可以“秒过”，无需上传学信网等复杂材料，只需在中科大验证系统确认即可。</li>
+                    <li>多位群友尝试并成功，分享了详细教程链接（飞书文档、小红书）。</li>
+                    <li>最初认为仅限国内.edu邮箱，后有群友测试发现国外.edu邮箱（包括非洲.edu）使用此方法也能成功。</li>
+                    <li>讨论了操作细节，如使用油猴脚本修改页面、关闭梯子尝试等。</li>
+                </ul>
+                <h4>遇到的问题:</h4>
+                <ul>
+                    <li>认证页面报错（如 "An error occurred"），卡在最后一步。</li>
+                    <li>.edu邮箱失效、被封。</li>
+                    <li>咸鱼卖家不靠谱，购买的邮箱或服务失效。</li>
+                    <li>部分群友尝试P图（如学信网证明）进行认证。</li>
+                </ul>
+                <h4>相关链接/教程分享:</h4>
+                <ul>
+                    <li>Lemoon分享的微信公众号文章教程。</li>
+                    <li>M.分享的Google One学生优惠指南及虚拟信用卡教程。</li>
+                    <li>“我”分享的腾讯文档教程。</li>
+                    <li>xiaolei0vip分享的飞书文档中科大方法教程。</li>
+                    <li>年轮分享的小红书教程。</li>
+                </ul>
+            </div>
+            <div class="topic-card">
+                <h3>2. Manus.im 邀请及教育优惠</h3>
+                <div class="topic-category">工具优惠</div>
+                <p>与Cursor类似，Manus.im的教育优惠和邀请机制也受到关注：</p>
+                <h4>获取方式:</h4>
+                <ul>
+                    <li>通过.edu邮箱（特别是美国、日本.edu邮箱）获取资格。</li>
+                    <li>群友互相分享邀请链接，邀请成功可获得积分（如1000积分）。</li>
+                    <li>讨论了普通邀请和校园邀请（海外邀请）的区别，后者积分更多，邀请名额也可能更多。</li>
+                    <li>有群友提到教育版账户可能有每日积分刷新（如每日1000积分）。</li>
+                </ul>
+                <h4>使用体验:</h4>
+                <ul>
+                    <li>部分群友认为Manus的深度研究能力不如ChatGPT。</li>
+                    <li>对于反爬严格的网站，数据抓取能力有限。</li>
+                </ul>
+                <h4>遇到的问题:</h4>
+                <ul>
+                    <li>部分用户没有邀请资格或邀请链接失效。</li>
+                    <li>邀请他人时，被邀请者仍需.edu邮箱验证。</li>
+                </ul>
+            </div>
+            <div class="topic-card">
+                <h3>3. 国内免费网站托管服务讨论 (凌晨)</h3>
+                <div class="topic-category">技术讨论</div>
+                <p>凌晨时段，针对AI生成的网页在国内无法通过Yourwave访问的问题，群友讨论了国内可替代的免费发布网站工具：</p>
+                <h4>推荐工具:</h4>
+                <ul>
+                    <li>即时设计推出的 <strong>Wegic</strong>: 国内团队开发，支持自然语言生成网站，一键发布，有免费版。</li>
+                    <li><strong>Lovable</strong>: 自然语言生成页面，可部署到自有服务器，支持同步至GitHub。</li>
+                    <li><strong>码云 (Gitee) Pages</strong>: 配合Readdy、Bolt等AI建站工具使用。</li>
+                    <li><strong>腾讯 EdgeOne</strong>: 支持快速部署，但免费版有时间限制，长期使用需配域名。</li>
+                    <li>其他：轻竹办公（AI生成PPT转网页）、135小红书排版。</li>
+                </ul>
+                <h4>关注点:</h4>
+                <p>访问速度、免费额度限制、自定义域名等。</p>
+            </div>
+            <div class="topic-card">
+                <h3>4. Google One / Gemini Advanced 优惠获取</h3>
+                <div class="topic-category">工具优惠</div>
+                <ul>
+                    <li>讨论了通过美国学生邮箱验证免费获取Google One高级版（含Gemini Advanced）的方法。</li>
+                    <li>提及了购买美国.edu邮箱、使用接码平台注册Google账号、绑定双币信用卡等步骤。</li>
+                    <li>有群友反馈该优惠可能已失效或难以获取（“漏洞修复了”）。</li>
+                    <li>M.分享了相关指南链接。</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. 其他讨论与分享 -->
+    <section class="other-discussions">
+        <h2>其他讨论与分享</h2>
+        <div class="discussions-container">
+            <div class="discussion-card">
+                <h4>Qwen API 图片识别能力:</h4>
+                <ul>
+                    <li>杨飞询问Qwen3 API是否支持图片识别。</li>
+                    <li>若无提到Qwen-2-Plus可以识别，对Qwen-3不能识别表示疑惑。</li>
+                    <li>aLfred_IN分享了与千问模型的对话截图，确认其支持图片理解。</li>
+                    <li>杨飞测试后表示qwen-max能满足其图片识别需求。</li>
+                </ul>
+            </div>
+            <div class="discussion-card">
+                <h4>接码平台分享:</h4>
+                <ul>
+                    <li>子夜的星询问好用的接码平台，提到sms-activate注册谷歌邮箱失败。</li>
+                    <li>若无建议购买sms-activate上价格稍贵的号码。</li>
+                    <li>Baoxing推荐了sms-man平台。</li>
+                    <li>GFX建议尝试使用香港地区的号码注册谷歌。</li>
+                </ul>
+            </div>
+            <div class="discussion-card">
+                <h4>Genspark PPT制作:</h4>
+                <p>Ou提及十一之前分享的Genspark制作PPT功能很好用。</p>
+            </div>
+            <div class="discussion-card">
+                <h4>Gemini 文生图效果:</h4>
+                <p>十一和Dadi-Julia评论Gemini的文生图效果“一言难尽”，改图也很“蠢”。</p>
+            </div>
+            <div class="discussion-card">
+                <h4>GCP 免费额度:</h4>
+                <p>Ronin_Chang分享了如何领取GCP的300美元90天免费额度，可用于Gemini 2.5 Pro API。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. 重要链接与资源 -->
+    <section class="important-links">
+        <h2>重要链接与资源</h2>
+        <div class="links-container">
+            <div class="link-item">
+                <ul class="link-list">
+                    <li>Cursor Pro保姆级教程 (Lemoon分享): <a href="http://mp.weixin.qq.com/s?__biz=Mzk5MDIxNDcyOA==&mid=2247483689&idx=1&sn=10413ccc88093eb8efbc834b263b3032" target="_blank">http://mp.weixin.qq.com/s?__biz=Mzk5MDIxNDcyOA==&mid=2247483689&idx=1&sn=10413ccc88093eb8efbc834b263b3032...</a></li>
+                    <li>Google One (Gemini Advanced) 学生优惠指南 (M.分享): <a href="https://s.869hr.uk/k79" target="_blank">https://s.869hr.uk/k79</a></li>
+                    <li>虚拟信用卡开卡教程 (M.分享): <a href="https://s.869hr.uk/pbs" target="_blank">https://s.869hr.uk/pbs</a></li>
+                    <li>Manus邀请链接 (多位群友分享): 如 <a href="https://manus.im/invite/TZZVMVTWQEB57LO" target="_blank">https://manus.im/invite/TZZVMVTWQEB57LO</a> (若无), <a href="https://manus.im/edu/invitation/LDKTYS4XZHYUOGI" target="_blank">https://manus.im/edu/invitation/LDKTYS4XZHYUOGI</a> (AndrewHe) 等。</li>
+                    <li>CursorPro最新激活方法 (腾讯文档，"我"分享): <a href="https://docs.qq.com/markdown/DSHNKa3hncWFTZGVR" target="_blank">https://docs.qq.com/markdown/DSHNKa3hncWFTZGVR</a></li>
+                    <li>中科大方法教程 (飞书文档, xiaolei0vip分享): <a href="https://bhsq7kwbsw.feishu.cn/docx/Fwe7dq9CwoG9ILxFmsgcQXzInQe" target="_blank">https://bhsq7kwbsw.feishu.cn/docx/Fwe7dq9CwoG9ILxFmsgcQXzInQe</a> (密码: 4C96389@)</li>
+                    <li>中科大方法教程 (小红书, 年轮分享): <a href="https://www.xiaohongshu.com/discovery/item/681ca87b000000002101bf19" target="_blank">https://www.xiaohongshu.com/discovery/item/681ca87b000000002101bf19...</a></li>
+                    <li>中国科技云邮箱注册: <a href="https://passport.escience.cn/regist.jsp" target="_blank">https://passport.escience.cn/regist.jsp</a></li>
+                    <li>“薅羊毛”简史 (画伞分享): <a href="https://mp.weixin.qq.com/s/LX8u39odHWs1V8lLKNyHOA" target="_blank">https://mp.weixin.qq.com/s/LX8u39odHWs1V8lLKNyHOA</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. 活跃成员 -->
+    <section class="active-members">
+        <h2>活跃成员</h2>
+        <div class="members-container">
+            <div class="member-item">
+                <p>若无, T, 十一, Ro斯, 张热烈啊, Lemoon, Ronin_Chang, 杨飞, 子夜的星, AndrewHe, xiaolei0vip, 画伞, Susie, 马翌晨, Gwaanl, M.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. 总结 -->
+    <section class="summary">
+        <h2>总结</h2>
+        <div class="summary-card">
+            <p>2025年5月8日的“AI产品蝗虫团”群聊依旧保持了高度的活跃性，信息密度极大。全天最核心的议题围绕着<strong>Cursor Pro的免费获取</strong>展开，尤其是晚间爆出的“中科大邮箱”新方法，引发了群友们集中的尝试和分享。同时，Manus.im、Google One等AI工具的优惠获取方法也持续受到关注。此外，群内还讨论了国内网站托管、Qwen模型能力、接码平台等实用话题。群友们积极分享经验、教程和资源，互助氛围浓厚，充分体现了“蝗虫团”对AI领域新机会、新“羊毛”的敏锐嗅觉和快速行动力。</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>AI产品蝗虫团日报</p>
+        <p class="disclaimer">*本日报由AI自动生成，内容仅供参考，基于群聊记录整理，不代表群内所有成员观点。</p>
+    </footer>
+
+</body>
+</html>

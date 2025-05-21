@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI产品蝗虫团日报 - 2025年5月12日</title>
+    <style>
+        /* 严格定义的CSS样式，确保风格一致性 */
+        :root {
+            --bg-primary: #0f0e17;
+            --bg-secondary: #1a1925;
+            --bg-tertiary: #252336;
+            --text-primary: #fffffe;
+            --text-secondary: #a7a9be;
+            --accent-primary: #ff8906;
+            --accent-secondary: #f25f4c;
+            --accent-tertiary: #e53170;
+            --accent-blue: #3da9fc;
+            --accent-purple: #7209b7;
+            --accent-cyan: #00b4d8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'SF Pro Display', 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+            width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            background-color: var(--bg-secondary);
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+        
+        .date {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+        
+        .meta-info {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .meta-info span {
+            background-color: var(--bg-tertiary);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        
+        h2 {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--accent-blue);
+            margin: 30px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--bg-tertiary);
+        }
+        
+        h3 {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            margin: 20px 0 15px 0;
+        }
+        
+        .section {
+            background-color: var(--bg-secondary);
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .highlight {
+            background-color: var(--bg-tertiary);
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 4px solid var(--accent-primary);
+            border-radius: 0 8px 8px 0;
+        }
+        
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+        }
+        
+        li strong, p strong {
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+        
+        .quote {
+            font-style: italic;
+            color: var(--text-secondary);
+            border-left: 3px solid var(--accent-tertiary);
+            padding: 15px;
+            margin: 20px 0;
+            background-color: var(--bg-tertiary);
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .participant-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .participant-item {
+            background-color: var(--bg-tertiary);
+            padding: 12px 18px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            border-left: 3px solid var(--accent-blue);
+        }
+        
+        .participant-rank {
+            font-weight: bold;
+            margin-right: 12px;
+            color: var(--accent-primary);
+        }
+        
+        .participant-name {
+            margin-right: 12px;
+            color: var(--text-primary);
+        }
+        
+        .participant-count {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+        }
+        
+        footer {
+            margin-top: 60px;
+            text-align: center;
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--bg-tertiary);
+            padding-top: 30px;
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 25px;
+        }
+        
+        .disclaimer {
+            font-size: 0.8em;
+            font-style: italic;
+            margin-top: 15px;
+            color: var(--text-secondary);
+            opacity: 0.8;
+        }
+        
+        a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        a:hover {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+        
+        strong {
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>AI产品蝗虫团日报</h1>
+        <p class="date">2025年5月12日</p>
+        <div class="meta-info">
+            <span>总消息数：约120条</span>
+            <span>活跃用户：20人</span>
+            <span>时间范围：07:00-23:30</span>
+        </div>
+    </header>
+
+    <section class="section">
+        <h2>热点讨论</h2>
+        
+        <div class="highlight">
+            <h3>1. Raycast功能与订阅讨论</h3>
+            <ul>
+                <li>多位用户热议Raycast的强大功能和使用体验</li>
+                <li>群友分享了Raycast的订阅价格：Pro功能每月8美元，AI功能每月8美元</li>
+                <li>向阳乔木分享了邀请链接，并提到自己刚续费了192美元</li>
+                <li>多位用户表示希望Raycast推出Windows版本</li>
+                <li>有用户提到Raycast不需要翻墙即可使用境外模型的优势</li>
+            </ul>
+        </div>
+        
+        <div class="highlight">
+            <h3>2. 虚拟卡与API额度讨论</h3>
+            <ul>
+                <li>群友讨论了Grok API每月150美元额度的活动</li>
+                <li>用户分享了使用野卡充值Grok的经验</li>
+                <li>推荐了Yeka虚拟卡，称其为"最舒服的虚拟卡"</li>
+                <li>讨论了Grok API可用于沉浸式翻译等应用场景</li>
+                <li>有用户提到GCP三个月300美元额度可用于运行Gemini 2.5 Pro</li>
+            </ul>
+        </div>
+        
+        <div class="highlight">
+            <h3>3. 苹果诉讼赔偿</h3>
+            <ul>
+                <li>用户Ronin_Chang分享了收到苹果诉讼赔偿通知的消息</li>
+                <li>每台设备赔偿20美元，该用户填报了5台设备</li>
+                <li>群友讨论了这一"薅羊毛"机会，表示小红书上有相关攻略</li>
+                <li>有用户指出需要人在美国才能获得赔偿</li>
+            </ul>
+        </div>
+        
+        <div class="highlight">
+            <h3>4. 中美关税取消消息</h3>
+            <ul>
+                <li>群友分享了"中美取消91%的关税"的新闻</li>
+                <li>引发了股市相关讨论</li>
+                <li>有用户表示"今天吃了个20+10cm"，暗指股市涨幅</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>实用工具与技巧</h2>
+        
+        <div class="highlight">
+            <h3>1. 聊天记录日报生成工具</h3>
+            <ul>
+                <li>用户分享了使用Chatlog+Trae+GoFullPage生成群聊日报的方法</li>
+                <li>工具链：Chatlog抓取聊天记录，Trae生成结构化日报，GoFullPage截取长图</li>
+                <li>提供了GitHub项目地址：<a href="https://github.com/sjzar/chatlog/releases" target="_blank">https://github.com/sjzar/chatlog/releases</a></li>
+                <li>有用户建议将此功能做成MCP server实现自动化</li>
+            </ul>
+        </div>
+        
+        <div class="highlight">
+            <h3>2. PDF全文翻译工具</h3>
+            <ul>
+                <li>用户"晶"分享了PDF2zh工具，可实现PDF全文翻译</li>
+                <li>该工具支持自定义API，用户展示了使用Grok API的翻译效果</li>
+                <li>能够保留原有排版，包括表格和图片，并提供中英文对照</li>
+                <li>GitHub地址：<a href="https://github.com/Byaidu/PDFMathTranslate" target="_blank">https://github.com/Byaidu/PDFMathTranslate</a></li>
+                <li>网站地址：<a href="https://pdf2zh.com/" target="_blank">https://pdf2zh.com/</a></li>
+            </ul>
+        </div>
+        
+        <div class="highlight">
+            <h3>3. Code-Flux代码编辑工具</h3>
+            <ul>
+                <li>用户xiaolei0vip分享了Code-Flux工具：<a href="https://code-flux.anzz.top/" target="_blank">https://code-flux.anzz.top/</a></li>
+                <li>该工具被描述为"可以平替32kw，最近高频使用，还可以实时修改代码"</li>
+                <li>有用户提到该工具支持生成分享链接</li>
+            </ul>
+        </div>
+        
+        <div class="highlight">
+            <h3>4. 教育邮箱获取教程</h3>
+            <ul>
+                <li>用户分享了获取ASU教育邮箱的YouTube教程</li>
+                <li>链接：<a href="https://www.youtube.com/watch?v=_rXlqcRALCA" target="_blank">https://www.youtube.com/watch?v=_rXlqcRALCA</a></li>
+                <li>讨论了使用教育邮箱获取各种AI服务优惠的可能性</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>精彩引用</h2>
+        
+        <div class="quote">
+            <p>"api is all you need" —— 晶谈论PDF翻译工具</p>
+        </div>
+        
+        <div class="quote">
+            <p>"论文阅读自由了" —— 晶分享PDF2zh工具后的感想</p>
+        </div>
+        
+        <div class="quote">
+            <p>"希望Raycast出了Windows版本，马上换" —— xiaolei0vip表达对Raycast的喜爱</p>
+        </div>
+        
+        <div class="quote">
+            <p>"给自己定个指标，每天用到上限" —— 向阳乔木谈论Raycast使用频率</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>活跃统计</h2>
+        
+        <h3>活跃用户</h3>
+        <div class="participant-list">
+            <div class="participant-item">
+                <div class="participant-rank">1</div>
+                <div class="participant-name">Ronin_Chang</div>
+                <div class="participant-count">消息数：高</div>
+            </div>
+            
+            <div class="participant-item">
+                <div class="participant-rank">2</div>
+                <div class="participant-name">选柚高高手</div>
+                <div class="participant-count">消息数：高</div>
+            </div>
+            
+            <div class="participant-item">
+                <div class="participant-rank">3</div>
+                <div class="participant-name">向阳乔木</div>
+                <div class="participant-count">消息数：中</div>
+            </div>
+            
+            <div class="participant-item">
+                <div class="participant-rank">4</div>
+                <div class="participant-name">xiaolei0vip</div>
+                <div class="participant-count">消息数：中</div>
+            </div>
+            
+            <div class="participant-item">
+                <div class="participant-rank">5</div>
+                <div class="participant-name">晶</div>
+                <div class="participant-count">消息数：中</div>
+            </div>
+        </div>
+        
+        <h3>活跃时段</h3>
+        <ul>
+            <li>上午08:00-10:00</li>
+            <li>下午16:00-17:00</li>
+            <li>晚上19:00-23:30</li>
+        </ul>
+        
+        <h3>讨论氛围</h3>
+        <ul>
+            <li>工具分享为主，互助性强</li>
+            <li>对AI工具优惠和账号获取方式讨论热烈</li>
+            <li>群内成员积极分享经验和资源，互动频繁</li>
+            <li>"薅羊毛"话题引发热议，体现群名"蝗虫团"的特点</li>
+        </ul>
+    </section>
+
+    <section class="section">
+        <h2>总结</h2>
+        <div>
+            <p>2025年5月12日的"AI产品蝗虫团"群聊保持了高度的活跃性。全天最核心的议题围绕着<strong>Raycast功能与订阅</strong>、<strong>Grok API额度与虚拟卡</strong>、<strong>苹果诉讼赔偿</strong>以及<strong>聊天记录日报生成工具</strong>等展开。群内还分享了PDF全文翻译工具、Code-Flux代码编辑工具和ASU教育邮箱获取方法等实用资源。特别值得注意的是，群友们对"薅羊毛"话题的讨论非常热烈，从苹果诉讼赔偿到教育邮箱优惠，充分体现了群名"蝗虫团"的特点。群内成员继续保持着对AI领域新工具、新方法的敏锐嗅觉和快速响应能力，互助氛围浓厚。</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>AI产品蝗虫团日报 - 2025年5月12日</p>
+        <p>最活跃时段：晚上19:00-23:30</p>
+        <p>讨论氛围：工具分享为主，互助性强，"薅羊毛"话题引发热议</p>
+        <p class="disclaimer">本日报由AI自动生成，内容仅供参考，基于群聊记录整理，不代表群内所有成员观点。</p>
+    </footer>
+
+</body>
+</html>

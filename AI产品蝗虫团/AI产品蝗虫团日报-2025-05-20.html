@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI产品蝗虫团日报 - 2025年5月20日</title>
+    <link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-100-M/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #f6f6f6; /* 主背景色 - 白色 */
+            --bg-secondary: #f8f8f8; /* 卡片背景色 - 浅灰色 */
+            --bg-tertiary: #eeeeee; /* 次要卡片背景色 - 稍深灰色 */
+            --text-primary: #000000; /* 主要文字颜色 - 黑色 */
+            --text-secondary: #333333; /* 次要文字颜色 - 深灰色 */
+            --accent-primary: #ff8c00; /* 强调色 - 橘黄色 */
+            --accent-secondary: #e07b00; /* 次要强调色 - 稍深的橘黄色 */
+            --accent-tertiary: #c06a00; /* 第三强调色 */
+            --accent-blue: #007bff; /* 保留蓝色作为可能的辅助色 */
+            --accent-purple: #6610f2; /* 保留紫色作为可能的辅助色 */
+            --accent-cyan: #00b4d8; /* 保留青色作为可能的辅助色 */
+            --card-padding: 20px;
+            --grid-gap: 15px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', 'SF Pro Display', 'Segoe UI', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: var(--grid-gap);
+        }
+
+        .main-card {
+            grid-column: span 12;
+            background-color: var(--bg-secondary);
+            padding: var(--card-padding);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-card h1 {
+            color: var(--accent-primary);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .main-card .date {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .main-card .meta-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .main-card .meta-info span {
+            background-color: var(--bg-tertiary);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .main-card .meta-info span i {
+            color: var(--accent-primary);
+        }
+
+        .main-card .summary {
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .card {
+            background-color: var(--bg-secondary);
+            padding: var(--card-padding);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h2 {
+            color: var(--accent-primary);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card h3 {
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            margin-top: 15px;
+        }
+
+        .card p {
+            margin-bottom: 10px;
+        }
+
+        .topic-card {
+            grid-column: span 4;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .topic-category {
+            background-color: var(--accent-primary);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-bottom: 10px;
+            align-self: flex-start;
+        }
+
+        .topic-keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .keyword {
+            background-color: var(--bg-tertiary);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .topic-mentions {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: auto;
+        }
+
+        .quote-section {
+            grid-column: span 6;
+        }
+
+        .quote {
+            border-left: 3px solid var(--accent-primary);
+            padding-left: 15px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .quote p {
+            font-style: italic;
+            margin-bottom: 5px;
+        }
+
+        .quote .author {
+            font-weight: 500;
+            text-align: right;
+            color: var(--text-secondary);
+        }
+
+        .links-section {
+            grid-column: span 6;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--bg-tertiary);
+        }
+
+        .link-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .link-item i {
+            color: var(--accent-primary);
+            font-size: 1.2rem;
+            margin-top: 3px;
+        }
+
+        .link-item .link-content {
+            flex: 1;
+        }
+
+        .link-item .link-title {
+            font-weight: 500;
+            margin-bottom: 5px;
+            display: block;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .link-item .link-title:hover {
+            color: var(--accent-primary);
+        }
+
+        .link-item .link-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .user-stats {
+            grid-column: span 6;
+        }
+
+        .user-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--bg-tertiary);
+        }
+
+        .user-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .user-item .user-rank {
+            background-color: var(--accent-primary);
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .user-item .user-info {
+            flex: 1;
+        }
+
+        .user-item .user-name {
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+
+        .user-item .user-contribution {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .wordcloud {
+            grid-column: span 6;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-content: flex-start;
+        }
+
+        .wordcloud-item {
+            background-color: var(--bg-tertiary);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .wordcloud-item:hover {
+            background-color: var(--accent-primary);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .wordcloud-item.size-1 {
+            font-size: 0.8rem;
+        }
+
+        .wordcloud-item.size-2 {
+            font-size: 0.9rem;
+        }
+
+        .wordcloud-item.size-3 {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .wordcloud-item.size-4 {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .wordcloud-item.size-5 {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .tools-section {
+            grid-column: span 6;
+        }
+
+        .tool-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .tool-item {
+            background-color: var(--bg-tertiary);
+            padding: 10px 15px;
+            border-radius: 6px;
+            transition: background-color 0.2s ease;
+        }
+
+        .tool-item:hover {
+            background-color: rgba(255, 140, 0, 0.1);
+        }
+
+        .tool-name {
+            font-weight: 500;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tool-name i {
+            color: var(--accent-primary);
+        }
+
+        .tool-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* 动画效果 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .main-card, .card {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .main-card { animation-delay: 0.1s; }
+        .topic-card:nth-child(1) { animation-delay: 0.2s; }
+        .topic-card:nth-child(2) { animation-delay: 0.3s; }
+        .topic-card:nth-child(3) { animation-delay: 0.4s; }
+        .quote-section { animation-delay: 0.5s; }
+        .links-section { animation-delay: 0.6s; }
+        .user-stats { animation-delay: 0.7s; }
+        .wordcloud { animation-delay: 0.8s; }
+        .tools-section { animation-delay: 0.9s; }
+
+        /* 响应式设计 */
+        @media (max-width: 1024px) {
+            .topic-card {
+                grid-column: span 6;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+
+            .main-card, .card, .topic-card, .quote-section, .links-section, .user-stats, .wordcloud, .tools-section {
+                grid-column: span 1;
+            }
+
+            .main-card h1 {
+                font-size: 2rem;
+            }
+
+            .card h2 {
+                font-size: 1.3rem;
+            }
+
+            .card h3 {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-container">
+        <!-- 主卡片 -->
+        <div class="main-card">
+            <h1>AI产品蝗虫团日报</h1>
+            <div class="date">2025年5月20日</div>
+            <div class="meta-info">
+                <span><i class="fas fa-comment"></i> 消息数: 150+</span>
+                <span><i class="fas fa-user"></i> 活跃用户: 30+</span>
+                <span><i class="fas fa-fire"></i> 热点话题: 3</span>
+            </div>
+            <p class="summary">今日群内讨论热烈，主要围绕多款AI工具的使用体验、邀请码分享和功能对比展开。Flowith成为今日最热门话题，大量群友分享了邀请码并讨论了其功能特点和使用体验。此外，群内还讨论了Lovart、NotebookLM、Gemini等工具的应用场景和效果对比。教育邮箱的获取和验证问题也引发了广泛讨论，群友分享了各自的购买渠道和使用体验。</p>
+        </div>
+        
+        <!-- 今日热点 -->
+        <div class="topic-card card">
+            <div class="topic-category">热门工具</div>
+            <h3>Flowith邀请码分享与体验</h3>
+            <p>今日多位群友分享了Flowith的邀请码，并讨论了其功能特点。目前Flowith提供14天免费会员，可以进行多种任务处理。</p>
+            <div class="topic-keywords">
+                <span class="keyword">邀请码</span>
+                <span class="keyword">14天会员</span>
+                <span class="keyword">任务处理</span>
+            </div>
+            <div class="topic-mentions">提及次数: 30+</div>
+        </div>
+
+        <div class="topic-card card">
+            <div class="topic-category">教育资源</div>
+            <h3>教育邮箱与AI工具教育优惠</h3>
+            <p>群内热议教育邮箱的获取渠道和验证问题，特别是关于SheerID验证的难点。多位群友分享了购买教育邮箱的经验。</p>
+            <div class="topic-keywords">
+                <span class="keyword">教育邮箱</span>
+                <span class="keyword">SheerID</span>
+                <span class="keyword">Gemini</span>
+                <span class="keyword">Cursor</span>
+            </div>
+            <div class="topic-mentions">提及次数: 25+</div>
+        </div>
+
+        <div class="topic-card card">
+            <div class="topic-category">内容创作</div>
+            <h3>AI生成播客的灵魂问题</h3>
+            <p>群友讨论了AI生成播客缺乏灵魂的问题，认为当前AI播客熵值太低，缺乏人类交流的自然感。</p>
+            <div class="topic-keywords">
+                <span class="keyword">播客</span>
+                <span class="keyword">熵值</span>
+                <span class="keyword">段子</span>
+                <span class="keyword">三线叙事</span>
+            </div>
+            <div class="topic-mentions">提及次数: 15+</div>
+        </div>
+
+        <!-- 精彩引用 -->
+        <div class="quote-section card">
+            <h2><i class="fas fa-quote-left"></i> 精彩引用</h2>
+            <div class="quote">
+                <p>"现在ai真就百花齐放，像当年百团大战了，看谁跑出来。"</p>
+                <div class="author">—— 荒原狼🐺</div>
+            </div>
+            <div class="quote">
+                <p>"用生产力来解决生产力。"</p>
+                <div class="author">—— 强子</div>
+            </div>
+            <div class="quote">
+                <p>"播客的soul，不是互动的问题，就我听了很多次ai播客的感觉，其实来自于内心的无聊，知道这些都是橡胶人的对话，没有灵魂。"</p>
+                <div class="author">—— 爱德华花生</div>
+            </div>
+            <div class="quote">
+                <p>"天天用个ai勾心斗角，怕降智，我就放弃了。"</p>
+                <div class="author">—— xiaolei0vip</div>
+            </div>
+        </div>
+
+        <!-- 重要链接与资源 -->
+        <div class="links-section card">
+            <h2><i class="fas fa-link"></i> 重要链接与资源</h2>
+            <div class="link-item">
+                <i class="fas fa-external-link-alt"></i>
+                <div class="link-content">
+                    <a href="http://mp.weixin.qq.com/s?__biz=Mzk5MDIxNDcyOA==&mid=2247483740&idx=1&sn=a9708b501de5a96172664322b65171cd" class="link-title" target="_blank">0基础，3个案例，我用Lovart.ai一天搞定了设计师半个月的活？</a>
+                    <div class="link-description">内含福利，结果颠覆认知！</div>
+                </div>
+            </div>
+            <div class="link-item">
+                <i class="fas fa-file-audio"></i>
+                <div class="link-content">
+                    <span class="link-title">《全球财经脉搏》2025年5月20日.mp3</span>
+                    <div class="link-description">由rssflow和定制prompt生成的音频</div>
+                </div>
+            </div>
+            <div class="link-item">
+                <i class="fas fa-video"></i>
+                <div class="link-content">
+                    <a href="http://wxapp.tc.qq.com/251/20302/stodownload?encfilekey=Cvvj5Ix3eewK0tHtibORqcsqchXNh0Gf3sJcaYqC2rQB5QicJ875ia3MdBk0dskSqK9dHRnIKmwticUoEr2ItScjMAkj9hPbv2LBtKR6gmnQzqic5Nelh6wwfCZ681xHZyLzI&hy=SH&idx=1&m=&uzid=7a170" class="link-title" target="_blank">大聪明激情畅想AGI吧</a>
+                    <div class="link-description">#赛博禅心 #AGI #AIGC #大聪明</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 活跃统计 -->
+        <div class="user-stats card">
+            <h2><i class="fas fa-chart-line"></i> 活跃统计</h2>
+            <div class="user-item">
+                <div class="user-rank">1</div>
+                <div class="user-info">
+                    <div class="user-name">十一</div>
+                    <div class="user-contribution">分享Flowith邀请码，讨论教育邮箱问题</div>
+                </div>
+            </div>
+            <div class="user-item">
+                <div class="user-rank">2</div>
+                <div class="user-info">
+                    <div class="user-name">向阳乔木</div>
+                    <div class="user-contribution">分享MCP使用技巧，讨论ListenHub体验</div>
+                </div>
+            </div>
+            <div class="user-item">
+                <div class="user-rank">3</div>
+                <div class="user-info">
+                    <div class="user-name">Ronin_Chang</div>
+                    <div class="user-contribution">讨论Claude使用体验，分享AI工具使用心得</div>
+                </div>
+            </div>
+            <div class="user-item">
+                <div class="user-rank">4</div>
+                <div class="user-info">
+                    <div class="user-name">强子</div>
+                    <div class="user-contribution">分享教育邮箱购买经验，讨论AI工具使用体验</div>
+                </div>
+            </div>
+            <div class="user-item">
+                <div class="user-rank">5</div>
+                <div class="user-info">
+                    <div class="user-name">xiaolei0vip</div>
+                    <div class="user-contribution">分享教育邮箱验证经验，讨论GPT与Claude对比</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 词云 -->
+        <div class="wordcloud card">
+            <h2 style="width: 100%;"><i class="fas fa-cloud"></i> 词云</h2>
+            <div class="wordcloud-item size-5">Flowith</div>
+            <div class="wordcloud-item size-4">教育邮箱</div>
+            <div class="wordcloud-item size-4">邀请码</div>
+            <div class="wordcloud-item size-3">Claude</div>
+            <div class="wordcloud-item size-3">Gemini</div>
+            <div class="wordcloud-item size-3">Lovart</div>
+            <div class="wordcloud-item size-3">SheerID</div>
+            <div class="wordcloud-item size-2">播客</div>
+            <div class="wordcloud-item size-2">NotebookLM</div>
+            <div class="wordcloud-item size-2">降智</div>
+            <div class="wordcloud-item size-2">API</div>
+            <div class="wordcloud-item size-2">Cursor</div>
+            <div class="wordcloud-item size-1">MCP</div>
+            <div class="wordcloud-item size-1">ListenHub</div>
+            <div class="wordcloud-item size-1">Skywork</div>
+            <div class="wordcloud-item size-1">GPT</div>
+            <div class="wordcloud-item size-1">智能体</div>
+            <div class="wordcloud-item size-1">验证</div>
+            <div class="wordcloud-item size-1">封号</div>
+            <div class="wordcloud-item size-1">段子</div>
+        </div>
+
+        <!-- 热门工具与服务 -->
+        <div class="tools-section card">
+            <h2><i class="fas fa-tools"></i> 热门工具与服务</h2>
+            <div class="tool-list">
+                <div class="tool-item">
+                    <div class="tool-name"><i class="fas fa-star"></i> Flowith</div>
+                    <div class="tool-description">今日最热门话题，多位群友分享邀请码</div>
+                </div>
+                <div class="tool-item">
+                    <div class="tool-name"><i class="fas fa-palette"></i> Lovart</div>
+                    <div class="tool-description">AI设计工具，有群友分享了使用体验和邀请码</div>
+                </div>
+                <div class="tool-item">
+                    <div class="tool-name"><i class="fas fa-robot"></i> Claude</div>
+                    <div class="tool-description">讨论其使用限制、封号问题和API使用体验</div>
+                </div>
+                <div class="tool-item">
+                    <div class="tool-name"><i class="fas fa-brain"></i> Gemini</div>
+                    <div class="tool-description">讨论2.5 Pro版本及其思维导图生成功能</div>
+                </div>
+                <div class="tool-item">
+                    <div class="tool-name"><i class="fas fa-book"></i> NotebookLM</div>
+                    <div class="tool-description">讨论其生成播客和思维导图的功能</div>
+                </div>
+                <div class="tool-item">
+                    <div class="tool-name"><i class="fas fa-envelope"></i> 教育邮箱服务</div>
+                    <div class="tool-description">讨论购买渠道和SheerID验证问题</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

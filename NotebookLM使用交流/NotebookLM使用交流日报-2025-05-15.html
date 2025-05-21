@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NotebookLM使用交流日报 - 2025年5月15日</title>
+    <style>
+        /* 严格定义的CSS样式，确保风格一致性 */
+        :root {
+            --bg-primary: #0f0e17;
+            --bg-secondary: #1a1925;
+            --bg-tertiary: #252336;
+            --text-primary: #fffffe;
+            --text-secondary: #a7a9be;
+            --accent-primary: #ff8906;
+            --accent-secondary: #f25f4c;
+            --accent-tertiary: #e53170;
+            --accent-blue: #3da9fc;
+            --accent-purple: #7209b7;
+            --accent-cyan: #00b4d8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'SF Pro Display', 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+            width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            background-color: var(--bg-secondary);
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+        
+        .date {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+        
+        .meta-info {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .meta-info span {
+            background-color: var(--bg-tertiary);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        
+        h2 {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--accent-blue);
+            margin: 30px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--bg-tertiary);
+        }
+        
+        h3 {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            margin: 20px 0 15px 0;
+        }
+        
+        .section {
+            background-color: var(--bg-secondary);
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .highlight {
+            background-color: var(--bg-tertiary);
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 4px solid var(--accent-primary);
+            border-radius: 0 8px 8px 0;
+        }
+        
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+        }
+        
+        li strong, p strong {
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+        
+        .quote {
+            font-style: italic;
+            color: var(--text-secondary);
+            border-left: 3px solid var(--accent-tertiary);
+            padding: 15px;
+            margin: 20px 0;
+            background-color: var(--bg-tertiary);
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .participant-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .participant-item {
+            background-color: var(--bg-tertiary);
+            padding: 12px 18px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            border-left: 3px solid var(--accent-blue);
+        }
+        
+        .participant-rank {
+            font-weight: bold;
+            margin-right: 12px;
+            color: var(--accent-primary);
+        }
+        
+        .participant-name {
+            margin-right: 12px;
+            color: var(--text-primary);
+        }
+        
+        .participant-count {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+        }
+        
+        footer {
+            margin-top: 60px;
+            text-align: center;
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--bg-tertiary);
+            padding-top: 30px;
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 25px;
+        }
+        
+        .disclaimer {
+            font-size: 0.8em;
+            font-style: italic;
+            margin-top: 15px;
+            color: var(--text-secondary);
+            opacity: 0.8;
+        }
+        
+        a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        a:hover {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+        
+        strong {
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>NotebookLM使用交流日报</h1>
+        <p class="date">2025年5月15日</p>
+        <div class="meta-info">
+            <span>总消息数：约100条</span>
+            <span>活跃用户：约20人</span>
+            <span>时间范围：00:00-23:59</span>
+        </div>
+    </header>
+
+    <section class="section">
+        <h2>热点讨论</h2>
+        
+        <div class="highlight">
+            <h3>1. N8N工作流工具的使用与部署</h3>
+            <ul>
+                <li>群内热烈讨论了<strong>N8N工作流工具</strong>的使用、部署及其与Chatlog结合的自动化方案</li>
+                <li>工具特点：<strong>简单易用</strong>，上手快，可视化操作，支持多种服务集成</li>
+                <li>部署方式：本地部署（<strong>npx n8n</strong>命令即可启动）或Docker部署</li>
+                <li>使用场景：定时获取群聊信息，自动生成日报，发送到邮箱</li>
+                <li>相比Dify等工具，N8N的<strong>输入输出预览和调试功能更强大</strong></li>
+            </ul>
+        </div>
+        
+        <div class="highlight">
+            <h3>2. NotebookLM长音频生成技巧</h3>
+            <ul>
+                <li>群友分享了<strong>NotebookLM生成长音频</strong>的提示词技巧和使用体验</li>
+                <li>提示词技巧：使用"（有效）专注于本章的所有章节，尽可能详细，越细越好..."</li>
+                <li>有群友成功生成了<strong>长达1小时</strong>的音频内容</li>
+                <li>部分用户无法定义主持人角色，总是默认一男一女</li>
+            </ul>
+        </div>
+        
+        <div class="highlight">
+            <h3>3. MCP与数据安全性讨论</h3>
+            <ul>
+                <li>群内讨论了<strong>MCP（Memory-Context-Procedure）</strong>工具的使用和数据安全性问题</li>
+                <li>MCP原理：将用户query处理成结构化数据保存在本地，需要时再读取</li>
+                <li>安全建议：使用<strong>本地部署</strong>的MCP，避免使用外部服务</li>
+                <li>目前的MCP存在数据安全风险，需谨慎使用</li>
+            </ul>
+        </div>
+
+        <div class="highlight">
+            <h3>4. Gemini Deep Research使用问题</h3>
+            <ul>
+                <li>群友讨论了<strong>Gemini Deep Research</strong>在使用过程中遇到的中断问题及解决方法</li>
+                <li>常见问题：调研内容过多导致生成中断，写到一半就断掉</li>
+                <li>解决方法：刷新页面后继续，或开启<strong>Advanced模式</strong></li>
+                <li>有用户表示开启Advanced模式后做过十几个DR未出现问题</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>实用工具与技巧</h2>
+        
+        <div class="highlight">
+            <h3>N8N工作流搭建指南</h3>
+            <ul>
+                <li><strong>类型</strong>: TUTORIAL</li>
+                <li><strong>分享者</strong>: meeer</li>
+                <li><strong>内容简介</strong>: 详细介绍了N8N工作流工具的快速启动、配置和使用方法</li>
+                <li><strong>要点</strong>:</li>
+                <li>快速启动：在命令行输入<code>npx n8n</code>即可启动</li>
+                <li>教程资源：<a href="https://n8n.akashio.com/about" target="_blank">n8n.akashio.com/about</a> 和 YouTube上的N8N教程</li>
+                <li>社区论坛：<a href="https://vibe.akashio.com/" target="_blank">vibe.akashio.com</a></li>
+                <li>工作流逻辑：触发（定时/手动）→操作（服务接入/AI接入）→格式处理→内容处理（发送到邮箱）</li>
+            </ul>
+        </div>
+        
+        <div class="highlight">
+            <h3>NotebookLM使用场景分享</h3>
+            <ul>
+                <li><strong>类型</strong>: RESOURCE</li>
+                <li><strong>分享者</strong>: 观默</li>
+                <li><strong>内容简介</strong>: 分享了NotebookLM的多种使用场景和应用案例</li>
+                <li><strong>链接</strong>:</li>
+                <li><a href="https://xiangyangqiaomu.feishu.cn/wiki/MBtkwJWP5irg79kX6vGc8dhQnld" target="_blank">NotebookLM使用场景文档1</a></li>
+                <li><a href="https://xiangyangqiaomu.feishu.cn/wiki/H96Bw9DpoiYmwFkDcYscezvmnjd" target="_blank">NotebookLM使用场景文档2</a></li>
+            </ul>
+        </div>
+        
+        <div class="highlight">
+            <h3>群聊日报生成工具链</h3>
+            <ul>
+                <li><strong>类型</strong>: TOOL</li>
+                <li><strong>分享者</strong>: 安德鲁</li>
+                <li><strong>内容简介</strong>: 介绍了从微信聊天记录到生成日报的完整工具链</li>
+                <li><strong>工具组合</strong>:</li>
+                <li>Chatlog：按时间/群聊筛选聊天记录</li>
+                <li>Trae/Cursor/Cherry：按照提示词生成结构化日报</li>
+                <li>GoFullPage：Chrome插件，一键截取日报长图</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>重要消息与公告</h2>
+        
+        <div class="highlight">
+            <h3>N8N工具推荐</h3>
+            <ul>
+                <li><strong>发送者</strong>: meeer</li>
+                <li><strong>内容</strong>: 多位群友强烈推荐N8N工作流工具，认为上手快、功能强大</li>
+                <li><strong>优先级</strong>: 高</li>
+            </ul>
+        </div>
+        
+        <div class="highlight">
+            <h3>硬件建议</h3>
+            <ul>
+                <li><strong>发送者</strong>: GFX</li>
+                <li><strong>内容</strong>: 推荐使用Mac mini作为7x24小时运行的自动化服务器，功耗低</li>
+                <li><strong>优先级</strong>: 中</li>
+            </ul>
+        </div>
+        
+        <div class="highlight">
+            <h3>AI工具评价</h3>
+            <ul>
+                <li><strong>发送者</strong>: meeer</li>
+                <li><strong>内容</strong>: GPT-4o在处理N8N相关问题时表现出色</li>
+                <li><strong>优先级</strong>: 中</li>
+            </ul>
+        </div>
+
+        <div class="highlight">
+            <h3>邀请码通知</h3>
+            <ul>
+                <li><strong>发送者</strong>: 安德鲁</li>
+                <li><strong>内容</strong>: 有群友收到Lovart邀请码，建议大家查看邮件</li>
+                <li><strong>优先级</strong>: 低</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>精彩引用与观点</h2>
+        
+        <div class="quote">
+            <p>"我以前总觉得dify那些不好玩，现在被n8n折服了，太好玩了，上手半个小时就能搓一个从来做不到的工作流" - meeer</p>
+        </div>
+        
+        <div class="quote">
+            <p>"dify的输入输出预览就是一坨屎" - 安德鲁</p>
+        </div>
+        
+        <div class="quote">
+            <p>"我本来是基本不用gpt的，尤其是4o我曾经觉得狗都不用，但是n8n的问题完全可以相信4o" - meeer</p>
+        </div>
+        
+        <div class="quote">
+            <p>"一切皆为虚相 万变不离其宗" - 安德鲁</p>
+        </div>
+        
+        <div class="quote">
+            <p>"macmini还真适合做家里的长启动服务器，看过一个测评macmini待机消耗小的离谱。" - GFX</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>活跃统计</h2>
+        
+        <h3>话唠榜</h3>
+        <div class="participant-list">
+            <div class="participant-item">
+                <div class="participant-rank">1</div>
+                <div class="participant-name">meeer</div>
+                <div class="participant-count">25条消息，主要分享N8N工作流使用经验</div>
+            </div>
+            
+            <div class="participant-item">
+                <div class="participant-rank">2</div>
+                <div class="participant-name">安德鲁</div>
+                <div class="participant-count">22条消息，讨论N8N部署和MCP安全问题</div>
+            </div>
+            
+            <div class="participant-item">
+                <div class="participant-rank">3</div>
+                <div class="participant-name">观默</div>
+                <div class="participant-count">5条消息，询问NotebookLM提示词使用方法</div>
+            </div>
+
+            <div class="participant-item">
+                <div class="participant-rank">4</div>
+                <div class="participant-name">Jason_wang</div>
+                <div class="participant-count">5条消息，咨询MCP配置问题</div>
+            </div>
+
+            <div class="participant-item">
+                <div class="participant-rank">5</div>
+                <div class="participant-name">logointo</div>
+                <div class="participant-count">5条消息，分享Memory工具使用建议</div>
+            </div>
+        </div>
+        
+        <h3>话题热度</h3>
+        <ul>
+            <li><strong>N8N工作流工具</strong> - 约40%的讨论</li>
+            <li><strong>NotebookLM使用技巧</strong> - 约25%的讨论</li>
+            <li><strong>MCP与数据安全</strong> - 约20%的讨论</li>
+            <li><strong>Gemini Deep Research</strong> - 约15%的讨论</li>
+        </ul>
+        
+        <h3>新增成员</h3>
+        <ul>
+            <li>"那时风依旧" - 00:06:09加入</li>
+            <li>"工体东路" - 10:50:39加入</li>
+            <li>"SAILOR" - 11:21:21加入</li>
+            <li>"Dominic看看世界" - 11:37:20加入</li>
+            <li>"Agent所罗门@cursor号商" - 13:11:03加入</li>
+            <li>"一只小黄鸭i" - 13:54:30加入</li>
+            <li>"林长琦" - 14:45:33加入</li>
+        </ul>
+    </section>
+
+    <section class="section">
+        <h2>总结</h2>
+        <div>
+            <p>今日群聊以N8N工作流工具的使用与部署为主要讨论热点，群友们分享了该工具的特点、部署方式和使用场景，特别是与Chatlog结合实现群聊日报自动生成的方案。此外，NotebookLM长音频生成技巧、MCP与数据安全性讨论以及Gemini Deep Research使用问题也成为讨论焦点。群友们还分享了多个实用教程和资源，包括N8N工作流搭建指南、NotebookLM使用场景文档和群聊日报生成工具链。整体氛围活跃，信息交流丰富。</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>NotebookLM使用交流日报 - 2025年5月15日</p>
+        <p>最活跃用户：meeer</p>
+        <p>讨论氛围：工具使用为主，自动化方案讨论热烈，资源分享丰富</p>
+        <p class="disclaimer">本日报由AI助手基于群聊记录自动生成，内容仅供参考，基于群聊记录整理，不代表群内所有成员观点。</p>
+        <p>生成时间：2025-05-16 07:05</p>
+        <p>统计周期：2025-05-15 全天</p>
+    </footer>
+
+</body>
+</html>

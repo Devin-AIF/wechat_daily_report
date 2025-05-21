@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NotebookLM使用交流日报 - 2025-05-19</title>
+    <link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-100-M/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* CSS 样式文件 */
+        /* 风格: 极简主义风格 - 白色背景，橘黄和黑色调 */
+        :root {
+            --bg-primary: #f6f6f6; /* 主背景色 - 白色 */
+            --bg-secondary: #f8f8f8; /* 卡片背景色 - 浅灰色 */
+            --bg-tertiary: #eeeeee; /* 次要卡片背景色 - 稍深灰色 */
+            --text-primary: #000000; /* 主要文字颜色 - 黑色 */
+            --text-secondary: #333333; /* 次要文字颜色 - 深灰色 */
+            --accent-primary: #ff8c00; /* 强调色 - 橘黄色 */
+            --accent-secondary: #e07b00; /* 次要强调色 - 稍深的橘黄色 */
+            --accent-tertiary: #c06a00; /* 第三强调色 */
+            --accent-blue: #007bff; /* 保留蓝色作为可能的辅助色 */
+            --accent-purple: #6610f2; /* 保留紫色作为可能的辅助色 */
+            --accent-cyan: #00b4d8; /* 保留青色作为可能的辅助色 */
+            --card-padding: 20px;
+            --grid-gap: 15px;
+        }
+        body {
+            font-family: 'SF Pro Display', 'Segoe UI', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: var(--grid-gap);
+            grid-template-areas:
+                "main main main main main main main main main main main main"
+                "hot1 hot1 hot1 hot1 hot2 hot2 hot2 hot2 hot3 hot3 hot3 hot3"
+                "quote quote quote quote quote quote link link link link link link"
+                "active active active active active active cloud cloud cloud cloud cloud cloud";
+        }
+        .main-card {
+            grid-area: main;
+            background-color: var(--bg-secondary);
+            padding: var(--card-padding);
+            border-radius: 12px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        .main-card::before {
+            content: "\f5fc";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            right: -15px;
+            bottom: -15px;
+            font-size: 120px;
+            color: rgba(255, 140, 0, 0.05);
+            z-index: 0;
+        }
+        .hot-topic-1 {
+            grid-area: hot1;
+        }
+        .hot-topic-2 {
+            grid-area: hot2;
+        }
+        .hot-topic-3 {
+            grid-area: hot3;
+        }
+        .quote-card {
+            grid-area: quote;
+        }
+        .link-card {
+            grid-area: link;
+        }
+        .active-card {
+            grid-area: active;
+        }
+        .cloud-card {
+            grid-area: cloud;
+        }
+        .card {
+            background-color: var(--bg-secondary);
+            padding: var(--card-padding);
+            border-radius: 12px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+        }
+        .card::before {
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            right: -15px;
+            bottom: -15px;
+            font-size: 80px;
+            color: rgba(255, 140, 0, 0.05);
+            z-index: 0;
+        }
+        .hot-topic-1::before {
+            content: "\f201";
+        }
+        .hot-topic-2::before {
+            content: "\f7c0";
+        }
+        .hot-topic-3::before {
+            content: "\f5a0";
+        }
+        .quote-card::before {
+            content: "\f10d";
+        }
+        .link-card::before {
+            content: "\f0c1";
+        }
+        .active-card::before {
+            content: "\f500";
+        }
+        .cloud-card::before {
+            content: "\f0c2";
+        }
+        h1, h2, h3, h4, h5, h6 {
+            position: relative;
+            z-index: 1;
+        }
+        h1 {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+        h2 {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--accent-secondary);
+            margin-bottom: 8px;
+        }
+        h3 {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+        .date {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+        .meta-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .meta-info span {
+            background-color: var(--bg-tertiary);
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+        .summary {
+            position: relative;
+            z-index: 1;
+            margin-bottom: 0;
+        }
+        .topic-category {
+            font-size: 14px;
+            color: var(--accent-primary);
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        .topic-keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .keyword {
+            background-color: var(--bg-tertiary);
+            color: var(--accent-primary);
+            padding: 2px 8px;
+            border-radius: 15px;
+            font-size: 12px;
+        }
+        .topic-mentions {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 10px;
+        }
+        .quote {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+        .quote::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: var(--accent-primary);
+            border-radius: 2px;
+        }
+        .quote-author {
+            text-align: right;
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-style: normal;
+            margin-top: 5px;
+        }
+        .link-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .link-list li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 20px;
+        }
+        .link-list li::before {
+            content: "\f0c1";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--accent-primary);
+        }
+        .link-list a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .link-list a:hover {
+            color: var(--accent-primary);
+            text-decoration: underline;
+        }
+        .active-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .active-list li {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--bg-tertiary);
+        }
+        .active-list li:last-child {
+            border-bottom: none;
+        }
+        .active-name {
+            font-weight: 500;
+        }
+        .active-count {
+            color: var(--accent-primary);
+            font-weight: 500;
+        }
+        .cloud-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+        .cloud-item {
+            padding: 5px 10px;
+            background-color: var(--bg-tertiary);
+            border-radius: 20px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .cloud-item-1 {
+            color: var(--accent-primary);
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .cloud-item-2 {
+            color: var(--accent-secondary);
+            font-size: 18px;
+            font-weight: 500;
+        }
+        .cloud-item-3 {
+            color: var(--accent-tertiary);
+            font-size: 16px;
+            font-weight: 500;
+        }
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+                grid-template-areas:
+                    "main"
+                    "hot1"
+                    "hot2"
+                    "hot3"
+                    "quote"
+                    "link"
+                    "active"
+                    "cloud";
+            }
+            body {
+                padding: 10px;
+                font-size: 16px;
+            }
+            h1 {
+                font-size: 32px;
+            }
+            h2 {
+                font-size: 24px;
+            }
+            h3 {
+                font-size: 20px;
+            }
+            .card {
+                margin-bottom: var(--grid-gap);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-container">
+        <!-- 主卡片 -->
+        <div class="main-card">
+            <h1>NotebookLM使用交流日报</h1>
+            <div class="date">2025-05-19</div>
+            <div class="meta-info">
+                <span>消息数: 120+</span>
+                <span>活跃用户: 30+</span>
+                <span>热点话题: 3</span>
+            </div>
+            <p class="summary">今日群聊热度高涨，主要围绕NotebookLM应用发布、长音频生成技术和AI播客产品展开讨论。NotebookLM应用在部分地区已可下载使用，用户分享了安装体验和使用技巧。长音频生成方面，群友交流了提示词优化策略和源文本处理方法，成功生成30-60分钟高质量音频。同时，群内还分享了ListenHub等AI播客产品的邀请码和使用体验，对比了不同工具的语音质量和发音准确性。</p>
+        </div>
+        
+        <!-- 今日热点 -->
+        <div class="card hot-topic-1">
+            <div class="topic-category">应用发布</div>
+            <h3>NotebookLM应用正式发布</h3>
+            <p>NotebookLM应用已在部分地区上线，安卓用户可通过Google Play下载，iOS用户需等待5月20日正式发布。部分用户已成功安装并分享使用体验，提到需重启设备和重连VPN解决闪退问题。</p>
+            <div class="topic-keywords">
+                <span class="keyword">应用下载</span>
+                <span class="keyword">iOS</span>
+                <span class="keyword">安卓</span>
+                <span class="keyword">闪退问题</span>
+            </div>
+            <div class="topic-mentions">提及次数: 25+</div>
+        </div>
+        
+        <div class="card hot-topic-2">
+            <div class="topic-category">技术讨论</div>
+            <h3>长音频生成技术与优化</h3>
+            <p>群友分享了生成30-60分钟长音频的提示词和技巧，强调原文本长度和提示词质量对生成结果的影响。讨论了中文多音字发音问题的解决方案，以及如何通过结构化提示词控制音频内容和时长。</p>
+            <div class="topic-keywords">
+                <span class="keyword">长音频</span>
+                <span class="keyword">提示词优化</span>
+                <span class="keyword">多音字处理</span>
+                <span class="keyword">源文本长度</span>
+            </div>
+            <div class="topic-mentions">提及次数: 30+</div>
+        </div>
+        
+        <div class="card hot-topic-3">
+            <div class="topic-category">产品体验</div>
+            <h3>AI播客产品对比与体验</h3>
+            <p>群内分享了ListenHub等AI播客产品的邀请码和使用体验，对比了不同工具的语音质量、发音准确性和内容生成能力。讨论了NotebookLM在中文发音方面的不足，以及其他工具的优势和局限性。</p>
+            <div class="topic-keywords">
+                <span class="keyword">ListenHub</span>
+                <span class="keyword">邀请码</span>
+                <span class="keyword">语音质量</span>
+                <span class="keyword">中文发音</span>
+            </div>
+            <div class="topic-mentions">提及次数: 20+</div>
+        </div>
+        
+        <!-- 精彩引用 -->
+        <div class="card quote-card">
+            <h3>精彩引用</h3>
+            <div class="quote">
+                "可以在prompt中提出：结合上下文判断符合语境的中文多音字正确发音，比如乐在快乐中读le，在音乐中读yue。"
+                <div class="quote-author">— GFX</div>
+            </div>
+            <div class="quote">
+                "感觉listenhub生成的适合吊胃口做引子，再用nbl生成正片"
+                <div class="quote-author">— 尹轶</div>
+            </div>
+            <div class="quote">
+                "高质量提高词➕高质量源文件"
+                <div class="quote-author">— CoCo🤍椰子</div>
+            </div>
+            <div class="quote">
+                "哈哈 不用拷贝来拷贝去，开车直接生成，听播客"
+                <div class="quote-author">— 安德鲁</div>
+            </div>
+        </div>
+        
+        <!-- 重要链接与资源 -->
+        <div class="card link-card">
+            <h3>重要链接与资源</h3>
+            <ul class="link-list">
+                <li><a href="https://listenhub.ai/" target="_blank">ListenHub AI播客平台</a></li>
+                <li><a href="https://xima.tv/1_SAkHjV?_sonic=0" target="_blank">明史不忍细看——播客速听版｜全本</a></li>
+                <li><a href="https://xima.tv/1_3fk8d5?_sonic=0" target="_blank">行为的叛逆：在荷尔蒙与社会之间挣扎的青春期</a></li>
+                <li><a href="https://xima.tv/1_OHEsIg?_sonic=0" target="_blank">小米玄戒O1芯片深度解析</a></li>
+                <li><a href="https://github.com/sjzar/chatlog/releases" target="_blank">Chatlog：聊天记录处理工具</a></li>
+            </ul>
+        </div>
+        
+        <!-- 活跃统计 -->
+        <div class="card active-card">
+            <h3>活跃统计</h3>
+            <ul class="active-list">
+                <li>
+                    <span class="active-name">安德鲁</span>
+                    <span class="active-count">15 条消息</span>
+                </li>
+                <li>
+                    <span class="active-name">CoCo🤍椰子</span>
+                    <span class="active-count">12 条消息</span>
+                </li>
+                <li>
+                    <span class="active-name">向阳乔木</span>
+                    <span class="active-count">8 条消息</span>
+                </li>
+                <li>
+                    <span class="active-name">高峰</span>
+                    <span class="active-count">7 条消息</span>
+                </li>
+                <li>
+                    <span class="active-name">尹轶</span>
+                    <span class="active-count">6 条消息</span>
+                </li>
+                <li>
+                    <span class="active-name">纯棉短裤</span>
+                    <span class="active-count">6 条消息</span>
+                </li>
+                <li>
+                    <span class="active-name">Jiong</span>
+                    <span class="active-count">6 条消息</span>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- 词云 -->
+        <div class="card cloud-card">
+            <h3>词云</h3>
+            <div class="cloud-container">
+                <div class="cloud-item cloud-item-1">NotebookLM</div>
+                <div class="cloud-item cloud-item-1">长音频</div>
+                <div class="cloud-item cloud-item-2">提示词</div>
+                <div class="cloud-item cloud-item-2">应用</div>
+                <div class="cloud-item cloud-item-2">ListenHub</div>
+                <div class="cloud-item cloud-item-3">播客</div>
+                <div class="cloud-item cloud-item-3">邀请码</div>
+                <div class="cloud-item">多音字</div>
+                <div class="cloud-item">发音</div>
+                <div class="cloud-item">闪退</div>
+                <div class="cloud-item">下载</div>
+                <div class="cloud-item">源文本</div>
+                <div class="cloud-item">时长</div>
+                <div class="cloud-item">VPN</div>
+                <div class="cloud-item">iOS</div>
+                <div class="cloud-item">安卓</div>
+                <div class="cloud-item">Google Play</div>
+                <div class="cloud-item">音频质量</div>
+                <div class="cloud-item">结构化</div>
+                <div class="cloud-item">comfyui</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

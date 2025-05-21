@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI产品蝗虫团日报 - 2025-05-19</title>
+    <link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-100-M/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* 极简主义风格配色 */
+            --bg-primary: #f6f6f6;
+            --bg-secondary: #f8f9fa;
+            --bg-tertiary: #f1f3f5;
+            --text-primary: #212529;
+            --text-secondary: #495057;
+            --accent-primary: #ff8906;
+            --accent-secondary: #f76707;
+            --accent-tertiary: #e8590c;
+            --accent-blue: #339af0;
+            --accent-purple: #7048e8;
+            --accent-cyan: #22b8cf;
+            --card-padding: 24px;
+            --grid-gap: 16px;
+            --card-radius: 12px;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'SF Pro Display', 'Segoe UI', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-primary);
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+            color: var(--accent-primary);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: var(--accent-blue);
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-auto-rows: minmax(100px, auto);
+            gap: var(--grid-gap);
+            margin-top: 20px;
+        }
+
+        .card {
+            background-color: var(--bg-secondary);
+            border-radius: var(--card-radius);
+            padding: var(--card-padding);
+            box-shadow: var(--card-shadow);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent-primary);
+        }
+
+        .card-icon {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            font-size: 4rem;
+            opacity: 0.07;
+            color: var(--accent-primary);
+        }
+
+        .main-card {
+            grid-column: span 12;
+            grid-row: span 1;
+            background: var(--bg-secondary);
+        }
+
+        .highlight-card {
+            grid-column: span 6;
+            grid-row: span 1;
+        }
+
+        .quote-card {
+            grid-column: span 6;
+            grid-row: span 1;
+        }
+
+        .links-card {
+            grid-column: span 6;
+            grid-row: span 1;
+        }
+
+        .stats-card {
+            grid-column: span 6;
+            grid-row: span 1;
+        }
+
+        .wordcloud-card {
+            grid-column: span 12;
+            grid-row: span 1;
+        }
+
+        .date {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .meta-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 1rem;
+        }
+
+        .meta-info span {
+            background-color: var(--bg-tertiary);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--accent-blue);
+        }
+
+        .summary {
+            margin-top: 1rem;
+            line-height: 1.7;
+        }
+
+        .topic-category {
+            display: inline-block;
+            background-color: var(--accent-tertiary);
+            color: var(--bg-primary);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .topic-keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 0.75rem;
+        }
+
+        .keyword {
+            background-color: var(--bg-tertiary);
+            color: var(--accent-primary);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .topic-mentions {
+            margin-top: 0.75rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .quote {
+            position: relative;
+            padding-left: 20px;
+            margin: 10px 0;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        .quote::before {
+            content: '"';
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 1.5rem;
+            color: var(--accent-tertiary);
+        }
+
+        .quote-author {
+            text-align: right;
+            font-size: 0.9rem;
+            color: var(--accent-tertiary);
+            margin-top: 5px;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 6px;
+            background-color: var(--bg-tertiary);
+            transition: background-color 0.2s ease;
+        }
+
+        .link-item:hover {
+            background-color: rgba(51, 154, 240, 0.1);
+        }
+
+        .link-icon {
+            margin-right: 10px;
+            color: var(--accent-blue);
+        }
+
+        .link-title {
+            flex-grow: 1;
+        }
+
+        .link-url {
+            color: var(--accent-blue);
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        .link-url:hover {
+            text-decoration: underline;
+        }
+
+        .user-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .user-stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(73, 80, 87, 0.1);
+        }
+
+        .user-name {
+            font-weight: 500;
+        }
+
+        .user-count {
+            background-color: var(--accent-blue);
+            color: var(--bg-primary);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+        }
+
+        .wordcloud {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px 0;
+        }
+
+        .wordcloud-item {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: transform 0.2s ease;
+        }
+
+        .wordcloud-item:hover {
+            transform: scale(1.1);
+        }
+
+        .size-1 {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .size-2 {
+            font-size: 1.1rem;
+            color: var(--accent-cyan);
+        }
+
+        .size-3 {
+            font-size: 1.3rem;
+            color: var(--accent-blue);
+        }
+
+        .size-4 {
+            font-size: 1.5rem;
+            color: var(--accent-purple);
+        }
+
+        .size-5 {
+            font-size: 1.8rem;
+            color: var(--accent-tertiary);
+        }
+
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* 动画效果 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.3s; }
+        .card:nth-child(4) { animation-delay: 0.4s; }
+        .card:nth-child(5) { animation-delay: 0.5s; }
+        .card:nth-child(6) { animation-delay: 0.6s; }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+                font-size: 14px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            h2 {
+                font-size: 1.4rem;
+            }
+
+            h3 {
+                font-size: 1.1rem;
+            }
+
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+
+            .main-card,
+            .highlight-card,
+            .quote-card,
+            .links-card,
+            .stats-card,
+            .wordcloud-card {
+                grid-column: span 1;
+            }
+
+            .card-padding {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-container">
+        <!-- 主卡片 -->
+        <div class="card main-card">
+            <h1>AI产品蝗虫团日报</h1>
+            <div class="date">2025年5月19日</div>
+            <div class="meta-info">
+                <span><i class="fas fa-comment"></i> 消息数: 150+</span>
+                <span><i class="fas fa-users"></i> 活跃用户: 20+</span>
+                <span><i class="fas fa-fire"></i> 热点话题: 4</span>
+            </div>
+            <p class="summary">2025年5月19日的"AI产品蝗虫团"群聊热度高涨，主要围绕Skywork、天工等国内AI工具的使用体验展开讨论。群友们分享了使用这些工具生成网页、视频、音乐等内容的成果，对比了不同工具的功能和效果。特别是Skywork的网页生成和视频制作功能获得了广泛好评，群友们纷纷尝试并分享了生成结果。同时，也讨论了AI工具对传统行业的影响，以及如何利用这些工具为自己赋能创造价值。整体氛围活跃，信息交流密集，体现了群友们对国内AI工具发展的关注和支持。</p>
+            <i class="fas fa-microchip card-icon"></i>
+        </div>
+        
+        <!-- 今日热点 -->
+        <div class="card highlight-card">
+            <h2><i class="fas fa-bolt"></i> 今日热点</h2>
+            <div>
+                <div class="topic-category">工具体验</div>
+                <h3>Skywork网页生成功能</h3>
+                <p>群友们分享了使用Skywork生成网页的体验，对其设计美观、功能完善的网页生成能力给予高度评价，并分享了多个生成案例。</p>
+                <div class="topic-keywords">
+                    <span class="keyword">Skywork</span>
+                    <span class="keyword">网页生成</span>
+                    <span class="keyword">设计</span>
+                </div>
+            </div>
+            <div style="margin-top: 20px;">
+                <div class="topic-category">多模态创作</div>
+                <h3>AI视频与音乐生成</h3>
+                <p>群友测试了Skywork的视频和音乐生成功能，成功制作了宋词MV和音乐作品，讨论了AI在多模态内容创作方面的进展。</p>
+                <div class="topic-keywords">
+                    <span class="keyword">视频生成</span>
+                    <span class="keyword">音乐生成</span>
+                    <span class="keyword">MV制作</span>
+                </div>
+            </div>
+            <div style="margin-top: 20px;">
+                <div class="topic-category">产品评测</div>
+                <h3>天工与Manus使用体验</h3>
+                <p>群友分享了使用天工和Manus等工具的体验，讨论了这些工具在商业应用中的价值，以及对客户交付的影响。</p>
+                <div class="topic-keywords">
+                    <span class="keyword">天工</span>
+                    <span class="keyword">Manus</span>
+                    <span class="keyword">商业应用</span>
+                </div>
+            </div>
+            <div style="margin-top: 20px;">
+                <div class="topic-category">行业思考</div>
+                <h3>AI工具对传统行业的影响</h3>
+                <p>群友讨论了AI工具对传统行业的影响，以及如何利用这些工具为自己赋能创造价值，提出了对未来职业发展的思考。</p>
+                <div class="topic-keywords">
+                    <span class="keyword">传统行业</span>
+                    <span class="keyword">价值创造</span>
+                    <span class="keyword">职业发展</span>
+                </div>
+            </div>
+            <i class="fas fa-lightbulb card-icon"></i>
+        </div>
+        
+        <!-- 精彩引用 -->
+        <div class="card quote-card">
+            <h2><i class="fas fa-quote-left"></i> 精彩引用</h2>
+            <div class="quote">
+                "感觉这个工具让传统企业老板圈知道了，不得了了"
+                <div class="quote-author">- 大白</div>
+            </div>
+            <div class="quote">
+                "在体验这些产品同时，想想怎么给自己赋能，怎么创造价值，选择最合适自己的"
+                <div class="quote-author">- 🇨🇳</div>
+            </div>
+            <div class="quote">
+                "尽量先别发，国内能有这种产品，还是很欣慰的，希望他们PR一拨儿能火到国外去"
+                <div class="quote-author">- 向阳乔木</div>
+            </div>
+            <div class="quote">
+                "我感觉我不用去招全职的平面设计了，找个兼职就行"
+                <div class="quote-author">- 🇨🇳</div>
+            </div>
+            <div class="quote">
+                "这种agent出来 暂时只能拼创意了"
+                <div class="quote-author">- Jin</div>
+            </div>
+            <i class="fas fa-comment-dots card-icon"></i>
+        </div>
+        
+        <!-- 重要链接与资源 -->
+        <div class="card links-card">
+            <h2><i class="fas fa-link"></i> 重要链接与资源</h2>
+            <div class="link-item">
+                <i class="fas fa-external-link-alt link-icon"></i>
+                <div class="link-title">Skywork网页生成案例</div>
+                <a href="https://www.skywork.ai/web/share/v2/website/1924133399012016128" class="link-url" target="_blank">https://www.skywork.ai/web/share/v2/website/1924133399012016128</a>
+            </div>
+            <div class="link-item">
+                <i class="fas fa-external-link-alt link-icon"></i>
+                <div class="link-title">Skywork产品介绍网页</div>
+                <a href="https://www.skywork.ai/web/share/v2/website/1924151961033502720" class="link-url" target="_blank">https://www.skywork.ai/web/share/v2/website/1924151961033502720</a>
+            </div>
+            <div class="link-item">
+                <i class="fas fa-external-link-alt link-icon"></i>
+                <div class="link-title">Skywork生成的史蒂夫肖尔介绍网页</div>
+                <a href="https://www.skywork.ai/web/share/v2/website/1924156053311946752" class="link-url" target="_blank">https://www.skywork.ai/web/share/v2/website/1924156053311946752</a>
+            </div>
+            <div class="link-item">
+                <i class="fas fa-video link-icon"></i>
+                <div class="link-title">Skywork生成的宋词MV</div>
+                <span class="link-url">群内分享视频</span>
+            </div>
+            <i class="fas fa-share-alt card-icon"></i>
+        </div>
+        
+        <!-- 活跃统计 -->
+        <div class="card stats-card">
+            <h2><i class="fas fa-chart-line"></i> 活跃统计</h2>
+            <div class="user-stats">
+                <div class="user-stat-item">
+                    <span class="user-name">🇨🇳</span>
+                    <span class="user-count">20+</span>
+                </div>
+                <div class="user-stat-item">
+                    <span class="user-name">大白</span>
+                    <span class="user-count">18+</span>
+                </div>
+                <div class="user-stat-item">
+                    <span class="user-name">Jin</span>
+                    <span class="user-count">15+</span>
+                </div>
+                <div class="user-stat-item">
+                    <span class="user-name">向阳乔木</span>
+                    <span class="user-count">12+</span>
+                </div>
+                <div class="user-stat-item">
+                    <span class="user-name">Ro斯</span>
+                    <span class="user-count">10+</span>
+                </div>
+                <div class="user-stat-item">
+                    <span class="user-name">强子</span>
+                    <span class="user-count">10+</span>
+                </div>
+                <div class="user-stat-item">
+                    <span class="user-name">Susie</span>
+                    <span class="user-count">8+</span>
+                </div>
+            </div>
+            <i class="fas fa-users card-icon"></i>
+        </div>
+        
+        <!-- 词云 -->
+        <div class="card wordcloud-card">
+            <h2><i class="fas fa-cloud"></i> 词云</h2>
+            <div class="wordcloud">
+                <div class="wordcloud-item size-5">Skywork</div>
+                <div class="wordcloud-item size-5">天工</div>
+                <div class="wordcloud-item size-4">网页生成</div>
+                <div class="wordcloud-item size-4">视频</div>
+                <div class="wordcloud-item size-4">Manus</div>
+                <div class="wordcloud-item size-3">音乐</div>
+                <div class="wordcloud-item size-3">MV</div>
+                <div class="wordcloud-item size-3">传统行业</div>
+                <div class="wordcloud-item size-3">赋能</div>
+                <div class="wordcloud-item size-2">创意</div>
+                <div class="wordcloud-item size-2">设计</div>
+                <div class="wordcloud-item size-2">交付</div>
+                <div class="wordcloud-item size-2">comfyui</div>
+                <div class="wordcloud-item size-2">价值</div>
+                <div class="wordcloud-item size-1">台球</div>
+                <div class="wordcloud-item size-1">像素风</div>
+                <div class="wordcloud-item size-1">宋词</div>
+                <div class="wordcloud-item size-1">客户</div>
+                <div class="wordcloud-item size-1">PR</div>
+                <div class="wordcloud-item size-1">agent</div>
+                <div class="wordcloud-item size-1">国内</div>
+                <div class="wordcloud-item size-1">国外</div>
+            </div>
+            <i class="fas fa-tags card-icon"></i>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>AI产品蝗虫团日报 · 2025年5月19日</p>
+    </div>
+</body>
+</html>

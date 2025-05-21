@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI产品蝗虫团日报 - 2025-05-16</title>
+    <link href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-100-M/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0b132b;
+            --secondary: #1c2541;
+            --accent1: #3a506b;
+            --accent2: #5bc0be;
+            --accent3: #6fffe9;
+            --text-primary: #ffffff;
+            --text-secondary: #c5c5c5;
+            --card-gap: 16px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'SF Pro Display', 'Segoe UI', 'Roboto', sans-serif;
+            background-color: var(--primary);
+            color: var(--text-primary);
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: minmax(100px, auto);
+            gap: var(--card-gap);
+            grid-template-areas:
+                "main main main main"
+                "hot1 hot2 hot3 hot3"
+                "tech1 tech2 tech3 tech3"
+                "quote1 quote2 quote3 quote4"
+                "link1 link1 active active"
+                "cloud cloud cloud cloud";
+        }
+        
+        .card {
+            background-color: var(--secondary);
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            z-index: 1;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+        
+        .card-icon {
+            position: absolute;
+            bottom: -15px;
+            right: -15px;
+            font-size: 100px;
+            opacity: 0.1;
+            color: var(--accent3);
+            transform: rotate(-15deg);
+            z-index: -1;
+        }
+        
+        .card-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--accent3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .card-title i {
+            font-size: 1.2rem;
+        }
+        
+        .card-content {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--text-secondary);
+        }
+        
+        .card-content strong {
+            color: var(--text-primary);
+        }
+        
+        .card-content ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .card-content li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .card-content li:before {
+            content: "⟩";
+            position: absolute;
+            left: 0;
+            color: var(--accent2);
+        }
+        
+        .card-content a {
+            color: var(--accent2);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        .card-content a:hover {
+            color: var(--accent3);
+            text-decoration: underline;
+        }
+        
+        .main-card {
+            grid-area: main;
+            background: linear-gradient(135deg, var(--accent1), var(--secondary));
+            padding: 30px;
+        }
+        
+        .main-card .card-title {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .main-card .card-icon {
+            font-size: 180px;
+            bottom: -30px;
+            right: -30px;
+        }
+        
+        .hot-card-1 { grid-area: hot1; background-color: rgba(58, 80, 107, 0.8); }
+        .hot-card-2 { grid-area: hot2; background-color: rgba(58, 80, 107, 0.8); }
+        .hot-card-3 { grid-area: hot3; background-color: rgba(58, 80, 107, 0.8); }
+        .tech-card-1 { grid-area: tech1; background-color: rgba(91, 192, 190, 0.3); }
+        .tech-card-2 { grid-area: tech2; background-color: rgba(91, 192, 190, 0.3); }
+        .tech-card-3 { grid-area: tech3; background-color: rgba(91, 192, 190, 0.3); }
+        .quote-card-1 { grid-area: quote1; background-color: rgba(111, 255, 233, 0.2); }
+        .quote-card-2 { grid-area: quote2; background-color: rgba(111, 255, 233, 0.2); }
+        .quote-card-3 { grid-area: quote3; background-color: rgba(111, 255, 233, 0.2); }
+        .quote-card-4 { grid-area: quote4; background-color: rgba(111, 255, 233, 0.2); }
+        .link-card { grid-area: link1; background-color: rgba(28, 37, 65, 0.9); }
+        .active-card { grid-area: active; background-color: rgba(28, 37, 65, 0.9); }
+        .cloud-card { grid-area: cloud; background-color: rgba(11, 19, 43, 0.8); }
+        
+        .tag {
+            display: inline-block;
+            background-color: var(--accent1);
+            color: var(--text-primary);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        
+        .tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .tag-cloud .tag {
+            margin: 0;
+            font-size: 0.9rem;
+            background-color: var(--accent1);
+        }
+        
+        .tag-cloud .tag-1 { font-size: 1.4rem; background-color: rgba(91, 192, 190, 0.8); }
+        .tag-cloud .tag-2 { font-size: 1.3rem; background-color: rgba(91, 192, 190, 0.7); }
+        .tag-cloud .tag-3 { font-size: 1.2rem; background-color: rgba(91, 192, 190, 0.6); }
+        .tag-cloud .tag-4 { font-size: 1.1rem; background-color: rgba(91, 192, 190, 0.5); }
+        .tag-cloud .tag-5 { font-size: 1.0rem; background-color: rgba(91, 192, 190, 0.4); }
+        
+        .quote {
+            font-style: italic;
+            position: relative;
+            padding-left: 20px;
+            border-left: 3px solid var(--accent2);
+            margin: 15px 0;
+        }
+        
+        .quote::before {
+            content: '"';
+            font-size: 1.5rem;
+            color: var(--accent2);
+            position: absolute;
+            left: -15px;
+            top: -5px;
+        }
+        
+        .quote-author {
+            display: block;
+            text-align: right;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            color: var(--accent3);
+        }
+        
+        .stats-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .stats-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px dashed rgba(111, 255, 233, 0.3);
+        }
+        
+        .stats-item:last-child {
+            border-bottom: none;
+        }
+        
+        .stats-name {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .stats-value {
+            background-color: var(--accent1);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        
+        .highlight {
+            color: var(--accent3);
+            font-weight: 500;
+        }
+        
+        .code-block {
+            background-color: rgba(11, 19, 43, 0.8);
+            padding: 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            color: #e0e0e0;
+        }
+        
+        .glow {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, var(--accent3) 0%, rgba(111, 255, 233, 0) 70%);
+            opacity: 0.1;
+            border-radius: 50%;
+            filter: blur(20px);
+            z-index: -1;
+        }
+        
+        .glow-1 { top: -50px; left: -50px; }
+        .glow-2 { bottom: -50px; right: -50px; }
+        
+        @media (max-width: 768px) {
+            .bento-grid {
+                grid-template-columns: 1fr 1fr;
+                grid-template-areas:
+                    "main main"
+                    "hot1 hot2"
+                    "hot3 hot3"
+                    "tech1 tech2"
+                    "tech3 tech3"
+                    "quote1 quote2"
+                    "quote3 quote4"
+                    "link1 active"
+                    "cloud cloud";
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bento-grid">
+        <!-- 主卡片：群聊总结 -->
+        <div class="card main-card">
+            <div class="glow glow-1"></div>
+            <div class="glow glow-2"></div>
+            <h1 class="card-title"><i class="fas fa-robot"></i> AI产品蝗虫团日报 (2025-05-16)</h1>
+            <div class="card-content">
+                <p>今日群内讨论热烈，主要围绕以下几个主题：</p>
+                <ul>
+                    <li><strong>AI工作流工具</strong>：讨论了n8n、dify、coze等工具的使用体验和商用限制</li>
+                    <li><strong>AI绘图工具</strong>：热议lovart邀请码发放、manus新增的文生图功能以及豆包的图像生成能力</li>
+                    <li><strong>ASU教育邮箱</strong>：讨论了申请流程和邮件转发设置问题</li>
+                    <li><strong>OpenAI新模型</strong>：有消息称OpenAI即将发布新模型</li>
+                </ul>
+            </div>
+            <div class="card-icon"><i class="fas fa-comments"></i></div>
+        </div>
+
+        <!-- 今日热点卡片 -->
+        <div class="card hot-card-1">
+            <h2 class="card-title"><i class="fas fa-fire"></i> AI工作流工具</h2>
+            <div class="card-content">
+                <ul>
+                    <li><strong>n8n</strong>：设计感好但不允许商用</li>
+                    <li><strong>dify</strong>：存在两年多，适合企业版玩法，本地部署不需付费</li>
+                    <li><strong>coze</strong>：被认为是照着dify抄的</li>
+                </ul>
+                <div class="tag">商用限制</div>
+                <div class="tag">工作流</div>
+            </div>
+            <div class="card-icon"><i class="fas fa-project-diagram"></i></div>
+        </div>
+
+        <div class="card hot-card-2">
+            <h2 class="card-title"><i class="fas fa-paint-brush"></i> AI绘图工具</h2>
+            <div class="card-content">
+                <ul>
+                    <li><strong>lovart</strong>：新一批邀请码发放，部分用户反映上传图片失败</li>
+                    <li><strong>manus</strong>：新增文生图功能，效果一般</li>
+                    <li><strong>豆包</strong>：图像生成能力引发热议</li>
+                </ul>
+                <div class="tag">图像生成</div>
+                <div class="tag">邀请码</div>
+            </div>
+            <div class="card-icon"><i class="fas fa-palette"></i></div>
+        </div>
+
+        <div class="card hot-card-3">
+            <h2 class="card-title"><i class="fas fa-envelope"></i> ASU教育邮箱与其他讨论</h2>
+            <div class="card-content">
+                <ul>
+                    <li><strong>ASU邮箱</strong>：申请流程和邮件转发设置问题，现在申请需要付费</li>
+                    <li><strong>OpenAI新模型</strong>：即将发布，被认为是"狙击谷歌"</li>
+                    <li><strong>Amazon Q</strong>：有群友询问使用体验</li>
+                    <li><strong>Memo AI</strong>：被推荐用于翻译中英双语字幕</li>
+                </ul>
+                <div class="tag">教育邮箱</div>
+                <div class="tag">新模型</div>
+            </div>
+            <div class="card-icon"><i class="fas fa-graduation-cap"></i></div>
+        </div>
+
+        <!-- 技术分享卡片 -->
+        <div class="card tech-card-1">
+            <h2 class="card-title"><i class="fas fa-code"></i> 提示词分享</h2>
+            <div class="card-content">
+                <p>群主分享的图像生成提示词：</p>
+                <div class="code-block">酒店镜前自拍，浴后御姐，湿发水珠，松垮浴袍，肌肤微红，慵懒神态，昏黄灯光，闪光灯瞬间，画面朦胧，9:16比例</div>
+                <p>这个提示词在豆包上生成的图像效果引发群友热议和尝试。</p>
+            </div>
+            <div class="card-icon"><i class="fas fa-terminal"></i></div>
+        </div>
+
+        <div class="card tech-card-2">
+            <h2 class="card-title"><i class="fas fa-tools"></i> n8n与dify对比</h2>
+            <div class="card-content">
+                <ul>
+                    <li><strong>n8n</strong>：设计感好，但协议明确不允许商用</li>
+                    <li><strong>dify</strong>：适合企业版玩法，本地部署不需付费</li>
+                    <li>"每种工具存在即合理，一般不存在完美的产品，我们只需要找适合自己的"</li>
+                </ul>
+            </div>
+            <div class="card-icon"><i class="fas fa-cogs"></i></div>
+        </div>
+
+        <div class="card tech-card-3">
+            <h2 class="card-title"><i class="fas fa-laptop-code"></i> AI绘图工具使用技巧</h2>
+            <div class="card-content">
+                <ul>
+                    <li><strong>lovart</strong>：上传图片可能需要等待，没有加载进度条</li>
+                    <li><strong>manus</strong>：文生图功能效果一般，"没有视频图像数据进行后训练"</li>
+                    <li><strong>豆包</strong>：群友讨论了提示词技巧和生成效果</li>
+                </ul>
+                <p>有群友猜测豆包放开尺度可能是营销策略："过两天引起有关部门注意后，就说系统故障已紧急修复"</p>
+            </div>
+            <div class="card-icon"><i class="fas fa-magic"></i></div>
+        </div>
+
+        <!-- 金句摘录卡片 -->
+        <div class="card quote-card-1">
+            <h2 class="card-title"><i class="fas fa-quote-left"></i> 金句摘录</h2>
+            <div class="card-content">
+                <div class="quote">
+                    你要说给国企卖产品，那太好用了，你要想tC做产品，那就差点意思
+                    <span class="quote-author">- 关于dify的评价</span>
+                </div>
+            </div>
+            <div class="card-icon"><i class="fas fa-comment-dots"></i></div>
+        </div>
+
+        <div class="card quote-card-2">
+            <h2 class="card-title"><i class="fas fa-quote-left"></i> 金句摘录</h2>
+            <div class="card-content">
+                <div class="quote">
+                    反正现在能白嫖年费会员为啥不白嫖呢
+                    <span class="quote-author">- 关于尝试新工具的态度</span>
+                </div>
+            </div>
+            <div class="card-icon"><i class="fas fa-comment-dots"></i></div>
+        </div>
+
+        <div class="card quote-card-3">
+            <h2 class="card-title"><i class="fas fa-quote-left"></i> 金句摘录</h2>
+            <div class="card-content">
+                <div class="quote">
+                    每种工具存在即合理，一般不存在完美的产品，我们只需要找适合自己的
+                    <span class="quote-author">- 关于工具选择</span>
+                </div>
+            </div>
+            <div class="card-icon"><i class="fas fa-comment-dots"></i></div>
+        </div>
+
+        <div class="card quote-card-4">
+            <h2 class="card-title"><i class="fas fa-quote-left"></i> 金句摘录</h2>
+            <div class="card-content">
+                <div class="quote">
+                    我怀疑是豆包的营销策略，突然放开的尺度，过两天引起有关部门注意后，就说系统故障已紧急修复
+                    <span class="quote-author">- 对豆包图像生成策略的猜测</span>
+                </div>
+            </div>
+            <div class="card-icon"><i class="fas fa-comment-dots"></i></div>
+        </div>
+
+        <!-- 重要链接卡片 -->
+        <div class="card link-card">
+            <h2 class="card-title"><i class="fas fa-link"></i> 重要链接</h2>
+            <div class="card-content">
+                <ul>
+                    <li>
+                        <a href="http://mp.weixin.qq.com/s?__biz=MzA5NDc1NzQ4MA==&mid=2654598268&idx=1&sn=ab85d9bf867e503a83f7bb8e414e7ec8&chksm=8ad40a4e3259c810d00b313bb537616aea288bf98794f93a11fbdff1bec57c5a9118387a1af5&mpshare=1&scene=1&srcid=05162jUIVRsA4LQgDw6Vb9qz&sharer_shareinfo=2b1394ca600dbbf7f1eee981e7747bc0&sharer_shareinfo_first=2b1394ca600dbbf7f1eee981e7747bc0#rd" target="_blank">
+                            iPhone用户被表情包闪瞎，这事得赖微信
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-icon"><i class="fas fa-external-link-alt"></i></div>
+        </div>
+
+        <!-- 活跃用户统计卡片 -->
+        <div class="card active-card">
+            <h2 class="card-title"><i class="fas fa-users"></i> 活跃用户统计</h2>
+            <div class="card-content">
+                <div class="stats-list">
+                    <div class="stats-item">
+                        <span class="stats-name">Ronin_Chang</span>
+                        <span class="stats-value">高频发言</span>
+                    </div>
+                    <div class="stats-item">
+                        <span class="stats-name">尹轶</span>
+                        <span class="stats-value">高频发言</span>
+                    </div>
+                    <div class="stats-item">
+                        <span class="stats-name">马翌晨</span>
+                        <span class="stats-value">高频发言</span>
+                    </div>
+                    <div class="stats-item">
+                        <span class="stats-name">郭矩源</span>
+                        <span class="stats-value">高频发言</span>
+                    </div>
+                    <div class="stats-item">
+                        <span class="stats-name">刘博</span>
+                        <span class="stats-value">高频发言</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+        </div>
+
+        <!-- 词云卡片 -->
+        <div class="card cloud-card">
+            <h2 class="card-title"><i class="fas fa-cloud"></i> 词云</h2>
+            <div class="card-content">
+                <div class="tag-cloud">
+                    <span class="tag tag-1">dify</span>
+                    <span class="tag tag-1">n8n</span>
+                    <span class="tag tag-1">lovart</span>
+                    <span class="tag tag-1">豆包</span>
+                    <span class="tag tag-2">manus</span>
+                    <span class="tag tag-2">商用</span>
+                    <span class="tag tag-2">申请</span>
+                    <span class="tag tag-2">图片</span>
+                    <span class="tag tag-3">提示词</span>
+                    <span class="tag tag-3">ASU邮箱</span>
+                    <span class="tag tag-3">coze</span>
+                    <span class="tag tag-3">上传</span>
+                    <span class="tag tag-4">尺度</span>
+                    <span class="tag tag-4">生成</span>
+                    <span class="tag tag-4">设置</span>
+                    <span class="tag tag-5">工作流</span>
+                    <span class="tag tag-5">OpenAI</span>
+                    <span class="tag tag-5">邀请码</span>
+                </div>
+            </div>
+            <div class="card-icon"><i class="fas fa-tags"></i></div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI产品蝗虫团日报 - 2025年5月11日</title>
+    <style>
+        /* 严格定义的CSS样式，确保风格一致性 */
+        :root {
+            --bg-primary: #0f0e17;
+            --bg-secondary: #1a1925;
+            --bg-tertiary: #252336;
+            --text-primary: #fffffe;
+            --text-secondary: #a7a9be;
+            --accent-primary: #ff8906;
+            --accent-secondary: #f25f4c;
+            --accent-tertiary: #e53170;
+            --accent-blue: #3da9fc;
+            --accent-purple: #7209b7;
+            --accent-cyan: #00b4d8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'SF Pro Display', 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+            width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            background-color: var(--bg-secondary);
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+        
+        .date {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+        
+        .meta-info {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .meta-info span {
+            background-color: var(--bg-tertiary);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        
+        h2 {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--accent-blue);
+            margin: 30px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--bg-tertiary);
+        }
+        
+        h3 {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            margin: 20px 0 15px 0;
+        }
+        
+        .section {
+            background-color: var(--bg-secondary);
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .highlight {
+            background-color: var(--bg-tertiary);
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 4px solid var(--accent-primary);
+            border-radius: 0 8px 8px 0;
+        }
+        
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+        }
+        
+        li strong, p strong {
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+        
+        .quote {
+            font-style: italic;
+            color: var(--text-secondary);
+            border-left: 3px solid var(--accent-tertiary);
+            padding: 15px;
+            margin: 20px 0;
+            background-color: var(--bg-tertiary);
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .participant-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .participant-item {
+            background-color: var(--bg-tertiary);
+            padding: 12px 18px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            border-left: 3px solid var(--accent-blue);
+        }
+        
+        .participant-rank {
+            font-weight: bold;
+            margin-right: 12px;
+            color: var(--accent-primary);
+        }
+        
+        .participant-name {
+            margin-right: 12px;
+            color: var(--text-primary);
+        }
+        
+        .participant-count {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+        }
+        
+        footer {
+            margin-top: 60px;
+            text-align: center;
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--bg-tertiary);
+            padding-top: 30px;
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 25px;
+        }
+        
+        .disclaimer {
+            font-size: 0.8em;
+            font-style: italic;
+            margin-top: 15px;
+            color: var(--text-secondary);
+            opacity: 0.8;
+        }
+        
+        a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        a:hover {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+        
+        strong {
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>AI产品蝗虫团日报</h1>
+        <p class="date">2025年5月11日</p>
+        <div class="meta-info">
+            <span>总消息数：约50条</span>
+            <span>活跃用户：15人</span>
+            <span>时间范围：09:00-21:00</span>
+        </div>
+    </header>
+
+    <section class="section">
+        <h2>热点讨论</h2>
+        
+        <div class="highlight">
+            <h3>1. Cursor Pro账号恢复与学生优惠</h3>
+            <ul>
+                <li>多位用户报告Cursor Pro账号被取消后又恢复，引发讨论</li>
+                <li>群友分享了通过edu邮箱获取Cursor Pro学生优惠的经验</li>
+                <li>有用户表示："两极反转跟坐过山车一样"，形容Cursor政策变化频繁</li>
+                <li>据反馈，目前审核更严格，已排除几个国家的学生优惠资格</li>
+            </ul>
+        </div>
+        
+        <div class="highlight">
+            <h3>2. 教育邮箱与AI服务优惠</h3>
+            <ul>
+                <li>群内热议通过教育邮箱获取AI服务优惠的方法</li>
+                <li>讨论了ChatGPT学生优惠的验证流程和可能遇到的问题</li>
+                <li>有用户分享了使用SheerID验证GPT的经验，表示已使用一个月</li>
+                <li>群友讨论了教育邮箱账号的可靠性和风险</li>
+            </ul>
+        </div>
+        
+        <div class="highlight">
+            <h3>3. 向阳乔木Prompt资源分享</h3>
+            <ul>
+                <li>用户询问并获得了向阳乔木的Prompt集合链接：<a href="https://xiangyangqiaomu.feishu.cn/wiki/LJJWwyDj3i1sjpk41J9cuAlXntb?fromScene=spaceOverview" target="_blank">飞书文档链接</a></li>
+                <li>多位群友对该资源表示赞赏</li>
+                <li>有用户提醒飞书移动端不支持查看该组件，需在电脑端打开</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>实用工具与技巧</h2>
+        
+        <div class="highlight">
+            <h3>1. MCP增强工具</h3>
+            <ul>
+                <li>用户"晶"分享了使用mcp superAssistant给网页版AI上buff的经验</li>
+                <li>实测表明该工具与Gemini配合效果一般，但与Grok配合效果良好</li>
+                <li>分享了使用效果截图</li>
+            </ul>
+        </div>
+        
+        <div class="highlight">
+            <h3>2. Zen Browser分享</h3>
+            <ul>
+                <li>用户Bayes分享了Zen Browser工具：<a href="https://zen-browser.app/" target="_blank">https://zen-browser.app/</a></li>
+                <li>该工具为一款专注于提升浏览体验的浏览器</li>
+            </ul>
+        </div>
+        
+        <div class="highlight">
+            <h3>3. Raycast AI的MCP应用</h3>
+            <ul>
+                <li>向阳乔木分享了关于Raycast AI的MCP应用文章</li>
+                <li>该工具可实现"一句话生成一个带音频的诗朗诵网页"</li>
+                <li>文章包含详细的安装使用教程</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>精彩引用</h2>
+        
+        <div class="quote">
+            <p>"两极反转跟坐过山车一样" —— xiaolei0vip谈论Cursor Pro账号状态变化</p>
+        </div>
+        
+        <div class="quote">
+            <p>"我试了几次都没成功，就在小黄鱼买了一个，还不错" —— 画伞分享获取edu邮箱的经验</p>
+        </div>
+        
+        <div class="quote">
+            <p>"希望大家都能用到称心的工具，创造价值，多赚钱～" —— 画伞在分享资源后的祝愿</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>活跃统计</h2>
+        
+        <h3>活跃用户</h3>
+        <div class="participant-list">
+            <div class="participant-item">
+                <div class="participant-rank">1</div>
+                <div class="participant-name">画伞</div>
+                <div class="participant-count">消息数：高</div>
+            </div>
+            
+            <div class="participant-item">
+                <div class="participant-rank">2</div>
+                <div class="participant-name">Ro斯</div>
+                <div class="participant-count">消息数：高</div>
+            </div>
+            
+            <div class="participant-item">
+                <div class="participant-rank">3</div>
+                <div class="participant-name">xiaolei0vip</div>
+                <div class="participant-count">消息数：中</div>
+            </div>
+            
+            <div class="participant-item">
+                <div class="participant-rank">4</div>
+                <div class="participant-name">Susie</div>
+                <div class="participant-count">消息数：中</div>
+            </div>
+            
+            <div class="participant-item">
+                <div class="participant-rank">5</div>
+                <div class="participant-name">Ronin_Chang</div>
+                <div class="participant-count">消息数：中</div>
+            </div>
+        </div>
+        
+        <h3>活跃时段</h3>
+        <ul>
+            <li>上午09:00-12:00</li>
+            <li>下午16:00-17:00</li>
+            <li>晚上20:00-21:00</li>
+        </ul>
+        
+        <h3>讨论氛围</h3>
+        <ul>
+            <li>资源分享为主，互助性强</li>
+            <li>对AI工具优惠和账号获取方式讨论热烈</li>
+            <li>群内成员积极分享经验和资源，互动频繁</li>
+        </ul>
+    </section>
+
+    <section class="section">
+        <h2>总结</h2>
+        <div>
+            <p>2025年5月11日的"AI产品蝗虫团"群聊保持了高度的活跃性。全天最核心的议题围绕着<strong>Cursor Pro账号恢复与学生优惠</strong>、<strong>教育邮箱获取AI服务优惠</strong>以及<strong>向阳乔木Prompt资源分享</strong>等展开。群内还分享了MCP增强工具、Zen Browser和Raycast AI的MCP应用等实用资源。特别值得注意的是，群友们对教育邮箱获取AI服务优惠的讨论非常热烈，多位用户分享了自己的经验和资源。群内成员继续保持着对AI领域新工具、新方法的敏锐嗅觉和快速响应能力，互助氛围浓厚。</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>AI产品蝗虫团日报 - 2025年5月11日</p>
+        <p>最活跃时段：上午09:00-12:00，下午16:00-17:00</p>
+        <p>讨论氛围：资源分享为主，互助性强，对AI工具优惠和账号获取方式讨论热烈</p>
+        <p class="disclaimer">本日报由AI自动生成，内容仅供参考，基于群聊记录整理，不代表群内所有成员观点。</p>
+    </footer>
+
+</body>
+</html>

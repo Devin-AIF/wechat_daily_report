@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI产品蝗虫团日报 - 2025-05-15</title>
+    <link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-100-M/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap');
+
+        :root {
+            --primary: #0bffa5;
+            --secondary: #0b78ff;
+            --accent: #ff0b8f;
+            --background: #0a0a14;
+            --card-bg: #12121f;
+            --card-bg-hover: #16162a;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0b8;
+            --grid-gap: 16px;
+            --card-radius: 12px;
+            --card-border: 1px solid rgba(255, 255, 255, 0.05);
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+            --glow: 0 0 15px rgba(11, 255, 165, 0.5);
+        }
+
+        body {
+            font-family: 'Inter', 'SF Pro Display', 'Segoe UI', sans-serif;
+            background-color: var(--background);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 24px;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: auto;
+            gap: var(--grid-gap);
+            grid-template-areas:
+                "header header header header header header header header header header header header"
+                "summary summary summary summary summary summary summary hotspot hotspot hotspot hotspot hotspot"
+                "summary summary summary summary summary summary summary hotspot hotspot hotspot hotspot hotspot"
+                "tech tech tech tech quotes quotes quotes quotes active active active active"
+                "tech tech tech tech quotes quotes quotes quotes active active active active"
+                "links links links links members members members members wordcloud wordcloud wordcloud wordcloud"
+                "links links links links members members members members wordcloud wordcloud wordcloud wordcloud";
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--card-radius);
+            border: var(--card-border);
+            box-shadow: var(--card-shadow);
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            background-color: var(--card-bg-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--card-shadow), var(--glow);
+        }
+
+        .card-icon {
+            position: absolute;
+            bottom: -15px;
+            right: -15px;
+            font-size: 100px;
+            opacity: 0.05;
+            transform: rotate(-10deg);
+            color: var(--primary);
+            z-index: 0;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-title i {
+            margin-right: 8px;
+            font-size: 1rem;
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 1;
+            flex: 1;
+        }
+
+        .header {
+            grid-area: header;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            margin: 8px 0 0;
+        }
+
+        .summary {
+            grid-area: summary;
+        }
+
+        .hotspot {
+            grid-area: hotspot;
+        }
+
+        .tech {
+            grid-area: tech;
+        }
+
+        .quotes {
+            grid-area: quotes;
+        }
+
+        .active {
+            grid-area: active;
+        }
+
+        .links {
+            grid-area: links;
+        }
+
+        .members {
+            grid-area: members;
+        }
+
+        .wordcloud {
+            grid-area: wordcloud;
+        }
+
+        .tag {
+            display: inline-block;
+            background-color: rgba(11, 120, 255, 0.15);
+            color: var(--secondary);
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-size: 0.75rem;
+            margin-right: 6px;
+            margin-bottom: 6px;
+        }
+
+        .highlight {
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .quote {
+            border-left: 3px solid var(--primary);
+            padding-left: 12px;
+            margin: 12px 0;
+            font-style: italic;
+        }
+
+        .quote-author {
+            display: block;
+            text-align: right;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+
+        .list-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+
+        .list-item i {
+            color: var(--primary);
+            margin-right: 8px;
+            margin-top: 4px;
+        }
+
+        .list-content {
+            flex: 1;
+        }
+
+        .member-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .member-rank {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: var(--secondary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            margin-right: 8px;
+        }
+
+        .member-name {
+            flex: 1;
+        }
+
+        .member-count {
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .wordcloud-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        .word {
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .word:hover {
+            transform: scale(1.1);
+        }
+
+        .size-1 { font-size: 0.8rem; opacity: 0.7; }
+        .size-2 { font-size: 1rem; opacity: 0.8; }
+        .size-3 { font-size: 1.2rem; opacity: 0.9; }
+        .size-4 { font-size: 1.5rem; font-weight: 500; }
+        .size-5 { font-size: 1.8rem; font-weight: 600; }
+
+        .color-1 { color: var(--primary); }
+        .color-2 { color: var(--secondary); }
+        .color-3 { color: var(--accent); }
+        .color-4 { color: #ff5e0b; }
+        .color-5 { color: #0bffff; }
+
+        .link-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .link-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .link-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            background-color: rgba(11, 120, 255, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .link-icon i {
+            color: var(--secondary);
+        }
+
+        .link-content {
+            flex: 1;
+        }
+
+        .link-title {
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+
+        .link-url {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            word-break: break-all;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin-top: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 3px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-layout {
+                grid-template-columns: 1fr;
+                grid-template-areas:
+                    "header"
+                    "summary"
+                    "hotspot"
+                    "tech"
+                    "quotes"
+                    "active"
+                    "links"
+                    "members"
+                    "wordcloud";
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AI产品蝗虫团日报</h1>
+            <p>2025年05月15日 · 00:00 - 23:59</p>
+        </div>
+
+        <div class="grid-layout">
+            <!-- 总结 -->
+            <div class="summary">
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-newspaper"></i> 今日总结</div>
+                    <div class="card-content">
+                        <p>今日群内讨论热度较高，主要围绕Lovart.ai设计工具的申请与体验分享，以及Windsurf免费一个月的优惠码分享。多位成员分享了Lovart申请通过的经验，讨论了申请策略和使用体验。有成员详细分享了使用Lovart进行品牌VI系统设计的体验，认为其效率和质量都非常出色。此外，还有关于Davv.ai新版本的讨论，以及对AI设计工具替代传统设计工作的讨论。</p>
+                    </div>
+                    <div class="card-icon"><i class="fas fa-newspaper"></i></div>
+                </div>
+            </div>
+
+            <!-- 今日热点 -->
+            <div class="hotspot">
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-fire"></i> 今日热点</div>
+                    <div class="card-content">
+                        <div class="list-item">
+                            <i class="fas fa-circle"></i>
+                            <div class="list-content">
+                                <strong>Lovart.ai设计工具申请与体验</strong>
+                                <p>多位成员分享了Lovart.ai的申请经验和通过技巧，有成员详细分享了使用体验，认为其在品牌VI设计方面效果出色，能够替代传统设计师工作。</p>
+                            </div>
+                        </div>
+                        <div class="list-item">
+                            <i class="fas fa-circle"></i>
+                            <div class="list-content">
+                                <strong>Windsurf免费一个月优惠码</strong>
+                                <p>成员分享了Windsurf的一个月免费优惠码「A-MONTH-FROM-PETER」，多位成员成功领取并表示感谢。</p>
+                            </div>
+                        </div>
+                        <div class="list-item">
+                            <i class="fas fa-circle"></i>
+                            <div class="list-content">
+                                <strong>Davv.ai新版本发布</strong>
+                                <p>有成员提到Davv.ai发布了新版本，并讨论了其功能和体验，认为可能会替代Bolt。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-icon"><i class="fas fa-fire"></i></div>
+                </div>
+            </div>
+
+            <!-- 技术分享 -->
+            <div class="tech">
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-laptop-code"></i> 技术分享</div>
+                    <div class="card-content">
+                        <div class="list-item">
+                            <i class="fas fa-code"></i>
+                            <div class="list-content">
+                                <strong>AI设计工具体验</strong>
+                                <p>成员详细分享了Lovart进行品牌VI系统设计的流程和体验，包括logo设计、品牌元素应用等，认为其效率和质量都非常出色。</p>
+                            </div>
+                        </div>
+                        <div class="list-item">
+                            <i class="fas fa-code"></i>
+                            <div class="list-content">
+                                <strong>AI编程工具对比</strong>
+                                <p>有成员讨论了Cursor、Trae、Augment等AI编程工具的使用体验和对比，提到Cursor教育优惠政策的变化。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-icon"><i class="fas fa-laptop-code"></i></div>
+                </div>
+            </div>
+
+            <!-- 精彩引用 -->
+            <div class="quotes">
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-quote-left"></i> 精彩引用</div>
+                    <div class="card-content">
+                        <div class="quote">
+                            "创作品牌vi的过程中，我无论是站在品牌创始人的角度还是站在一名设计工作者的角度来思考，都觉得「AI正在一点点取代很多工作岗位」不是在危言耸听，因为我压根儿算不上设计师，甚至连VI系统应该有哪些都是先让DeepSeek给我普及了一下，更别提过程中涉及到的各种各样的工具使用了。"
+                            <span class="quote-author">— sseeaa</span>
+                        </div>
+                        <div class="quote">
+                            "体验了一个小时的时间，制作的两个品牌色调攻击60多张效果图，从logo到吉祥物到各式各样的品牌元素应用效果图，结论就是非常满意，不管是质量还是效率，都秒杀我接触过的80%品牌设计师。"
+                            <span class="quote-author">— sseeaa</span>
+                        </div>
+                        <div class="quote">
+                            "羊毛还是得抓紧，lenny那个我及时买了，但是cursor当时有会员就没兑换，过几天就没有了…"
+                            <span class="quote-author">— 我也不知道叫啥好</span>
+                        </div>
+                    </div>
+                    <div class="card-icon"><i class="fas fa-quote-left"></i></div>
+                </div>
+            </div>
+
+            <!-- 活跃统计 -->
+            <div class="active">
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-chart-line"></i> 活跃统计</div>
+                    <div class="card-content">
+                        <div class="member-item">
+                            <div class="member-rank">1</div>
+                            <div class="member-name">Ro斯</div>
+                            <div class="member-count">15条</div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%"></div>
+                        </div>
+
+                        <div class="member-item">
+                            <div class="member-rank">2</div>
+                            <div class="member-name">Icarus</div>
+                            <div class="member-count">11条</div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 73%"></div>
+                        </div>
+
+                        <div class="member-item">
+                            <div class="member-rank">3</div>
+                            <div class="member-name">RangeKing</div>
+                            <div class="member-count">9条</div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 60%"></div>
+                        </div>
+
+                        <div class="member-item">
+                            <div class="member-rank">4</div>
+                            <div class="member-name">我也不知道叫啥好</div>
+                            <div class="member-count">5条</div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 33%"></div>
+                        </div>
+
+                        <div class="member-item">
+                            <div class="member-rank">5</div>
+                            <div class="member-name">Liu、</div>
+                            <div class="member-count">5条</div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 33%"></div>
+                        </div>
+                    </div>
+                    <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+                </div>
+            </div>
+
+            <!-- 重要链接与资源 -->
+            <div class="links">
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-link"></i> 重要链接与资源</div>
+                    <div class="card-content">
+                        <div class="link-item">
+                            <div class="link-icon">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <div class="link-content">
+                                <div class="link-title">Windsurf免费一个月优惠码</div>
+                                <div class="link-url">A-MONTH-FROM-PETER</div>
+                            </div>
+                        </div>
+                        <div class="link-item">
+                            <div class="link-icon">
+                                <i class="fas fa-palette"></i>
+                            </div>
+                            <div class="link-content">
+                                <div class="link-title">Lovart.ai邀请链接</div>
+                                <div class="link-url">https://www.lovart.ai/?k=g2UiUJJh</div>
+                            </div>
+                        </div>
+                        <div class="link-item">
+                            <div class="link-icon">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <div class="link-content">
+                                <div class="link-title">Windsurf推荐链接</div>
+                                <div class="link-url">https://windsurf.com/refer?referral_code=e7x1h9s73elyboxg</div>
+                            </div>
+                        </div>
+                        <div class="link-item">
+                            <div class="link-icon">
+                                <i class="fas fa-laptop-code"></i>
+                            </div>
+                            <div class="link-content">
+                                <div class="link-title">Devv.ai</div>
+                                <div class="link-url">https://devv.ai</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-icon"><i class="fas fa-link"></i></div>
+                </div>
+            </div>
+
+            <!-- 活跃成员 -->
+            <div class="members">
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-users"></i> 活跃成员</div>
+                    <div class="card-content">
+                        <div class="tag">Ro斯</div>
+                        <div class="tag">Icarus</div>
+                        <div class="tag">RangeKing</div>
+                        <div class="tag">我也不知道叫啥好</div>
+                        <div class="tag">Liu、</div>
+                        <div class="tag">sseeaa</div>
+                        <div class="tag">向阳乔木</div>
+                        <div class="tag">魔云兽</div>
+                        <div class="tag">Lenville</div>
+                        <div class="tag">强子</div>
+                        <div class="tag">Gary</div>
+                        <div class="tag">DDA</div>
+                        <div class="tag">🇨🇳</div>
+                        <div class="tag">十一</div>
+                        <div class="tag">张热烈啊</div>
+                        <div class="tag">秋在，冬来</div>
+                        <div class="tag">刘博</div>
+                        <div class="tag">若无</div>
+                    </div>
+                    <div class="card-icon"><i class="fas fa-users"></i></div>
+                </div>
+            </div>
+
+            <!-- 词云 -->
+            <div class="wordcloud">
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-cloud"></i> 词云</div>
+                    <div class="card-content">
+                        <div class="wordcloud-container">
+                            <div class="word size-5 color-1">Lovart</div>
+                            <div class="word size-4 color-2">申请</div>
+                            <div class="word size-4 color-3">设计</div>
+                            <div class="word size-4 color-4">Windsurf</div>
+                            <div class="word size-3 color-5">优惠码</div>
+                            <div class="word size-3 color-1">品牌</div>
+                            <div class="word size-3 color-2">VI系统</div>
+                            <div class="word size-3 color-3">通过</div>
+                            <div class="word size-3 color-4">体验</div>
+                            <div class="word size-2 color-5">工作室</div>
+                            <div class="word size-2 color-1">Cursor</div>
+                            <div class="word size-2 color-2">Davv.ai</div>
+                            <div class="word size-2 color-3">邀请码</div>
+                            <div class="word size-2 color-4">效率</div>
+                            <div class="word size-2 color-5">质量</div>
+                            <div class="word size-1 color-1">logo</div>
+                            <div class="word size-1 color-2">教育优惠</div>
+                            <div class="word size-1 color-3">蝗虫</div>
+                            <div class="word size-1 color-4">AI</div>
+                            <div class="word size-1 color-5">设计师</div>
+                        </div>
+                    </div>
+                    <div class="card-icon"><i class="fas fa-cloud"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

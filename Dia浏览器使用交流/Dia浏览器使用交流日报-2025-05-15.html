@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia浏览器使用交流日报 - 2025年5月15日</title>
+    <style>
+        /* 严格定义的CSS样式，确保风格一致性 */
+        :root {
+            --bg-primary: #0f0e17;
+            --bg-secondary: #1a1925;
+            --bg-tertiary: #252336;
+            --text-primary: #fffffe;
+            --text-secondary: #a7a9be;
+            --accent-primary: #ff8906;
+            --accent-secondary: #f25f4c;
+            --accent-tertiary: #e53170;
+            --accent-blue: #3da9fc;
+            --accent-purple: #7209b7;
+            --accent-cyan: #00b4d8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'SF Pro Display', 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+            width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            background-color: var(--bg-secondary);
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+        
+        .date {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+        
+        .meta-info {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .meta-info span {
+            background-color: var(--bg-tertiary);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        
+        h2 {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--accent-blue);
+            margin: 30px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--bg-tertiary);
+        }
+        
+        h3 {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            margin: 20px 0 15px 0;
+        }
+        
+        .section {
+            background-color: var(--bg-secondary);
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .highlight {
+            background-color: var(--bg-tertiary);
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 4px solid var(--accent-primary);
+            border-radius: 0 8px 8px 0;
+        }
+        
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+        }
+        
+        li strong, p strong {
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+        
+        .quote {
+            font-style: italic;
+            color: var(--text-secondary);
+            border-left: 3px solid var(--accent-tertiary);
+            padding: 15px;
+            margin: 20px 0;
+            background-color: var(--bg-tertiary);
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .participant-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .participant-item {
+            background-color: var(--bg-tertiary);
+            padding: 12px 18px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            border-left: 3px solid var(--accent-blue);
+        }
+        
+        .participant-rank {
+            font-weight: bold;
+            margin-right: 12px;
+            color: var(--accent-primary);
+        }
+        
+        .participant-name {
+            margin-right: 12px;
+            color: var(--text-primary);
+        }
+        
+        .participant-count {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+        }
+        
+        footer {
+            margin-top: 60px;
+            text-align: center;
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--bg-tertiary);
+            padding-top: 30px;
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 25px;
+        }
+        
+        .disclaimer {
+            font-size: 0.8em;
+            font-style: italic;
+            margin-top: 15px;
+            color: var(--text-secondary);
+            opacity: 0.8;
+        }
+        
+        a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        a:hover {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+        
+        strong {
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Dia浏览器使用交流日报</h1>
+        <p class="date">2025年5月15日</p>
+        <div class="meta-info">
+            <span>总消息数：约40条</span>
+            <span>活跃用户：约15人</span>
+            <span>时间范围：10:04-21:26</span>
+        </div>
+    </header>
+
+    <section class="section">
+        <h2>热点讨论</h2>
+        
+        <div class="highlight">
+            <h3>1. Dia浏览器邀请码分享</h3>
+            <ul>
+                <li>群友<strong>Dale Xiao🐳</strong>分享了约20个邀请码，愿意邀请有Mac且提供edu邮箱的用户</li>
+                <li>有群友指出，拥有<strong>edu邮箱</strong>的用户现在可以<strong>直接注册</strong>，无需邀请码</li>
+                <li>多位群友在群内分享edu邮箱并获得了邀请</li>
+                <li>中国域名的edu邮箱（<strong>.cn结尾</strong>）不适用于邀请</li>
+            </ul>
+        </div>
+        
+        <div class="highlight">
+            <h3>2. 群聊日报生成工具分享</h3>
+            <ul>
+                <li>群友<strong>朱行政</strong>分享了自动生成群聊日报的工具链和方法</li>
+                <li>使用<strong>Chatlog</strong>工具按时间/群聊筛选聊天记录</li>
+                <li>使用<strong>Trae</strong>按照提示词生成结构化日报</li>
+                <li>使用<strong>GoFullPage</strong> Chrome插件一键截取日报长图</li>
+                <li>分享了参考教程链接和提示词模板</li>
+            </ul>
+        </div>
+        
+        <div class="highlight">
+            <h3>3. Dia浏览器实用场景分享</h3>
+            <ul>
+                <li>群友<strong>向阳乔木</strong>分享了"一人一个Dia使用场景和惊艳时刻"的飞书文档</li>
+                <li><strong>陈宏彬</strong>分享了使用Dia浏览器进行<strong>公众号文章改写、改稿</strong>的功能体验</li>
+                <li><strong>Yogurt</strong>分享了<strong>Lovart.ai</strong>一句话生成海报的功能</li>
+                <li>群友积极参与填写使用场景文档</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>实用工具与技巧</h2>
+        
+        <div class="highlight">
+            <h3>Dia使用场景收集文档</h3>
+            <ul>
+                <li><strong>类型</strong>: RESOURCE</li>
+                <li><strong>分享者</strong>: 向阳乔木</li>
+                <li><strong>内容简介</strong>: 收集群友使用Dia浏览器的场景和惊艳时刻</li>
+                <li><strong>链接</strong>: <a href="https://xiangyangqiaomu.feishu.cn/wiki/A9hhwdk7kixLk9k28ZbcJTUin6f" target="_blank">飞书文档链接</a></li>
+            </ul>
+        </div>
+        
+        <div class="highlight">
+            <h3>群聊日报生成工具链</h3>
+            <ul>
+                <li><strong>类型</strong>: TUTORIAL</li>
+                <li><strong>分享者</strong>: 朱行政</li>
+                <li><strong>内容简介</strong>: 详细介绍了从微信聊天记录到生成日报的完整工具链</li>
+                <li><strong>工具组合</strong>:</li>
+                <li>Chatlog：按时间/群聊筛选聊天记录</li>
+                <li>Trae：按照提示词生成结构化日报</li>
+                <li>GoFullPage：Chrome插件，一键截取日报长图</li>
+                <li><strong>参考教程</strong>: <a href="https://mp.weixin.qq.com/s/FDMTztC-3p71_n8c3oltlA" target="_blank">微信公众号文章</a></li>
+            </ul>
+        </div>
+        
+        <div class="highlight">
+            <h3>Lovart.ai海报生成工具</h3>
+            <ul>
+                <li><strong>类型</strong>: RESOURCE</li>
+                <li><strong>分享者</strong>: Yogurt</li>
+                <li><strong>内容简介</strong>: 一句话生成海报的AI工具</li>
+                <li><strong>链接</strong>: 微信公众号文章《还在愁海报？Lovart.ai一句话搞定！》</li>
+            </ul>
+        </div>
+        
+        <div class="highlight">
+            <h3>GPT-4o "画饼"KFC体验</h3>
+            <ul>
+                <li><strong>类型</strong>: RESOURCE</li>
+                <li><strong>分享者</strong>: Yogurt</li>
+                <li><strong>内容简介</strong>: 使用GPT-4o生成KFC相关内容的体验分享</li>
+                <li><strong>链接</strong>: 微信公众号文章《今天疯四！我用4o"画饼"KFC，馋哭你》</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>重要消息与公告</h2>
+        
+        <div class="highlight">
+            <h3>Dia邀请码分享</h3>
+            <ul>
+                <li><strong>发送者</strong>: Dale Xiao🐳</li>
+                <li><strong>内容</strong>: 拥有约20个Dia浏览器邀请码，愿意邀请有Mac且提供edu邮箱的用户</li>
+                <li><strong>优先级</strong>: 高</li>
+                <li><strong>补充</strong>: 教育邮箱(.edu结尾，非.cn)现在可以直接注册，无需邀请码</li>
+            </ul>
+        </div>
+        
+        <div class="highlight">
+            <h3>Dia使用场景收集</h3>
+            <ul>
+                <li><strong>发送者</strong>: 向阳乔木</li>
+                <li><strong>内容</strong>: 邀请群友分享Dia浏览器使用场景和妙用</li>
+                <li><strong>优先级</strong>: 中</li>
+                <li><strong>链接</strong>: <a href="https://xiangyangqiaomu.feishu.cn/wiki/A9hhwdk7kixLk9k28ZbcJTUin6f" target="_blank">飞书文档链接</a></li>
+            </ul>
+        </div>
+        
+        <div class="highlight">
+            <h3>公众号文章改写功能</h3>
+            <ul>
+                <li><strong>发送者</strong>: 陈宏彬</li>
+                <li><strong>内容</strong>: 分享Dia浏览器在公众号文章改写、改稿方面的良好体验</li>
+                <li><strong>优先级</strong>: 中</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>精彩引用与观点</h2>
+        
+        <div class="quote">
+            <p>"刚填写完，大家积极填写，我想白嫖ヾ(･`⌓´･)ﾉﾞ[让我看看]" - Yogurt</p>
+        </div>
+        
+        <div class="quote">
+            <p>"great！" - Dale Xiao🐳 (对教育邮箱可直接注册的回应)</p>
+        </div>
+        
+        <div class="quote">
+            <p>"cn 的不行" - Dale Xiao🐳 (对中国域名教育邮箱的说明)</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>活跃统计</h2>
+        
+        <h3>话唠榜</h3>
+        <div class="participant-list">
+            <div class="participant-item">
+                <div class="participant-rank">1</div>
+                <div class="participant-name">Dale Xiao🐳</div>
+                <div class="participant-count">约8条消息，主要分享Dia邀请码</div>
+            </div>
+            
+            <div class="participant-item">
+                <div class="participant-rank">2</div>
+                <div class="participant-name">向阳乔木</div>
+                <div class="participant-count">约5条消息，分享使用场景文档和邀请新成员</div>
+            </div>
+            
+            <div class="participant-item">
+                <div class="participant-rank">3</div>
+                <div class="participant-name">Yogurt</div>
+                <div class="participant-count">约5条消息，分享AI工具和资源</div>
+            </div>
+
+            <div class="participant-item">
+                <div class="participant-rank">4</div>
+                <div class="participant-name">朱行政</div>
+                <div class="participant-count">约5条消息，分享群聊日报生成工具</div>
+            </div>
+
+            <div class="participant-item">
+                <div class="participant-rank">5</div>
+                <div class="participant-name">陈宏彬</div>
+                <div class="participant-count">约3条消息，分享Dia浏览器使用体验</div>
+            </div>
+        </div>
+        
+        <h3>话题热度</h3>
+        <ul>
+            <li><strong>Dia邀请码分享</strong> - 约40%的讨论</li>
+            <li><strong>群聊日报生成工具</strong> - 约25%的讨论</li>
+            <li><strong>Dia使用场景分享</strong> - 约20%的讨论</li>
+            <li><strong>AI工具资源分享</strong> - 约15%的讨论</li>
+        </ul>
+        
+        <h3>新增成员</h3>
+        <ul>
+            <li>"小伢儿" - 10:04:32加入</li>
+            <li>"工体东路" - 10:51:09加入</li>
+            <li>"Dale Xiao🐳" - 11:29:54加入</li>
+            <li>"Agent所罗门@cursor号商" - 13:09:13加入</li>
+            <li>"林长琦" - 14:45:22加入</li>
+        </ul>
+    </section>
+
+    <section class="section">
+        <h2>总结</h2>
+        <div>
+            <p>今日群聊主要围绕Dia浏览器的邀请码分享、使用场景讨论和工具资源分享展开。Dale Xiao🐳分享了邀请码并邀请群友提供edu邮箱获取邀请；向阳乔木创建了飞书文档收集Dia使用场景；朱行政分享了群聊日报生成工具链；Yogurt和陈宏彬分享了AI工具和Dia浏览器的实用功能。群内氛围活跃，信息交流丰富，新增5位成员。</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>Dia浏览器使用交流日报 - 2025年5月15日</p>
+        <p>最活跃用户：Dale Xiao🐳</p>
+        <p>讨论氛围：邀请码分享为主，使用场景讨论热烈，资源分享丰富</p>
+        <p class="disclaimer">本日报由AI助手基于群聊记录自动生成，内容仅供参考，基于群聊记录整理，不代表群内所有成员观点。</p>
+        <p>生成时间：2025-05-16 07:30</p>
+        <p>统计周期：2025-05-15 全天</p>
+    </footer>
+
+</body>
+</html>

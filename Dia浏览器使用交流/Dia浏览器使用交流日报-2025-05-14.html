@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Dia浏览器使用交流日报 - 2025年5月14日</title>
+    <style>
+        /* 严格定义的CSS样式，确保风格一致性 */
+        :root {
+            --bg-primary: #0f0e17;
+            --bg-secondary: #1a1925;
+            --bg-tertiary: #252336;
+            --text-primary: #fffffe;
+            --text-secondary: #a7a9be;
+            --accent-primary: #ff8906;
+            --accent-secondary: #f25f4c;
+            --accent-tertiary: #e53170;
+            --accent-blue: #3da9fc;
+            --accent-purple: #7209b7;
+            --accent-cyan: #00b4d8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'SF Pro Display', 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+            width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            background-color: var(--bg-secondary);
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+        
+        .date {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+        
+        .meta-info {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .meta-info span {
+            background-color: var(--bg-tertiary);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        
+        section {
+            background-color: var(--bg-secondary);
+            margin-bottom: 30px;
+            padding: 25px;
+        }
+        
+        h2 {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--accent-blue);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent-blue);
+        }
+        
+        h3 {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--accent-primary);
+            margin: 15px 0 10px 0;
+        }
+        
+        h4 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--accent-secondary);
+            margin: 12px 0 8px 0;
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 5px;
+        }
+        
+        a {
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        /* 卡片容器样式 */
+        .topics-container, .tutorials-container, .messages-container, 
+        .dialogues-container, .qa-container, .participants-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        /* 卡片样式 */
+        .topic-card, .tutorial-card, .message-card, 
+        .dialogue-card, .qa-card, .participant-item, .night-owl-item {
+            background-color: var(--bg-tertiary);
+            padding: 20px;
+        }
+        
+        /* 话题卡片 */
+        .topic-category {
+            display: inline-block;
+            background-color: var(--accent-blue);
+            color: var(--text-primary);
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .topic-keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 10px 0;
+        }
+        
+        .keyword {
+            background-color: rgba(61, 169, 252, 0.2);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 14px;
+        }
+        
+        .topic-mentions {
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+        
+        /* 教程卡片 */
+        .tutorial-type {
+            display: inline-block;
+            background-color: var(--accent-secondary);
+            color: var(--text-primary);
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .tutorial-meta {
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .tutorial-category {
+            margin-top: 10px;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+        
+        /* 消息卡片 */
+        .message-meta {
+            margin-bottom: 10px;
+        }
+        
+        .message-meta span {
+            margin-right: 15px;
+            font-size: 14px;
+        }
+        
+        .message-type {
+            background-color: var(--accent-tertiary);
+            color: var(--text-primary);
+            padding: 3px 10px;
+            border-radius: 15px;
+        }
+        
+        .priority {
+            padding: 3px 10px;
+            border-radius: 15px;
+        }
+        
+        .priority-high {
+            background-color: var(--accent-secondary);
+        }
+        
+        .priority-medium {
+            background-color: var(--accent-primary);
+        }
+        
+        .priority-low {
+            background-color: var(--accent-blue);
+        }
+        
+        /* 对话卡片 */
+        .dialogue-type {
+            display: inline-block;
+            background-color: var(--accent-purple);
+            color: var(--text-primary);
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .dialogue-content {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .dialogue-highlight {
+            font-style: italic;
+            color: var(--accent-primary);
+            margin: 10px 0;
+            font-weight: 600;
+        }
+        
+        /* 问答卡片 */
+        .question {
+            margin-bottom: 15px;
+        }
+        
+        .question-meta, .answer-meta {
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .question-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .tag {
+            background-color: rgba(114, 9, 183, 0.2);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 14px;
+        }
+        
+        .answer {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            margin-top: 10px;
+        }
+        
+        .accepted-badge {
+            background-color: var(--accent-primary);
+            color: var(--text-primary);
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 14px;
+        }
+        
+        /* 热度图 */
+        .heatmap-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        
+        .heat-topic {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .heat-bar {
+            height: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            margin: 5px 0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .heat-fill {
+            height: 100%;
+            border-radius: 10px;
+        }
+        
+        /* 话唠榜 */
+        .participant-rank {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-right: 15px;
+            float: left;
+        }
+        
+        .participant-name {
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .participant-count {
+            color: var(--accent-cyan);
+            margin-bottom: 10px;
+        }
+        
+        .participant-characteristics, .participant-words {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .characteristic {
+            background-color: rgba(242, 95, 76, 0.2);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 14px;
+        }
+        
+        .word {
+            background-color: rgba(229, 49, 112, 0.2);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 14px;
+        }
+        
+        /* 熬夜冠军 */
+        .night-owl-item {
+            background: linear-gradient(135deg, #0f0e17 0%, #192064 100%);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .owl-crown {
+            font-size: 40px;
+            margin-right: 20px;
+        }
+        
+        /* 词云 */
+        .wordcloud-container {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--bg-tertiary);
+        }
+        
+        /* 总结 */
+        .summary {
+            line-height: 1.8;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 1200px) {
+            body {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Dia浏览器使用交流日报</h1>
+        <div class="date">2025年5月14日</div>
+        <div class="meta-info">
+            <span>消息总数: 约100条</span>
+            <span>活跃用户: 约20人</span>
+            <span>新增成员: 11人</span>
+        </div>
+    </header>
+
+    <section id="hot-topics">
+        <h2>今日讨论热点</h2>
+        <div class="topics-container">
+            <div class="topic-card">
+                <span class="topic-category">使用场景</span>
+                <h3>Dia浏览器使用场景与技巧</h3>
+                <p>群内用户分享了多种Dia浏览器的实用场景和技巧，包括：</p>
+                <ul>
+                    <li>文章写完后让Dia扩写"后记"，利用上下文能力生成高质量内容</li>
+                    <li>写完案例后让Dia总结，容易产出金句</li>
+                    <li>将文档放在飞书中，让Dia进行完善</li>
+                    <li>同时引用多个网页作为补充内容</li>
+                    <li>使用Dia的相机功能进行图像识别和处理</li>
+                </ul>
+                <div class="topic-keywords">
+                    <span class="keyword">扩写</span>
+                    <span class="keyword">总结</span>
+                    <span class="keyword">文档完善</span>
+                    <span class="keyword">多网页引用</span>
+                    <span class="keyword">图像识别</span>
+                </div>
+            </div>
+
+            <div class="topic-card">
+                <span class="topic-category">功能设置</span>
+                <h3>Dia浏览器的个性化设置</h3>
+                <p>群内讨论了Dia浏览器的个性化设置问题：</p>
+                <ul>
+                    <li>有用户希望能够保存多个角色设置，方便快速切换不同语气和风格</li>
+                    <li>讨论了是否需要设置个性化，有人担心会限制AI发挥</li>
+                    <li>分享了一些通用的提示词模板，可用于自定义角色</li>
+                    <li>探讨了如何在Dia中设置多角色共存的问题</li>
+                </ul>
+                <div class="topic-keywords">
+                    <span class="keyword">角色设置</span>
+                    <span class="keyword">个性化</span>
+                    <span class="keyword">提示词模板</span>
+                    <span class="keyword">多角色共存</span>
+                </div>
+            </div>
+
+            <div class="topic-card">
+                <span class="topic-category">功能扩展</span>
+                <h3>Dia浏览器的扩展与同步</h3>
+                <p>群内讨论了Dia浏览器的扩展和同步功能：</p>
+                <ul>
+                    <li>有用户询问Dia是否支持书签云同步</li>
+                    <li>讨论了如何导入Chrome扩展到Dia浏览器</li>
+                    <li>探讨了Dia浏览器的初始化过程中是否会自动同步Chrome插件</li>
+                    <li>分享了导入书签的方法</li>
+                </ul>
+                <div class="topic-keywords">
+                    <span class="keyword">书签同步</span>
+                    <span class="keyword">Chrome扩展</span>
+                    <span class="keyword">插件导入</span>
+                    <span class="keyword">浏览器同步</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="tutorials">
+        <h2>实用教程与资源分享</h2>
+        <div class="tutorials-container">
+            <div class="tutorial-card">
+                <span class="tutorial-type">知识库更新</span>
+                <h3>通往AGI之路知识库更新</h3>
+                <div class="tutorial-meta">
+                    <span>分享者: 向阳乔木</span>
+                    <span>时间: 10:26:58</span>
+                </div>
+                <p><strong>内容简介</strong>：分享了多篇AI相关的文章和资源，包括AI Agent基础设施、AI音乐创作、GPT-4o回顾以及AI设计Agent等内容。</p>
+                <p><strong>要点</strong>：</p>
+                <ul>
+                    <li>sandbox：AI Agent Infra的关键一站</li>
+                    <li>木水__AI时代的音乐创作：小白独自完成一部音乐MV</li>
+                    <li>GPT-4o发布一周年回顾</li>
+                    <li>甲木：把AI变成"最强军师团"的AI私董会实测</li>
+                    <li>首个设计类Agent：Lovart AI限量测试版开放体验</li>
+                </ul>
+            </div>
+
+            <div class="tutorial-card">
+                <span class="tutorial-type">提示词模板</span>
+                <h3>Dia使用提示词模板</h3>
+                <div class="tutorial-meta">
+                    <span>分享者: 十一</span>
+                    <span>时间: 15:32:51</span>
+                </div>
+                <p><strong>内容简介</strong>：分享了一个通用的提示词模板，可用于优化Dia的回答质量和风格。</p>
+                <p><strong>要点</strong>：</p>
+                <ul>
+                    <li>避免AI自我声明和道歉语言</li>
+                    <li>保持回答独特性，避免重复</li>
+                    <li>分解复杂问题，提供多角度解决方案</li>
+                    <li>引用可信来源支持回答</li>
+                    <li>在回答后提供三个后续问题</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="important-messages">
+        <h2>重要消息汇总</h2>
+        <div class="messages-container">
+            <div class="message-card">
+                <div class="message-meta">
+                    <span class="message-type">公告</span>
+                    <span class="priority priority-high">高优先级</span>
+                    <span>发送者: 十一、向阳乔木</span>
+                    <span>时间: 10:24:04</span>
+                </div>
+                <h3>Dia注册方式更新</h3>
+                <p>Dia浏览器现已对所有拥有教育邮箱(edu)的用户开放直接注册，不再需要邀请码。</p>
+            </div>
+
+            <div class="message-card">
+                <div class="message-meta">
+                    <span class="message-type">资源</span>
+                    <span class="priority priority-medium">中优先级</span>
+                    <span>发送者: 向阳乔木</span>
+                    <span>时间: 16:35:51</span>
+                </div>
+                <h3>Lovart AI邀请码分享</h3>
+                <p>由于Lovart AI邀请码数量有限，计划设置公共邮箱让群友体验，每个账号每天限制15次Chat。</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="dialogues">
+        <h2>有趣对话或金句</h2>
+        <div class="dialogues-container">
+            <div class="dialogue-card">
+                <span class="dialogue-type">使用场景讨论</span>
+                <h3>关于Dia的使用场景</h3>
+                <div class="dialogue-content">
+                    <p><strong>向阳乔木</strong>：一个dia使用场景，文章写完后，让dia扩写"后记"，因为有上下文，写的质量相当高，只需简单review修改，排版就行。</p>
+                    <p><strong>Super黄</strong>：[强]我也这么用。还有一个场景我用的比较多，写完一些case，场景后，让dia来一个总结，很容易出金句。</p>
+                    <p><strong>晶</strong>：我是写完的文档，放飞书里，然后把网页版飞书打开，让dia给我完善。也可以同时@一些网页当补充内容。</p>
+                </div>
+                <div class="dialogue-highlight">
+                    "文章写完后，让dia扩写"后记"，因为有上下文，写的质量相当高，只需简单review修改，排版就行。"
+                </div>
+            </div>
+
+            <div class="dialogue-card">
+                <span class="dialogue-type">功能讨论</span>
+                <h3>关于Dia的个性化设置</h3>
+                <div class="dialogue-content">
+                    <p><strong>Charles</strong>：请问大家用ChatGPT的，有做Customize设置吗？同样的Dia的personalize，很多时候任务/角色不是单一嘛。你也不希望被一种限制住，所有身份切换或多角色定义就很有需要。</p>
+                    <p><strong>向阳乔木</strong>：从来没设置过个性化，可能是懒，另一方面怕限制AI发挥。</p>
+                    <p><strong>Gary</strong>：dia跟他们反馈过，没有回复，哈哈。可以保存多角色，期待更新。</p>
+                </div>
+                <div class="dialogue-highlight">
+                    "很多时候任务/角色不是单一嘛。你也不希望被一种限制住，所有身份切换或多角色定义就很有需要。"
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="group-analytics">
+        <h2>群内数据统计</h2>
+        
+        <h3>活跃用户统计</h3>
+        <ul>
+            <li>今日消息总数：约100条</li>
+            <li>活跃用户数：约20人</li>
+            <li>新加入用户：11人</li>
+        </ul>
+
+        <h3>话题热度</h3>
+        <div class="heatmap-container">
+            <div>
+                <div class="heat-topic">Dia使用场景与技巧 - 35%</div>
+                <div class="heat-bar">
+                    <div class="heat-fill" style="width: 35%; background-color: var(--accent-primary);"></div>
+                </div>
+            </div>
+            <div>
+                <div class="heat-topic">Dia个性化设置 - 25%</div>
+                <div class="heat-bar">
+                    <div class="heat-fill" style="width: 25%; background-color: var(--accent-secondary);"></div>
+                </div>
+            </div>
+            <div>
+                <div class="heat-topic">Lovart AI邀请码 - 20%</div>
+                <div class="heat-bar">
+                    <div class="heat-fill" style="width: 20%; background-color: var(--accent-tertiary);"></div>
+                </div>
+            </div>
+            <div>
+                <div class="heat-topic">Dia扩展与同步 - 15%</div>
+                <div class="heat-bar">
+                    <div class="heat-fill" style="width: 15%; background-color: var(--accent-blue);"></div>
+                </div>
+            </div>
+            <div>
+                <div class="heat-topic">其他话题 - 5%</div>
+                <div class="heat-bar">
+                    <div class="heat-fill" style="width: 5%; background-color: var(--accent-purple);"></div>
+                </div>
+            </div>
+        </div>
+
+        <h3>话唠榜</h3>
+        <div class="participants-container">
+            <div class="participant-item">
+                <div class="participant-rank">1</div>
+                <div class="participant-name">向阳乔木</div>
+                <div class="participant-count">15条消息</div>
+            </div>
+            <div class="participant-item">
+                <div class="participant-rank">2</div>
+                <div class="participant-name">Gary</div>
+                <div class="participant-count">12条消息</div>
+            </div>
+            <div class="participant-item">
+                <div class="participant-rank">3</div>
+                <div class="participant-name">十一</div>
+                <div class="participant-count">10条消息</div>
+            </div>
+            <div class="participant-item">
+                <div class="participant-rank">4</div>
+                <div class="participant-name">Charles</div>
+                <div class="participant-count">8条消息</div>
+            </div>
+            <div class="participant-item">
+                <div class="participant-rank">5</div>
+                <div class="participant-name">晶</div>
+                <div class="participant-count">7条消息</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="summary">
+        <h2>今日总结</h2>
+        <div class="summary">
+            <p>今日群内讨论热烈，主要围绕Dia浏览器的使用场景、个性化设置以及扩展功能展开。用户分享了多种实用的Dia使用技巧，如文章扩写、内容总结、文档完善等。同时，关于Dia的个性化设置也引发了讨论，有用户希望能够保存多个角色设置，方便切换不同语气和风格。此外，群内还分享了通往AGI之路知识库更新和Dia使用提示词模板等实用资源。值得注意的是，Dia浏览器现已对所有拥有教育邮箱的用户开放直接注册，不再需要邀请码。</p>
+        </div>
+    </section>
+</body>
+</html>

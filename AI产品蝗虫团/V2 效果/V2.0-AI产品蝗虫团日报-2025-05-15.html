@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI产品蝗虫团日报-2025-05-15</title>
+    <link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-100-M/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;700&display=swap">
+    <style>
+        :root {
+            --primary: #00f0ff;
+            --secondary: #7928ca;
+            --accent: #ff2d55;
+            --background: #0a0a1a;
+            --card-bg: #12122a;
+            --card-bg-hover: #1a1a3a;
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3cc;
+            --border-color: #2a2a4a;
+            --glow: 0 0 10px rgba(0, 240, 255, 0.5);
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: var(--background);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: repeat(12, minmax(60px, auto));
+            gap: 15px;
+            grid-template-areas:
+                "header header header header header header header header header header header header"
+                "main main main main main main main main main main main main"
+                "hot1 hot1 hot1 hot1 hot1 hot1 hot2 hot2 hot2 hot2 hot2 hot2"
+                "hot1 hot1 hot1 hot1 hot1 hot1 hot2 hot2 hot2 hot2 hot2 hot2"
+                "hot3 hot3 hot3 hot3 hot3 hot3 hot3 hot3 hot3 hot3 hot3 hot3"
+                "msg1 msg1 msg1 msg1 msg2 msg2 msg2 msg2 msg3 msg3 msg3 msg3"
+                "msg1 msg1 msg1 msg1 msg2 msg2 msg2 msg2 msg3 msg3 msg3 msg3"
+                "msg4 msg4 msg4 msg4 msg5 msg5 msg5 msg5 msg6 msg6 msg6 msg6"
+                "msg4 msg4 msg4 msg4 msg5 msg5 msg5 msg5 msg6 msg6 msg6 msg6"
+                "talker talker talker talker talker cloud cloud cloud cloud cloud cloud cloud"
+                "talker talker talker talker talker cloud cloud cloud cloud cloud cloud cloud"
+                "footer footer footer footer footer footer footer footer footer footer footer footer";
+        }
+        
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card:hover {
+            background-color: var(--card-bg-hover);
+            transform: translateY(-5px);
+            box-shadow: var(--glow);
+        }
+        
+        .card-icon {
+            position: absolute;
+            bottom: -15px;
+            right: -15px;
+            font-size: 100px;
+            opacity: 0.05;
+            transform: rotate(-15deg);
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover .card-icon {
+            opacity: 0.1;
+            transform: rotate(0deg);
+        }
+        
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            z-index: 1;
+        }
+        
+        .card-title i {
+            margin-right: 10px;
+            font-size: 1.4rem;
+        }
+        
+        .card-content {
+            flex: 1;
+            z-index: 1;
+        }
+        
+        .header {
+            grid-area: header;
+            text-align: center;
+            padding: 20px 0;
+        }
+        
+        .main {
+            grid-area: main;
+        }
+        
+        .hot1 {
+            grid-area: hot1;
+        }
+        
+        .hot2 {
+            grid-area: hot2;
+        }
+        
+        .hot3 {
+            grid-area: hot3;
+        }
+        
+        .msg1 {
+            grid-area: msg1;
+        }
+        
+        .msg2 {
+            grid-area: msg2;
+        }
+        
+        .msg3 {
+            grid-area: msg3;
+        }
+        
+        .msg4 {
+            grid-area: msg4;
+        }
+        
+        .msg5 {
+            grid-area: msg5;
+        }
+        
+        .msg6 {
+            grid-area: msg6;
+        }
+        
+        .talker {
+            grid-area: talker;
+        }
+        
+        .cloud {
+            grid-area: cloud;
+        }
+        
+        .footer {
+            grid-area: footer;
+            text-align: center;
+            padding: 20px 0;
+        }
+        
+        .title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+            text-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+        
+        .tag {
+            display: inline-block;
+            background-color: rgba(0, 240, 255, 0.1);
+            color: var(--primary);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .highlight {
+            color: var(--accent);
+            font-weight: 500;
+        }
+        
+        .list-item {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .list-item i {
+            color: var(--primary);
+            margin-right: 10px;
+            margin-top: 4px;
+        }
+        
+        .talker-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .talker-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed var(--border-color);
+        }
+        
+        .talker-name {
+            flex: 1;
+        }
+        
+        .talker-count {
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        .cloud-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+        
+        .cloud-word {
+            display: inline-block;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .size-1 {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        .size-2 {
+            font-size: 1rem;
+            color: #a0a0d0;
+        }
+        
+        .size-3 {
+            font-size: 1.2rem;
+            color: #8080e0;
+        }
+        
+        .size-4 {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .size-5 {
+            font-size: 1.8rem;
+            color: #00e0ff;
+            font-weight: 700;
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, rgba(18, 18, 42, 0.8) 0%, rgba(28, 28, 70, 0.8) 100%);
+        }
+        
+        .data-stat {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed var(--border-color);
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        .quote {
+            font-family: 'Noto Serif SC', serif;
+            font-style: italic;
+            border-left: 3px solid var(--primary);
+            padding-left: 15px;
+            margin: 15px 0;
+            color: var(--text-secondary);
+        }
+        
+        .user-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 8px;
+            font-size: 12px;
+            color: var(--background);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="grid-container">
+            <div class="header">
+                <h1 class="title">AI产品蝗虫团日报</h1>
+                <p class="subtitle">2025年05月15日 · 蝗虫出没 · 新品尝鲜</p>
+            </div>
+            
+            <div class="main card">
+                <i class="card-icon fas fa-robot"></i>
+                <h2 class="card-title"><i class="fas fa-newspaper"></i>今日概览</h2>
+                <div class="card-content">
+                    <p>今日群内热议Lovart.ai设计工具，大量群友成功申请到邀请码并分享使用体验。同时，Windsurf免费一个月的优惠码也在群内传播。群友们还讨论了Dia浏览器、Devv.ai等AI工具的使用体验。</p>
+                    <div class="data-stat">
+                        <div class="stat-item">
+                            <div class="stat-value">200+</div>
+                            <div class="stat-label">消息数</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">40+</div>
+                            <div class="stat-label">活跃用户</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">3</div>
+                            <div class="stat-label">热门话题</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hot1 card">
+                <i class="card-icon fas fa-fire"></i>
+                <h2 class="card-title"><i class="fas fa-fire"></i>热点一：Lovart.ai设计工具</h2>
+                <div class="card-content">
+                    <div class="list-item">
+                        <i class="fas fa-check-circle"></i>
+                        <div>大量群友成功申请到Lovart.ai邀请码，通过AI写申请理由提高通过率</div>
+                    </div>
+                    <div class="list-item">
+                        <i class="fas fa-check-circle"></i>
+                        <div>群友分享使用体验：能够快速生成高质量品牌VI系统、表情包、杂志风格设计等</div>
+                    </div>
+                    <div class="list-item">
+                        <i class="fas fa-check-circle"></i>
+                        <div>Lovart内置多种AI模型，包括GPT-Image-1、Flux Pro、OpenAI-o3等</div>
+                    </div>
+                    <div class="quote">"体验了一个小时的时间，制作的两个品牌色调攻击60多张效果图，从logo到吉祥物到各式各样的品牌元素应用效果图，结论就是非常满意，不管是质量还是效率，都秒杀我接触过的80%品牌设计师。"</div>
+                </div>
+            </div>
+            
+            <div class="hot2 card">
+                <i class="card-icon fas fa-wind"></i>
+                <h2 class="card-title"><i class="fas fa-tag"></i>热点二：Windsurf免费优惠</h2>
+                <div class="card-content">
+                    <div class="list-item">
+                        <i class="fas fa-check-circle"></i>
+                        <div>群友分享Windsurf一个月免费优惠码：A-MONTH-FROM-PETER</div>
+                    </div>
+                    <div class="list-item">
+                        <i class="fas fa-check-circle"></i>
+                        <div>多位群友成功领取并激活，每个账号每天有15次使用次数</div>
+                    </div>
+                    <div class="list-item">
+                        <i class="fas fa-check-circle"></i>
+                        <div>有群友误操作直接支付了15美元而未使用优惠码</div>
+                    </div>
+                    <div class="tag">免费优惠</div>
+                    <div class="tag">AI工具</div>
+                    <div class="tag">Windsurf</div>
+                </div>
+            </div>
+            
+            <div class="hot3 card">
+                <i class="card-icon fas fa-globe"></i>
+                <h2 class="card-title"><i class="fas fa-browser"></i>热点三：Dia浏览器与其他AI工具</h2>
+                <div class="card-content">
+                    <div class="list-item">
+                        <i class="fas fa-check-circle"></i>
+                        <div>多位群友讨论Dia浏览器使用体验，已成为部分群友的主力浏览器</div>
+                    </div>
+                    <div class="list-item">
+                        <i class="fas fa-check-circle"></i>
+                        <div>群友分享Devv.ai新版本，认为可能替代Bolt</div>
+                    </div>
+                    <div class="list-item">
+                        <i class="fas fa-check-circle"></i>
+                        <div>讨论豆包与Dia的对比，认为豆包产品交互不错但模型能力较弱</div>
+                    </div>
+                    <div class="list-item">
+                        <i class="fas fa-check-circle"></i>
+                        <div>群友推荐Dia的分屏功能（Ctrl+Shift+=）处理多任务时比较管用</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="msg1 card">
+                <i class="card-icon fas fa-comment-dots"></i>
+                <h2 class="card-title"><i class="fas fa-comment-alt"></i>Lovart设计案例</h2>
+                <div class="card-content">
+                    <p>群友使用Lovart设计了杂志风格作品、表情包、品牌VI系统等，效果获得一致好评。</p>
+                    <p class="highlight">群友评价："视觉，配色太好看了"、"绝绝子"、"完成度太好了"</p>
+                    <div class="tag">设计工具</div>
+                    <div class="tag">AI设计</div>
+                </div>
+            </div>
+            
+            <div class="msg2 card">
+                <i class="card-icon fas fa-video"></i>
+                <h2 class="card-title"><i class="fas fa-film"></i>Lovart创意视频</h2>
+                <div class="card-content">
+                    <p>群友分享了"看AI做梦露的IP商业化设计：一次安迪沃霍尔的AI设计师面试"视频。</p>
+                    <p class="highlight">视频展示了Lovart如何盘活旧IP创造新IP，并迅速展开商业化，制作周边公仔玩偶联名等。</p>
+                    <div class="tag">创意视频</div>
+                    <div class="tag">IP设计</div>
+                </div>
+            </div>
+            
+            <div class="msg3 card">
+                <i class="card-icon fas fa-code"></i>
+                <h2 class="card-title"><i class="fas fa-laptop-code"></i>AI编程工具</h2>
+                <div class="card-content">
+                    <p>群友讨论了Cursor教育优惠关闭的消息，以及Devv.ai的使用体验。</p>
+                    <p class="highlight">有群友表示："感觉可以把bolt给替代"</p>
+                    <div class="tag">编程工具</div>
+                    <div class="tag">Devv.ai</div>
+                    <div class="tag">Cursor</div>
+                </div>
+            </div>
+            
+            <div class="msg4 card">
+                <i class="card-icon fas fa-brain"></i>
+                <h2 class="card-title"><i class="fas fa-lightbulb"></i>知识库讨论</h2>
+                <div class="card-content">
+                    <p>群友讨论了个人知识库的搭建方式，提到了多种工具：</p>
+                    <div class="list-item">
+                        <i class="fas fa-check-circle"></i>
+                        <div>Obsidian</div>
+                    </div>
+                    <div class="list-item">
+                        <i class="fas fa-check-circle"></i>
+                        <div>NotebookLM</div>
+                    </div>
+                    <div class="list-item">
+                        <i class="fas fa-check-circle"></i>
+                        <div>IMA、Cherry、纳米（适合处理大量文件）</div>
+                    </div>
+                    <div class="tag">知识管理</div>
+                    <div class="tag">工具对比</div>
+                </div>
+            </div>
+            
+            <div class="msg5 card">
+                <i class="card-icon fas fa-paint-brush"></i>
+                <h2 class="card-title"><i class="fas fa-palette"></i>表情包创作</h2>
+                <div class="card-content">
+                    <p>群友使用Lovart一口气创建了一套表情包，分享了详细的提示词：</p>
+                    <p class="highlight">使用宝玉的提示词作为基础生成6个表情，再基于这些模式自动生成36个表情</p>
+                    <p>群友提出可上传参考图片+提示词生成表情包，上架微信表情包商店的想法。</p>
+                    <div class="tag">表情包</div>
+                    <div class="tag">提示词</div>
+                </div>
+            </div>
+            
+            <div class="msg6 card">
+                <i class="card-icon fas fa-share-alt"></i>
+                <h2 class="card-title"><i class="fas fa-share-nodes"></i>资源共享</h2>
+                <div class="card-content">
+                    <p>群友们积极分享各种AI工具的邀请码和使用体验：</p>
+                    <div class="list-item">
+                        <i class="fas fa-check-circle"></i>
+                        <div>Lovart.ai邀请链接</div>
+                    </div>
+                    <div class="list-item">
+                        <i class="fas fa-check-circle"></i>
+                        <div>Windsurf推荐码</div>
+                    </div>
+                    <div class="list-item">
+                        <i class="fas fa-check-circle"></i>
+                        <div>Dia浏览器邀请</div>
+                    </div>
+                    <p class="highlight">群友评价："本群蝗虫，尝鲜必须要比其他群快，覆盖度高"</p>
+                </div>
+            </div>
+            
+            <div class="talker card">
+                <i class="card-icon fas fa-users"></i>
+                <h2 class="card-title"><i class="fas fa-crown"></i>今日话唠榜</h2>
+                <div class="card-content">
+                    <ul class="talker-list">
+                        <li class="talker-item">
+                            <span class="talker-name"><div class="user-avatar">R</div>Ro斯</span>
+                            <span class="talker-count">25条</span>
+                        </li>
+                        <li class="talker-item">
+                            <span class="talker-name"><div class="user-avatar">向</div>向阳乔木</span>
+                            <span class="talker-count">18条</span>
+                        </li>
+                        <li class="talker-item">
+                            <span class="talker-name"><div class="user-avatar">小</div>小伢儿</span>
+                            <span class="talker-count">12条</span>
+                        </li>
+                        <li class="talker-item">
+                            <span class="talker-name"><div class="user-avatar">尹</div>尹轶</span>
+                            <span class="talker-count">10条</span>
+                        </li>
+                        <li class="talker-item">
+                            <span class="talker-name"><div class="user-avatar">B</div>Bang</span>
+                            <span class="talker-count">9条</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="cloud card">
+                <i class="card-icon fas fa-cloud"></i>
+                <h2 class="card-title"><i class="fas fa-cloud-word"></i>今日词云</h2>
+                <div class="card-content">
+                    <div class="cloud-container">
+                        <span class="cloud-word size-5">Lovart</span>
+                        <span class="cloud-word size-4">设计</span>
+                        <span class="cloud-word size-4">邀请码</span>
+                        <span class="cloud-word size-3">Windsurf</span>
+                        <span class="cloud-word size-3">Dia</span>
+                        <span class="cloud-word size-3">浏览器</span>
+                        <span class="cloud-word size-3">申请</span>
+                        <span class="cloud-word size-3">表情包</span>
+                        <span class="cloud-word size-2">豆包</span>
+                        <span class="cloud-word size-2">提示词</span>
+                        <span class="cloud-word size-2">Devv.ai</span>
+                        <span class="cloud-word size-2">视频</span>
+                        <span class="cloud-word size-2">品牌</span>
+                        <span class="cloud-word size-2">VI系统</span>
+                        <span class="cloud-word size-2">模型</span>
+                        <span class="cloud-word size-1">Cursor</span>
+                        <span class="cloud-word size-1">知识库</span>
+                        <span class="cloud-word size-1">效率</span>
+                        <span class="cloud-word size-1">Arc</span>
+                        <span class="cloud-word size-1">教育优惠</span>
+                        <span class="cloud-word size-1">GPT</span>
+                        <span class="cloud-word size-1">Obsidian</span>
+                        <span class="cloud-word size-1">NotebookLM</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer">
+                <p>AI产品蝗虫团 · 日报生成时间：2025-05-16 10:23</p>
+                <p class="text-sm text-gray-500">本日报由AI自动生成，内容仅供参考</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

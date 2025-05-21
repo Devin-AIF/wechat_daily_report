@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NotebookLM使用交流群日报 - 2025-05-20</title>
+    <link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-100-M/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* 文件头注释 */
+        /* CSS 样式文件 */
+        /* 风格: 极简主义风格，白色背景，橘黄和黑色调 */
+        :root {
+            /* 极简主义风格配色 */
+            --bg-primary: #f6f6f6;
+            --bg-secondary: #f8f9fa;
+            --bg-tertiary: #f1f3f5;
+            --text-primary: #212529;
+            --text-secondary: #495057;
+            --accent-primary: #ff8906;
+            --accent-secondary: #f76707;
+            --accent-tertiary: #e8590c;
+            --accent-blue: #339af0;
+            --accent-purple: #7048e8;
+            --accent-cyan: #22b8cf;
+            --card-padding: 24px;
+            --grid-gap: 16px;
+            --card-radius: 12px;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'SF Pro Display', 'Segoe UI', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-primary);
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+            color: var(--accent-primary);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: var(--accent-blue);
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-auto-rows: minmax(100px, auto);
+            gap: var(--grid-gap);
+            margin-top: 20px;
+        }
+
+        .card {
+            background-color: var(--bg-secondary);
+            border-radius: var(--card-radius);
+            padding: var(--card-padding);
+            box-shadow: var(--card-shadow);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent-primary);
+        }
+
+        .card-icon {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            font-size: 4rem;
+            opacity: 0.07;
+            color: var(--accent-primary);
+        }
+
+        .main-card {
+            grid-column: span 12;
+            grid-row: span 1;
+            background: var(--bg-secondary);
+        }
+
+        .highlight-card {
+            grid-column: span 6;
+            grid-row: span 1;
+        }
+
+        .quote-card {
+            grid-column: span 6;
+            grid-row: span 1;
+        }
+
+        .links-card {
+            grid-column: span 6;
+            grid-row: span 1;
+        }
+
+        .stats-card {
+            grid-column: span 6;
+            grid-row: span 1;
+        }
+
+        .wordcloud-card {
+            grid-column: span 12;
+            grid-row: span 1;
+        }
+
+        .date {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .meta-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 1rem;
+        }
+
+        .meta-info span {
+            background-color: var(--bg-tertiary);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--accent-blue);
+        }
+
+        .summary {
+            margin-top: 1rem;
+            line-height: 1.7;
+        }
+
+        .topic-category {
+            display: inline-block;
+            background-color: var(--accent-tertiary);
+            color: var(--bg-primary);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .topic-keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 0.75rem;
+        }
+
+        .keyword {
+            background-color: var(--bg-tertiary);
+            color: var(--accent-primary);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .topic-mentions {
+            margin-top: 0.75rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .quote {
+            position: relative;
+            padding-left: 20px;
+            margin: 10px 0;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        .quote::before {
+            content: '"';
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 1.5rem;
+            color: var(--accent-tertiary);
+        }
+
+        .quote-author {
+            text-align: right;
+            font-size: 0.9rem;
+            color: var(--accent-tertiary);
+            margin-top: 5px;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 6px;
+            background-color: var(--bg-tertiary);
+            transition: background-color 0.2s ease;
+        }
+
+        .link-item:hover {
+            background-color: rgba(51, 154, 240, 0.1);
+        }
+
+        .link-icon {
+            margin-right: 10px;
+            color: var(--accent-blue);
+        }
+
+        .link-title {
+            flex-grow: 1;
+        }
+
+        .link-url {
+            color: var(--accent-blue);
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        .link-url:hover {
+            text-decoration: underline;
+        }
+
+        .user-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .user-stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(73, 80, 87, 0.1);
+        }
+
+        .user-name {
+            font-weight: 500;
+        }
+
+        .user-count {
+            background-color: var(--accent-blue);
+            color: var(--bg-primary);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+        }
+
+        .wordcloud {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px 0;
+        }
+
+        .wordcloud-item {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: transform 0.2s ease;
+        }
+
+        .wordcloud-item:hover {
+            transform: scale(1.1);
+        }
+
+        .size-1 {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .size-2 {
+            font-size: 1.1rem;
+            color: var(--accent-cyan);
+        }
+
+        .size-3 {
+            font-size: 1.3rem;
+            color: var(--accent-blue);
+        }
+
+        .size-4 {
+            font-size: 1.5rem;
+            color: var(--accent-purple);
+        }
+
+        .size-5 {
+            font-size: 1.8rem;
+            color: var(--accent-tertiary);
+        }
+
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* 动画效果 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.3s; }
+        .card:nth-child(4) { animation-delay: 0.4s; }
+        .card:nth-child(5) { animation-delay: 0.5s; }
+        .card:nth-child(6) { animation-delay: 0.6s; }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+                font-size: 14px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            h2 {
+                font-size: 1.4rem;
+            }
+
+            h3 {
+                font-size: 1.1rem;
+            }
+
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+
+            .main-card,
+            .highlight-card,
+            .quote-card,
+            .links-card,
+            .stats-card,
+            .wordcloud-card {
+                grid-column: span 1;
+            }
+
+            .card-padding {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-container">
+        <!-- 主卡片 -->
+        <div class="card main-card">
+            <h1>NotebookLM使用交流群日报</h1>
+            <div class="date">2025年5月20日</div>
+            <div class="meta-info">
+                <span><i class="fas fa-comment"></i> 消息数: 70+</span>
+                <span><i class="fas fa-users"></i> 活跃用户: 20+</span>
+                <span><i class="fas fa-fire"></i> 热点话题: 3</span>
+            </div>
+            <p class="summary">今日NotebookLM使用交流群讨论热烈，主要围绕NotebookLM移动端新功能、使用体验以及相关工具分享展开。群内成员分享了iOS和Android版本的更新情况，特别关注了新上线的互动式功能。同时，群友们还讨论了群聊日报生成工具、AI文章总结方法，以及分享了一些有价值的AI相关文章和播客资源。</p>
+            <i class="fas fa-book-reader card-icon"></i>
+        </div>
+        
+        <!-- 今日热点 -->
+        <div class="card highlight-card">
+            <h2><i class="fas fa-bolt"></i> 今日热点</h2>
+            <div>
+                <div class="topic-category">新功能</div>
+                <h3>NotebookLM移动端更新与互动功能</h3>
+                <p>今日NotebookLM移动端应用正式上线，多位用户分享了iOS和Android版本的使用体验。最引人注目的是新增的互动式功能，允许用户与音频内容进行对话互动。然而，部分用户反馈无法添加来源、中文音频支持有限，以及移动端与PC端笔记同步等问题。</p>
+                <div class="topic-keywords">
+                    <span class="keyword">互动式功能</span>
+                    <span class="keyword">iOS版本</span>
+                    <span class="keyword">Android版本</span>
+                    <span class="keyword">音频对话</span>
+                </div>
+            </div>
+            <div style="margin-top: 20px;">
+                <div class="topic-category">工具分享</div>
+                <h3>群聊日报生成工具与方法</h3>
+                <p>群内分享了多种群聊日报生成工具和方法，包括使用Chatlog筛选聊天记录、利用Trae/Cursor等IDE生成结构化日报，以及使用GoFullPage等工具进行截图分享。还讨论了HTML转PNG的在线工具，以及使用Youware部署网页的方案。</p>
+                <div class="topic-keywords">
+                    <span class="keyword">群聊日报</span>
+                    <span class="keyword">Chatlog</span>
+                    <span class="keyword">GoFullPage</span>
+                    <span class="keyword">HTML转PNG</span>
+                </div>
+            </div>
+            <div style="margin-top: 20px;">
+                <div class="topic-category">内容分享</div>
+                <h3>AI文章总结与内容分享</h3>
+                <p>群友分享了腾讯ima产品团队的访谈文章，并通过不同AI工具进行了深度总结，展示了不同模型的总结能力。还有成员分享了自己用于总结财经类文章的提示词模板，以及AI数字人语音合成相关的播客资源。</p>
+                <div class="topic-keywords">
+                    <span class="keyword">文章总结</span>
+                    <span class="keyword">ima产品</span>
+                    <span class="keyword">提示词模板</span>
+                    <span class="keyword">数字人语音</span>
+                </div>
+            </div>
+            <i class="fas fa-lightbulb card-icon"></i>
+        </div>
+        
+        <!-- 精彩引用 -->
+        <div class="card quote-card">
+            <h2><i class="fas fa-quote-left"></i> 精彩引用</h2>
+            <div class="quote">
+                "可以播放，只是有延迟，但不能下载。"
+                <div class="quote-author">- Frank（范哥在守望）关于NotebookLM中文音频播放</div>
+            </div>
+            <div class="quote">
+                "这个叫啥"
+                <div class="quote-author">- 尹轶对NotebookLM新互动功能的好奇提问</div>
+            </div>
+            <div class="quote">
+                "有个 sb 赞助商广告顶到 play 商店顶了，我真是服了"
+                <div class="quote-author">- 尹轶吐槽Android应用商店广告</div>
+            </div>
+            <div class="quote">
+                "突然觉得自己不是亚细亚孤儿了"
+                <div class="quote-author">- 小马哥发现其他用户也遇到了相同问题时的幽默评论</div>
+            </div>
+            <div class="quote">
+                "和midjourney工具类似，在做一个图之前，我们必须知道最终图的大概的样子（目标要精准），反推就是我应该给予什么样的提示词+源文件（给足子弹），帮助工具进行计算"
+                <div class="quote-author">- CoCo🤍椰子对AI工具使用方法的见解</div>
+            </div>
+            <i class="fas fa-comment-dots card-icon"></i>
+        </div>
+        
+        <!-- 重要链接与资源 -->
+        <div class="card links-card">
+            <h2><i class="fas fa-link"></i> 重要链接与资源</h2>
+            <div class="link-item">
+                <i class="fas fa-podcast link-icon"></i>
+                <div class="link-title">《AI数字人》之【4. 数字人语音合成】</div>
+                <a href="https://www.xiaoyuzhoufm.com/episode/6820b054b7c8a9962c8bfc46?s=eyJ1IjoiNjQwZjM1OGZlZGNlNjcxMDRhODAzNjM2In0%3D" class="link-url" target="_blank">https://www.xiaoyuzhoufm.com/episode/6820b054b7c8a9962c8bfc46</a>
+            </div>
+            <div class="link-item">
+                <i class="fas fa-file-alt link-icon"></i>
+                <div class="link-title">对话腾讯ima产品团队：有价值的产品，不需要告诉用户「这是智能体」</div>
+                <a href="http://mp.weixin.qq.com/s?__biz=Mzg5NTc0MjgwMw==&mid=2247516302&idx=1&sn=952cc60bb742c6acb47e7da90ca9f518" class="link-url" target="_blank">http://mp.weixin.qq.com/s?__biz=Mzg5NTc0MjgwMw==&mid=2247516302&idx=1&sn=952cc60bb742c6acb47e7da90ca9f518</a>
+            </div>
+            <div class="link-item">
+                <i class="fas fa-book link-icon"></i>
+                <div class="link-title">群聊日报生成教程</div>
+                <a href="https://mp.weixin.qq.com/s/FDMTztC-3p71_n8c3oltlA" class="link-url" target="_blank">https://mp.weixin.qq.com/s/FDMTztC-3p71_n8c3oltlA</a>
+            </div>
+            <div class="link-item">
+                <i class="fas fa-file-code link-icon"></i>
+                <div class="link-title">卡兹克提示词</div>
+                <a href="https://mp.weixin.qq.com/s/Z66YRjY1EnC_hMgXE9_nnw" class="link-url" target="_blank">https://mp.weixin.qq.com/s/Z66YRjY1EnC_hMgXE9_nnw</a>
+            </div>
+            <div class="link-item">
+                <i class="fas fa-file-code link-icon"></i>
+                <div class="link-title">向阳乔木提示词</div>
+                <a href="https://mp.weixin.qq.com/s/XSX0FtZV_H79xpQsB820eA" class="link-url" target="_blank">https://mp.weixin.qq.com/s/XSX0FtZV_H79xpQsB820eA</a>
+            </div>
+            <div class="link-item">
+                <i class="fas fa-tools link-icon"></i>
+                <div class="link-title">HTML转PNG在线工具</div>
+                <a href="https://cloudconvert.com/html-to-png" class="link-url" target="_blank">https://cloudconvert.com/html-to-png</a>
+            </div>
+            <i class="fas fa-share-alt card-icon"></i>
+        </div>
+        
+        <!-- 活跃统计 -->
+        <div class="card stats-card">
+            <h2><i class="fas fa-chart-line"></i> 活跃统计</h2>
+            <div class="user-stats">
+                <div class="user-stat-item">
+                    <span class="user-name">安德鲁</span>
+                    <span class="user-count">15+</span>
+                </div>
+                <div class="user-stat-item">
+                    <span class="user-name">画伞</span>
+                    <span class="user-count">12+</span>
+                </div>
+                <div class="user-stat-item">
+                    <span class="user-name">Sam宋</span>
+                    <span class="user-count">10+</span>
+                </div>
+                <div class="user-stat-item">
+                    <span class="user-name">尹轶</span>
+                    <span class="user-count">8+</span>
+                </div>
+                <div class="user-stat-item">
+                    <span class="user-name">方进</span>
+                    <span class="user-count">7+</span>
+                </div>
+            </div>
+            <i class="fas fa-user-friends card-icon"></i>
+        </div>
+        
+        <!-- 词云 -->
+        <div class="card wordcloud-card">
+            <h2><i class="fas fa-cloud"></i> 关键词云</h2>
+            <div class="wordcloud">
+                <span class="wordcloud-item size-5">NotebookLM移动端</span>
+                <span class="wordcloud-item size-5">互动式功能</span>
+                <span class="wordcloud-item size-4">音频对话</span>
+                <span class="wordcloud-item size-4">iOS版本</span>
+                <span class="wordcloud-item size-4">Android版本</span>
+                <span class="wordcloud-item size-3">群聊日报</span>
+                <span class="wordcloud-item size-3">GoFullPage</span>
+                <span class="wordcloud-item size-3">HTML转PNG</span>
+                <span class="wordcloud-item size-3">Youware</span>
+                <span class="wordcloud-item size-2">文章总结</span>
+                <span class="wordcloud-item size-2">ima产品</span>
+                <span class="wordcloud-item size-2">提示词模板</span>
+                <span class="wordcloud-item size-2">数字人语音</span>
+                <span class="wordcloud-item size-1">知识库</span>
+                <span class="wordcloud-item size-1">同步问题</span>
+                <span class="wordcloud-item size-1">中文音频</span>
+                <span class="wordcloud-item size-1">教育邮箱</span>
+                <span class="wordcloud-item size-1">截图工具</span>
+                <span class="wordcloud-item size-1">AI总结</span>
+                <span class="wordcloud-item size-1">产品团队</span>
+            </div>
+            <i class="fas fa-tags card-icon"></i>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>数据来源：NotebookLM使用交流群聊天记录 | 生成时间：2025-05-20 | 统计周期：2025-05-20 全天</p>
+        <p>本日报由AI自动生成，内容仅供参考，不代表群内所有成员观点</p>
+    </div>
+</body>
+</html>

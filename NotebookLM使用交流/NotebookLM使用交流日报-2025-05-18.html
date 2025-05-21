@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NotebookLM使用交流日报 - 2025-05-18</title>
+    <link href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-100-M/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #f6f6f6; /* 主背景色 - 白色 */
+            --bg-secondary: #f8f8f8; /* 卡片背景色 - 浅灰色 */
+            --bg-tertiary: #eeeeee; /* 次要卡片背景色 - 稍深灰色 */
+            --text-primary: #000000; /* 主要文字颜色 - 黑色 */
+            --text-secondary: #333333; /* 次要文字颜色 - 深灰色 */
+            --accent-primary: #ff8c00; /* 强调色 - 橘黄色 */
+            --accent-secondary: #e07b00; /* 次要强调色 - 稍深的橘黄色 */
+            --accent-tertiary: #c06a00; /* 第三强调色 */
+            --accent-blue: #007bff; /* 保留蓝色作为可能的辅助色 */
+            --accent-purple: #6610f2; /* 保留紫色作为可能的辅助色 */
+            --accent-cyan: #00b4d8; /* 保留青色作为可能的辅助色 */
+            --card-padding: 20px;
+            --grid-gap: 15px;
+            --border-radius: 12px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            --transition-time: 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        body {
+            font-family: 'SF Pro Display', 'Segoe UI', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-areas:
+                "main main main"
+                "highlight highlight quote"
+                "links stats wordcloud";
+            gap: var(--grid-gap);
+        }
+
+        .card {
+            background-color: var(--bg-secondary);
+            padding: var(--card-padding);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            position: relative;
+            overflow: hidden;
+            transition: transform var(--transition-time), box-shadow var(--transition-time);
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-icon {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            font-size: 4rem;
+            color: rgba(0, 0, 0, 0.03);
+            z-index: 0;
+        }
+
+        .main-card {
+            grid-area: main;
+            background-color: var(--bg-secondary);
+            animation-delay: 0s;
+        }
+
+        .highlight-card {
+            grid-area: highlight;
+            animation-delay: 0.1s;
+        }
+
+        .quote-card {
+            grid-area: quote;
+            animation-delay: 0.2s;
+        }
+
+        .links-card {
+            grid-area: links;
+            animation-delay: 0.3s;
+        }
+
+        .stats-card {
+            grid-area: stats;
+            animation-delay: 0.4s;
+        }
+
+        .wordcloud-card {
+            grid-area: wordcloud;
+            animation-delay: 0.5s;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--accent-secondary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        h2 i {
+            margin-right: 8px;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            margin-top: 15px;
+        }
+
+        .date {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+
+        .meta-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+
+        .meta-info span {
+            display: flex;
+            align-items: center;
+        }
+
+        .meta-info i {
+            margin-right: 5px;
+            color: var(--accent-primary);
+        }
+
+        .summary {
+            font-size: 1rem;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        .topic-category {
+            display: inline-block;
+            background-color: var(--accent-primary);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+        }
+
+        .topic-keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .keyword {
+            background-color: rgba(255, 140, 0, 0.1);
+            color: var(--accent-primary);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        .quote {
+            background-color: rgba(255, 140, 0, 0.05);
+            border-left: 3px solid var(--accent-primary);
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            font-style: italic;
+            position: relative;
+            z-index: 1;
+        }
+
+        .quote-author {
+            text-align: right;
+            font-style: normal;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+
+        .link-item {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+            z-index: 1;
+        }
+
+        .link-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .link-icon {
+            color: var(--accent-primary);
+            margin-right: 8px;
+        }
+
+        .link-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .link-url {
+            font-size: 0.9rem;
+            color: var(--accent-blue);
+            word-break: break-all;
+            transition: color var(--transition-time);
+        }
+
+        .link-url:hover {
+            color: var(--accent-primary);
+        }
+
+        .user-stats {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .user-stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .user-stat-item:last-child {
+            border-bottom: none;
+        }
+
+        .user-name {
+            font-weight: 500;
+        }
+
+        .user-count {
+            background-color: rgba(255, 140, 0, 0.1);
+            color: var(--accent-primary);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        .wordcloud {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .wordcloud-item {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+            background-color: rgba(255, 140, 0, 0.1);
+            color: var(--accent-primary);
+            transition: transform var(--transition-time), background-color var(--transition-time);
+        }
+
+        .wordcloud-item:hover {
+            transform: scale(1.05);
+            background-color: rgba(255, 140, 0, 0.2);
+        }
+
+        .size-1 { font-size: 0.8rem; }
+        .size-2 { font-size: 0.9rem; }
+        .size-3 { font-size: 1rem; }
+        .size-4 { font-size: 1.2rem; }
+        .size-5 { font-size: 1.4rem; font-weight: 600; }
+
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+                grid-template-areas:
+                    "main"
+                    "highlight"
+                    "quote"
+                    "links"
+                    "stats"
+                    "wordcloud";
+            }
+
+            body {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .card {
+                padding: 15px;
+            }
+
+            .meta-info {
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-container">
+        <!-- 主卡片 -->
+        <div class="card main-card">
+            <h1>NotebookLM使用交流日报</h1>
+            <div class="date">2025-05-18</div>
+            <div class="meta-info">
+                <span><i class="fas fa-comment"></i> 消息数: 78</span>
+                <span><i class="fas fa-user"></i> 活跃用户: 12</span>
+                <span><i class="fas fa-fire"></i> 热点话题: 4</span>
+            </div>
+            <p class="summary">2025年5月18日的"NotebookLM使用交流"群聊讨论热烈，主要围绕AI工具在学术论文处理、代码生成和内容创作方面的应用展开。群友们分享了PageTalk、Sumbuddy、Gemini等工具的使用体验，探讨了NotebookLM的功能限制和优化方法，以及AI在降低内容创作门槛方面的潜力。讨论中特别关注了提示词模板的优化和高质量输入文件对AI输出质量的影响，体现了群友们对AI工具实际应用价值的深入思考。</p>
+            <i class="fas fa-microchip card-icon"></i>
+        </div>
+        
+        <!-- 今日热点 -->
+        <div class="card highlight-card">
+            <h2><i class="fas fa-bolt"></i> 今日热点</h2>
+            <div>
+                <div class="topic-category">工具应用</div>
+                <h3>AI论文处理工具对比</h3>
+                <p>群友分享了PageTalk、Sumbuddy等工具在学术论文处理方面的优缺点和使用体验。</p>
+                <div class="topic-keywords">
+                    <span class="keyword">PageTalk</span>
+                    <span class="keyword">Sumbuddy</span>
+                    <span class="keyword">论文处理</span>
+                </div>
+            </div>
+            <div style="margin-top: 20px;">
+                <div class="topic-category">功能探索</div>
+                <h3>NotebookLM的限制与优化</h3>
+                <p>讨论了NotebookLM的500字符限制问题，以及通过优化提示词和输入文件提升输出质量的方法。</p>
+                <div class="topic-keywords">
+                    <span class="keyword">NotebookLM</span>
+                    <span class="keyword">字符限制</span>
+                    <span class="keyword">提示词优化</span>
+                </div>
+            </div>
+            <div style="margin-top: 20px;">
+                <div class="topic-category">创新应用</div>
+                <h3>AI辅助播客内容创作</h3>
+                <p>群友分享了使用Gemini生成长篇内容并制作播客的经验，探讨了AI降低内容创作门槛的潜力。</p>
+                <div class="topic-keywords">
+                    <span class="keyword">Gemini</span>
+                    <span class="keyword">播客创作</span>
+                    <span class="keyword">内容生成</span>
+                </div>
+            </div>
+            <i class="fas fa-lightbulb card-icon"></i>
+        </div>
+        
+        <!-- 精彩引用 -->
+        <div class="card quote-card">
+            <h2><i class="fas fa-quote-left"></i> 精彩引用</h2>
+            <div class="quote">
+                "我用PageTalk处理论文，它能把一篇复杂的学术论文拆解成易于理解的部分，对于非专业人士特别有用。"
+                <div class="quote-author">- 学术探索者</div>
+            </div>
+            <div class="quote">
+                "NotebookLM的500字符限制确实是个问题，但如果提供高质量的输入文件，即使有限制也能得到不错的结果。"
+                <div class="quote-author">- AI实践家</div>
+            </div>
+            <div class="quote">
+                "我用Gemini 2.5 Pro生成了一个完整的播客脚本，质量超出预期，这真的降低了内容创作的门槛。"
+                <div class="quote-author">- 内容创作者</div>
+            </div>
+            <div class="quote">
+                "GitHub Copilot在代码生成方面确实强大，但对于特定领域的代码，有时还是需要专业知识来指导AI。"
+                <div class="quote-author">- 代码工匠</div>
+            </div>
+            <i class="fas fa-comment-dots card-icon"></i>
+        </div>
+        
+        <!-- 重要链接与资源 -->
+        <div class="card links-card">
+            <h2><i class="fas fa-link"></i> 重要链接与资源</h2>
+            <div class="link-item">
+                <i class="fas fa-external-link-alt link-icon"></i>
+                <div class="link-title">PageTalk官方网站</div>
+                <a href="https://pagetalk.ai" class="link-url" target="_blank">https://pagetalk.ai</a>
+            </div>
+            <div class="link-item">
+                <i class="fas fa-external-link-alt link-icon"></i>
+                <div class="link-title">Sumbuddy论文处理工具</div>
+                <a href="https://sumbuddy.ai" class="link-url" target="_blank">https://sumbuddy.ai</a>
+            </div>
+            <div class="link-item">
+                <i class="fas fa-external-link-alt link-icon"></i>
+                <div class="link-title">NotebookLM提示词模板集合</div>
+                <a href="https://github.com/google/notebooklm-templates" class="link-url" target="_blank">github.com/google/notebooklm-templates</a>
+            </div>
+            <div class="link-item">
+                <i class="fas fa-file link-icon"></i>
+                <div class="link-title">Gemini播客创作指南</div>
+                <span class="link-url">群内分享文档</span>
+            </div>
+            <i class="fas fa-share-alt card-icon"></i>
+        </div>
+        
+        <!-- 活跃统计 -->
+        <div class="card stats-card">
+            <h2><i class="fas fa-chart-line"></i> 活跃统计</h2>
+            <div class="user-stats">
+                <div class="user-stat-item">
+                    <span class="user-name">学术探索者</span>
+                    <span class="user-count">18+</span>
+                </div>
+                <div class="user-stat-item">
+                    <span class="user-name">AI实践家</span>
+                    <span class="user-count">15+</span>
+                </div>
+                <div class="user-stat-item">
+                    <span class="user-name">内容创作者</span>
+                    <span class="user-count">12+</span>
+                </div>
+                <div class="user-stat-item">
+                    <span class="user-name">代码工匠</span>
+                    <span class="user-count">10+</span>
+                </div>
+                <div class="user-stat-item">
+                    <span class="user-name">技术爱好者</span>
+                    <span class="user-count">8+</span>
+                </div>
+            </div>
+            <div style="margin-top: 15px;">
+                <h3>活跃时段</h3>
+                <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 1.2rem; color: var(--accent-blue);">下午</div>
+                        <div>14:00-18:00</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 1.2rem; color: var(--accent-tertiary);">晚上</div>
+                        <div>19:00-23:00</div>
+                    </div>
+                </div>
+            </div>
+            <i class="fas fa-user-friends card-icon"></i>
+        </div>
+        
+        <!-- 词云 -->
+        <div class="card wordcloud-card">
+            <h2><i class="fas fa-cloud"></i> 关键词云</h2>
+            <div class="wordcloud">
+                <span class="wordcloud-item size-5">NotebookLM</span>
+                <span class="wordcloud-item size-5">Gemini</span>
+                <span class="wordcloud-item size-4">PageTalk</span>
+                <span class="wordcloud-item size-4">Sumbuddy</span>
+                <span class="wordcloud-item size-4">论文处理</span>
+                <span class="wordcloud-item size-3">提示词模板</span>
+                <span class="wordcloud-item size-3">播客创作</span>
+                <span class="wordcloud-item size-3">GitHub Copilot</span>
+                <span class="wordcloud-item size-3">代码生成</span>
+                <span class="wordcloud-item size-2">字符限制</span>
+                <span class="wordcloud-item size-2">内容创作</span>
+                <span class="wordcloud-item size-2">学术论文</span>
+                <span class="wordcloud-item size-2">插件开发</span>
+                <span class="wordcloud-item size-1">输入质量</span>
+                <span class="wordcloud-item size-1">Gemini 2.5 Pro</span>
+                <span class="wordcloud-item size-1">创作门槛</span>
+                <span class="wordcloud-item size-1">专业知识</span>
+            </div>
+            <i class="fas fa-tags card-icon"></i>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>数据来源：NotebookLM使用交流聊天记录 | 生成时间：2025-05-18 | 统计周期：2025-05-18 全天</p>
+        <p>本日报由AI自动生成，内容仅供参考，不代表群内所有成员观点</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>AI产品蝗虫团日报 - 2025-05-09</title>
+    <style>
+        /* 严格定义的CSS样式，确保风格一致性 */
+        :root {
+            --bg-primary: #0f0e17;
+            --bg-secondary: #1a1925;
+            --bg-tertiary: #252336;
+            --text-primary: #fffffe;
+            --text-secondary: #a7a9be;
+            --accent-primary: #ff8906;
+            --accent-secondary: #f25f4c;
+            --accent-tertiary: #e53170;
+            --accent-blue: #3da9fc;
+            --accent-purple: #7209b7;
+            --accent-cyan: #00b4d8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'SF Pro Display', 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+            width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            background-color: var(--bg-secondary);
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+        
+        .date {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+        
+        .meta-info {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .meta-info span {
+            background-color: var(--bg-tertiary);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        
+        section {
+            background-color: var(--bg-secondary);
+            margin-bottom: 30px;
+            padding: 25px;
+        }
+        
+        h2 {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--accent-blue);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent-blue);
+        }
+        
+        h3 {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--accent-primary);
+            margin: 15px 0 10px 0;
+        }
+        
+        h4 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--accent-secondary);
+            margin: 12px 0 8px 0;
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 5px;
+        }
+        
+        a {
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        /* 卡片容器样式 */
+        .topics-container, .tutorials-container, .messages-container, 
+        .dialogues-container, .qa-container, .participants-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        /* 卡片样式 */
+        .topic-card, .tutorial-card, .message-card, 
+        .dialogue-card, .qa-card, .participant-item, .night-owl-item {
+            background-color: var(--bg-tertiary);
+            padding: 20px;
+        }
+        
+        /* 话题卡片 */
+        .topic-category {
+            display: inline-block;
+            background-color: var(--accent-blue);
+            color: var(--text-primary);
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .topic-keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 10px 0;
+        }
+        
+        .keyword {
+            background-color: rgba(61, 169, 252, 0.2);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 14px;
+        }
+        
+        .topic-mentions {
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+        
+        /* 教程卡片 */
+        .tutorial-type {
+            display: inline-block;
+            background-color: var(--accent-secondary);
+            color: var(--text-primary);
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .tutorial-meta {
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .tutorial-category {
+            margin-top: 10px;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+        
+        /* 消息卡片 */
+        .message-meta {
+            margin-bottom: 10px;
+        }
+        
+        .message-meta span {
+            margin-right: 15px;
+            font-size: 14px;
+        }
+        
+        .message-type {
+            background-color: var(--accent-tertiary);
+            color: var(--text-primary);
+            padding: 3px 10px;
+            border-radius: 15px;
+        }
+        
+        .priority {
+            padding: 3px 10px;
+            border-radius: 15px;
+        }
+        
+        .priority-high {
+            background-color: var(--accent-secondary);
+        }
+        
+        .priority-medium {
+            background-color: var(--accent-primary);
+        }
+        
+        .priority-low {
+            background-color: var(--accent-blue);
+        }
+        
+        /* 对话卡片 */
+        .dialogue-type {
+            display: inline-block;
+            background-color: var(--accent-purple);
+            color: var(--text-primary);
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .dialogue-content {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .dialogue-highlight {
+            font-style: italic;
+            color: var(--accent-primary);
+            margin: 10px 0;
+            font-weight: 600;
+        }
+        
+        /* 话唠榜 */
+        .participant-rank {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-right: 15px;
+            float: left;
+        }
+        
+        .participant-name {
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .participant-count {
+            color: var(--accent-cyan);
+            margin-bottom: 10px;
+        }
+        
+        /* 底部 */
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 50px;
+            background-color: var(--bg-secondary);
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        footer p {
+            margin: 5px 0;
+        }
+        
+        .disclaimer {
+            margin-top: 15px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>AI产品蝗虫团日报</h1>
+        <p class="date">2025年5月9日</p>
+        <div class="meta-info">
+            <span>总消息数：约200条</span>
+            <span>活跃用户：6+</span>
+            <span>时间范围：00:00-23:59</span>
+        </div>
+    </header>
+
+    <!-- 1. 今日讨论热点 -->
+    <section class="hot-topics">
+        <h2>今日讨论热点</h2>
+        <div class="topics-container">
+            <div class="topic-card">
+                <h3>Cursor Pro学生优惠事件后续</h3>
+                <div class="topic-category">AI工具</div>
+                <p class="topic-summary">昨晚获取的Cursor Pro学生优惠账号出现大规模回收现象，多位用户反馈原本一年的Pro会员被缩短为12-14天试用期。有用户分析可能是Cursor通过SheerID直接导出中国区认证的清单进行批量撤销。</p>
+                <div class="topic-keywords">
+                    <span class="keyword">Cursor Pro</span>
+                    <span class="keyword">学生优惠</span>
+                    <span class="keyword">账号回收</span>
+                    <span class="keyword">SheerID</span>
+                </div>
+                <div class="topic-mentions">提及次数：高</div>
+            </div>
+            
+            <div class="topic-card">
+                <h3>教育邮箱相关讨论</h3>
+                <div class="topic-category">资源获取</div>
+                <p class="topic-summary">群内讨论了各种教育邮箱的应用情况，有用户分享只要邮箱中带"edu"字样就可以获取Cursor优惠，但实测效果不一。群内还讨论了中科大邮箱被ban的情况，以及Manus.im的edu邮箱邀请链接。</p>
+                <div class="topic-keywords">
+                    <span class="keyword">教育邮箱</span>
+                    <span class="keyword">edu邮箱</span>
+                    <span class="keyword">中科大邮箱</span>
+                    <span class="keyword">Manus.im</span>
+                </div>
+                <div class="topic-mentions">提及次数：中</div>
+            </div>
+            
+            <div class="topic-card">
+                <h3>Perplexity使用体验讨论</h3>
+                <div class="topic-category">AI搜索</div>
+                <p class="topic-summary">群友讨论Perplexity的使用体验，价格已降至30-40元一年。部分用户认为其搜索质量高，特别是学术资料来源多为正刊，适合出海业务查找资料。有用户发现特定edu邮箱可能随机获得每天刷新1000积分的特权。</p>
+                <div class="topic-keywords">
+                    <span class="keyword">Perplexity</span>
+                    <span class="keyword">AI搜索</span>
+                    <span class="keyword">学术资料</span>
+                    <span class="keyword">积分特权</span>
+                </div>
+                <div class="topic-mentions">提及次数：中</div>
+            </div>
+            
+            <div class="topic-card">
+                <h3>MCP SuperAssistant扩展分享</h3>
+                <div class="topic-category">浏览器扩展</div>
+                <p class="topic-summary">有用户分享了MCP SuperAssistant浏览器扩展，支持ChatGPT、Perplexity、Grok、Gemini等平台。群友对此工具表现出浓厚兴趣，多人表示要尝试使用。</p>
+                <div class="topic-keywords">
+                    <span class="keyword">MCP</span>
+                    <span class="keyword">SuperAssistant</span>
+                    <span class="keyword">浏览器扩展</span>
+                    <span class="keyword">AI平台</span>
+                </div>
+                <div class="topic-mentions">提及次数：中</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. 实用教程与资源分享 -->
+    <section class="tutorials">
+        <h2>实用教程与资源分享</h2>
+        <div class="tutorials-container">
+            <div class="tutorial-card">
+                <div class="tutorial-type">TUTORIAL</div>
+                <h3>Firefox Nightly安卓版获取Cursor优惠方法</h3>
+                <div class="tutorial-meta">
+                    <span class="shared-by">分享者：群友</span>
+                    <span class="share-time">时间：上午</span>
+                </div>
+                <p class="tutorial-summary">使用Firefox Nightly安卓版浏览器安装扩展插件获取Cursor优惠的详细方法。</p>
+                <div class="key-points">
+                    <h4>要点：</h4>
+                    <ul>
+                        <li>安装Firefox Nightly安卓版</li>
+                        <li>配置浏览器支持扩展插件</li>
+                        <li>通过特定方式获取Cursor优惠</li>
+                    </ul>
+                </div>
+                <div class="tutorial-category">分类：工具使用技巧</div>
+            </div>
+            
+            <div class="tutorial-card">
+                <div class="tutorial-type">TUTORIAL</div>
+                <h3>使用chatlog的mcp工具生成群聊日报</h3>
+                <div class="tutorial-meta">
+                    <span class="shared-by">分享者：群友</span>
+                    <span class="share-time">时间：下午</span>
+                </div>
+                <p class="tutorial-summary">群内讨论了如何使用chatlog的mcp工具生成群聊日报，有用户分享了相关提示词。</p>
+                <div class="key-points">
+                    <h4>要点：</h4>
+                    <ul>
+                        <li>chatlog工具的基本使用方法</li>
+                        <li>生成群聊日报的提示词技巧</li>
+                        <li>优化日报内容的方法</li>
+                    </ul>
+                </div>
+                <div class="tutorial-category">分类：AI提示词</div>
+            </div>
+            
+            <div class="tutorial-card">
+                <div class="tutorial-type">RESOURCE</div>
+                <h3>MCP SuperAssistant浏览器扩展</h3>
+                <div class="tutorial-meta">
+                    <span class="shared-by">分享者：群友</span>
+                    <span class="share-time">时间：下午</span>
+                </div>
+                <p class="tutorial-summary">有用户分享了MCP SuperAssistant浏览器扩展的安装链接和使用方法，该扩展支持ChatGPT、Perplexity、Grok、Gemini等多个AI平台。</p>
+                <div class="key-points">
+                    <h4>要点：</h4>
+                    <ul>
+                        <li>支持多个AI平台的集成</li>
+                        <li>提供便捷的浏览器交互方式</li>
+                        <li>安装简单，功能强大</li>
+                    </ul>
+                </div>
+                <div class="tutorial-category">分类：AI工具</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. 重要消息汇总 -->
+    <section class="important-messages">
+        <h2>重要消息汇总</h2>
+        <div class="messages-container">
+            <div class="message-card">
+                <div class="message-meta">
+                    <span class="time">上午</span>
+                    <span class="sender">多位用户</span>
+                    <span class="message-type">NOTICE</span>
+                    <span class="priority priority-high">优先级：高</span>
+                </div>
+                <p class="message-content">Cursor Pro学生优惠账号出现大规模回收现象，多位用户反馈原本一年的Pro会员被缩短为12-14天试用期。</p>
+                <div class="message-full-content">
+                    <p>有用户分析可能是Cursor通过SheerID直接导出中国区认证的清单进行批量撤销。部分用户发现可以通过取消订阅后更新订阅的方式将月付改为年付，但操作较复杂。闲鱼上Cursor账号价格已炒至200元一个，群友讨论真假难辨。</p>
+                </div>
+            </div>
+            
+            <div class="message-card">
+                <div class="message-meta">
+                    <span class="time">下午</span>
+                    <span class="sender">群友</span>
+                    <span class="message-type">RESOURCE</span>
+                    <span class="priority priority-medium">优先级：中</span>
+                </div>
+                <p class="message-content">有用户分享了MCP SuperAssistant浏览器扩展，支持ChatGPT、Perplexity、Grok、Gemini等平台。</p>
+                <div class="message-full-content">
+                    <p>群友对此工具表现出浓厚兴趣，多人表示要尝试使用。该扩展可以在多个AI平台上提供更便捷的使用体验。</p>
+                </div>
+            </div>
+            
+            <div class="message-card">
+                <div class="message-meta">
+                    <span class="time">全天</span>
+                    <span class="sender">多位用户</span>
+                    <span class="message-type">DISCUSSION</span>
+                    <span class="priority priority-medium">优先级：中</span>
+                </div>
+                <p class="message-content">群友讨论Perplexity的使用体验，价格已降至30-40元一年。</p>
+                <div class="message-full-content">
+                    <p>部分用户认为其搜索质量高，特别是学术资料来源多为正刊，适合出海业务查找资料。有用户发现特定edu邮箱（@webmail.spobcollege.edu）可能随机获得每天刷新1000积分的特权。讨论了Perplexity与其他搜索工具的对比，有人表示更喜欢用Grok搜索。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. 有趣对话或金句 -->
+    <section class="interesting-dialogues">
+        <h2>有趣对话或金句</h2>
+        <div class="dialogues-container">
+            <div class="dialogue-card">
+                <div class="dialogue-type">QUOTE</div>
+                <div class="dialogue-content">
+                    <div class="message">
+                        <div class="message-meta">
+                            <span class="speaker">选柚高高手</span>
+                            <span class="time">上午</span>
+                        </div>
+                        <p class="message-content">"玩不起就不要玩，太恶心了"</p>
+                    </div>
+                </div>
+                <div class="dialogue-highlight">对Cursor回收会员的评论</div>
+                <div class="dialogue-topic">相关话题：Cursor Pro学生优惠事件</div>
+            </div>
+            
+            <div class="dialogue-card">
+                <div class="dialogue-type">QUOTE</div>
+                <div class="dialogue-content">
+                    <div class="message">
+                        <div class="message-meta">
+                            <span class="speaker">Ronin_Chang</span>
+                            <span class="time">上午</span>
+                        </div>
+                        <p class="message-content">"与cursor斗智斗勇"</p>
+                    </div>
+                </div>
+                <div class="dialogue-highlight">形象描述了用户与Cursor之间的博弈</div>
+                <div class="dialogue-topic">相关话题：Cursor Pro学生优惠事件</div>
+            </div>
+            
+            <div class="dialogue-card">
+                <div class="dialogue-type">QUOTE</div>
+                <div class="dialogue-content">
+                    <div class="message">
+                        <div class="message-meta">
+                            <span class="speaker">xiaolei0vip</span>
+                            <span class="time">下午</span>
+                        </div>
+                        <p class="message-content">"perplexity搜索质量挺高的，我老婆他们公司有出海业务，找资料挺准的"</p>
+                    </div>
+                </div>
+                <div class="dialogue-highlight">实际使用体验分享</div>
+                <div class="dialogue-topic">相关话题：Perplexity使用体验讨论</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. 群内数据可视化 -->
+    <section class="analytics">
+        <h2>群内数据可视化</h2>
+        
+        <!-- 活跃用户 -->
+        <h3>话唠榜</h3>
+        <div class="participants-container">
+            <div class="participant-item">
+                <div class="participant-rank">1</div>
+                <div class="participant-name">选柚高高手</div>
+                <div class="participant-count">消息数：多</div>
+            </div>
+            
+            <div class="participant-item">
+                <div class="participant-rank">2</div>
+                <div class="participant-name">画伞</div>
+                <div class="participant-count">消息数：多</div>
+            </div>
+            
+            <div class="participant-item">
+                <div class="participant-rank">3</div>
+                <div class="participant-name">Jason_wang</div>
+                <div class="participant-count">消息数：中</div>
+            </div>
+            
+            <div class="participant-item">
+                <div class="participant-rank">4</div>
+                <div class="participant-name">xiaolei0vip</div>
+                <div class="participant-count">消息数：中</div>
+            </div>
+            
+            <div class="participant-item">
+                <div class="participant-rank">5</div>
+                <div class="participant-name">Gwaanl</div>
+                <div class="participant-count">消息数：中</div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>AI产品蝗虫团日报 - 2025年5月9日</p>
+        <p>最活跃时段：晚上00:00-01:00，上午08:00-11:00</p>
+        <p>讨论氛围：技术分享为主，互助性强，对新工具和优惠活动反应迅速</p>
+        <p class="disclaimer">本日报由AI自动生成，内容仅供参考</p>
+    </footer>
+</body>
+</html>

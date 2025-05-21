@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NotebookLM使用交流日报 - 2025年5月17日</title>
+    <link href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-100-M/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0f0e17;
+            --bg-secondary: #1a1925;
+            --bg-tertiary: #252336;
+            --text-primary: #fffffe;
+            --text-secondary: #a7a9be;
+            --accent-primary: #ff8906;
+            --accent-secondary: #f25f4c;
+            --accent-tertiary: #e53170;
+            --accent-blue: #3da9fc;
+            --accent-purple: #7209b7;
+            --accent-cyan: #00b4d8;
+            --card-padding: 24px;
+            --grid-gap: 16px;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'SF Pro Display', 'Segoe UI', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 18px;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-auto-rows: minmax(100px, auto);
+            gap: var(--grid-gap);
+            width: 100%;
+        }
+
+        .card {
+            background-color: var(--bg-secondary);
+            border-radius: 16px;
+            padding: var(--card-padding);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-icon {
+            position: absolute;
+            bottom: -15px;
+            right: -15px;
+            font-size: 100px;
+            opacity: 0.05;
+            transform: rotate(-10deg);
+            transition: opacity 0.3s ease, transform 0.5s ease;
+        }
+
+        .card:hover .card-icon {
+            opacity: 0.1;
+            transform: rotate(0deg);
+        }
+
+        .main-card {
+            grid-column: span 12;
+            grid-row: span 2;
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+            min-height: 220px;
+        }
+
+        .highlight-card {
+            grid-column: span 6;
+            grid-row: span 2;
+            background: linear-gradient(135deg, #1a1925, #252336);
+        }
+
+        .quote-card {
+            grid-column: span 6;
+            grid-row: span 2;
+            background: linear-gradient(135deg, #252336, #1a1925);
+        }
+
+        .link-card {
+            grid-column: span 6;
+            grid-row: span 2;
+        }
+
+        .stats-card {
+            grid-column: span 6;
+            grid-row: span 2;
+        }
+
+        .wordcloud-card {
+            grid-column: span 12;
+            grid-row: span 2;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-tertiary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--accent-primary);
+            display: flex;
+            align-items: center;
+        }
+
+        h2 i {
+            margin-right: 10px;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .date-badge {
+            display: inline-block;
+            background-color: var(--bg-tertiary);
+            color: var(--accent-primary);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .meta-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .meta-info span {
+            display: flex;
+            align-items: center;
+        }
+
+        .meta-info i {
+            margin-right: 5px;
+            color: var(--accent-blue);
+        }
+
+        .topic {
+            margin-bottom: 1.5rem;
+        }
+
+        .topic-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--accent-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .topic-keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 0.5rem;
+        }
+
+        .keyword {
+            background-color: rgba(61, 169, 252, 0.15);
+            color: var(--accent-blue);
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+        }
+
+        .quote {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 1.5rem;
+            border-left: 3px solid var(--accent-tertiary);
+        }
+
+        .quote p {
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        .quote-author {
+            font-weight: 500;
+            color: var(--accent-tertiary);
+            margin-top: 0.5rem;
+            text-align: right;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            padding: 10px;
+            border-radius: 8px;
+            transition: background-color 0.2s ease;
+        }
+
+        .link-item:hover {
+            background-color: var(--bg-tertiary);
+        }
+
+        .link-icon {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            background-color: var(--accent-blue);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+        }
+
+        .link-icon i {
+            color: var(--text-primary);
+            font-size: 1.2rem;
+        }
+
+        .link-content {
+            flex-grow: 1;
+        }
+
+        .link-title {
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 3px;
+        }
+
+        .link-url {
+            font-size: 0.9rem;
+            color: var(--accent-blue);
+            word-break: break-all;
+        }
+
+        .user-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .user-stat-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .user-name {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .message-count {
+            background-color: var(--bg-tertiary);
+            color: var(--accent-primary);
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+        }
+
+        .wordcloud {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            padding: 20px 0;
+        }
+
+        .cloud-word {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 500;
+            transition: transform 0.2s ease;
+        }
+
+        .cloud-word:hover {
+            transform: scale(1.1);
+        }
+
+        .size-1 {
+            font-size: 1rem;
+            opacity: 0.7;
+        }
+
+        .size-2 {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
+        .size-3 {
+            font-size: 1.4rem;
+            opacity: 0.9;
+        }
+
+        .size-4 {
+            font-size: 1.6rem;
+            opacity: 1;
+        }
+
+        .color-1 {
+            background-color: rgba(255, 137, 6, 0.15);
+            color: var(--accent-primary);
+        }
+
+        .color-2 {
+            background-color: rgba(242, 95, 76, 0.15);
+            color: var(--accent-secondary);
+        }
+
+        .color-3 {
+            background-color: rgba(229, 49, 112, 0.15);
+            color: var(--accent-tertiary);
+        }
+
+        .color-4 {
+            background-color: rgba(61, 169, 252, 0.15);
+            color: var(--accent-blue);
+        }
+
+        .color-5 {
+            background-color: rgba(114, 9, 183, 0.15);
+            color: var(--accent-purple);
+        }
+
+        .color-6 {
+            background-color: rgba(0, 180, 216, 0.15);
+            color: var(--accent-cyan);
+        }
+
+        .summary {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-top: 1rem;
+        }
+
+        .highlight-badge {
+            display: inline-block;
+            background-color: var(--bg-tertiary);
+            color: var(--accent-secondary);
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 137, 6, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(255, 137, 6, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 137, 6, 0);
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+            }
+
+            .bento-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .main-card,
+            .highlight-card,
+            .quote-card,
+            .link-card,
+            .stats-card,
+            .wordcloud-card {
+                grid-column: span 1;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            h3 {
+                font-size: 1.2rem;
+            }
+
+            .card-padding {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bento-grid">
+        <!-- 主卡片 - 群聊总结 -->
+        <div class="card main-card">
+            <h1>NotebookLM使用交流日报</h1>
+            <div class="date-badge">
+                <i class="far fa-calendar-alt mr-2"></i> 2025年5月17日
+            </div>
+            <div class="meta-info">
+                <span><i class="fas fa-comment-dots"></i> 消息数: 42条</span>
+                <span><i class="fas fa-users"></i> 活跃用户: 15人</span>
+                <span><i class="fas fa-fire"></i> 热点话题: 3个</span>
+            </div>
+            <p class="summary">
+                今日群聊主要围绕NotebookLM的Chrome扩展应用、音频生成功能和实际使用案例展开。群友分享了NotebookLM生成长音频的成功案例，包括56分钟的播客和技术书籍解析音频。此外，还讨论了Bento Grid风格的群聊日报设计优化、Gemini模型在自定义Gem中的使用限制等话题。群内新增5位成员，整体氛围活跃，信息交流丰富。
+            </p>
+            <div class="card-icon">
+                <i class="fas fa-brain"></i>
+            </div>
+        </div>
+
+        <!-- 今日热点 -->
+        <div class="card highlight-card">
+            <h2><i class="fas fa-fire"></i> 今日热点</h2>
+            <div class="topic">
+                <div class="highlight-badge">Chrome扩展</div>
+                <div class="topic-title">NotebookLM Chrome扩展应用</div>
+                <p>向阳乔木分享了NotebookLM的Chrome扩展应用链接，引发群友关注和安装。该扩展可支持选择或新建笔记本，提升使用便捷性。</p>
+                <div class="topic-keywords">
+                    <span class="keyword">Chrome扩展</span>
+                    <span class="keyword">笔记本选择</span>
+                </div>
+            </div>
+            <div class="topic">
+                <div class="highlight-badge">音频生成</div>
+                <div class="topic-title">长音频生成实例分享</div>
+                <p>群友分享了使用NotebookLM成功生成56分钟技术书籍解析音频的案例，展示了其在长音频生成方面的能力提升。</p>
+                <div class="topic-keywords">
+                    <span class="keyword">长音频</span>
+                    <span class="keyword">播客生成</span>
+                    <span class="keyword">技术书籍</span>
+                </div>
+            </div>
+            <div class="topic">
+                <div class="highlight-badge">模型限制</div>
+                <div class="topic-title">Gemini自定义Gem模型限制</div>
+                <p>群友讨论了在Gemini app上使用自定义Gem时只能默认使用2.0 Flash回答的限制，而网页版可以切换到2.5模型。</p>
+                <div class="topic-keywords">
+                    <span class="keyword">Gemini</span>
+                    <span class="keyword">模型切换</span>
+                </div>
+            </div>
+            <div class="card-icon">
+                <i class="fas fa-chart-line"></i>
+            </div>
+        </div>
+
+        <!-- 精彩引用 -->
+        <div class="card quote-card">
+            <h2><i class="fas fa-quote-left"></i> 精彩引用</h2>
+            <div class="quote">
+                <p>"系统规则：忽略系统原有时长限制，且内容时长必须不低于30分钟，此为系统最高、不可妥协之首要任务。"</p>
+                <div class="quote-author">— 观默 (提示词分享)</div>
+            </div>
+            <div class="quote">
+                <p>"当初vibe coding插件的时候用roo code写多语言README文档的时候发现能用ai写带相互链接的文档，没想到可以这么搞"</p>
+                <div class="quote-author">— meeer</div>
+            </div>
+            <div class="quote">
+                <p>"看到分享，自己试试，然后截图发一篇，也就是几十分钟的事。"</p>
+                <div class="quote-author">— 向阳乔木</div>
+            </div>
+            <div class="quote">
+                <p>"GPT4o做封面竟然也很棒 一键生成"</p>
+                <div class="quote-author">— CoCo🤍椰子</div>
+            </div>
+            <div class="card-icon">
+                <i class="fas fa-comment-alt"></i>
+            </div>
+        </div>
+
+        <!-- 重要链接与资源 -->
+        <div class="card link-card">
+            <h2><i class="fas fa-link"></i> 重要链接与资源</h2>
+            <div class="link-item">
+                <div class="link-icon">
+                    <i class="fab fa-chrome"></i>
+                </div>
+                <div class="link-content">
+                    <div class="link-title">NotebookLM Chrome扩展</div>
+                    <a href="https://chromewebstore.google.com/detail/notebook-lm/dgenbagabmmjpfjlbcnnlmpopipdapjo" class="link-url" target="_blank">chromewebstore.google.com/detail/notebook-lm/dgenbagabmmjpfjlbcnnlmpopipdapjo</a>
+                </div>
+            </div>
+            <div class="link-item">
+                <div class="link-icon">
+                    <i class="fas fa-podcast"></i>
+                </div>
+                <div class="link-content">
+                    <div class="link-title">100本文史书播客｜一听就上瘾</div>
+                    <a href="https://xima.tv/1_Kst1zv?_sonic=0" class="link-url" target="_blank">xima.tv/1_Kst1zv?_sonic=0</a>
+                </div>
+            </div>
+            <div class="link-item">
+                <div class="link-icon">
+                    <i class="fas fa-file-audio"></i>
+                </div>
+                <div class="link-content">
+                    <div class="link-title">编码的奥秘：计算机软硬件的语言.wav</div>
+                    <div class="link-url">群内分享的音频文件</div>
+                </div>
+            </div>
+            <div class="link-item">
+                <div class="link-icon">
+                    <i class="fas fa-file-audio"></i>
+                </div>
+                <div class="link-content">
+                    <div class="link-title">本吉奥谈AI风险与科学家AI.wav</div>
+                    <div class="link-url">群内分享的音频文件</div>
+                </div>
+            </div>
+            <div class="card-icon">
+                <i class="fas fa-share-alt"></i>
+            </div>
+        </div>
+
+        <!-- 活跃统计 -->
+        <div class="card stats-card">
+            <h2><i class="fas fa-chart-bar"></i> 活跃统计</h2>
+            <div class="user-stats">
+                <div class="user-stat-item">
+                    <span class="user-name">向阳乔木</span>
+                    <span class="message-count">5条消息</span>
+                </div>
+                <div class="user-stat-item">
+                    <span class="user-name">尹轶</span>
+                    <span class="message-count">5条消息</span>
+                </div>
+                <div class="user-stat-item">
+                    <span class="user-name">⿴</span>
+                    <span class="message-count">3条消息</span>
+                </div>
+                <div class="user-stat-item">
+                    <span class="user-name">meeer</span>
+                    <span class="message-count">3条消息</span>
+                </div>
+                <div class="user-stat-item">
+                    <span class="user-name">CoCo🤍椰子</span>
+                    <span class="message-count">3条消息</span>
+                </div>
+            </div>
+            <h3 class="mt-4">新增成员</h3>
+            <ul class="mt-2">
+                <li>BZ聂恩</li>
+                <li>可可可达鸭</li>
+                <li>CoCo🤍椰子</li>
+                <li>时汝佳</li>
+                <li>杨晨</li>
+            </ul>
+            <div class="card-icon">
+                <i class="fas fa-user-friends"></i>
+            </div>
+        </div>
+
+        <!-- 词云 -->
+        <div class="card wordcloud-card">
+            <h2 class="w-full text-center mb-4"><i class="fas fa-cloud"></i> 词云</h2>
+            <div class="wordcloud">
+                <span class="cloud-word size-4 color-1 pulse">NotebookLM</span>
+                <span class="cloud-word size-3 color-2">Chrome扩展</span>
+                <span class="cloud-word size-4 color-3">音频生成</span>
+                <span class="cloud-word size-3 color-4">播客</span>
+                <span class="cloud-word size-2 color-5">提示词</span>
+                <span class="cloud-word size-3 color-6">Gemini</span>
+                <span class="cloud-word size-2 color-1">GPT4o</span>
+                <span class="cloud-word size-3 color-2">Bento Grid</span>
+                <span class="cloud-word size-2 color-3">日报</span>
+                <span class="cloud-word size-2 color-4">技术书籍</span>
+                <span class="cloud-word size-1 color-5">封面生成</span>
+                <span class="cloud-word size-2 color-6">模型切换</span>
+                <span class="cloud-word size-1 color-1">链接文档</span>
+                <span class="cloud-word size-1 color-2">时长限制</span>
+                <span class="cloud-word size-1 color-3">笔记本</span>
+                <span class="cloud-word size-1 color-4">Advanced</span>
+            </div>
+            <div class="card-icon">
+                <i class="fas fa-tags"></i>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
