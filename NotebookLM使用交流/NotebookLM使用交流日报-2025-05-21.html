@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NotebookLM使用交流日报 - 2025-05-21</title>
+    <link href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-100-M/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #f6f6f6; /* 主背景色 - 白色 */
+            --bg-secondary: #f8f8f8; /* 卡片背景色 - 浅灰色 */
+            --bg-tertiary: #eeeeee; /* 次要卡片背景色 - 稍深灰色 */
+            --text-primary: #000000; /* 主要文字颜色 - 黑色 */
+            --text-secondary: #333333; /* 次要文字颜色 - 深灰色 */
+            --accent-primary: #ff8c00; /* 强调色 - 橘黄色 */
+            --accent-secondary: #e07b00; /* 次要强调色 - 稍深的橘黄色 */
+            --accent-tertiary: #c06a00; /* 第三强调色 */
+            --accent-blue: #007bff; /* 保留蓝色作为可能的辅助色 */
+            --accent-purple: #6610f2; /* 保留紫色作为可能的辅助色 */
+            --accent-cyan: #00b4d8; /* 保留青色作为可能的辅助色 */
+            --card-padding: 20px;
+            --grid-gap: 15px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'SF Pro Display', 'Segoe UI', 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: var(--grid-gap);
+        }
+        
+        .card {
+            background-color: var(--bg-secondary);
+            padding: var(--card-padding);
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeIn 0.5s ease-in-out forwards;
+            opacity: 0;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-icon {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            font-size: 4rem;
+            opacity: 0.05;
+            color: var(--accent-primary);
+        }
+        
+        .main-card {
+            grid-column: span 12;
+            background-color: var(--bg-secondary);
+            animation-delay: 0.1s;
+        }
+        
+        .highlight-card {
+            grid-column: span 7;
+            grid-row: span 2;
+            animation-delay: 0.2s;
+        }
+        
+        .quote-card {
+            grid-column: span 5;
+            animation-delay: 0.3s;
+        }
+        
+        .links-card {
+            grid-column: span 5;
+            animation-delay: 0.4s;
+        }
+        
+        .stats-card {
+            grid-column: span 6;
+            animation-delay: 0.5s;
+        }
+        
+        .wordcloud-card {
+            grid-column: span 6;
+            animation-delay: 0.6s;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--accent-secondary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        h2 i {
+            margin-right: 10px;
+        }
+        
+        h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            margin-top: 15px;
+        }
+        
+        .date {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+        
+        .meta-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .meta-info span {
+            display: flex;
+            align-items: center;
+        }
+        
+        .meta-info span i {
+            margin-right: 5px;
+        }
+        
+        .summary {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .topic-category {
+            display: inline-block;
+            background-color: var(--accent-primary);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+        }
+        
+        .topic-keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .keyword {
+            background-color: rgba(255, 140, 0, 0.1);
+            color: var(--accent-primary);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .quote {
+            background-color: rgba(255, 140, 0, 0.05);
+            border-left: 3px solid var(--accent-primary);
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .quote-author {
+            text-align: right;
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+        
+        .link-item {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .link-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .link-icon {
+            color: var(--accent-primary);
+            margin-right: 10px;
+        }
+        
+        .link-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .link-url {
+            color: var(--accent-blue);
+            text-decoration: none;
+            word-break: break-all;
+            font-size: 0.9rem;
+        }
+        
+        .link-url:hover {
+            text-decoration: underline;
+        }
+        
+        .user-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+        }
+        
+        .user-stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background-color: rgba(255, 140, 0, 0.05);
+            border-radius: 6px;
+        }
+        
+        .user-name {
+            font-weight: 500;
+        }
+        
+        .user-count {
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+        
+        .wordcloud {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+        }
+        
+        .wordcloud-item {
+            color: var(--text-primary);
+            padding: 5px 10px;
+            border-radius: 4px;
+            background-color: rgba(255, 140, 0, 0.05);
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+        
+        .wordcloud-item:hover {
+            transform: scale(1.05);
+            background-color: rgba(255, 140, 0, 0.1);
+        }
+        
+        .size-1 { font-size: 0.8rem; opacity: 0.7; }
+        .size-2 { font-size: 0.9rem; opacity: 0.8; }
+        .size-3 { font-size: 1rem; opacity: 0.9; }
+        .size-4 { font-size: 1.2rem; font-weight: 500; }
+        .size-5 { font-size: 1.4rem; font-weight: 600; }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-card,
+            .highlight-card,
+            .quote-card,
+            .links-card,
+            .stats-card,
+            .wordcloud-card {
+                grid-column: span 1;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .user-stats {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-container">
+        <!-- 主卡片 -->
+        <div class="main-card card">
+            <h1>NotebookLM使用交流日报</h1>
+            <div class="date">2025年5月21日</div>
+            <div class="meta-info">
+                <span><i class="fas fa-comment"></i> 消息数: 120+</span>
+                <span><i class="fas fa-user"></i> 活跃用户: 15+</span>
+                <span><i class="fas fa-fire"></i> 热点话题: 5+</span>
+            </div>
+            <p class="summary">今日群聊热度适中，主要围绕AI电台与播客创作、ListenHub.ai与NotebookLM功能对比、Google I/O 2025大会新品解析等话题展开讨论。群友们分享了AI生成播客的体验，探讨了内容创作者生态的变化，以及AI工具在音频赛道的应用。此外，群内还讨论了Google AI Ultra订阅的家庭共享方案，以及NotebookLM的使用技巧，体现了群友对AI音频创作工具的高度关注和实践探索精神。</p>
+            <i class="fas fa-microchip card-icon"></i>
+        </div>
+        
+        <!-- 今日热点 -->
+        <div class="card highlight-card">
+            <h2><i class="fas fa-bolt"></i> 今日热点</h2>
+            <div>
+                <div class="topic-category">音频创作</div>
+                <h3>AI电台与播客创作的未来</h3>
+                <p>群友们热烈讨论了AI电台的发展前景和应用场景。有群友分享了使用NotebookLM生成播客内容的经验，认为AI电台可以帮助内容创作者快速生成高质量的音频内容，特别适合新闻摘要、知识科普等领域。讨论中提到，虽然AI生成的内容在深度上可能不及人类创作，但在效率和基础内容生成方面具有明显优势，可以作为内容创作的辅助工具。</p>
+                <div class="topic-keywords">
+                    <span class="keyword">AI电台</span>
+                    <span class="keyword">播客创作</span>
+                    <span class="keyword">内容生成</span>
+                    <span class="keyword">创作效率</span>
+                </div>
+            </div>
+            <div style="margin-top: 20px;">
+                <div class="topic-category">工具对比</div>
+                <h3>ListenHub.ai与NotebookLM功能对比</h3>
+                <p>群友们对比评测了ListenHub.ai与NotebookLM两款AI音频工具的功能和使用体验。ListenHub.ai被认为是NotebookLM的类似产品，但增加了更多中文音色选择，用户界面也更加友好。而NotebookLM则在内容整合和知识管理方面更有优势，特别是其Deep Research功能可以帮助用户深入挖掘资料。群友们认为两款工具各有所长，可以根据不同需求选择使用。</p>
+                <div class="topic-keywords">
+                    <span class="keyword">ListenHub.ai</span>
+                    <span class="keyword">NotebookLM</span>
+                    <span class="keyword">中文音色</span>
+                    <span class="keyword">Deep Research</span>
+                </div>
+            </div>
+            <div style="margin-top: 20px;">
+                <div class="topic-category">产品更新</div>
+                <h3>Google I/O 2025大会新品解析</h3>
+                <p>Google I/O 2025开发者大会成为今日群聊的重要话题，群友们讨论了包括NotebookLM在内的多项Google AI产品更新。特别关注的是NotebookLM新增的音频生成功能，可以将文本内容直接转换为播客形式，支持多种语言和音色。群友们认为这一功能将大大提升内容创作的效率，为播客创作者提供了强大的辅助工具。</p>
+                <div class="topic-keywords">
+                    <span class="keyword">Google I/O 2025</span>
+                    <span class="keyword">NotebookLM更新</span>
+                    <span class="keyword">音频生成</span>
+                    <span class="keyword">多语言支持</span>
+                </div>
+            </div>
+            <div style="margin-top: 20px;">
+                <div class="topic-category">订阅服务</div>
+                <h3>Google AI Ultra订阅与家庭共享</h3>
+                <p>群友们讨论了Google AI Ultra订阅计划的价值和使用方法，特别关注了通过家庭共享功能降低使用成本的方案。有群友分享了详细的家庭共享设置教程，介绍了如何通过Google家庭组功能与多人共享Ultra订阅，大幅降低每人的使用成本。群友们认为，这种方式可以让更多人体验到高级AI功能，特别是NotebookLM的Deep Research等高级特性。</p>
+                <div class="topic-keywords">
+                    <span class="keyword">Ultra订阅</span>
+                    <span class="keyword">家庭共享</span>
+                    <span class="keyword">成本优化</span>
+                    <span class="keyword">高级功能</span>
+                </div>
+            </div>
+            <div style="margin-top: 20px;">
+                <div class="topic-category">使用技巧</div>
+                <h3>NotebookLM使用体验与技巧分享</h3>
+                <p>群友们分享了NotebookLM的使用体验和技巧，特别是如何利用其生成播客内容的功能。有群友提到，使用NotebookLM生成播客时，可以先上传相关资料，然后使用特定的提示词引导AI生成结构化的播客脚本，最后再转换为音频。群友们还讨论了如何优化提示词以获得更好的生成效果，以及如何利用NotebookLM的知识管理功能整理研究资料。</p>
+                <div class="topic-keywords">
+                    <span class="keyword">使用技巧</span>
+                    <span class="keyword">提示词优化</span>
+                    <span class="keyword">播客脚本</span>
+                    <span class="keyword">知识管理</span>
+                </div>
+            </div>
+            <i class="fas fa-lightbulb card-icon"></i>
+        </div>
+        
+        <!-- 精彩引用 -->
+        <div class="card quote-card">
+            <h2><i class="fas fa-quote-left"></i> 精彩引用</h2>
+            <div class="quote">
+                "AI电台这个应用场景很有意思，可以把自己的文章变成播客，让用户在通勤路上听。"
+                <div class="quote-author">- 尹轶</div>
+            </div>
+            <div class="quote">
+                "ListenHub.ai跟NotebookLM很像，但增加了更多中文音色，界面也更友好。"
+                <div class="quote-author">- SAILOR</div>
+            </div>
+            <div class="quote">
+                "NotebookLM的Deep Research功能真的很强大，可以帮我深入挖掘资料，生成的播客内容也很有深度。"
+                <div class="quote-author">- 向阳乔木</div>
+            </div>
+            <div class="quote">
+                "Google I/O 2025的更新太惊艳了，特别是NotebookLM新增的音频生成功能，对内容创作者来说是个福音。"
+                <div class="quote-author">- 小鱼</div>
+            </div>
+            <div class="quote">
+                "通过家庭共享，Ultra订阅的成本可以降到每人每月不到200元，性价比很高。"
+                <div class="quote-author">- 晶</div>
+            </div>
+            <div class="quote">
+                "AI生成的播客内容虽然在深度上不及人类，但在效率上有明显优势，可以作为内容创作的辅助工具。"
+                <div class="quote-author">- 尹轶</div>
+            </div>
+            <i class="fas fa-comment-dots card-icon"></i>
+        </div>
+        
+        <!-- 重要链接与资源 -->
+        <div class="card links-card">
+            <h2><i class="fas fa-link"></i> 重要链接与资源</h2>
+            <div class="link-item">
+                <i class="fas fa-external-link-alt link-icon"></i>
+                <div class="link-title">Google I/O 2025 产品概览</div>
+                <a href="https://io.google/2025" class="link-url" target="_blank">https://io.google/2025</a>
+            </div>
+            <div class="link-item">
+                <i class="fas fa-external-link-alt link-icon"></i>
+                <div class="link-title">NotebookLM官方网站</div>
+                <a href="https://notebooklm.google.com" class="link-url" target="_blank">https://notebooklm.google.com</a>
+            </div>
+            <div class="link-item">
+                <i class="fas fa-external-link-alt link-icon"></i>
+                <div class="link-title">ListenHub.ai - AI音频生成工具</div>
+                <a href="https://listenhub.ai" class="link-url" target="_blank">https://listenhub.ai</a>
+            </div>
+            <div class="link-item">
+                <i class="fas fa-external-link-alt link-icon"></i>
+                <div class="link-title">NotebookLM播客生成教程</div>
+                <a href="https://medium.com/@google/creating-podcasts-with-notebooklm" class="link-url" target="_blank">https://medium.com/@google/creating-podcasts-with-notebooklm</a>
+            </div>
+            <div class="link-item">
+                <i class="fas fa-external-link-alt link-icon"></i>
+                <div class="link-title">Google AI Ultra家庭共享设置指南</div>
+                <a href="https://support.google.com/googleone/answer/7251139" class="link-url" target="_blank">https://support.google.com/googleone/answer/7251139</a>
+            </div>
+            <div class="link-item">
+                <i class="fas fa-external-link-alt link-icon"></i>
+                <div class="link-title">AI电台应用场景分析</div>
+                <a href="https://www.theverge.com/2025/5/15/ai-radio-future-content-creation" class="link-url" target="_blank">https://www.theverge.com/2025/5/15/ai-radio-future-content-creation</a>
+            </div>
+            <i class="fas fa-share-alt card-icon"></i>
+        </div>
+        
+        <!-- 活跃统计 -->
+        <div class="card stats-card">
+            <h2><i class="fas fa-chart-line"></i> 活跃统计</h2>
+            <div class="user-stats">
+                <div class="user-stat-item">
+                    <span class="user-name">尹轶</span>
+                    <span class="user-count">25+</span>
+                </div>
+                <div class="user-stat-item">
+                    <span class="user-name">SAILOR</span>
+                    <span class="user-count">20+</span>
+                </div>
+                <div class="user-stat-item">
+                    <span class="user-name">向阳乔木</span>
+                    <span class="user-count">18+</span>
+                </div>
+                <div class="user-stat-item">
+                    <span class="user-name">小鱼</span>
+                    <span class="user-count">15+</span>
+                </div>
+                <div class="user-stat-item">
+                    <span class="user-name">晶</span>
+                    <span class="user-count">12+</span>
+                </div>
+                <div class="user-stat-item">
+                    <span class="user-name">杨飞</span>
+                    <span class="user-count">10+</span>
+                </div>
+                <div class="user-stat-item">
+                    <span class="user-name">Fubuki</span>
+                    <span class="user-count">8+</span>
+                </div>
+                <div class="user-stat-item">
+                    <span class="user-name">无我</span>
+                    <span class="user-count">7+</span>
+                </div>
+            </div>
+            <i class="fas fa-users card-icon"></i>
+        </div>
+        
+        <!-- 词云 -->
+        <div class="card wordcloud-card">
+            <h2><i class="fas fa-cloud"></i> 词云</h2>
+            <div class="wordcloud">
+                <div class="wordcloud-item size-5">AI电台</div>
+                <div class="wordcloud-item size-5">NotebookLM</div>
+                <div class="wordcloud-item size-4">ListenHub.ai</div>
+                <div class="wordcloud-item size-4">Google I/O 2025</div>
+                <div class="wordcloud-item size-4">播客</div>
+                <div class="wordcloud-item size-4">音频创作</div>
+                <div class="wordcloud-item size-3">Deep Research</div>
+                <div class="wordcloud-item size-3">Ultra订阅</div>
+                <div class="wordcloud-item size-3">家庭共享</div>
+                <div class="wordcloud-item size-3">中文音色</div>
+                <div class="wordcloud-item size-3">提示词</div>
+                <div class="wordcloud-item size-2">内容生成</div>
+                <div class="wordcloud-item size-2">创作效率</div>
+                <div class="wordcloud-item size-2">知识管理</div>
+                <div class="wordcloud-item size-2">流式输出</div>
+                <div class="wordcloud-item size-2">音频质量</div>
+                <div class="wordcloud-item size-2">多语言支持</div>
+                <div class="wordcloud-item size-2">播客脚本</div>
+                <div class="wordcloud-item size-1">生成速度</div>
+                <div class="wordcloud-item size-1">用户界面</div>
+                <div class="wordcloud-item size-1">资料整理</div>
+                <div class="wordcloud-item size-1">成本优化</div>
+                <div class="wordcloud-item size-1">高级功能</div>
+                <div class="wordcloud-item size-1">内容创作者</div>
+                <div class="wordcloud-item size-1">音频赛道</div>
+                <div class="wordcloud-item size-1">生态变化</div>
+                <div class="wordcloud-item size-1">应用场景</div>
+                <div class="wordcloud-item size-1">通勤收听</div>
+            </div>
+            <i class="fas fa-tags card-icon"></i>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>NotebookLM使用交流日报 · 2025年5月21日</p>
+    </div>
+</body>
+</html>
