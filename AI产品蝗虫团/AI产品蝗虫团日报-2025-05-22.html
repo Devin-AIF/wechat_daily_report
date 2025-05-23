@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI产品蝗虫团日报 - 2025-05-22</title>
+    <link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-100-M/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* 极简主义风格 */
+        :root {
+            --bg-primary: #f6f6f6; /* 主背景色 - 白色 */
+            --bg-secondary: #f8f8f8; /* 卡片背景色 - 浅灰色 */
+            --bg-tertiary: #eeeeee; /* 次要卡片背景色 - 稍深灰色 */
+            --text-primary: #000000; /* 主要文字颜色 - 黑色 */
+            --text-secondary: #333333; /* 次要文字颜色 - 深灰色 */
+            --accent-primary: #ff8c00; /* 强调色 - 橘黄色 */
+            --accent-secondary: #e07b00; /* 次要强调色 - 稍深的橘黄色 */
+            --accent-tertiary: #c06a00; /* 第三强调色 */
+            --card-padding: 20px;
+            --grid-gap: 15px;
+        }
+        
+        body {
+            font-family: 'SF Pro Display', 'Segoe UI', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: var(--grid-gap);
+        }
+        
+        .main-card {
+            grid-column: span 12;
+            background-color: var(--bg-secondary);
+            padding: var(--card-padding);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .main-card::before {
+            content: '\f0ac'; /* Font Awesome globe icon */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: -15px;
+            bottom: -15px;
+            font-size: 120px;
+            color: rgba(255, 140, 0, 0.05);
+            z-index: 0;
+        }
+        
+        .card {
+            background-color: var(--bg-secondary);
+            padding: var(--card-padding);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .card-icon {
+            position: absolute;
+            right: -15px;
+            bottom: -15px;
+            font-size: 80px;
+            color: rgba(255, 140, 0, 0.05);
+            z-index: 0;
+        }
+        
+        .topic-card {
+            grid-column: span 6;
+        }
+        
+        .quote-card {
+            grid-column: span 6;
+        }
+        
+        .links-card {
+            grid-column: span 6;
+        }
+        
+        .active-card {
+            grid-column: span 6;
+        }
+        
+        .wordcloud-card {
+            grid-column: span 6;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 0.5em;
+            position: relative;
+            z-index: 1;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            color: var(--accent-primary);
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+            color: var(--accent-secondary);
+            margin-top: 0.5em;
+        }
+        
+        h3 {
+            font-size: 1.4rem;
+            color: var(--text-primary);
+        }
+        
+        .date {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 1em;
+        }
+        
+        .meta-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 1em;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .meta-info span {
+            background-color: var(--bg-tertiary);
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+        
+        .summary {
+            margin-bottom: 1em;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .topic-category {
+            display: inline-block;
+            background-color: var(--accent-primary);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-bottom: 0.5em;
+        }
+        
+        .topic-keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+        }
+        
+        .keyword {
+            background-color: var(--bg-tertiary);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .topic-mentions {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        .quote-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .quote-item {
+            margin-bottom: 15px;
+            padding-left: 15px;
+            border-left: 3px solid var(--accent-primary);
+        }
+        
+        .quote-content {
+            font-style: italic;
+            margin-bottom: 5px;
+        }
+        
+        .quote-author {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-align: right;
+        }
+        
+        .links-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .links-list li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .links-list li::before {
+            content: '\f0c1'; /* Font Awesome link icon */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--accent-primary);
+        }
+        
+        .active-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .active-list li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .active-list li::before {
+            content: '\f007'; /* Font Awesome user icon */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--accent-primary);
+        }
+        
+        .active-count {
+            font-weight: bold;
+            color: var(--accent-primary);
+        }
+        
+        .active-contribution {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 3px;
+        }
+        
+        .word-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px 0;
+        }
+        
+        .word-cloud span {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: var(--bg-tertiary);
+            border-radius: 4px;
+            margin: 5px;
+        }
+        
+        .word-size-1 { font-size: 0.8rem; }
+        .word-size-2 { font-size: 1rem; }
+        .word-size-3 { font-size: 1.2rem; color: var(--accent-tertiary); }
+        .word-size-4 { font-size: 1.4rem; color: var(--accent-secondary); }
+        .word-size-5 { font-size: 1.6rem; color: var(--accent-primary); font-weight: bold; }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .topic-card, .quote-card, .links-card, .active-card, .wordcloud-card {
+                grid-column: span 12;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            h3 {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-container">
+        <!-- 主卡片 -->
+        <div class="main-card">
+            <h1>AI产品蝗虫团日报</h1>
+            <div class="date">2025-05-22</div>
+            <div class="meta-info">
+                <span><i class="fas fa-comment"></i> 消息数: 180+</span>
+                <span><i class="fas fa-user"></i> 活跃用户: 25+</span>
+                <span><i class="fas fa-fire"></i> 热点话题: 6</span>
+            </div>
+            <p class="summary">今日群聊围绕多款AI工具的使用体验和技巧展开热烈讨论。群友们分享了Cursor Pro激活码获取方法、Perplexity Pro会员权益、Skywork使用体验、Google AI Ultra订阅技巧以及AI视频生成工具Veo3的使用心得。此外，群内还讨论了AI工具的市场推广策略、功能对比以及在传统行业中的应用前景，展现了AI产品在各领域的快速渗透和创新应用。</p>
+        </div>
+        
+        <!-- 今日热点 -->
+        <div class="card topic-card">
+            <i class="fas fa-fire card-icon"></i>
+            <div class="topic-category">工具福利</div>
+            <h3>Cursor Pro激活码共享</h3>
+            <p>群友分享了多个Cursor Pro三个月会员激活码，讨论了激活方法和注意事项，如需绑定空卡避免自动续费等。</p>
+            <div class="topic-keywords">
+                <span class="keyword">Cursor Pro</span>
+                <span class="keyword">激活码</span>
+                <span class="keyword">会员权益</span>
+            </div>
+            <div class="topic-mentions">提及次数: 25+</div>
+        </div>
+        
+        <div class="card topic-card">
+            <i class="fas fa-fire card-icon"></i>
+            <div class="topic-category">会员福利</div>
+            <h3>Perplexity Pro会员权益</h3>
+            <p>群友讨论了Perplexity Pro会员如何获取免费的Cursor Pro三个月订阅，以及会员激活过程中的注意事项。</p>
+            <div class="topic-keywords">
+                <span class="keyword">Perplexity Pro</span>
+                <span class="keyword">会员权益</span>
+                <span class="keyword">免费订阅</span>
+            </div>
+            <div class="topic-mentions">提及次数: 15+</div>
+        </div>
+        
+        <div class="card topic-card">
+            <i class="fas fa-fire card-icon"></i>
+            <div class="topic-category">工具体验</div>
+            <h3>Skywork使用体验分享</h3>
+            <p>群友分享了Skywork的使用体验，包括如何通过Google Drive上传文档生成PPT，以及国内外版本的价格和功能差异。</p>
+            <div class="topic-keywords">
+                <span class="keyword">Skywork</span>
+                <span class="keyword">文档处理</span>
+                <span class="keyword">PPT生成</span>
+            </div>
+            <div class="topic-mentions">提及次数: 18+</div>
+        </div>
+        
+        <div class="card topic-card">
+            <i class="fas fa-fire card-icon"></i>
+            <div class="topic-category">技术讨论</div>
+            <h3>Google AI Ultra订阅技巧</h3>
+            <p>群友讨论了如何通过修改梯子和账号设置来使用Google AI Ultra订阅，以及EDU邮箱获取GPT Plus免费使用的方法。</p>
+            <div class="topic-keywords">
+                <span class="keyword">Google AI Ultra</span>
+                <span class="keyword">订阅技巧</span>
+                <span class="keyword">EDU邮箱</span>
+            </div>
+            <div class="topic-mentions">提及次数: 12+</div>
+        </div>
+        
+        <div class="card topic-card">
+            <i class="fas fa-fire card-icon"></i>
+            <div class="topic-category">视频生成</div>
+            <h3>Veo3视频生成工具体验</h3>
+            <p>群友分享了AI视频生成工具Veo3的使用体验，讨论了其生成效果和应用场景，以及与其他视频生成工具的对比。</p>
+            <div class="topic-keywords">
+                <span class="keyword">Veo3</span>
+                <span class="keyword">视频生成</span>
+                <span class="keyword">AI创作</span>
+            </div>
+            <div class="topic-mentions">提及次数: 10+</div>
+        </div>
+        
+        <div class="card topic-card">
+            <i class="fas fa-fire card-icon"></i>
+            <div class="topic-category">开发工具</div>
+            <h3>AI编程助手对比</h3>
+            <p>群友对比了Cursor、Windsurf、Augment等AI编程助手的使用体验，讨论了各自的优缺点和适用场景。</p>
+            <div class="topic-keywords">
+                <span class="keyword">Cursor</span>
+                <span class="keyword">Windsurf</span>
+                <span class="keyword">Augment</span>
+            </div>
+            <div class="topic-mentions">提及次数: 15+</div>
+        </div>
+        
+        <!-- 精彩引用 -->
+        <div class="card quote-card">
+            <i class="fas fa-quote-right card-icon"></i>
+            <h2>精彩引用</h2>
+            <ul class="quote-list">
+                <li class="quote-item">
+                    <p class="quote-content">"推荐一些目前觉得很好的ai agent产品。1. 设计领域最好 lovart，确实设计的不错，而且专业，最棒的是可以直接修改优化，比如小商家设计菜单，海报都可以搞定。2. 办公领域 今天爆火的skywork最棒，五一结束就开始测，越测越赞叹，真的可以给办公室白领提效。3. 开发领域 Augment最好，Cursor，Windsurf搞不定的，交给它都解决了，用它Vibe coding完成自己的网站和好几个常用工具。"</p>
+                    <p class="quote-author">— 向阳乔木</p>
+                </li>
+                <li class="quote-item">
+                    <p class="quote-content">"cursor其实是最好的，但门槛略高，需要对rules有非常好的理解，还需要很多辅助工具一起，反正我学起来很痛苦。"</p>
+                    <p class="quote-author">— Liu、</p>
+                </li>
+                <li class="quote-item">
+                    <p class="quote-content">"设计师的饭越来越难吃了，必须得有创新能力。"</p>
+                    <p class="quote-author">— 修</p>
+                </li>
+                <li class="quote-item">
+                    <p class="quote-content">"Augment也是目前用过最强的，理解任务和codebase理解很强。"</p>
+                    <p class="quote-author">— Bang</p>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- 重要链接与资源 -->
+        <div class="card links-card">
+            <i class="fas fa-link card-icon"></i>
+            <h2>重要链接与资源</h2>
+            <ul class="links-list">
+                <li><a href="https://www.cursor.com/ja/referral" target="_blank">Cursor Pro 三个月会员激活链接</a></li>
+                <li><a href="http://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247796324&idx=1&sn=a48b9cbc8382cb63267247cb7e9f8934" target="_blank">腾讯大模型战略首次全景亮相！智能体平台重磅上线</a></li>
+                <li><a href="https://listenhub.ai/zh/episode/u/682f45dc2ac12aee029ba945@_" target="_blank">AI相关播客资源</a></li>
+                <li><a href="#" target="_blank">Eleven Labs 100刀优惠券活动</a></li>
+                <li><a href="#" target="_blank">Supabase与Postgre最新版本讨论</a></li>
+            </ul>
+        </div>
+        
+        <!-- 活跃统计 -->
+        <div class="card active-card">
+            <i class="fas fa-users card-icon"></i>
+            <h2>活跃统计</h2>
+            <ul class="active-list">
+                <li>
+                    <span class="active-count">向阳乔木</span>
+                    <div class="active-contribution">分享AI工具推荐和使用经验，推荐Lovart、Skywork和Augment等工具</div>
+                </li>
+                <li>
+                    <span class="active-count">xiaolei0vip</span>
+                    <div class="active-contribution">分享Cursor Pro激活码和使用技巧</div>
+                </li>
+                <li>
+                    <span class="active-count">无我</span>
+                    <div class="active-contribution">讨论AI编程助手的使用体验和问题</div>
+                </li>
+                <li>
+                    <span class="active-count">LK(dingxiaoke4924)</span>
+                    <div class="active-contribution">分享Supabase使用体验和Eleven Labs优惠券信息</div>
+                </li>
+                <li>
+                    <span class="active-count">Ronin_Chang</span>
+                    <div class="active-contribution">分享AI发展趋势和即将到来的发布会信息</div>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- 词云 -->
+        <div class="card wordcloud-card">
+            <i class="fas fa-cloud card-icon"></i>
+            <h2>词云</h2>
+            <div class="word-cloud">
+                <span class="word-size-5">Cursor Pro</span>
+                <span class="word-size-4">激活码</span>
+                <span class="word-size-4">Perplexity Pro</span>
+                <span class="word-size-4">Skywork</span>
+                <span class="word-size-3">Google AI Ultra</span>
+                <span class="word-size-3">Veo3</span>
+                <span class="word-size-3">视频生成</span>
+                <span class="word-size-3">Augment</span>
+                <span class="word-size-3">Windsurf</span>
+                <span class="word-size-2">EDU邮箱</span>
+                <span class="word-size-2">会员权益</span>
+                <span class="word-size-2">腾讯大模型</span>
+                <span class="word-size-2">智能体平台</span>
+                <span class="word-size-2">Lovart</span>
+                <span class="word-size-2">设计师</span>
+                <span class="word-size-1">Eleven Labs</span>
+                <span class="word-size-1">Supabase</span>
+                <span class="word-size-1">Postgre</span>
+                <span class="word-size-1">Claude4</span>
+                <span class="word-size-1">OpenAI</span>
+                <span class="word-size-1">发布会</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

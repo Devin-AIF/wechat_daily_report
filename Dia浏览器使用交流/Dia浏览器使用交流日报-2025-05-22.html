@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia浏览器使用交流日报 - 2025-05-22</title>
+    <link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-100-M/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* 极简主义风格配色 */
+            --bg-primary: #f6f6f6;
+            --bg-secondary: #f8f9fa;
+            --bg-tertiary: #f1f3f5;
+            --text-primary: #212529;
+            --text-secondary: #495057;
+            --accent-primary: #ff8906;
+            --accent-secondary: #f76707;
+            --accent-tertiary: #e8590c;
+            --accent-blue: #339af0;
+            --accent-purple: #7048e8;
+            --accent-cyan: #22b8cf;
+            --card-padding: 24px;
+            --grid-gap: 16px;
+            --card-radius: 12px;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'SF Pro Display', 'Segoe UI', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-primary);
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+            color: var(--accent-primary);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: var(--accent-blue);
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-auto-rows: minmax(100px, auto);
+            gap: var(--grid-gap);
+            margin-top: 20px;
+        }
+
+        .card {
+            background-color: var(--bg-secondary);
+            border-radius: var(--card-radius);
+            padding: var(--card-padding);
+            box-shadow: var(--card-shadow);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent-primary);
+        }
+
+        .card-icon {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            font-size: 4rem;
+            opacity: 0.07;
+            color: var(--accent-primary);
+        }
+
+        .main-card {
+            grid-column: span 12;
+            grid-row: span 1;
+            background: var(--bg-secondary);
+        }
+
+        .highlight-card {
+            grid-column: span 6;
+            grid-row: span 1;
+        }
+
+        .quote-card {
+            grid-column: span 6;
+            grid-row: span 1;
+        }
+
+        .links-card {
+            grid-column: span 6;
+            grid-row: span 1;
+        }
+
+        .tips-card {
+            grid-column: span 6;
+            grid-row: span 1;
+        }
+
+        .stats-card {
+            grid-column: span 6;
+            grid-row: span 1;
+        }
+
+        .wordcloud-card {
+            grid-column: span 6;
+            grid-row: span 1;
+        }
+
+        .date {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .meta-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 1rem;
+        }
+
+        .meta-info span {
+            background-color: var(--bg-tertiary);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--accent-blue);
+        }
+
+        .summary {
+            margin-top: 1rem;
+            line-height: 1.7;
+        }
+
+        .topic-category {
+            display: inline-block;
+            background-color: var(--accent-tertiary);
+            color: var(--bg-primary);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .topic-keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 0.75rem;
+        }
+
+        .keyword {
+            background-color: var(--bg-tertiary);
+            color: var(--accent-primary);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .topic-mentions {
+            margin-top: 0.75rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .quote {
+            position: relative;
+            padding-left: 20px;
+            margin: 10px 0;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        .quote::before {
+            content: '"';
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 1.5rem;
+            color: var(--accent-tertiary);
+        }
+
+        .quote-author {
+            text-align: right;
+            font-size: 0.9rem;
+            color: var(--accent-tertiary);
+            margin-top: 5px;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 6px;
+            background-color: var(--bg-tertiary);
+            transition: background-color 0.2s ease;
+        }
+
+        .link-item:hover {
+            background-color: rgba(51, 154, 240, 0.1);
+        }
+
+        .link-icon {
+            margin-right: 10px;
+            color: var(--accent-blue);
+        }
+
+        .link-title {
+            flex-grow: 1;
+        }
+
+        .link-url {
+            color: var(--accent-blue);
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        .link-url:hover {
+            text-decoration: underline;
+        }
+
+        .tips-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .tips-list li {
+            margin-bottom: 12px;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .tips-list li::before {
+            content: '\f0eb';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--accent-primary);
+        }
+
+        .user-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .user-stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(73, 80, 87, 0.1);
+        }
+
+        .user-name {
+            font-weight: 500;
+        }
+
+        .user-count {
+            background-color: var(--accent-blue);
+            color: var(--bg-primary);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+        }
+
+        .wordcloud {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px 0;
+        }
+
+        .wordcloud-item {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: transform 0.2s ease;
+        }
+
+        .wordcloud-item:hover {
+            transform: scale(1.1);
+        }
+
+        .size-1 {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .size-2 {
+            font-size: 1.1rem;
+            color: var(--accent-cyan);
+        }
+
+        .size-3 {
+            font-size: 1.3rem;
+            color: var(--accent-blue);
+        }
+
+        .size-4 {
+            font-size: 1.5rem;
+            color: var(--accent-purple);
+        }
+
+        .size-5 {
+            font-size: 1.8rem;
+            color: var(--accent-tertiary);
+        }
+
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* 动画效果 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.3s; }
+        .card:nth-child(4) { animation-delay: 0.4s; }
+        .card:nth-child(5) { animation-delay: 0.5s; }
+        .card:nth-child(6) { animation-delay: 0.6s; }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+                font-size: 14px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            h2 {
+                font-size: 1.4rem;
+            }
+
+            h3 {
+                font-size: 1.1rem;
+            }
+
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+
+            .main-card,
+            .highlight-card,
+            .quote-card,
+            .links-card,
+            .tips-card,
+            .stats-card,
+            .wordcloud-card {
+                grid-column: span 1;
+            }
+
+            .card-padding {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-container">
+        <!-- 主卡片 -->
+        <div class="card main-card">
+            <h1>Dia浏览器使用交流日报</h1>
+            <div class="date">2025年5月22日</div>
+            <div class="meta-info">
+                <span><i class="fas fa-comment"></i> 消息数: 100+</span>
+                <span><i class="fas fa-users"></i> 活跃用户: 15+</span>
+                <span><i class="fas fa-fire"></i> 热点话题: 4</span>
+            </div>
+            <p class="summary">2025年5月22日的「Dia浏览器使用交流」群聊内容丰富多彩，主要围绕Dia浏览器的使用技巧、Google新项目探索、聊天记录管理工具以及教育邮箱获取等话题展开讨论。群友们分享了Dia浏览器的Prompt逆向工程技巧，讨论了Google I/O大会上发布的新项目，并对聊天记录管理工具chatlog的配置问题进行了深入探讨。此外，群友们还分享了教育邮箱的获取渠道及其在各种AI工具上的使用体验。整体氛围活跃，信息交流密集，体现了群友们对AI浏览器工具的热情和探索精神。</p>
+            <i class="fas fa-globe card-icon"></i>
+        </div>
+        
+        <!-- 今日热点 -->
+        <div class="card highlight-card">
+            <h2><i class="fas fa-bolt"></i> 今日热点</h2>
+            <div>
+                <div class="topic-category">技术探索</div>
+                <h3>Dia浏览器Prompt逆向工程</h3>
+                <p>群友们讨论了如何通过直接询问Dia浏览器来获取其内部使用的Prompt，实现Prompt叠加和逆向工程。有群友分享了自己的尝试结果，展示了如何通过询问Dia获取其内部使用的提示词，并根据自己的需求进行定制和开发。</p>
+                <div class="topic-keywords">
+                    <span class="keyword">Prompt</span>
+                    <span class="keyword">逆向工程</span>
+                    <span class="keyword">提示词定制</span>
+                </div>
+            </div>
+            <div style="margin-top: 20px;">
+                <div class="topic-category">新品发现</div>
+                <h3>Google新项目探索</h3>
+                <p>群内有群友分享了自己发现的两个有趣的Google项目，表示这些项目非常创新，值得长期探索。群友形容Google此次更新为"泄洪式更新"，与其他公司的"挤牙膏"式更新形成鲜明对比。</p>
+                <div class="topic-keywords">
+                    <span class="keyword">Google</span>
+                    <span class="keyword">泄洪式更新</span>
+                    <span class="keyword">I/O大会</span>
+                </div>
+            </div>
+            <div style="margin-top: 20px;">
+                <div class="topic-category">工具配置</div>
+                <h3>聊天记录管理工具chatlog</h3>
+                <p>群内多位群友讨论了聊天记录管理工具chatlog的配置和使用问题。有群友分享了如何将微信聊天记录导出并使用chatlog工具进行管理和分析的经验，以及解决SIP安全设置和版本兼容性问题的方法。</p>
+                <div class="topic-keywords">
+                    <span class="keyword">chatlog</span>
+                    <span class="keyword">聊天记录</span>
+                    <span class="keyword">SIP设置</span>
+                </div>
+            </div>
+            <div style="margin-top: 20px;">
+                <div class="topic-category">资源共享</div>
+                <h3>教育邮箱获取与使用</h3>
+                <p>群内多位群友讨论了如何获取教育邮箱以及其在各种AI工具上的使用体验。群友们分享了多种获取教育邮箱的渠道，包括咸鱼购买、专业网站申请等，并讨论了不同类型教育邮箱的适用范围。</p>
+                <div class="topic-keywords">
+                    <span class="keyword">教育邮箱</span>
+                    <span class="keyword">AI优惠</span>
+                    <span class="keyword">薅羊毛</span>
+                </div>
+            </div>
+            <i class="fas fa-lightbulb card-icon"></i>
+        </div>
+        
+        <!-- 精彩引用 -->
+        <div class="card quote-card">
+            <h2><i class="fas fa-quote-left"></i> 精彩引用</h2>
+            <div class="quote">
+                "感觉这个工具让传统企业老板圈知道了，不得了了"
+                <div class="quote-author">- 群友讨论AI工具对传统行业的影响</div>
+            </div>
+            <div class="quote">
+                "绝绝子，谷歌这俩玩意儿我能玩一年啊，太有味儿了，我得赶紧写"
+                <div class="quote-author">- 群友对Google新项目的热情评价</div>
+            </div>
+            <div class="quote">
+                "根本玩不过来，谷歌疯了"
+                <div class="quote-author">- 群友对Google大量新功能发布的感叹</div>
+            </div>
+            <div class="quote">
+                "懂了，官方的prompt 逆推工程"
+                <div class="quote-author">- 群友对Dia浏览器Prompt获取技巧的理解</div>
+            </div>
+            <i class="fas fa-comment-dots card-icon"></i>
+        </div>
+        
+        <!-- 重要链接与资源 -->
+        <div class="card links-card">
+            <h2><i class="fas fa-link"></i> 重要链接与资源</h2>
+            <div class="link-item">
+                <i class="fas fa-external-link-alt link-icon"></i>
+                <div class="link-title">豆包·语音播客模型介绍</div>
+                <a href="http://mp.weixin.qq.com/s?__biz=MzI0NzU1NzI5NQ==&mid=2247524157&idx=1&sn=463811ef27e957700bbb554d21f60c76" class="link-url" target="_blank">mp.weixin.qq.com/s?__biz=MzI0NzU1NzI5NQ==&mid=2247524157</a>
+            </div>
+            <div class="link-item">
+                <i class="fas fa-external-link-alt link-icon"></i>
+                <div class="link-title">Dia浏览器使用交流日报-2025-05-21</div>
+                <a href="http://s.mrw.so/8Btkz" class="link-url" target="_blank">s.mrw.so/8Btkz</a>
+            </div>
+            <div class="link-item">
+                <i class="fas fa-external-link-alt link-icon"></i>
+                <div class="link-title">群聊云图与话痨王者</div>
+                <a href="http://s.mrw.so/dbr82" class="link-url" target="_blank">s.mrw.so/dbr82</a>
+            </div>
+            <div class="link-item">
+                <i class="fas fa-external-link-alt link-icon"></i>
+                <div class="link-title">教程与提示词</div>
+                <a href="http://s.mrw.so/a6J1B" class="link-url" target="_blank">s.mrw.so/a6J1B</a>
+            </div>
+            <div class="link-item">
+                <i class="fas fa-external-link-alt link-icon"></i>
+                <div class="link-title">教育邮箱购买参考</div>
+                <a href="https://edumark.net/632.html?aff=995" class="link-url" target="_blank">edumark.net/632.html?aff=995</a>
+            </div>
+            <i class="fas fa-share-alt card-icon"></i>
+        </div>
+        
+        <!-- 实用技巧分享 -->
+        <div class="card tips-card">
+            <h2><i class="fas fa-lightbulb"></i> 实用技巧分享</h2>
+            <ul class="tips-list">
+                <li><strong>Dia浏览器Prompt获取</strong>：直接询问Dia浏览器获取其内部使用的提示词，实现提示词逆向工程</li>
+                <li><strong>聊天记录管理</strong>：使用chatlog工具管理微信聊天记录，可实现跨群聊、跨时间段的内容汇总和分类</li>
+                <li><strong>Dia浏览器分享功能</strong>：通过chat中的图片(image)标识，可以导出当前聊天中的回复内容分享给他人</li>
+                <li><strong>Google账号区域设置</strong>：在Google首页点击右上角头像 > 语言(language) > 显示语言和搜索结果改为English，地区改为United States(美国)，解决部分功能无法使用的问题</li>
+            </ul>
+            <i class="fas fa-tools card-icon"></i>
+        </div>
+        
+        <!-- 活跃统计 -->
+        <div class="card stats-card">
+            <h2><i class="fas fa-chart-line"></i> 活跃统计</h2>
+            <div class="user-stats">
+                <div class="user-stat-item">
+                    <span class="user-name">十一</span>
+                    <span class="user-count">15+</span>
+                </div>
+                <div class="user-stat-item">
+                    <span class="user-name">我(朱行政)</span>
+                    <span class="user-count">12+</span>
+                </div>
+                <div class="user-stat-item">
+                    <span class="user-name">小伢儿</span>
+                    <span class="user-count">12+</span>
+                </div>
+                <div class="user-stat-item">
+                    <span class="user-name">Super黄（沉迷AI编程）</span>
+                    <span class="user-count">10+</span>
+                </div>
+                <div class="user-stat-item">
+                    <span class="user-name">我也不知道叫啥好</span>
+                    <span class="user-count">8+</span>
+                </div>
+                <div class="user-stat-item">
+                    <span class="user-name">Gary</span>
+                    <span class="user-count">8+</span>
+                </div>
+                <div class="user-stat-item">
+                    <span class="user-name">强子</span>
+                    <span class="user-count">5+</span>
+                </div>
+            </div>
+            <i class="fas fa-users card-icon"></i>
+        </div>
+        
+        <!-- 词云 -->
+        <div class="card wordcloud-card">
+            <h2><i class="fas fa-cloud"></i> 词云</h2>
+            <div class="wordcloud">
+                <div class="wordcloud-item size-5">Dia浏览器</div>
+                <div class="wordcloud-item size-5">Google</div>
+                <div class="wordcloud-item size-4">chatlog</div>
+                <div class="wordcloud-item size-4">教育邮箱</div>
+                <div class="wordcloud-item size-4">Prompt</div>
+                <div class="wordcloud-item size-3">聊天记录</div>
+                <div class="wordcloud-item size-3">逆向工程</div>
+                <div class="wordcloud-item size-3">泄洪式更新</div>
+                <div class="wordcloud-item size-3">微信</div>
+                <div class="wordcloud-item size-2">SIP</div>
+                <div class="wordcloud-item size-2">Gemini</div>
+                <div class="wordcloud-item size-2">Perplexity</div>
+                <div class="wordcloud-item size-2">薅羊毛</div>
+                <div class="wordcloud-item size-2">群聊总结</div>
+                <div class="wordcloud-item size-1">咸鱼</div>
+                <div class="wordcloud-item size-1">I/O大会</div>
+                <div class="wordcloud-item size-1">提示词</div>
+                <div class="wordcloud-item size-1">传统行业</div>
+                <div class="wordcloud-item size-1">版本兼容</div>
+                <div class="wordcloud-item size-1">Claude</div>
+                <div class="wordcloud-item size-1">API</div>
+            </div>
+            <i class="fas fa-tags card-icon"></i>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>Dia浏览器使用交流日报 · 2025年5月22日</p>
+    </div>
+</body>
+</html>
