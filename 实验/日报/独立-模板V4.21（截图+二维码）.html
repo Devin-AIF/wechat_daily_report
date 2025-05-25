@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[在此处填写报告标题] - [日期]</title>
+    <link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-100-M/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" xintegrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoVBL5rLesXWW/sGuLhYFChxgYnz2Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>
+        :root {
+            /* 极简主义风格配色 */
+            --bg-primary: #f5f4ee; /* 略暖的米白色 */
+            --bg-secondary: #faf9f6; /* 更浅的卡片背景色 */
+            --bg-tertiary: #f1f3f5; /* 第三背景色，用于标签等 */
+            --text-primary: #212529; /* 主要文字颜色 */
+            --text-secondary: #495057; /* 次要文字颜色 */
+            --accent-primary: #ff8906; /* 主要强调色 - 橙色 */
+            --accent-secondary: #f76707; /* 次要强调色 - 深橙色 */
+            --accent-tertiary: #e8590c; /* 第三强调色 - 焦橙色 */
+            --accent-blue: #339af0;    /* 特定元素的蓝色强调 */
+            --accent-purple: #7048e8; /* 词云的紫色强调 */
+            --accent-cyan: #22b8cf;    /* 词云的青色强调 */
+            --highlight-keyword-bg: #ffe8cc; /* 关键词高亮背景 */
+            --highlight-name-color: #7048e8; /* 人名高亮颜色 */
+            --card-padding: 24px; /* 卡片内边距 */
+            --grid-gap: 16px; /* 网格间距 */
+            --card-radius: 12px; /* 卡片圆角 */
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); /* 卡片阴影 */
+            --font-family: 'Inter', 'SF Pro Display', 'Segoe UI', sans-serif; /* 定义字体变量 */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family); /* 使用字体变量 */
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+            width: 100%;
+            max-width: 1000px; /* 内容最大宽度 */
+            margin: 0 auto; /* 内容居中 */
+            padding: 20px; /* 内容周围内边距 */
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        h1 {
+            font-size: 2.5rem; /* 主卡片大标题 */
+            margin-bottom: 0.5rem;
+            color: var(--accent-primary);
+        }
+
+        h2 { /* H2通用样式, 也用于主题卡片 */
+            font-size: 1.75rem; /* 版块标题 */
+            margin-bottom: 1rem;
+            color: var(--accent-primary); /* 区块和主题卡片标题颜色 */
+        }
+
+        h3 { /* 用于子标题或特定元素，如统计卡片 */
+            font-size: 1.25rem; /* 子版块标题 */
+            margin-bottom: 0.75rem;
+            color: var(--accent-blue); /* 子标题使用蓝色以形成对比 */
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr); /* 12列网格系统 */
+            grid-auto-rows: minmax(100px, auto); /* 行高根据内容自动调整, 至少100px */
+            gap: var(--grid-gap);
+            margin-top: 20px;
+            grid-template-areas: /* 更新的网格区域 */
+                "main      main      main      main      main      main      main      main      main      main      main      main"
+                "topics    topics    topics    topics    topics    topics    topics    topics    topics    topics    topics    topics"
+                "quote     quote     quote     quote     quote     quote     links     links     links     links     links     links"
+                "stats     stats     stats     stats     stats     stats     stats     wordcloud wordcloud wordcloud wordcloud wordcloud";
+        }
+
+        .card {
+            background-color: var(--bg-secondary);
+            border-radius: var(--card-radius);
+            padding: var(--card-padding);
+            box-shadow: var(--card-shadow);
+            position: relative; /* 用于图标定位和伪元素 */
+            overflow: hidden; /* 确保伪元素不超出卡片圆角 */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex; /* 为卡片内flex布局添加 */
+            flex-direction: column; /* 垂直堆叠项目 */
+        }
+
+        .card:hover {
+            transform: translateY(-5px); /* 鼠标悬停时轻微上浮效果 */
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); /* 鼠标悬停时增强阴影 */
+        }
+
+        /* 卡片顶部强调边框 */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent-primary);
+        }
+
+        /* 卡片右下角装饰性图标 */
+        .card-icon {
+            position: absolute;
+            bottom: var(--card-padding);
+            right: var(--card-padding);
+            font-size: 4rem;
+            opacity: 0.07;
+            color: var(--accent-primary);
+        }
+
+        /* 网格区域分配 */
+        .main-card { grid-area: main; }
+        .topic-cards-wrapper {
+            grid-area: topics;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: var(--grid-gap);
+        }
+        .quote-card { grid-area: quote; }
+        .links-card { grid-area: links; }
+        .stats-card { grid-area: stats; }
+        .wordcloud-card { grid-area: wordcloud; }
+
+        /* topic-cards-wrapper 内单个主题卡片的样式 */
+        .topic-card {
+            grid-column: span 6; /* 默认占据6列 */
+            min-height: 250px;
+        }
+        .topic-card > .topic-card-content-wrapper {
+            flex-grow: 1; /* 使内容区域填满卡片剩余空间 */
+            padding-bottom: 1rem; /* 内容区域底部的通用内边距 */
+        }
+
+        /* 如果主题卡片是奇数个，最后一个卡片占据整行 */
+        .topic-cards-wrapper > .topic-card:nth-last-child(1):nth-child(odd) {
+            grid-column: span 12;
+        }
+
+        .main-card h1 {
+            text-align: center;
+        }
+        .main-card .date {
+            text-align: center;
+        }
+
+        .date {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .meta-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 1rem;
+            justify-content: center;
+        }
+
+        .meta-info span {
+            background-color: var(--bg-tertiary);
+            padding: 5px 10px;
+            border-radius: 20px; /* 胶囊形状 */
+            font-size: 0.9rem;
+            color: var(--accent-blue);
+        }
+
+        .summary {
+            margin-top: 1rem;
+            line-height: 1.7; /* 增加行高以提高可读性 */
+            text-align: left; /* 摘要文本左对齐 */
+        }
+
+        .topic-category {
+            display: inline-block; /* 使背景适应文本内容 */
+            background-color: var(--accent-tertiary);
+            color: var(--bg-primary); /* 确保文本在深色背景上可读 */
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .topic-keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 0.75rem;
+            margin-bottom: 0.75rem; /* 关键词和提及次数之间的间距 */
+        }
+
+        .keyword {
+            background-color: var(--bg-tertiary);
+            color: var(--accent-primary);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        .highlight-keyword {
+            background-color: var(--highlight-keyword-bg);
+            padding: 1px 2px;
+            border-radius: 2px;
+            font-weight: 500;
+            display: inline;
+            line-height: 1.2;
+            box-decoration-break: clone;
+            -webkit-box-decoration-break: clone;
+        }
+        .highlight-name {
+            color: var(--highlight-name-color);
+            font-weight: 500;
+        }
+
+        .topic-mentions {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+
+        .quote {
+            position: relative;
+            padding-left: 20px; /* 为引号图标留出空间 */
+            margin: 10px 0;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        .quote::before {
+            content: '"'; /* 左引号 */
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 1.5rem; /* 引号大小 */
+            color: var(--accent-tertiary);
+        }
+
+        .quote-author {
+            text-align: right;
+            font-size: 0.9rem;
+            color: var(--accent-tertiary);
+            margin-top: 5px;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 6px;
+            background-color: var(--bg-tertiary);
+            transition: background-color 0.2s ease;
+            text-decoration: none; /* 移除外部div的下划线 */
+        }
+
+        .link-item:hover {
+            background-color: rgba(51, 154, 240, 0.1); /* 鼠标悬停时淡蓝色背景 */
+        }
+        
+        .link-item a { /* 使整个链接项可点击 */
+            text-decoration: none;
+            color: inherit; /* 继承父元素颜色 */
+            display: flex; /* 内部元素对齐 */
+            align-items: center;
+            width: 100%;
+        }
+
+        .link-item a:hover .link-title { /* 仅在悬停时给标题添加下划线 */
+            text-decoration: underline;
+            color: var(--accent-blue);
+        }
+
+
+        .link-icon {
+            margin-right: 10px;
+            color: var(--accent-blue);
+        }
+
+        .link-title {
+            flex-grow: 1; /* 占据剩余空间 */
+            color: var(--text-primary); /* 默认链接标题颜色 */
+        }
+        
+        .link-title.is-link { /* 如果是实际链接，则使用强调色 */
+            color: var(--accent-blue);
+        }
+        .link-title.is-link:hover {
+            text-decoration: underline;
+        }
+
+        .user-stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 0.5rem; /* 表格与标题间距 */
+        }
+        .user-stats-table th {
+            text-align: center; /* 表头居中 */
+            padding: 0.75rem 0.5rem; 
+            border-bottom: 2px solid var(--accent-primary);
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.9rem; 
+        }
+        .user-stats-table td {
+            padding: 0.75rem 0.5rem; 
+            border-bottom: 1px solid var(--bg-tertiary);
+            color: var(--text-secondary);
+            font-size: 0.85rem; 
+            vertical-align: top; 
+            text-align: left; /* 表体内容靠左显示 */
+        }
+        .user-stats-table .user-name-col { 
+            width: 25%;
+            font-weight: 500; 
+            word-break: break-all; /* 允许在任意字符处换行，以适应长用户名 */
+        }
+        .user-stats-table .message-count-col {
+            text-align: center; /* 发言数居中 */
+            width: 15%;
+            white-space: nowrap; /* 保持发言数在同一行 */
+        }
+        .user-stats-table .contribution-col { 
+            width: 60%;
+            word-break: break-all; /* 允许贡献内容换行 */
+        }
+        .user-stats-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .wordcloud {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; /* 词云居中对齐 */
+            gap: 10px;
+            padding: 20px 0;
+        }
+
+        .wordcloud-item {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: transform 0.2s ease;
+        }
+
+        .wordcloud-item:hover {
+            transform: scale(1.1); /* 鼠标悬停放大效果 */
+        }
+
+        /* 词云字体大小和颜色 */
+        .size-1 { font-size: 0.9rem; color: var(--text-secondary); }
+        .size-2 { font-size: 1.1rem; color: var(--accent-cyan); }
+        .size-3 { font-size: 1.3rem; color: var(--accent-blue); }
+        .size-4 { font-size: 1.5rem; color: var(--accent-purple); }
+        .size-5 { font-size: 1.8rem; color: var(--accent-tertiary); }
+        
+        /* 二维码占位符样式 */
+        .qr-code-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* 响应式列 */
+            gap: var(--grid-gap);
+            margin-top: 20px; /* 与上方内容的间距 */
+            margin-bottom: 20px; /* 与下方页脚的间距 */
+        }
+
+        .qr-code-placeholder {
+            background-color: var(--bg-secondary);
+            border-radius: var(--card-radius);
+            padding: var(--card-padding);
+            box-shadow: var(--card-shadow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 150px; /* 最小高度 */
+            border: 2px dashed var(--accent-primary); /* 虚线边框强调占位 */
+            color: var(--text-secondary);
+            text-align: center;
+        }
+        .qr-code-placeholder i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-primary);
+        }
+
+
+        .action-buttons-container {
+            text-align: center;
+            margin: 20px 0;
+            padding-bottom: 20px; /* 底部留白 */
+        }
+
+        .action-button {
+            background-color: var(--accent-primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--card-radius);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin: 5px 10px; /* 按钮间距 */
+            box-shadow: var(--card-shadow);
+            display: inline-flex; /* 用于图标和文本对齐 */
+            align-items: center; /* 垂直居中图标和文本 */
+            justify-content: center; /* 水平居中内容 */
+        }
+
+        .action-button:hover {
+            background-color: var(--accent-secondary);
+            transform: translateY(-2px);
+        }
+         .action-button i { /* FontAwesome 图标的间距 */
+            margin-right: 8px;
+        }
+        .action-button .fas { /* 兼容旧版 FontAwesome 用法 */
+            margin-right: 8px;
+        }
+
+
+        .footer {
+            margin-top: 30px; /* 页脚与上方内容的间距 */
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        #report-content-wrapper .footer { /* 确保截图时包含页脚 */
+            margin-top: 30px; /* 调整与上方内容的间距 */
+            padding-bottom: 20px; /* 增加底部内边距，确保截图完整 */
+        }
+
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card, .qr-code-placeholder { animation: fadeIn 0.5s ease forwards; } /* 所有卡片和二维码占位符应用淡入动画 */
+
+        /* 为不同卡片设置动画延迟，实现依次出现的效果 */
+        .main-card { animation-delay: 0.1s; }
+        .topic-cards-wrapper .topic-card:nth-child(1) { animation-delay: 0.2s; }
+        .topic-cards-wrapper .topic-card:nth-child(2) { animation-delay: 0.3s; }
+        .topic-cards-wrapper .topic-card:nth-child(3) { animation-delay: 0.4s; }
+        .topic-cards-wrapper .topic-card:nth-child(4) { animation-delay: 0.5s; } 
+        
+        /* .mindmap-card { animation-delay: 0.6s; }  已移除 */
+
+        .quote-card { animation-delay: 0.6s; } /* 从 0.7s 调整延迟 */
+        .links-card { animation-delay: 0.7s; } /* 从 0.8s 调整延迟 */
+        .stats-card { animation-delay: 0.8s; } /* 从 0.9s 调整延迟 */
+        .wordcloud-card { animation-delay: 0.9s; } /* 从 1.0s 调整延迟 */
+        .qr-code-container .qr-code-placeholder:nth-child(1) { animation-delay: 1.0s; } /* 二维码动画延迟 */
+        .qr-code-container .qr-code-placeholder:nth-child(2) { animation-delay: 1.05s; }
+        .qr-code-container .qr-code-placeholder:nth-child(3) { animation-delay: 1.1s; }
+        .qr-code-container .qr-code-placeholder:nth-child(4) { animation-delay: 1.15s; }
+        #report-content-wrapper .footer { animation-delay: 1.2s; } /* 从 1.1s 调整延迟 */
+        .action-buttons-container { animation-delay: 1.3s; } /* 从 1.2s 调整延迟 */
+
+
+        /* 移动端响应式样式 */
+        @media (max-width: 768px) { 
+            body {
+                padding: 10px;
+                font-size: 14px; /* 移动端基础字体大小 */
+            }
+
+            h1 { font-size: 1.8rem; }
+            h2 { font-size: 1.4rem; } 
+            h3 { font-size: 1.1rem; }
+
+            .grid-container {
+                grid-template-columns: 1fr; /* 单列布局 */
+                grid-template-areas: /* 垂直堆叠所有区域 */
+                    "main"
+                    "topics"
+                    /* "mindmap" 已移除 */
+                    "quote"
+                    "links"
+                    "stats"
+                    "wordcloud";
+            }
+            
+            .topic-cards-wrapper {
+                grid-template-columns: 1fr; /* 主题卡片也单列，确保铺满 */
+            }
+            .topic-card { 
+                grid-column: 1 / -1; /* 主题卡片占据整行 */
+                min-height: auto; /* 高度自动 */
+            }
+            .topic-card > .topic-card-content-wrapper {
+                padding-bottom: 1rem; /* 确保内容底部有空间 */
+            }
+            .topic-mentions { /* 提及次数在移动端调整 */
+                position: static; /* 恢复正常流布局 */
+                margin-top: 10px; /* 与上方内容间距 */
+                margin-bottom: 10px; /* 与下方内容间距 */
+                text-align: left; /* 左对齐 */
+            }
+            .card-icon { /* 卡片图标在移动端调整 */
+                position: relative; /* 恢复正常流布局 */
+                bottom: auto;
+                right: auto;
+                margin-top: auto; /* 推到底部 */
+                margin-left: auto; /* 推到右侧 */
+                padding-top: 10px; /* 与内容间距 */
+            }
+            .user-stats-table th, .user-stats-table td {
+                padding: 0.5rem 0.25rem; /* 减小单元格内边距 */
+                font-size: 0.8rem; /* 减小字体 */
+            }
+            /* 在768px及以下，表头居中，表体内容靠左，但发言数居中 */
+            .user-stats-table td {
+                text-align: left;
+            }
+            .user-stats-table .message-count-col {
+                text-align: center; /* 发言数在768px下也居中 */
+            }
+            .qr-code-container {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* 移动端二维码列调整 */
+            }
+            .qr-code-placeholder {
+                min-height: 120px;
+                padding: calc(var(--card-padding) / 1.5);
+            }
+            .qr-code-placeholder i {
+                font-size: 1.5rem;
+            }
+
+
+            .action-button {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+            .action-buttons-container { /* 操作按钮容器在移动端使用flex布局 */
+                display: flex;
+                flex-wrap: wrap; 
+                justify-content: center; 
+                gap: 10px; 
+            }
+            .action-buttons-container .action-button { /* 按钮宽度调整 */
+                width: calc(50% - 10px); /* 每行两个按钮，减去gap */
+                min-width: 180px; /* 按钮最小宽度 */
+                margin: 5px 0; /* 移除左右margin，由gap控制 */
+            }
+            /* 屏幕更小时的响应式调整 */
+            @media (max-width: 480px) {
+                .action-buttons-container .action-button {
+                    width: 80%; /* 按钮宽度进一步增大 */
+                }
+                .user-stats-table { /* 表格转换为卡片式列表 */
+                    display: block; 
+                    overflow-x: auto; 
+                }
+                .user-stats-table th, .user-stats-table td {
+                    white-space: normal; 
+                }
+                .user-stats-table thead, .user-stats-table tbody, .user-stats-table tr {
+                    display: block; 
+                }
+                .user-stats-table tr {
+                    border-bottom: 1px solid var(--bg-tertiary); 
+                }
+                .user-stats-table th {
+                    display: none; 
+                }
+                .user-stats-table td {
+                    display: block; 
+                    text-align: left; /* 480px下，单元格内容（标签后的值）靠左 */
+                    border-bottom: none; 
+                    padding-left: 0.5rem; 
+                }
+                .user-stats-table td.message-count-col {
+                     text-align: left; /* 确保发言数在480px下也靠左 */
+                }
+                .user-stats-table td::before { 
+                    content: attr(data-label); 
+                    font-weight: bold;
+                    display: inline-block; /* 让标签和值在同一行，如果空间允许 */
+                    width: 100px; /* 标签宽度 */
+                    margin-right: 10px; /* 标签和值之间的间距 */
+                    color: var(--text-primary);
+                    text-align: left; /* 标签文本自身靠左 */
+                }
+                .user-stats-table tr:last-child { 
+                    border-bottom: none;
+                }
+                .qr-code-container {
+                    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* 更小屏幕二维码列调整 */
+                }
+                .qr-code-placeholder {
+                    min-height: 100px;
+                    font-size: 0.8rem;
+                }
+                 .qr-code-placeholder i {
+                    font-size: 1.2rem;
+                }
+            }
+        }
+        #feedback-message { /* 操作反馈信息样式 */
+            text-align: center;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+        #feedback-message.success {
+            color: green;
+        }
+        #feedback-message.error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="report-content-wrapper">
+        <div class="grid-container">
+            <div class="card main-card">
+                <h1 contenteditable="true">[主报告标题 - 例如：AI产品团日报]</h1>
+                <div class="date">[日期 - 例如：2025年5月19日]</div>
+                <div class="meta-info">
+                    <span><i class="fas fa-comment"></i> 消息数: [数字]+</span>
+                    <span><i class="fas fa-users"></i> 活跃用户: [数字]+</span>
+                    <span><i class="fas fa-fire"></i> 热点话题: [数字]</span>
+                </div>
+                <p class="summary">[在此处填写当日讨论的总体摘要。保持简洁明了，突出群组的主要主题和氛围。]</p>
+                <i class="fas fa-microchip card-icon"></i>
+            </div>
+
+            <div class="topic-cards-wrapper">
+                <div class="card topic-card">
+                    <div class="topic-card-content-wrapper"> 
+                        <h2 contenteditable="true"><i class="fas fa-lightbulb"></i> [主题1标题]</h2>
+                        <div class="topic-category">[分类1 - 例如：工具技巧]</div>
+                        <p>关于<span class="highlight-keyword">插件功能</span>的讨论，特别是<span class="highlight-name">@用户A</span>提到的<span class="highlight-keyword">上下文处理</span>能力。</p>
+                        <div class="topic-keywords">
+                            <span class="keyword">[关键词1A]</span>
+                            <span class="keyword">[关键词1B]</span>
+                            <span class="keyword">[关键词1C]</span>
+                        </div>
+                        <div class="topic-mentions"><i class="fas fa-bullhorn"></i> 提及次数: [数量1]</div>
+                    </div>
+                    <i class="fas fa-tools card-icon"></i> 
+                </div>
+
+                <div class="card topic-card">
+                    <div class="topic-card-content-wrapper"> 
+                        <h2 contenteditable="true"><i class="fas fa-rocket"></i> [主题2标题]</h2>
+                        <div class="topic-category">[分类2 - 例如：新功能]</div>
+                        <p><span class="highlight-name">@用户B</span>分享了<span class="highlight-keyword">AI搜索</span>的最新进展和<span class="highlight-keyword">地区限制</span>问题。</p>
+                        <div class="topic-keywords">
+                            <span class="keyword">[关键词2A]</span>
+                            <span class="keyword">[关键词2B]</span>
+                        </div>
+                        <div class="topic-mentions"><i class="fas fa-bullhorn"></i> 提及次数: [数量2]</div>
+                    </div>
+                    <i class="fas fa-star card-icon"></i> 
+                </div>
+                
+                <div class="card topic-card">
+                    <div class="topic-card-content-wrapper"> 
+                        <h2 contenteditable="true"><i class="fas fa-comments-dollar"></i> [主题3标题]</h2>
+                        <div class="topic-category">[分类3 - 例如：工具体验]</div>
+                        <p>大家对<span class="highlight-keyword">Agent技术</span>的<span class="highlight-keyword">商业化前景</span>进行了探讨，<span class="highlight-name">@用户C</span>提出了独到见解。</p>
+                        <div class="topic-keywords">
+                            <span class="keyword">[关键词3A]</span>
+                            <span class="keyword">[关键词3B]</span>
+                            <span class="keyword">[关键词3C]</span>
+                        </div>
+                        <div class="topic-mentions"><i class="fas fa-bullhorn"></i> 提及次数: [数量3]</div>
+                    </div>
+                    <i class="fas fa-comments card-icon"></i> 
+                </div>
+            </div>
+
+            <div class="card quote-card">
+                <h2 contenteditable="false"><i class="fas fa-quote-left"></i> 精彩引用</h2>
+                <div class="quote">
+                    "[引言1内容。使其具有影响力或代表性。]"
+                    <div class="quote-author">- @[发言人1]</div>
+                </div>
+                <div class="quote">
+                    "[引言2内容。]"
+                    <div class="quote-author">- @[发言人2]</div>
+                </div>
+                <div class="quote">
+                    "[引言3内容。]"
+                    <div class="quote-author">- @[发言人3]</div>
+                </div>
+                <i class="fas fa-comment-dots card-icon"></i> 
+            </div>
+
+            <div class="card links-card">
+                <h2 contenteditable="false"><i class="fas fa-link"></i> 重要链接与资源</h2>
+                <div class="link-item">
+                    <a href="[URL链接1]" target="_blank">
+                        <i class="fas fa-external-link-alt link-icon"></i> 
+                        <span class="link-title">[链接1标题]</span>
+                    </a>
+                </div>
+                <div class="link-item">
+                    <a href="[URL链接2]" target="_blank">
+                        <i class="fas fa-external-link-alt link-icon"></i>
+                        <span class="link-title">[链接2标题]</span>
+                    </a>
+                </div>
+                <div class="link-item"> <i class="fas fa-file link-icon"></i> 
+                    <span class="link-title">[文档1标题 - 例如：共享提示词V5]</span> 
+                </div>
+                <i class="fas fa-share-alt card-icon"></i> 
+            </div>
+
+            <div class="card stats-card">
+                <h2 contenteditable="false"><i class="fas fa-chart-line"></i> 活跃之星</h2>
+                <table class="user-stats-table">
+                    <thead>
+                        <tr>
+                            <th class="user-name-col">用户</th>
+                            <th class="message-count-col">发言数</th>
+                            <th class="contribution-col">主要贡献</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-label="用户" class="user-name-col">@发言人1</td>
+                            <td data-label="发言数" class="message-count-col">[数量1]+</td>
+                            <td data-label="主要贡献" class="contribution-col">[用户1的主要贡献内容 - 例如：分享 PageTalk 插件和万能 Prompt 生成器]</td>
+                        </tr>
+                        <tr>
+                            <td data-label="用户" class="user-name-col">@发言人2</td>
+                            <td data-label="发言数" class="message-count-col">[数量2]+</td>
+                            <td data-label="主要贡献" class="contribution-col">[用户2的主要贡献内容 - 例如：PageTalk 插件开发者，分享使用体验]</td>
+                        </tr>
+                        <tr>
+                            <td data-label="用户" class="user-name-col">@发言人3</td>
+                            <td data-label="发言数" class="message-count-col">[数量3]+</td>
+                            <td data-label="主要贡献" class="contribution-col">[用户3的主要贡献内容 - 例如：参与 Agent 讨论和工具测试]</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <i class="fas fa-user-friends card-icon"></i> 
+            </div>
+
+            <div class="card wordcloud-card">
+                <h2 contenteditable="false"><i class="fas fa-cloud"></i> 词云</h2>
+                <div class="wordcloud">
+                    <span class="wordcloud-item size-5">[关键词A]</span>
+                    <span class="wordcloud-item size-5">[关键词B]</span>
+                    <span class="wordcloud-item size-4">[关键词C]</span>
+                    <span class="wordcloud-item size-4">[关键词D]</span>
+                    <span class="wordcloud-item size-3">[关键词E]</span>
+                    <span class="wordcloud-item size-3">[关键词F]</span>
+                    <span class="wordcloud-item size-2">[关键词G]</span>
+                    <span class="wordcloud-item size-2">[关键词H]</span>
+                    <span class="wordcloud-item size-1">[关键词I]</span>
+                </div>
+                <i class="fas fa-tags card-icon"></i> 
+            </div>
+        </div> 
+        
+        <div class="qr-code-container">
+            <div class="qr-code-placeholder">
+                <i class="fas fa-qrcode"></i>
+                <span>二维码1</span>
+                <span>(本地图片)</span>
+            </div>
+            <div class="qr-code-placeholder">
+                <i class="fas fa-qrcode"></i>
+                <span>二维码2</span>
+                <span>(本地图片)</span>
+            </div>
+            <div class="qr-code-placeholder">
+                <i class="fas fa-qrcode"></i>
+                <span>二维码3</span>
+                <span>(本地图片)</span>
+            </div>
+            <div class="qr-code-placeholder">
+                <i class="fas fa-qrcode"></i>
+                <span>二维码4</span>
+                <span>(本地图片)</span>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>数据来源：[您的数据来源 - 例如：AI产品团聊天记录] | 生成日期：[生成日期] | 统计周期：[统计周期 - 例如：[日期]全天]</p>
+            <p>[免责声明 - 例如：本报告由AI自动生成，仅供参考，不代表所有群成员观点。]</p>
+        </div>
+    </div> 
+
+    <div class="action-buttons-container">
+        <button id="viewPreviousReportBtn" class="action-button"><i class="fas fa-calendar-alt"></i> 查看昨日日报</button>
+        <button id="screenshotToClipboardBtn" class="action-button"><i class="fas fa-clipboard"></i> 拷贝截图</button>
+        <button id="screenshotDownloadBtn" class="action-button"><i class="fas fa-camera"></i> 下载截图</button>
+        <button id="copyHtmlBtn" class="action-button"><i class="fas fa-copy"></i> 拷贝源码</button>
+        <button id="downloadHtmlBtn" class="action-button"><i class="fas fa-download"></i> 下载报告</button>
+    </div>
+    <div id="feedback-message"></div>
+
+<script>
+    // 辅助函数：获取CSS变量值
+    function getCssVariable(variableName, defaultValue = null) {
+        const value = getComputedStyle(document.documentElement).getPropertyValue(variableName).trim();
+        return value || defaultValue;
+    }
+
+    // Mermaid.js 及相关的思维导图 JavaScript 已移除
+
+    // =====================================================================================
+    // 文件名生成辅助函数
+    // =====================================================================================
+    function getWebpageNameForFilename() {
+        const pageTitleTag = document.querySelector('title');
+        let baseName = 'AI产品日报'; // 如果标题为空或格式不符合预期，则使用默认名称
+        if (pageTitleTag && pageTitleTag.textContent) {
+            const fullTitle = pageTitleTag.textContent.trim();
+            const titleParts = fullTitle.split(' - '); // 按 " - " 分割
+            if (titleParts.length > 0 && titleParts[0].trim() !== "" && titleParts[0].trim() !== "[在此处填写报告标题]") {
+                baseName = titleParts[0].trim(); 
+            }
+        }
+        return baseName;
+    }
+
+    function getDateStringForFilename() {
+        const reportDateElement = document.querySelector('.main-card .date');
+        let dateStr = "未指定日期"; // 如果日期元素为空，则使用默认日期
+        if (reportDateElement && reportDateElement.textContent) {
+            const dateContent = reportDateElement.textContent.trim();
+            if (dateContent && dateContent !== "[日期 - 例如：2025年5月19日]") { // 确保内容不为空或占位符
+                dateStr = dateContent;
+            }
+        }
+        return dateStr;
+    }
+    
+    function sanitizeFilename(filename) {
+        // 移除或替换文件名中不合适的字符
+        // 允许中文、字母数字、下划线、连字符、点以及占位符的括号
+        return filename.replace(/[^a-z0-9\u4e00-\u9fa5_\-\.\(\)\[\]]/gi, '_').replace(/_+/g, '_');
+    }
+
+
+    // =====================================================================================
+    // 在此处配置“查看昨日日报”按钮的URL
+    // =====================================================================================
+    const previousReportUrl = "在此处填写昨日日报的URL"; // 重要提示：更新此URL
+
+    // 向用户显示反馈消息的函数
+    function showFeedbackMessage(message, type = 'info', duration = 3000) {
+        const feedbackElement = document.getElementById('feedback-message');
+        if (feedbackElement) {
+            feedbackElement.textContent = message;
+            feedbackElement.className = type; // 应用 'success' 或 'error' 类进行样式设置
+            setTimeout(() => {
+                feedbackElement.textContent = '';
+                feedbackElement.className = '';
+            }, duration);
+        }
+    }
+    
+    // 使用 html2canvas 的截图函数
+    async function captureScreenshot(elementToCapture) {
+        await document.fonts.ready; // 确保在截图前加载字体
+        return html2canvas(elementToCapture, { 
+            useCORS: true, 
+            scale: window.devicePixelRatio || 1, 
+            logging: false, 
+            backgroundColor: getCssVariable('--bg-primary', '#f5f4ee'), 
+            scrollX: -window.scrollX, 
+            scrollY: -window.scrollY,
+            windowWidth: document.documentElement.scrollWidth,
+            windowHeight: document.documentElement.scrollHeight,
+            onclone: function(clonedDoc) {
+                // 在克隆的文档中进一步优化高亮样式
+                const highlightElements = clonedDoc.querySelectorAll('.highlight-keyword');
+                highlightElements.forEach(el => {
+                    el.style.display = 'inline';
+                    el.style.padding = '1px 2px';
+                    el.style.lineHeight = '1.2';
+                    el.style.boxDecorationBreak = 'clone';
+                    el.style.webkitBoxDecorationBreak = 'clone';
+                });
+            }
+        });
+    }
+
+    // “拷贝截图”按钮事件
+    document.getElementById('screenshotToClipboardBtn').addEventListener('click', async function() {
+        const reportContent = document.getElementById('report-content-wrapper');
+        if (!reportContent) {
+            showFeedbackMessage('截图错误: 未找到报告内容。', 'error');
+            return;
+        }
+        const actionButtons = document.querySelector('.action-buttons-container');
+        const feedbackMsgElement = document.getElementById('feedback-message');
+        const originalButtonText = this.innerHTML;
+        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 处理中...';
+        this.disabled = true;
+        actionButtons.style.visibility = 'hidden'; // 截图时隐藏按钮
+        if(feedbackMsgElement) feedbackMsgElement.style.visibility = 'hidden'; // 截图时隐藏反馈信息
+
+        try {
+            const canvas = await captureScreenshot(reportContent);
+            canvas.toBlob(async function(blob) {
+                if (blob) {
+                    try {
+                        if (navigator.clipboard && navigator.clipboard.write) {
+                            await navigator.clipboard.write([
+                                new ClipboardItem({ 'image/png': blob })
+                            ]);
+                            showFeedbackMessage('截图已拷贝到剪贴板!', 'success');
+                        } else {
+                            // 对于不支持 Clipboard API 拷贝图片的浏览器的回退或错误处理
+                            showFeedbackMessage('截图已生成，但您的浏览器不支持直接拷贝图片。请尝试下载截图。', 'error', 5000);
+                        }
+                    } catch (copyError) {
+                        console.error('拷贝到剪贴板失败:', copyError);
+                        showFeedbackMessage('拷贝截图到剪贴板失败: ' + copyError.message, 'error', 5000);
+                    }
+                } else {
+                    throw new Error('无法将Canvas转换为Blob。');
+                }
+            }, 'image/png');
+        } catch (error) {
+            console.error('截图捕获失败:', error);
+            showFeedbackMessage('截图捕获失败: ' + error.message, 'error');
+        } finally {
+            actionButtons.style.visibility = 'visible'; // 恢复按钮
+            if(feedbackMsgElement) feedbackMsgElement.style.visibility = 'visible'; // 恢复反馈信息
+            this.innerHTML = originalButtonText;
+            this.disabled = false;
+        }
+    });
+
+    // “下载截图”按钮事件
+    document.getElementById('screenshotDownloadBtn').addEventListener('click', async function() {
+        const reportContent = document.getElementById('report-content-wrapper');
+        if (!reportContent) {
+            showFeedbackMessage('截图错误: 未找到报告内容。', 'error');
+            return;
+        }
+        const actionButtons = document.querySelector('.action-buttons-container');
+        const feedbackMsgElement = document.getElementById('feedback-message');
+        const originalButtonText = this.innerHTML;
+        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 生成中...';
+        this.disabled = true;
+        actionButtons.style.visibility = 'hidden';
+        if(feedbackMsgElement) feedbackMsgElement.style.visibility = 'hidden';
+
+        try {
+            const canvas = await captureScreenshot(reportContent);
+            const image = canvas.toDataURL('image/png');
+            const link = document.createElement('a');
+            
+            const webpageName = getWebpageNameForFilename();
+            const dateString = getDateStringForFilename();
+            let filename = sanitizeFilename(webpageName + '-' + dateString) + '.png';
+
+            link.href = image;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showFeedbackMessage('截图已下载!', 'success');
+        } catch (error) {
+            console.error('下载截图失败:', error);
+            showFeedbackMessage('下载截图失败: ' + error.message, 'error');
+        } finally {
+            actionButtons.style.visibility = 'visible';
+            if(feedbackMsgElement) feedbackMsgElement.style.visibility = 'visible';
+            this.innerHTML = originalButtonText;
+            this.disabled = false;
+        }
+    });
+
+    // “下载报告” (HTML) 按钮事件
+    document.getElementById('downloadHtmlBtn').addEventListener('click', function() {
+        try {
+            const htmlContent = document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+            const link = document.createElement('a');
+            
+            const webpageName = getWebpageNameForFilename();
+            const dateString = getDateStringForFilename();
+            let filename = sanitizeFilename(webpageName + '-' + dateString) + '.html';
+            
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(link.href); 
+            showFeedbackMessage('HTML报告已下载!', 'success');
+        } catch (error) {
+            console.error('下载HTML失败:', error);
+            showFeedbackMessage('下载HTML失败: ' + error.message, 'error');
+        }
+    });
+
+    // “拷贝源码”按钮事件
+    document.getElementById('copyHtmlBtn').addEventListener('click', function() {
+        const htmlContent = document.documentElement.outerHTML;
+        const Gthis = this; // 按钮的 'this' 上下文
+        const originalButtonHTML = Gthis.innerHTML; // 保存原始按钮内容
+        const textarea = document.createElement('textarea');
+        textarea.value = htmlContent;
+        textarea.style.position = 'fixed'; // 防止在屏幕上显示
+        textarea.style.top = '-9999px'; 
+        textarea.style.left = '-9999px';
+        document.body.appendChild(textarea);
+        try {
+            textarea.select();
+            textarea.setSelectionRange(0, textarea.value.length); // 针对移动设备
+            if (document.execCommand('copy')) {
+                Gthis.innerHTML = '<i class="fas fa-check"></i> 已拷贝!';
+                showFeedbackMessage('HTML已拷贝到剪贴板!', 'success', 2000);
+            } else {
+                Gthis.innerHTML = '<i class="fas fa-times"></i> 拷贝失败';
+                showFeedbackMessage('拷贝失败。您的浏览器可能不支持此操作。', 'error', 2000);
+            }
+        } catch (err) {
+            Gthis.innerHTML = '<i class="fas fa-times"></i> 拷贝出错';
+            showFeedbackMessage('拷贝出错: ' + err.message, 'error', 2000);
+            console.error('拷贝HTML源码出错:', err);
+        } finally {
+            setTimeout(function() { // 延迟后恢复按钮文本
+                Gthis.innerHTML = originalButtonHTML; 
+            }, 2000);
+            document.body.removeChild(textarea);
+        }
+    });
+
+    // “查看昨日日报”按钮事件
+    document.getElementById('viewPreviousReportBtn').addEventListener('click', function() {
+        const urlToOpen = previousReportUrl.trim();
+        const placeholderUrlText = "在此处填写昨日日报的URL"; // 占位符文本
+        if (urlToOpen && urlToOpen !== placeholderUrlText && (urlToOpen.startsWith('http://') || urlToOpen.startsWith('https://') || !urlToOpen.includes('://'))) {
+            let finalUrl = urlToOpen;
+            const newWindow = window.open(finalUrl, '_blank'); // 在新标签页中打开
+            if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
+                // 如果弹出窗口被拦截器阻止，可能会发生这种情况
+                showFeedbackMessage('无法打开新窗口。请检查您的弹出窗口拦截设置。', 'error', 5000);
+            }
+        } else {
+            showFeedbackMessage('昨日日报的URL未配置或无效。请检查脚本中的 previousReportUrl 变量，并确保它是一个有效的网址或相对路径。', 'error', 5000);
+        }
+    });
+
+    // 根据窗口大小调整操作按钮布局
+    function adjustActionButtonsLayout() {
+        const actionButtonsContainer = document.querySelector('.action-buttons-container');
+        if (actionButtonsContainer) {
+            if (window.innerWidth <= 768) { // 对应 @media (max-width: 768px)
+                actionButtonsContainer.style.display = 'flex';
+                actionButtonsContainer.style.flexWrap = 'wrap';
+                actionButtonsContainer.style.justifyContent = 'center';
+            } else { // 桌面布局
+                actionButtonsContainer.style.display = 'block'; 
+                actionButtonsContainer.style.flexWrap = 'nowrap'; 
+            }
+        }
+    }
+    window.addEventListener('load', adjustActionButtonsLayout);
+    window.addEventListener('resize', adjustActionButtonsLayout);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Core Concept Relationship Diagram</title>
+    <link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-100-M/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        :root {
+            /* Color palette from the original page */
+            --bg-primary: #f5f4ee;
+            --bg-secondary: #faf9f6;
+            --bg-tertiary: #f1f3f5;
+            --text-primary: #212529;
+            --text-secondary: #495057;
+            --accent-primary: #ff8906;
+            --accent-secondary: #f76707;
+            --accent-tertiary: #e8590c;
+            --accent-blue: #339af0;
+            --accent-purple: #7048e8;
+            --accent-cyan: #22b8cf;
+            --card-padding: 24px;
+            --card-radius: 12px;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'SF Pro Display', 'Segoe UI', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        body.modal-active {
+            overflow: hidden; /* Prevent body scroll when modal is open */
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+            color: var(--accent-primary);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .card {
+            background-color: var(--bg-secondary);
+            border-radius: var(--card-radius);
+            padding: var(--card-padding);
+            box-shadow: var(--card-shadow);
+            position: relative;
+            /* overflow: hidden; */ /* Removed to allow full-width controls if they wrap */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card::before { /* Top accent border */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent-primary);
+        }
+
+        .card-icon { /* Decorative icon, ensure it doesn't overlap controls */
+            position: absolute;
+            bottom: var(--card-padding);
+            right: var(--card-padding);
+            font-size: 4rem;
+            opacity: 0.07;
+            color: var(--accent-primary);
+            z-index: -1; /* Send behind other content if necessary */
+        }
+
+        .mindmap-card {
+            min-height: 400px; /* Adjust as needed */
+        }
+
+        .mindmap-card h2 i {
+            margin-right: 8px;
+        }
+
+        .mindmap-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            align-items: center;
+            flex-wrap: wrap; /* Allow buttons to wrap to the next line */
+        }
+
+        .mindmap-controls button { /* Common style for all control buttons */
+            background-color: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: var(--card-radius);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            font-weight: 500;
+            display: inline-flex; /* For icon alignment */
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mindmap-controls button:hover {
+            background-color: #228be6; /* Darker blue for hover */
+        }
+
+        .mindmap-controls button i {
+            margin-right: 5px;
+        }
+
+        .mindmap-controls .fullscreen-toggle-btn {
+             margin-left: auto; /* This will push it to the right of the flex container */
+        }
+
+
+        .mermaid-container {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: auto;
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 10px;
+            border: 1px solid var(--bg-tertiary);
+            min-height: 300px;
+            cursor: grab;
+        }
+        .mermaid-container.dragging {
+            cursor: grabbing;
+        }
+
+
+        .mermaid-container svg {
+            max-width: none;
+            height: auto;
+            display: block;
+            transition: transform 0.2s ease-out;
+        }
+
+        #feedback-message, #modal-feedback-message {
+            text-align: center;
+            margin-top: 15px;
+            padding: 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        #feedback-message.success, #modal-feedback-message.success {
+            color: #155724; background-color: #d4edda; border: 1px solid #c3e6cb; display: block;
+        }
+        #feedback-message.error, #modal-feedback-message.error {
+            color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; display: block;
+        }
+        #feedback-message.info, #modal-feedback-message.info {
+            color: #0c5460; background-color: #d1ecf1; border: 1px solid #bee5eb; display: block;
+        }
+
+        /* Fullscreen Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal-content {
+            width: 95%;
+            height: 90%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+        }
+        .modal-close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 2.2rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            line-height: 1;
+            padding: 5px;
+            z-index: 1010;
+        }
+        .modal-close-btn:hover {
+            color: var(--text-primary);
+        }
+        #modalMermaidContainer {
+            flex-grow: 1;
+            min-height: 0;
+        }
+
+
+        @media (max-width: 768px) {
+            h2 { font-size: 1.4rem; }
+            .card { padding: 15px; }
+            .card-icon { font-size: 2.5rem; opacity: 0.05; }
+            .mindmap-controls button { /* Ensure all buttons are responsive */
+                font-size: 0.8rem;
+                padding: 6px 10px;
+            }
+            /* If buttons wrap, ensure fullscreen button on new line is still pushed right */
+            .mindmap-controls .fullscreen-toggle-btn {
+                /* margin-left: auto; /* Already set, should work fine on wrap too */
+            }
+            .modal-content {
+                width: 100%;
+                height: 95%;
+            }
+            .modal-close-btn { font-size: 1.8rem; top:10px; right:10px;}
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card mindmap-card">
+        <h2><i class="fas fa-sitemap"></i> 核心概念关系图</h2>
+        <div class="mindmap-controls">
+            <button id="zoomInBtn"><i class="fas fa-search-plus"></i> 放大</button>
+            <button id="zoomOutBtn"><i class="fas fa-search-minus"></i> 缩小</button>
+            <button id="downloadBtn"><i class="fas fa-download"></i> 下载</button>
+            <button id="fullscreenOpenBtn" class="fullscreen-toggle-btn"><i class="fas fa-expand"></i> 全屏</button> 
+        </div>
+        <div class="mermaid-container" id="mainMermaidContainer">
+            <div class="mermaid" id="mindmapDiagram">
+mindmap
+  root((Raycast AI 日报核心))
+    (技术探讨)
+      (MCP协议)
+        (与GPTs对比)
+        (安装配置教程)
+      (AI模型)
+        (Sonnet 4体验)
+          (回答不完整问题)
+        (Opus4体验)
+          (回答不完整问题)
+        (o3模型)
+        (Claude 4评测)
+          (性能对比)
+          (使用限制)
+          (会员权益)
+    (工具与技巧)
+      (Raycast Pro订阅)
+        (优惠策略)
+        (教育优惠)
+        (优惠码)
+        (邀请链接)
+      (文件处理)
+        (xlsx附件上传问题)
+        (Excel转JSON)
+        (utloos工具)
+      (语音转文字)
+        (Obsidian日记)
+        (Whisper替代方案)
+        (豆包推荐)
+    (用户反馈与需求)
+      (模型使用问题)
+      (功能扩展需求)
+            </div>
+        </div>
+        <div id="feedback-message"></div>
+        <i class="fas fa-project-diagram card-icon"></i>
+    </div>
+
+    <div id="fullscreenModal" class="modal-overlay">
+        <div class="modal-content card"> <button id="fullscreenCloseBtn" class="modal-close-btn" aria-label="关闭全屏">&times;</button>
+            <h2><i class="fas fa-sitemap"></i> 核心概念关系图 (全屏)</h2>
+            <div class="mindmap-controls"> <button id="modalZoomInBtn"><i class="fas fa-search-plus"></i> 放大</button>
+                <button id="modalZoomOutBtn"><i class="fas fa-search-minus"></i> 缩小</button>
+                <button id="modalDownloadBtn"><i class="fas fa-download"></i> 下载</button>
+            </div>
+            <div class="mermaid-container" id="modalMermaidContainer">
+                </div>
+            <div id="modal-feedback-message"></div>
+            </div>
+    </div>
+
+    <script>
+        // --- Global Variables ---
+        let mainCurrentScale = 1;
+        let modalCurrentScale = 1;
+        const mindmapDefinitionString = document.getElementById('mindmapDiagram').textContent.trim();
+
+        // --- DOM Elements ---
+        const mainZoomInBtn = document.getElementById('zoomInBtn');
+        const mainZoomOutBtn = document.getElementById('zoomOutBtn');
+        const mainDownloadBtn = document.getElementById('downloadBtn');
+        const mainMermaidContainer = document.getElementById('mainMermaidContainer');
+        const mainFeedbackMessage = document.getElementById('feedback-message');
+        const mainMindmapDiagramDiv = document.getElementById('mindmapDiagram'); // Where Mermaid initially renders
+
+        const fullscreenOpenBtn = document.getElementById('fullscreenOpenBtn'); // This is now part of mindmap-controls
+        const fullscreenModal = document.getElementById('fullscreenModal');
+        const fullscreenCloseBtn = document.getElementById('fullscreenCloseBtn');
+        const modalMermaidContainer = document.getElementById('modalMermaidContainer');
+        const modalZoomInBtn = document.getElementById('modalZoomInBtn');
+        const modalZoomOutBtn = document.getElementById('modalZoomOutBtn');
+        const modalDownloadBtn = document.getElementById('modalDownloadBtn');
+        const modalFeedbackMessage = document.getElementById('modal-feedback-message');
+
+        // --- Mermaid Initialization ---
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'base',
+            fontFamily: '"Inter", sans-serif',
+            mindmap: { padding: 15 }
+        });
+
+        // --- Helper Functions ---
+        function showFeedback(element, message, type = 'info', duration = 3000) {
+            if (element) {
+                element.textContent = message;
+                element.className = type;
+                element.style.display = 'block';
+                setTimeout(() => {
+                    element.textContent = '';
+                    element.className = '';
+                    element.style.display = 'none';
+                }, duration);
+            }
+        }
+
+        function applySvgScale(svgElement, scale) {
+            if (svgElement) {
+                svgElement.style.transform = `scale(${scale})`;
+                svgElement.style.transformOrigin = 'center center';
+            }
+        }
+
+        function makeDraggable(containerElement) {
+            let isDragging = false;
+            let startX, startY, scrollLeftStart, scrollTopStart;
+
+            containerElement.addEventListener('mousedown', (e) => {
+                if (e.button !== 0) return; 
+                if (e.target.closest('button')) return;
+                if (e.target === containerElement) {
+                    const verticalScrollbarVisible = containerElement.scrollHeight > containerElement.clientHeight;
+                    const horizontalScrollbarVisible = containerElement.scrollWidth > containerElement.clientWidth;
+                    const clickedOnVerticalScrollbar = verticalScrollbarVisible && e.offsetX >= containerElement.clientWidth;
+                    const clickedOnHorizontalScrollbar = horizontalScrollbarVisible && e.offsetY >= containerElement.clientHeight;
+                    if (clickedOnVerticalScrollbar || clickedOnHorizontalScrollbar) return;
+                }
+                isDragging = true;
+                startX = e.pageX; startY = e.pageY;
+                scrollLeftStart = containerElement.scrollLeft; scrollTopStart = containerElement.scrollTop;
+                containerElement.classList.add('dragging');
+                e.preventDefault();
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                e.preventDefault(); 
+                const deltaX = e.pageX - startX; const deltaY = e.pageY - startY;
+                containerElement.scrollLeft = scrollLeftStart - deltaX;
+                containerElement.scrollTop = scrollTopStart - deltaY;
+            });
+
+            document.addEventListener('mouseup', (e) => {
+                if (e.button !== 0 || !isDragging) return;
+                isDragging = false;
+                containerElement.classList.remove('dragging');
+            });
+        }
+        
+        async function downloadMermaidAsSVG(svgElement, baseFilename, feedbackElem) {
+            if (svgElement) {
+                try {
+                    const svgData = new XMLSerializer().serializeToString(svgElement);
+                    const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = `${baseFilename}.svg`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(url);
+                    showFeedback(feedbackElem, `${baseFilename}.svg 已下载!`, 'success');
+                } catch (error) {
+                    console.error(`Error during SVG download for ${baseFilename}:`, error);
+                    showFeedback(feedbackElem, `下载 ${baseFilename}.svg 失败: ${error.message}`, 'error');
+                }
+            } else {
+                showFeedback(feedbackElem, '无法下载：未找到图表SVG元素。', 'error');
+            }
+        }
+
+        // --- Main Mindmap Logic ---
+        mainZoomInBtn.addEventListener('click', () => {
+            mainCurrentScale += 0.1;
+            const svg = mainMermaidContainer.querySelector('#mindmapDiagram svg');
+            applySvgScale(svg, mainCurrentScale);
+        });
+
+        mainZoomOutBtn.addEventListener('click', () => {
+            if (mainCurrentScale > 0.2) {
+                mainCurrentScale -= 0.1;
+                const svg = mainMermaidContainer.querySelector('#mindmapDiagram svg');
+                applySvgScale(svg, mainCurrentScale);
+            }
+        });
+
+        mainDownloadBtn.addEventListener('click', () => {
+            const svg = mainMermaidContainer.querySelector('#mindmapDiagram svg');
+            downloadMermaidAsSVG(svg, '核心概念关系图', mainFeedbackMessage);
+        });
+
+        // --- Fullscreen Modal Logic ---
+        fullscreenOpenBtn.addEventListener('click', async () => {
+            fullscreenModal.classList.add('active');
+            document.body.classList.add('modal-active');
+            
+            modalMermaidContainer.innerHTML = '<p style="text-align:center; padding:20px;">图表加载中...</p>';
+            const modalSvgId = 'modalGeneratedMermaidSvg';
+
+            try {
+                const {svg, bindFunctions} = await mermaid.render(modalSvgId, mindmapDefinitionString);
+                modalMermaidContainer.innerHTML = svg;
+                if (bindFunctions) bindFunctions(modalMermaidContainer);
+
+                const modalSvgElement = modalMermaidContainer.querySelector('svg');
+                if (modalSvgElement) {
+                    modalCurrentScale = 1; 
+                    applySvgScale(modalSvgElement, modalCurrentScale);
+                }
+                makeDraggable(modalMermaidContainer);
+            } catch (error) {
+                console.error("Error rendering Mermaid in modal:", error);
+                modalMermaidContainer.innerHTML = `<p style="color:red; text-align:center; padding:20px;">渲染图表时出错: ${error.message}</p>`;
+                showFeedback(modalFeedbackMessage, `渲染图表时出错: ${error.message}`, 'error', 5000);
+            }
+        });
+
+        fullscreenCloseBtn.addEventListener('click', () => {
+            fullscreenModal.classList.remove('active');
+            document.body.classList.remove('modal-active');
+            modalMermaidContainer.innerHTML = ''; 
+        });
+
+        modalZoomInBtn.addEventListener('click', () => {
+            modalCurrentScale += 0.1;
+            const svg = modalMermaidContainer.querySelector('svg');
+            applySvgScale(svg, modalCurrentScale);
+        });
+
+        modalZoomOutBtn.addEventListener('click', () => {
+            if (modalCurrentScale > 0.2) {
+                modalCurrentScale -= 0.1;
+                const svg = modalMermaidContainer.querySelector('svg');
+                applySvgScale(svg, modalCurrentScale);
+            }
+        });
+
+        modalDownloadBtn.addEventListener('click', () => {
+            const svg = modalMermaidContainer.querySelector('svg');
+            downloadMermaidAsSVG(svg, '核心概念关系图-全屏', modalFeedbackMessage);
+        });
+
+        // --- Initial Setup for Main Mindmap ---
+        const observer = new MutationObserver((mutationsList, observerInstance) => {
+            for (const mutation of mutationsList) {
+                if (mutation.type === 'childList') {
+                    const mainSvg = mainMindmapDiagramDiv.querySelector('svg');
+                    if (mainSvg) {
+                        makeDraggable(mainMermaidContainer);
+                        applySvgScale(mainSvg, mainCurrentScale);
+                        observerInstance.disconnect(); 
+                        return;
+                    }
+                }
+            }
+        });
+        if (mainMindmapDiagramDiv) {
+             observer.observe(mainMindmapDiagramDiv, { childList: true, subtree: false });
+        } else {
+            console.error("Error: #mindmapDiagram div not found for MutationObserver.");
+        }
+
+    </script>
+</body>
+</html>

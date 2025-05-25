@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raycast AI 使用交流日报 - 2025年5月23日</title>
+    <link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-100-M/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" xintegrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoVBL5rLesXWW/sGuLhYFChxgYnz2Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        :root {
+            /* 极简主义风格配色 */
+            --bg-primary: #f5f4ee; /* Slightly warmer off-white */
+            --bg-secondary: #faf9f6; /* Even lighter for cards */
+            --bg-tertiary: #f1f3f5;
+            --text-primary: #212529;
+            --text-secondary: #495057;
+            --accent-primary: #ff8906; /* 主要强调色 - 橙色 */
+            --accent-secondary: #f76707; /* 次要强调色 - 深橙色 */
+            --accent-tertiary: #e8590c; /* 第三强调色 - 焦橙色 */
+            --accent-blue: #339af0;    /* 特定元素的蓝色强调 */
+            --accent-purple: #7048e8; /* 词云的紫色强调 */
+            --accent-cyan: #22b8cf;   /* 词云的青色强调 */
+            --card-padding: 24px;
+            --grid-gap: 16px;
+            --card-radius: 12px;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'SF Pro Display', 'Segoe UI', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+            width: 100%;
+            max-width: 1000px; /* 内容最大宽度 */
+            margin: 0 auto; /* 内容居中 */
+            padding: 20px; /* 内容周围内边距 */
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        h1 {
+            font-size: 2.5rem; /* 主卡片大标题 */
+            margin-bottom: 0.5rem;
+            color: var(--accent-primary);
+        }
+
+        h2 { /* General styling for H2, will be used in topic cards as well */
+            font-size: 1.75rem; /* 版块标题 */
+            margin-bottom: 1rem;
+            color: var(--accent-primary); /* Titles for sections and topic cards */
+        }
+
+        h3 { /* Used for sub-headings if any, or specific elements like in stats card */
+            font-size: 1.25rem; /* 子版块标题 */
+            margin-bottom: 0.75rem;
+            color: var(--accent-blue); /* 子标题使用蓝色以形成对比 */
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr); /* 12列网格系统 */
+            grid-auto-rows: minmax(100px, auto); /* 行高根据内容自动调整, 至少100px */
+            gap: var(--grid-gap);
+            margin-top: 20px;
+            grid-template-areas: /* Updated grid areas */
+                "main      main      main      main      main      main      main      main      main      main      main      main"
+                "topics    topics    topics    topics    topics    topics    topics    topics    topics    topics    topics    topics"
+                "mindmap   mindmap   mindmap   mindmap   mindmap   mindmap   mindmap   mindmap   mindmap   mindmap   mindmap   mindmap"
+                "quote     quote     quote     quote     quote     quote     links     links     links     links     links     links"
+                "stats     stats     stats     stats     stats     stats     wordcloud wordcloud wordcloud wordcloud wordcloud wordcloud";
+        }
+
+        .card {
+            background-color: var(--bg-secondary);
+            border-radius: var(--card-radius);
+            padding: var(--card-padding);
+            box-shadow: var(--card-shadow);
+            position: relative; /* 用于图标定位和伪元素 */
+            overflow: hidden; /* 确保伪元素不超出卡片圆角 */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex; /* Added for flex layout within card */
+            flex-direction: column; /* Stack items vertically */
+        }
+
+        .card:hover {
+            transform: translateY(-5px); /* 鼠标悬停时轻微上浮效果 */
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); /* 鼠标悬停时增强阴影 */
+        }
+
+        /* 卡片顶部强调边框 */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent-primary);
+        }
+
+        /* 卡片右下角装饰性图标 */
+        .card-icon {
+            position: absolute;
+            bottom: var(--card-padding); 
+            right: var(--card-padding); 
+            font-size: 4rem; 
+            opacity: 0.07; 
+            color: var(--accent-primary);
+        }
+
+        /* Grid area assignments */
+        .main-card { grid-area: main; }
+        .topic-cards-wrapper {
+            grid-area: topics;
+            display: grid; 
+            grid-template-columns: repeat(12, 1fr); 
+            gap: var(--grid-gap);
+        }
+        .mindmap-card { 
+            grid-area: mindmap; 
+            min-height: 400px; /* Give mindmap card enough height */
+        }
+        .quote-card { grid-area: quote; }
+        .links-card { grid-area: links; }
+        .stats-card { grid-area: stats; }
+        .wordcloud-card { grid-area: wordcloud; }
+
+        /* Styling for individual topic cards within the wrapper */
+        .topic-card {
+            grid-column: span 6; 
+            min-height: 250px; 
+        }
+        .topic-card > .topic-card-content-wrapper { 
+            flex-grow: 1; 
+            padding-bottom: 1rem; /* General padding at the bottom of content area */
+        }
+
+        /* If the last topic card is odd and alone in its row, make it span full width */
+        .topic-cards-wrapper > .topic-card:nth-last-child(1):nth-child(odd) {
+            /* This rule applies if there's an odd number of cards. For 6 cards, it won't make a difference. */
+             /* grid-column: span 12; */ /* Kept for reference, but with 6 cards, it's not strictly needed this way */
+        }
+
+
+        .main-card h1 {
+            text-align: center;
+        }
+        .main-card .date {
+            text-align: center;
+        }
+
+        .date {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .meta-info {
+            display: flex;
+            flex-wrap: wrap; 
+            gap: 15px;
+            margin-bottom: 1rem;
+            justify-content: center; 
+        }
+
+        .meta-info span {
+            background-color: var(--bg-tertiary);
+            padding: 5px 10px;
+            border-radius: 20px; 
+            font-size: 0.9rem;
+            color: var(--accent-blue);
+        }
+        .meta-info span i {
+            margin-right: 5px;
+        }
+
+        .summary {
+            margin-top: 1rem;
+            line-height: 1.7; 
+            text-align: left; 
+        }
+
+        .topic-card h2 i {
+            margin-right: 8px;
+        }
+
+        .topic-category {
+            display: inline-block; 
+            background-color: var(--accent-tertiary);
+            color: var(--bg-primary); 
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .topic-keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 0.75rem;
+            margin-bottom: 0.75rem; /* Space between keywords and mentions */
+        }
+
+        .keyword {
+            background-color: var(--bg-tertiary);
+            color: var(--accent-primary);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .topic-mentions { 
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        .topic-mentions i {
+            margin-right: 5px;
+        }
+
+
+        .quote {
+            position: relative;
+            padding-left: 20px; 
+            margin: 10px 0;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        .quote::before {
+            content: '"'; 
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 1.5rem; 
+            color: var(--accent-tertiary);
+        }
+
+        .quote-author {
+            text-align: right;
+            font-size: 0.9rem;
+            color: var(--accent-tertiary);
+            margin-top: 5px;
+        }
+
+        .links-card h2 i, .stats-card h2 i, .wordcloud-card h2 i, .mindmap-card h2 i, .quote-card h2 i {
+            margin-right: 8px;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 6px;
+            background-color: var(--bg-tertiary);
+            transition: background-color 0.2s ease;
+            text-decoration: none; 
+        }
+
+        .link-item:hover {
+            background-color: rgba(51, 154, 240, 0.1); 
+        }
+        
+        .link-item a { 
+            text-decoration: none;
+            color: inherit; 
+            display: flex; 
+            align-items: center;
+            width: 100%;
+        }
+
+        .link-item a:hover .link-title { 
+             text-decoration: underline;
+             color: var(--accent-blue);
+        }
+
+
+        .link-icon {
+            margin-right: 10px;
+            color: var(--accent-blue);
+        }
+
+        .link-title {
+            flex-grow: 1; 
+            color: var(--text-primary); 
+        }
+        
+        .link-title.is-link { 
+             color: var(--accent-blue);
+        }
+        .link-title.is-link:hover {
+            text-decoration: underline;
+        }
+
+        .user-stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 0.5rem; 
+        }
+        .user-stats-table th {
+            text-align: left;
+            padding: 0.75rem 0.5rem; 
+            border-bottom: 2px solid var(--accent-primary);
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.9rem; 
+        }
+        .user-stats-table td {
+            padding: 0.75rem 0.5rem; 
+            border-bottom: 1px solid var(--bg-tertiary);
+            color: var(--text-secondary);
+            font-size: 0.85rem; 
+            vertical-align: top; 
+        }
+        .user-stats-table tr:last-child td {
+            border-bottom: none;
+        }
+        .user-stats-table .user-name-col { 
+            width: 25%;
+            font-weight: 500; 
+        }
+        .user-stats-table .message-count-col { 
+            width: 15%;
+            text-align: center;
+        }
+        .user-stats-table .contribution-col { 
+            width: 60%;
+        }
+
+        /* Mindmap Card Specific Styles */
+        .mindmap-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+        .mindmap-controls button {
+            background-color: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: var(--card-radius);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .mindmap-controls button:hover {
+            background-color: #228be6; /* Darker blue */
+        }
+        .mindmap-controls button i {
+            margin-right: 5px;
+        }
+        .mermaid-container {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: auto; /* Enable scroll if mindmap is too large */
+            background-color: #fff; /* White background for mermaid diagram */
+            border-radius: 8px;
+            padding: 10px;
+            border: 1px solid var(--bg-tertiary);
+        }
+        .mermaid-container svg {
+            max-width: 100%; /* Ensure SVG is responsive within its container */
+            height: auto;   /* Maintain aspect ratio */
+            transition: transform 0.2s ease-out; /* Smooth zoom transition */
+        }
+
+
+        .wordcloud {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; 
+            gap: 10px;
+            padding: 20px 0;
+        }
+
+        .wordcloud-item {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: transform 0.2s ease;
+        }
+
+        .wordcloud-item:hover {
+            transform: scale(1.1); 
+        }
+
+        .size-1 { font-size: 0.9rem; color: var(--text-secondary); }
+        .size-2 { font-size: 1.1rem; color: var(--accent-cyan); }
+        .size-3 { font-size: 1.3rem; color: var(--accent-blue); }
+        .size-4 { font-size: 1.5rem; color: var(--accent-purple); }
+        .size-5 { font-size: 1.8rem; color: var(--accent-tertiary); }
+        
+        .action-buttons-container {
+            text-align: center;
+            margin: 20px 0;
+            padding-bottom: 20px; 
+        }
+
+        .action-button {
+            background-color: var(--accent-primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--card-radius);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin: 5px 10px; 
+            box-shadow: var(--card-shadow);
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center; 
+        }
+
+        .action-button:hover {
+            background-color: var(--accent-secondary);
+            transform: translateY(-2px);
+        }
+         .action-button i {
+            margin-right: 8px;
+        }
+        .action-button .fas { 
+             margin-right: 8px;
+        }
+
+
+        .footer {
+            margin-top: 30px; 
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        #report-content-wrapper .footer {
+             margin-top: 30px; 
+             padding-bottom: 20px; 
+        }
+
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card { animation: fadeIn 0.5s ease forwards; } 
+
+        .main-card { animation-delay: 0.1s; }
+        .topic-cards-wrapper .topic-card:nth-child(1) { animation-delay: 0.2s; }
+        .topic-cards-wrapper .topic-card:nth-child(2) { animation-delay: 0.3s; }
+        .topic-cards-wrapper .topic-card:nth-child(3) { animation-delay: 0.4s; }
+        .topic-cards-wrapper .topic-card:nth-child(4) { animation-delay: 0.5s; } 
+        .topic-cards-wrapper .topic-card:nth-child(5) { animation-delay: 0.6s; } 
+        .topic-cards-wrapper .topic-card:nth-child(6) { animation-delay: 0.7s; } 
+        
+        .mindmap-card { animation-delay: 0.8s; } /* Animation for mindmap card */
+
+        .quote-card { animation-delay: 0.9s; } 
+        .links-card { animation-delay: 1.0s; }
+        .stats-card { animation-delay: 1.1s; }
+        .wordcloud-card { animation-delay: 1.2s; }
+        #report-content-wrapper .footer { animation-delay: 1.3s; } 
+        .action-buttons-container { animation-delay: 1.4s; }
+
+
+        @media (max-width: 768px) { 
+            body {
+                padding: 10px;
+                font-size: 14px; 
+            }
+
+            h1 { font-size: 1.8rem; }
+            h2 { font-size: 1.4rem; } 
+            h3 { font-size: 1.1rem; }
+
+            .grid-container {
+                grid-template-columns: 1fr; 
+                grid-template-areas: 
+                    "main"
+                    "topics"
+                    "mindmap"
+                    "quote"
+                    "links"
+                    "stats"
+                    "wordcloud";
+            }
+            
+            .topic-cards-wrapper {
+                grid-template-columns: 1fr; 
+            }
+            .topic-card { 
+                grid-column: 1 / -1; /* Make topic cards full width on mobile */
+                min-height: auto; 
+            }
+            .topic-card > .topic-card-content-wrapper {
+                padding-bottom: 1rem; 
+            }
+            .topic-mentions { 
+                position: static; 
+                margin-top: 10px; 
+                margin-bottom: 10px; 
+                text-align: left; 
+            }
+            .card-icon { 
+                /* On mobile, let icons flow naturally or hide them if they cause layout issues */
+                /* For now, let's make them smaller and less intrusive or remove if needed */
+                 font-size: 2.5rem; 
+                 opacity: 0.05;
+                 /* position: relative; 
+                 bottom: auto;
+                 right: auto;
+                 margin-top: auto; 
+                 margin-left: auto; 
+                 padding-top: 10px;  */
+            }
+            .user-stats-table th, .user-stats-table td {
+                padding: 0.5rem 0.25rem; 
+                font-size: 0.8rem; 
+            }
+            .user-stats-table .user-name-col,
+            .user-stats-table .message-count-col,
+            .user-stats-table .contribution-col {
+                width: auto; 
+            }
+            .user-stats-table .message-count-col {
+                 text-align: left; 
+            }
+            .mindmap-controls {
+                flex-wrap: wrap; /* Allow buttons to wrap on small screens */
+            }
+            .mindmap-controls button {
+                font-size: 0.8rem;
+                padding: 6px 10px;
+            }
+
+
+            .action-button {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+            .action-buttons-container {
+                display: flex;
+                flex-wrap: wrap; 
+                justify-content: center; 
+                gap: 10px; 
+            }
+            .action-buttons-container .action-button {
+                 width: calc(50% - 10px); 
+                 min-width: 180px; 
+                 margin: 5px 0; 
+            }
+            @media (max-width: 480px) {
+                .action-buttons-container .action-button {
+                    width: 80%;
+                }
+                 .user-stats-table {
+                    display: block; 
+                    overflow-x: auto; /* Allow horizontal scroll for table if needed */
+                    white-space: nowrap; 
+                }
+                .user-stats-table th, .user-stats-table td {
+                    white-space: normal; /* Allow text to wrap within cells */
+                }
+                /* Stack table rows on very small screens */
+                .user-stats-table thead, .user-stats-table tbody, .user-stats-table tr {
+                    display: block;
+                }
+                .user-stats-table tr {
+                     border-bottom: 1px solid var(--bg-tertiary);
+                }
+                 .user-stats-table td:last-child {
+                     border-bottom: none;
+                 }
+                .user-stats-table th {
+                    display: none; /* Hide table headers */
+                }
+                .user-stats-table td {
+                    display: block;
+                    text-align: left !important; /* Force left alignment */
+                    border-bottom: none;
+                    padding-left: 0.5rem; 
+                }
+                .user-stats-table td::before { 
+                    content: attr(data-label);
+                    font-weight: bold;
+                    display: inline-block;
+                    width: 100px; /* Adjust as needed */
+                    margin-right: 10px;
+                    color: var(--text-primary);
+                }
+                 .user-stats-table tr:last-child {
+                     border-bottom: none;
+                 }
+
+            }
+        }
+        #feedback-message {
+            text-align: center;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+        #feedback-message.success {
+            color: green;
+        }
+        #feedback-message.error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="report-content-wrapper">
+        <div class="grid-container">
+            <div class="card main-card">
+                <h1>Raycast AI 使用交流日报</h1>
+                <div class="date">2025年5月23日</div>
+                <div class="meta-info">
+                    <span><i class="fas fa-users"></i> 群名称: Raycast AI 使用交流</span>
+                    <span><i class="fas fa-comment"></i> 消息数: 80+</span>
+                    <span><i class="fas fa-user-friends"></i> 活跃用户: 15+</span>
+                    <span><i class="fas fa-fire"></i> 热点话题: 6</span>
+                    <span><i class="fas fa-clock"></i> 统计时间: 2025年5月23日</span>
+                </div>
+                <p class="summary">本日报总结了 Raycast AI 使用交流群 2025年5月23日的讨论精华。内容涵盖MCP与GPTs对比、Sonnet 4及Claude 4模型体验、Raycast Pro订阅策略、文件处理工具以及语音转文字功能需求等六大热点。技术层面聚焦MCP协议、模型性能、订阅优化、数据转换及新功能拓展。社群活跃，信息共享氛围浓厚。</p>
+                <i class="fas fa-bullhorn card-icon"></i> 
+            </div>
+
+            <div class="topic-cards-wrapper">
+                <div class="card topic-card">
+                    <div class="topic-card-content-wrapper"> 
+                        <h2><i class="fas fa-exchange-alt"></i> MCP与GPTs功能对比讨论</h2>
+                        <div class="topic-category">功能讨论</div>
+                        <p>群友强子（yuzi12152205）在早上8:15提出了一个重要问题："raycast中弄个mcp能否代替GPTs"。这个问题引发了群内对MCP（Model Context Protocol）功能的深入讨论。随后，群友xiaolei0vip分享了一篇相关文章《别再复制粘贴了！让AI自动调用 Prompt 的神器终于来了。附 MCP 保姆级安装配置教程》，为大家提供了详细的MCP配置指导。这个话题体现了用户对Raycast平台功能扩展的关注，以及对提高工作效率工具的需求。MCP作为新兴的AI工具协议，其在Raycast中的应用前景备受关注。</p>
+                        <div class="topic-keywords">
+                            <span class="keyword">MCP</span>
+                            <span class="keyword">GPTs</span>
+                            <span class="keyword">Raycast扩展</span>
+                        </div>
+                        <div class="topic-mentions"><i class="fas fa-bullhorn"></i> 多次提及</div>
+                    </div>
+                    <i class="fas fa-cogs card-icon"></i> 
+                </div>
+
+                <div class="card topic-card">
+                    <div class="topic-card-content-wrapper"> 
+                        <h2><i class="fas fa-microchip"></i> Sonnet 4模型使用体验反馈</h2>
+                        <div class="topic-category">模型体验</div>
+                        <p>强子在使用过程中遇到了技术问题，反映"raycast app 用snonet4 回答总是说一半"，而同样的调用使用o3模型则没有问题。这个问题得到了尔东陈的回应，他表示在调用Opus4时也出现了类似的回答不完整情况，但snonet4还没遇到过。这个讨论反映了用户在使用不同AI模型时的真实体验差异，也为其他用户提供了有价值的使用参考。技术问题的及时反馈和交流，有助于群内用户更好地选择适合的模型进行工作。</p>
+                        <div class="topic-keywords">
+                            <span class="keyword">Sonnet 4</span>
+                            <span class="keyword">Opus4</span>
+                            <span class="keyword">模型问题</span>
+                        </div>
+                        <div class="topic-mentions"><i class="fas fa-bullhorn"></i> 多次提及</div>
+                    </div>
+                    <i class="fas fa-brain card-icon"></i> 
+                </div>
+                
+                <div class="card topic-card">
+                    <div class="topic-card-content-wrapper"> 
+                        <h2><i class="fas fa-clipboard-check"></i> Claude 4模型评测与可用性</h2>
+                        <div class="topic-category">模型评测</div>
+                        <p>向阳乔木分享了一篇关于Claude 4的评测文章《【快速评测】Claude 4真的比3.7强吗？7个场景告诉你答案》，引发了群内对新模型性能的讨论。JK询问"Raycast 支持Claude4 了吗"，得到了ben田的肯定回复。随后的讨论涉及到使用限制和会员权益，JK发现需要advanced会员才能使用Claude 4，xiaolei0vip补充了具体的使用限制："3小时75次，一天150次"。这个话题展现了用户对最新AI模型的关注度，以及对服务层级和使用限制的关心。</p>
+                        <div class="topic-keywords">
+                            <span class="keyword">Claude 4</span>
+                            <span class="keyword">模型评测</span>
+                            <span class="keyword">使用限制</span>
+                        </div>
+                        <div class="topic-mentions"><i class="fas fa-bullhorn"></i> 多次提及</div>
+                    </div>
+                    <i class="fas fa-chart-pie card-icon"></i> 
+                </div>
+
+                <div class="card topic-card">
+                    <div class="topic-card-content-wrapper"> 
+                        <h2><i class="fas fa-tags"></i> Raycast Pro订阅优化策略</h2>
+                        <div class="topic-category">订阅策略</div>
+                        <p>Gary询问"Raycast 怎么搭配最优惠，想买个pro"，引发了群内关于订阅优化的热烈讨论。群友们分享了多种优惠策略：xiaolei0vip建议使用"1.教育优惠 2.群主的优惠码"；强子提供了群主的邀请链接并建议叠加coupon；选柚高高手分享了自己96刀一年的价格。然而，nardinmarcus发现从邀请链接进入后无法使用优惠码，因为"Affiliate绑定了"，半价优惠无法使用。这个讨论为想要订阅Raycast Pro的用户提供了实用的省钱策略和注意事项。</p>
+                        <div class="topic-keywords">
+                            <span class="keyword">Raycast Pro</span>
+                            <span class="keyword">订阅优惠</span>
+                            <span class="keyword">省钱策略</span>
+                        </div>
+                        <div class="topic-mentions"><i class="fas fa-bullhorn"></i> 多次提及</div>
+                    </div>
+                    <i class="fas fa-piggy-bank card-icon"></i> 
+                </div>
+
+                <div class="card topic-card">
+                    <div class="topic-card-content-wrapper"> 
+                        <h2><i class="fas fa-file-import"></i> 文件格式处理与数据转换工具</h2>
+                        <div class="topic-category">工具技巧</div>
+                        <p>强子遇到了"raycast竟然不能上传xlsx附件"的问题，xiaolei0vip建议"转成json"。随后的讨论中，xiaolei0vip详细介绍了使用utloos工具进行Excel到JSON转换的方法："我一般给ai数据用的utloos excel自动转json的插件 右键几秒钟搞定"。这个工具被描述为"类似raycast的工具"，拥有插件市场，能够精准快速地完成数据格式转换。Ronin_Chang对此表现出浓厚兴趣，因为他之前"让AI把Excel转成json然后我还要修修补补"的经历让他感到困扰。这个话题为用户提供了实用的数据处理解决方案。</p>
+                        <div class="topic-keywords">
+                            <span class="keyword">文件转换</span>
+                            <span class="keyword">utloos</span>
+                            <span class="keyword">Excel转JSON</span>
+                        </div>
+                        <div class="topic-mentions"><i class="fas fa-bullhorn"></i> 多次提及</div>
+                    </div>
+                    <i class="fas fa-file-code card-icon"></i> 
+                </div>
+
+                <div class="card topic-card">
+                    <div class="topic-card-content-wrapper"> 
+                        <h2><i class="fas fa-microphone-alt"></i> 语音转文字功能需求</h2>
+                        <div class="topic-category">功能需求</div>
+                        <p>在晚上，Bala🌍提出了"有语音转文字的插件推荐吗，日常在obsidian记日记用"的需求，并特别说明"除了whisper外"。quan建议尝试"豆包"。这个简短的交流反映了用户对多样化AI功能的需求，特别是在日常记录和笔记整理方面的应用场景。语音转文字功能作为提高效率的重要工具，在知识管理和内容创作中扮演着重要角色。</p>
+                        <div class="topic-keywords">
+                            <span class="keyword">语音转文字</span>
+                            <span class="keyword">Obsidian</span>
+                            <span class="keyword">插件推荐</span>
+                        </div>
+                        <div class="topic-mentions"><i class="fas fa-bullhorn"></i> 多次提及</div>
+                    </div>
+                    <i class="fas fa-assistive-listening-systems card-icon"></i> 
+                </div>
+            </div>
+
+            <div class="card mindmap-card">
+                <h2><i class="fas fa-sitemap"></i> 核心概念关系图</h2>
+                <div class="mindmap-controls">
+                    <button id="zoomInBtn"><i class="fas fa-search-plus"></i> 放大</button>
+                    <button id="zoomOutBtn"><i class="fas fa-search-minus"></i> 缩小</button>
+                    <button id="downloadSvgBtn"><i class="fas fa-download"></i> 下载SVG</button>
+                </div>
+                <div class="mermaid-container">
+                    <div class="mermaid" id="mindmapDiagram">
+mindmap
+  root((Raycast AI 日报核心))
+    (技术探讨)
+      (MCP协议)
+        (与GPTs对比)
+        (安装配置教程)
+      (AI模型)
+        (Sonnet 4体验)
+          (回答不完整问题)
+        (Opus4体验)
+          (回答不完整问题)
+        (o3模型)
+        (Claude 4评测)
+          (性能对比)
+          (使用限制)
+          (会员权益)
+    (工具与技巧)
+      (Raycast Pro订阅)
+        (优惠策略)
+        (教育优惠)
+        (优惠码)
+        (邀请链接)
+      (文件处理)
+        (xlsx附件上传问题)
+        (Excel转JSON)
+        (utloos工具)
+      (语音转文字)
+        (Obsidian日记)
+        (Whisper替代方案)
+        (豆包推荐)
+    (用户反馈与需求)
+      (模型使用问题)
+      (功能扩展需求)
+                    </div>
+                </div>
+                <i class="fas fa-project-diagram card-icon"></i>
+            </div>
+
+
+            <div class="card quote-card">
+                <h2><i class="fas fa-quote-left"></i> 精彩引用</h2>
+                <div class="quote">
+                    "raycast中弄个mcp能否代替GPTs"
+                    <div class="quote-author">- @强子(yuzi12152205)</div>
+                </div>
+                <div class="quote">
+                    "raycast app 用snonet4 回答总是说一半"
+                    <div class="quote-author">- @强子(yuzi12152205)</div>
+                </div>
+                <div class="quote">
+                    "我一般给ai数据用的utloos excel自动转json的插件 右键几秒钟搞定"
+                    <div class="quote-author">- @xiaolei0vip</div>
+                </div>
+                <i class="fas fa-comment-dots card-icon"></i> 
+            </div>
+
+            <div class="card links-card">
+                <h2><i class="fas fa-link"></i> 重要链接与资源</h2>
+                <div class="link-item">
+                     <a href="#mcp-tutorial" target="_blank">
+                         <i class="fas fa-external-link-alt link-icon"></i> 
+                         <span class="link-title">MCP保姆级安装配置教程</span>
+                     </a>
+                </div>
+                <div class="link-item">
+                     <a href="#claude4-review" target="_blank">
+                         <i class="fas fa-external-link-alt link-icon"></i>
+                         <span class="link-title">Claude 4快速评测文章</span>
+                     </a>
+                </div>
+                <div class="link-item">
+                     <a href="#raycast-invite" target="_blank">
+                         <i class="fas fa-external-link-alt link-icon"></i>
+                         <span class="link-title">Raycast邀请链接</span>
+                     </a>
+                </div>
+                <i class="fas fa-share-alt card-icon"></i> 
+            </div>
+
+            <div class="card stats-card">
+                <h2><i class="fas fa-chart-line"></i> 活跃之星</h2>
+                <table class="user-stats-table">
+                    <thead>
+                        <tr>
+                            <th class="user-name-col">用户</th>
+                            <th class="message-count-col">发言数</th>
+                            <th class="contribution-col">主要贡献</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-label="用户">强子(yuzi12152205)</td>
+                            <td data-label="发言数" class="message-count-col">8+</td>
+                            <td data-label="主要贡献">主要讨论技术问题和优惠策略</td>
+                        </tr>
+                        <tr>
+                            <td data-label="用户">xiaolei0vip</td>
+                            <td data-label="发言数" class="message-count-col">12+</td>
+                            <td data-label="主要贡献">分享技术解决方案和工具推荐</td>
+                        </tr>
+                        <tr>
+                            <td data-label="用户">Ronin_Chang</td>
+                            <td data-label="发言数" class="message-count-col">8+</td>
+                            <td data-label="主要贡献">积极参与技术讨论</td>
+                        </tr>
+                        <tr>
+                            <td data-label="用户">Gary(wxid_6hu2yhuak87f22)</td>
+                            <td data-label="发言数" class="message-count-col">6+</td>
+                            <td data-label="主要贡献">关注订阅优化</td>
+                        </tr>
+                        <tr>
+                            <td data-label="用户">JK(wxid_6t5xmexpyiwb22)</td>
+                            <td data-label="发言数" class="message-count-col">4+</td>
+                            <td data-label="主要贡献">询问新功能可用性</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <i class="fas fa-user-friends card-icon"></i> 
+            </div>
+
+            <div class="card wordcloud-card">
+                <h2><i class="fas fa-cloud"></i> 词云</h2>
+                <div class="wordcloud">
+                    <span class="wordcloud-item size-5">MCP</span>
+                    <span class="wordcloud-item size-5">Claude 4</span>
+                    <span class="wordcloud-item size-5">Raycast Pro</span>
+                    <span class="wordcloud-item size-4">Sonnet 4</span>
+                    <span class="wordcloud-item size-4">订阅优惠</span>
+                    <span class="wordcloud-item size-4">数据转换</span>
+                    <span class="wordcloud-item size-3">utloos</span>
+                    <span class="wordcloud-item size-3">语音转文字</span>
+                    <span class="wordcloud-item size-2">AI模型对比</span>
+                    <span class="wordcloud-item size-2">Excel转JSON</span>
+                </div>
+                <i class="fas fa-cloud card-icon"></i> 
+            </div>
+        </div> 
+        
+        <div class="footer">
+            <p>数据来源：Raycast AI 使用交流群聊记录 | 生成时间：2025年5月23日 | 统计周期：2025年5月23日全天</p>
+            <p>本报告由AI辅助生成，内容仅供参考，不代表所有群成员观点。</p>
+        </div>
+    </div> 
+
+    <div class="action-buttons-container">
+        <button id="viewPreviousReportBtn" class="action-button"><i class="fas fa-calendar-alt"></i> 查看昨日日报</button>
+        <button id="screenshotToClipboardBtn" class="action-button"><i class="fas fa-clipboard"></i> 拷贝截图</button>
+        <button id="screenshotDownloadBtn" class="action-button"><i class="fas fa-camera"></i> 下载截图</button>
+        <button id="copyHtmlBtn" class="action-button"><i class="fas fa-copy"></i> 拷贝源码</button>
+        <button id="downloadHtmlBtn" class="action-button"><i class="fas fa-download"></i> 下载报告</button>
+    </div>
+    <div id="feedback-message"></div>
+
+
+    <script>
+        // Initialize Mermaid.js
+        mermaid.initialize({ startOnLoad: true, theme: 'base', fontFamily: '"Inter", sans-serif',
+            mindmap: {
+                padding: 15,
+                // Mermaid theme variables can be overridden here if needed
+                // mainBkg: '#f5f4ee', // Example: match page background
+                // nodeBorder: '#ff8906', // Example: match accent
+            }
+        });
+
+        let currentScale = 1;
+        const mindmapSvgContainer = document.querySelector('#mindmapDiagram .mermaid'); // Target the inner div where SVG is rendered
+        
+        // Function to apply scale to the SVG if it exists
+        function applyScale() {
+            const svgElement = document.querySelector('#mindmapDiagram svg');
+            if (svgElement) {
+                svgElement.style.transform = `scale(${currentScale})`;
+                svgElement.style.transformOrigin = 'center center'; // Zoom from center
+            }
+        }
+
+        // Zoom In
+        document.getElementById('zoomInBtn').addEventListener('click', function() {
+            currentScale += 0.1;
+            applyScale();
+        });
+
+        // Zoom Out
+        document.getElementById('zoomOutBtn').addEventListener('click', function() {
+            if (currentScale > 0.2) { // Prevent scaling down too much
+                currentScale -= 0.1;
+                applyScale();
+            }
+        });
+
+        // Download SVG
+        document.getElementById('downloadSvgBtn').addEventListener('click', function() {
+            const svgElement = document.querySelector('#mindmapDiagram svg');
+            if (svgElement) {
+                const svgData = new XMLSerializer().serializeToString(svgElement);
+                const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                
+                let filename = '核心概念关系图'; 
+                const reportTitleElement = document.querySelector('.main-card h1');
+                const reportDateElement = document.querySelector('.main-card .date');
+                if (reportTitleElement && reportTitleElement.textContent.trim() !== 'Raycast AI 使用交流日报') {
+                    filename = reportTitleElement.textContent.trim().replace(/[^a-z0-9\u4e00-\u9fa5_\-\.]/gi, '_') + '-核心概念关系图';
+                }
+                if (reportDateElement && reportDateElement.textContent.trim() !== '2025年5月23日') {
+                    filename += '-' + reportDateElement.textContent.trim().replace(/[^a-z0-9\u4e00-\u9fa5_\-\.]/gi, '_');
+                }
+                filename += '.svg'; 
+                filename = filename.replace(/_+/g, '_');
+
+
+                link.href = url;
+                link.download = filename; 
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+                showFeedbackMessage('核心概念关系图已下载!', 'success'); 
+            } else {
+                showFeedbackMessage('无法下载：未找到核心概念关系图。', 'error'); 
+            }
+        });
+
+
+        // =====================================================================================
+        // 在这里配置昨日日报的URL
+        // 重要提示：请务必将下面的 "在此处填写昨日日报的URL" 替换为真实的、完整的网页链接
+        // 例如: const previousReportUrl = "https://www.example.com/reports/yesterday.html";
+        // 或者: const previousReportUrl = "reports/yesterday-report-2025-05-23.html"; // 如果是相对路径
+        // 如果此URL无效或未正确配置，"查看昨日日报"按钮将无法正常工作。
+        // =====================================================================================
+        const previousReportUrl = "在此处填写昨日日报的URL"; 
+
+        // Helper function to display feedback messages
+        function showFeedbackMessage(message, type = 'info', duration = 3000) {
+            const feedbackElement = document.getElementById('feedback-message');
+            if (feedbackElement) {
+                feedbackElement.textContent = message;
+                feedbackElement.className = type; // 'success', 'error', or 'info'
+                setTimeout(() => {
+                    feedbackElement.textContent = '';
+                    feedbackElement.className = '';
+                }, duration);
+            }
+        }
+        
+        // Generic screenshot function (used by both clipboard and download)
+        async function captureScreenshot(elementToCapture) {
+            // Ensure fonts are loaded before taking screenshot
+            await document.fonts.ready;
+            return html2canvas(elementToCapture, { 
+                useCORS: true,
+                scale: window.devicePixelRatio || 1,
+                logging: false,
+                backgroundColor: getComputedStyle(document.body).getPropertyValue('--bg-primary').trim() || '#f5f4ee',
+                scrollX: -window.scrollX,
+                scrollY: -window.scrollY,
+                windowWidth: document.documentElement.scrollWidth,
+                windowHeight: document.documentElement.scrollHeight
+            });
+        }
+
+        // Screenshot to Clipboard Functionality
+        document.getElementById('screenshotToClipboardBtn').addEventListener('click', async function() {
+            const reportContent = document.getElementById('report-content-wrapper');
+            if (!reportContent) {
+                showFeedbackMessage('截图错误: 未找到报告内容。', 'error');
+                return;
+            }
+
+            const actionButtons = document.querySelector('.action-buttons-container');
+            const feedbackMsgElement = document.getElementById('feedback-message');
+            const originalButtonText = this.innerHTML;
+            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 处理中...';
+            this.disabled = true;
+            
+            actionButtons.style.visibility = 'hidden';
+            if(feedbackMsgElement) feedbackMsgElement.style.visibility = 'hidden';
+
+            try {
+                const canvas = await captureScreenshot(reportContent);
+                canvas.toBlob(async function(blob) {
+                    if (blob) {
+                        try {
+                            if (navigator.clipboard && navigator.clipboard.write) {
+                                await navigator.clipboard.write([
+                                    new ClipboardItem({ 'image/png': blob })
+                                ]);
+                                showFeedbackMessage('截图已拷贝到剪贴板!', 'success');
+                            } else {
+                                // Fallback for browsers that don't support modern clipboard API for images
+                                // or if ClipboardItem is not defined (e.g. older browsers or non-secure contexts)
+                                const dataUrl = canvas.toDataURL('image/png');
+                                const Gthis = document.getElementById('screenshotToClipboardBtn');
+                                const tempTextarea = document.createElement('textarea');
+                                tempTextarea.value = `截图已生成，请手动复制以下Data URL并在新标签页打开，然后右键保存图片：\n${dataUrl.substring(0,100)}... (过长未完全显示)`;
+                                document.body.appendChild(tempTextarea);
+                                tempTextarea.select();
+                                try {
+                                    document.execCommand('copy');
+                                     showFeedbackMessage('截图Data URL已拷贝。请手动处理。', 'info', 5000);
+                                } catch (err) {
+                                     showFeedbackMessage('截图已生成，但无法自动拷贝。请尝试下载截图。', 'error', 5000);
+                                }
+                                document.body.removeChild(tempTextarea);
+                                console.warn('Clipboard API for images not fully supported. Copied data URL as fallback or prompted download.');
+                            }
+                        } catch (copyError) {
+                            console.error('Error copying screenshot to clipboard:', copyError);
+                            showFeedbackMessage('拷贝截图到剪贴板失败: ' + copyError.message, 'error', 5000);
+                        }
+                    } else {
+                        throw new Error('无法将Canvas转换为Blob。');
+                    }
+                }, 'image/png');
+            } catch (error) {
+                console.error('Error capturing screenshot for clipboard:', error);
+                showFeedbackMessage('截图捕获失败: ' + error.message, 'error');
+            } finally {
+                actionButtons.style.visibility = 'visible';
+                if(feedbackMsgElement) feedbackMsgElement.style.visibility = 'visible';
+                this.innerHTML = originalButtonText;
+                this.disabled = false;
+            }
+        });
+
+
+        // Screenshot to Download Functionality
+        document.getElementById('screenshotDownloadBtn').addEventListener('click', async function() {
+            const reportContent = document.getElementById('report-content-wrapper');
+            if (!reportContent) {
+                showFeedbackMessage('截图错误: 未找到报告内容。', 'error');
+                return;
+            }
+
+            const actionButtons = document.querySelector('.action-buttons-container');
+            const feedbackMsgElement = document.getElementById('feedback-message');
+            const originalButtonText = this.innerHTML;
+            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 生成中...';
+            this.disabled = true;
+            
+            actionButtons.style.visibility = 'hidden';
+            if(feedbackMsgElement) feedbackMsgElement.style.visibility = 'hidden';
+
+            try {
+                const canvas = await captureScreenshot(reportContent);
+                const image = canvas.toDataURL('image/png');
+                const link = document.createElement('a');
+                
+                const reportTitleElement = document.querySelector('.main-card h1');
+                const reportDateElement = document.querySelector('.main-card .date');
+                let filename = 'Raycast_AI_日报截图';
+                if (reportTitleElement && reportTitleElement.textContent.trim() !== 'Raycast AI 使用交流日报') {
+                    filename = reportTitleElement.textContent.trim();
+                } else {
+                     const pageTitleTag = document.querySelector('title');
+                     if (pageTitleTag && pageTitleTag.textContent.includes('-')) {
+                         filename = pageTitleTag.textContent.split('-')[0].trim();
+                     }
+                }
+                if (reportDateElement && reportDateElement.textContent.trim() !== '2025年5月23日') {
+                    filename += '-' + reportDateElement.textContent.trim();
+                } else {
+                    filename += '-2025年5月23日';
+                }
+                filename += '.png';
+                filename = filename.replace(/[^a-z0-9\u4e00-\u9fa5_\-\.]/gi, '_').replace(/_+/g, '_');
+
+                link.href = image;
+                link.download = filename;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                showFeedbackMessage('截图已下载!', 'success');
+
+            } catch (error) {
+                console.error('Error generating screenshot for download:', error);
+                showFeedbackMessage('下载截图失败: ' + error.message, 'error');
+            } finally {
+                actionButtons.style.visibility = 'visible';
+                if(feedbackMsgElement) feedbackMsgElement.style.visibility = 'visible';
+                this.innerHTML = originalButtonText;
+                this.disabled = false;
+            }
+        });
+
+        // Download HTML functionality
+        document.getElementById('downloadHtmlBtn').addEventListener('click', function() {
+            try {
+                const htmlContent = document.documentElement.outerHTML;
+                const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+                const link = document.createElement('a');
+
+                const reportTitleElement = document.querySelector('.main-card h1');
+                const reportDateElement = document.querySelector('.main-card .date');
+                let filename = 'Raycast_AI_日报';
+                if (reportTitleElement && reportTitleElement.textContent.trim() !== 'Raycast AI 使用交流日报') {
+                    filename = reportTitleElement.textContent.trim();
+                } else {
+                     const pageTitleTag = document.querySelector('title');
+                     if (pageTitleTag && pageTitleTag.textContent.includes('-')) {
+                         filename = pageTitleTag.textContent.split('-')[0].trim();
+                     }
+                }
+                if (reportDateElement && reportDateElement.textContent.trim() !== '2025年5月23日') {
+                    filename += '-' + reportDateElement.textContent.trim();
+                } else {
+                     filename += '-2025年5月23日';
+                }
+                filename += '.html';
+                filename = filename.replace(/[^a-z0-9\u4e00-\u9fa5_\-\.]/gi, '_').replace(/_+/g, '_');
+
+                link.href = URL.createObjectURL(blob);
+                link.download = filename;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(link.href); 
+                showFeedbackMessage('HTML报告已下载!', 'success');
+            } catch (error) {
+                console.error('Error downloading HTML:', error);
+                showFeedbackMessage('下载HTML失败: ' + error.message, 'error');
+            }
+        });
+
+        // Copy HTML to Clipboard functionality
+        document.getElementById('copyHtmlBtn').addEventListener('click', function() {
+            const htmlContent = document.documentElement.outerHTML;
+            const Gthis = this; 
+            const originalButtonHTML = Gthis.innerHTML; 
+
+            const textarea = document.createElement('textarea');
+            textarea.value = htmlContent;
+            textarea.style.position = 'fixed'; 
+            textarea.style.top = '-9999px';
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+
+            try {
+                textarea.select();
+                textarea.setSelectionRange(0, textarea.value.length); 
+
+                if (document.execCommand('copy')) {
+                    Gthis.innerHTML = '<i class="fas fa-check"></i> 已拷贝!';
+                    showFeedbackMessage('HTML已拷贝到剪贴板!', 'success', 2000);
+                } else {
+                    Gthis.innerHTML = '<i class="fas fa-times"></i> 拷贝失败';
+                    showFeedbackMessage('拷贝失败。您的浏览器可能不支持此操作。', 'error', 2000);
+                }
+            } catch (err) {
+                console.error('Error copying HTML to clipboard:', err);
+                Gthis.innerHTML = '<i class="fas fa-times"></i> 拷贝出错';
+                showFeedbackMessage('拷贝出错: ' + err.message, 'error', 2000);
+            } finally {
+                setTimeout(function() {
+                    Gthis.innerHTML = originalButtonHTML; 
+                }, 2000);
+                document.body.removeChild(textarea);
+            }
+        });
+
+        // View Previous Report Button
+        document.getElementById('viewPreviousReportBtn').addEventListener('click', function() {
+            const urlToOpen = previousReportUrl.trim();
+            const placeholderUrlText = "在此处填写昨日日报的URL";
+            
+            console.log("查看昨日日报按钮点击。配置的URL是:", `"${urlToOpen}"`); // Log the exact value being checked
+
+            if (urlToOpen && urlToOpen !== placeholderUrlText && (urlToOpen.startsWith('http://') || urlToOpen.startsWith('https://') || !urlToOpen.includes('://'))) {
+                let finalUrl = urlToOpen;
+                
+                console.log("URL有效，尝试在新标签页打开:", finalUrl);
+                const newWindow = window.open(finalUrl, '_blank');
+                if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
+                    // Pop-up blocked
+                    showFeedbackMessage('无法打开新窗口。请检查您的弹出窗口拦截设置。', 'error', 5000);
+                    console.warn('无法打开新窗口，可能被弹出窗口拦截器阻止。');
+                }
+
+            } else {
+                console.warn('昨日日报的URL未配置或无效。当前值:', `"${urlToOpen}"`);
+                showFeedbackMessage('昨日日报的URL未配置或无效。请检查脚本中的 previousReportUrl 变量，并确保它是一个有效的网址或相对路径。', 'error', 5000);
+            }
+        });
+
+
+        // Adjust action buttons display on load and resize for responsive layout
+        function adjustActionButtonsLayout() {
+            const actionButtonsContainer = document.querySelector('.action-buttons-container');
+            if (actionButtonsContainer) {
+                if (window.innerWidth <= 768) {
+                    // For smaller screens, allow buttons to wrap and center them
+                    actionButtonsContainer.style.display = 'flex';
+                    actionButtonsContainer.style.flexWrap = 'wrap';
+                    actionButtonsContainer.style.justifyContent = 'center';
+                } else {
+                    // For larger screens, revert to default block behavior (which is centered by text-align)
+                    actionButtonsContainer.style.display = 'block'; 
+                    actionButtonsContainer.style.flexWrap = 'nowrap'; // Reset wrap
+                }
+            }
+        }
+        window.addEventListener('load', adjustActionButtonsLayout);
+        window.addEventListener('resize', adjustActionButtonsLayout);
+
+    </script>
+</body>
+</html>
