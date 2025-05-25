@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[在此处填写报告标题] - [日期]</title>
+    <link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-100-M/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" xintegrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoVBL5rLesXWW/sGuLhYFChxgYnz2Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>
+        :root {
+            /* 极简主义风格配色 */
+            --bg-primary: #f5f4ee; /* Slightly warmer off-white */
+            --bg-secondary: #faf9f6; /* Even lighter for cards */
+            --bg-tertiary: #f1f3f5;
+            --text-primary: #212529;
+            --text-secondary: #495057;
+            --accent-primary: #ff8906; /* 主要强调色 - 橙色 */
+            --accent-secondary: #f76707; /* 次要强调色 - 深橙色 */
+            --accent-tertiary: #e8590c; /* 第三强调色 - 焦橙色 */
+            --accent-blue: #339af0;    /* 特定元素的蓝色强调 */
+            --accent-purple: #7048e8; /* 词云的紫色强调 */
+            --accent-cyan: #22b8cf;   /* 词云的青色强调 */
+            --card-padding: 24px;
+            --grid-gap: 16px;
+            --card-radius: 12px;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'SF Pro Display', 'Segoe UI', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+            width: 100%;
+            max-width: 1000px; /* 内容最大宽度 */
+            margin: 0 auto; /* 内容居中 */
+            padding: 20px; /* 内容周围内边距 */
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        h1 {
+            font-size: 2.5rem; /* 主卡片大标题 */
+            margin-bottom: 0.5rem;
+            color: var(--accent-primary);
+        }
+
+        h2 { /* General styling for H2, will be used in topic cards as well */
+            font-size: 1.75rem; /* 版块标题 */
+            margin-bottom: 1rem;
+            color: var(--accent-primary); /* Titles for sections and topic cards */
+        }
+
+        h3 { /* Used for sub-headings if any, or specific elements like in stats card */
+            font-size: 1.25rem; /* 子版块标题 */
+            margin-bottom: 0.75rem;
+            color: var(--accent-blue); /* 子标题使用蓝色以形成对比 */
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr); /* 12列网格系统 */
+            grid-auto-rows: minmax(100px, auto); /* 行高根据内容自动调整, 至少100px */
+            gap: var(--grid-gap);
+            margin-top: 20px;
+            grid-template-areas: /* Updated grid areas */
+                "main   main   main   main   main   main   main   main   main   main   main   main"
+                "topics topics topics topics topics topics topics topics topics topics topics topics"
+                "quote  quote  quote  quote  quote  quote  links  links  links  links  links  links"
+                "stats  stats  stats  stats  stats  stats  wordcloud wordcloud wordcloud wordcloud wordcloud wordcloud";
+        }
+
+        .card {
+            background-color: var(--bg-secondary);
+            border-radius: var(--card-radius);
+            padding: var(--card-padding);
+            box-shadow: var(--card-shadow);
+            position: relative; /* 用于图标定位和伪元素 */
+            overflow: hidden; /* 确保伪元素不超出卡片圆角 */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex; /* Added for flex layout within card */
+            flex-direction: column; /* Stack items vertically */
+        }
+
+        .card:hover {
+            transform: translateY(-5px); /* 鼠标悬停时轻微上浮效果 */
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); /* 鼠标悬停时增强阴影 */
+        }
+
+        /* 卡片顶部强调边框 */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent-primary);
+        }
+
+        /* 卡片右下角装饰性图标 */
+        .card-icon {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            font-size: 4rem; /* 大图标尺寸 */
+            opacity: 0.07; /* 非常微妙的透明度 */
+            color: var(--accent-primary);
+            margin-top: auto; /* Push icon to bottom if card content is short */
+        }
+
+        /* Grid area assignments */
+        .main-card { grid-area: main; }
+        .topic-cards-wrapper {
+            grid-area: topics;
+            display: grid; /* This wrapper is a grid for topic cards */
+            grid-template-columns: repeat(12, 1fr); /* Subgrid with 12 columns */
+            gap: var(--grid-gap);
+        }
+        .quote-card { grid-area: quote; }
+        .links-card { grid-area: links; }
+        .stats-card { grid-area: stats; }
+        .wordcloud-card { grid-area: wordcloud; }
+
+        /* Styling for individual topic cards within the wrapper */
+        .topic-card {
+            grid-column: span 6; /* Default: two topic cards per row */
+        }
+        /* If a topic card is the last child AND it's an odd-numbered child (e.g., 1st, 3rd, 5th)
+           among its siblings inside the wrapper, make it span the full width. */
+        .topic-cards-wrapper > .topic-card:nth-last-child(1):nth-child(odd) {
+            grid-column: span 12;
+        }
+
+
+        /* 使主卡片内的H1标题居中 */
+        .main-card h1 {
+            text-align: center;
+        }
+        /* 使主卡片内的日期居中 */
+        .main-card .date {
+            text-align: center;
+        }
+
+        .date {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .meta-info {
+            display: flex;
+            flex-wrap: wrap; /* 允许项目在小屏幕上换行 */
+            gap: 15px;
+            margin-bottom: 1rem;
+            justify-content: center; /* 使meta信息也居中，与标题对齐 */
+        }
+
+        .meta-info span {
+            background-color: var(--bg-tertiary);
+            padding: 5px 10px;
+            border-radius: 20px; /* 胶囊形状 */
+            font-size: 0.9rem;
+            color: var(--accent-blue);
+        }
+
+        .summary {
+            margin-top: 1rem;
+            line-height: 1.7; /* 提高段落的可读性 */
+            text-align: left; /* 确保摘要文本左对齐 */
+        }
+
+        .topic-category {
+            display: inline-block; /* 允许背景和内边距 */
+            background-color: var(--accent-tertiary);
+            color: var(--bg-primary); /* 深色强调背景上的浅色文字 */
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .topic-keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 0.75rem;
+            margin-bottom: 1rem; /* Add margin to push mentions down or provide space */
+        }
+
+        .keyword {
+            background-color: var(--bg-tertiary);
+            color: var(--accent-primary);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .topic-mentions { 
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            position: absolute; /* Position at bottom left */
+            bottom: var(--card-padding);
+            left: var(--card-padding);
+        }
+
+
+        .quote {
+            position: relative;
+            padding-left: 20px; /* 为引号标记留出空间 */
+            margin: 10px 0;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        .quote::before {
+            content: '"'; /* 起始引号标记 */
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 1.5rem; /* 较大的引号标记 */
+            color: var(--accent-tertiary);
+        }
+
+        .quote-author {
+            text-align: right;
+            font-size: 0.9rem;
+            color: var(--accent-tertiary);
+            margin-top: 5px;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 6px;
+            background-color: var(--bg-tertiary);
+            transition: background-color 0.2s ease;
+            text-decoration: none; /* Ensure the whole item is not underlined by default */
+        }
+
+        .link-item:hover {
+            background-color: rgba(51, 154, 240, 0.1); /* 鼠标悬停时微妙的蓝色背景 */
+        }
+        
+        .link-item a { /* Style for the anchor tag within link-item */
+            text-decoration: none;
+            color: inherit; /* Inherit color from parent, or set specific */
+            display: flex; /* Make anchor take full width of its content */
+            align-items: center;
+            width: 100%;
+        }
+
+        .link-item a:hover .link-title { /* Underline title on hover */
+             text-decoration: underline;
+             color: var(--accent-blue);
+        }
+
+
+        .link-icon {
+            margin-right: 10px;
+            color: var(--accent-blue);
+        }
+
+        .link-title {
+            flex-grow: 1; /* 标题占据可用空间 */
+            color: var(--text-primary); /* Default text color for title */
+        }
+        
+        .link-title.is-link { /* Specific style if title itself is the link text */
+             color: var(--accent-blue);
+        }
+        .link-title.is-link:hover {
+            text-decoration: underline;
+        }
+
+
+        .user-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .user-stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(73, 80, 87, 0.1); /* 微妙的分隔线 */
+        }
+        .user-stat-item:last-child {
+            border-bottom: none; /* 移除最后一个项目的边框 */
+        }
+
+        .user-name { /* This class is used for "发言人" */
+            font-weight: 500;
+        }
+
+        .user-count {
+            background-color: var(--accent-blue);
+            color: var(--bg-primary);
+            padding: 2px 8px;
+            border-radius: 10px; /* 数量的胶囊形状 */
+            font-size: 0.8rem;
+        }
+
+        .wordcloud {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; /* 词云中的词语居中 */
+            gap: 10px;
+            padding: 20px 0;
+        }
+
+        .wordcloud-item {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: transform 0.2s ease;
+        }
+
+        .wordcloud-item:hover {
+            transform: scale(1.1); /* 鼠标悬停时轻微放大 */
+        }
+
+        /* 词云项目的不同大小和颜色 */
+        .size-1 { font-size: 0.9rem; color: var(--text-secondary); }
+        .size-2 { font-size: 1.1rem; color: var(--accent-cyan); }
+        .size-3 { font-size: 1.3rem; color: var(--accent-blue); }
+        .size-4 { font-size: 1.5rem; color: var(--accent-purple); }
+        .size-5 { font-size: 1.8rem; color: var(--accent-tertiary); }
+        
+        /* Action Buttons Styling */
+        .action-buttons-container {
+            text-align: center;
+            margin: 20px 0;
+            padding-bottom: 20px; 
+        }
+
+        .action-button {
+            background-color: var(--accent-primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--card-radius);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin: 5px 10px; /* Added top/bottom margin for stacking */
+            box-shadow: var(--card-shadow);
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center; 
+        }
+
+        .action-button:hover {
+            background-color: var(--accent-secondary);
+            transform: translateY(-2px);
+        }
+         .action-button i {
+            margin-right: 8px;
+        }
+        .action-button .fas { 
+             margin-right: 8px;
+        }
+
+
+        .footer {
+            margin-top: 30px; 
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        #report-content-wrapper .footer {
+             margin-top: 30px; 
+             padding-bottom: 20px; 
+        }
+
+
+        /* 卡片淡入动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card { animation: fadeIn 0.5s ease forwards; } /* Base animation for all cards */
+
+        /* Animation delays based on card type/order for smoother staggering */
+        .main-card { animation-delay: 0.1s; }
+
+        .topic-cards-wrapper .topic-card:nth-child(1) { animation-delay: 0.2s; }
+        .topic-cards-wrapper .topic-card:nth-child(2) { animation-delay: 0.3s; }
+        .topic-cards-wrapper .topic-card:nth-child(3) { animation-delay: 0.4s; }
+        .topic-cards-wrapper .topic-card:nth-child(4) { animation-delay: 0.5s; } /* For 4 topics */
+        .topic-cards-wrapper .topic-card:nth-child(5) { animation-delay: 0.6s; } /* For 5 topics */
+        /* Add more if many topic cards are common, or use JS for many dynamic delays */
+
+        /* Subsequent cards, delays assume a few topic cards (e.g., up to 3-4) */
+        .quote-card { animation-delay: 0.6s; } /* Adjust if more topic cards are typical */
+        .links-card { animation-delay: 0.7s; }
+        .stats-card { animation-delay: 0.8s; }
+        .wordcloud-card { animation-delay: 0.9s; }
+        #report-content-wrapper .footer { animation-delay: 1.0s; } 
+        .action-buttons-container { animation-delay: 1.1s; }
+
+
+        /* 响应式设计调整 */
+        @media (max-width: 768px) { 
+            body {
+                padding: 10px;
+                font-size: 14px; 
+            }
+
+            h1 { font-size: 1.8rem; }
+            h2 { font-size: 1.4rem; } 
+            h3 { font-size: 1.1rem; }
+
+            .grid-container {
+                grid-template-columns: 1fr; /* 卡片垂直堆叠 */
+                grid-template-areas: /* Adjusted for stacked layout */
+                    "main"
+                    "topics"
+                    "quote"
+                    "links"
+                    "stats"
+                    "wordcloud";
+            }
+            
+            .topic-cards-wrapper {
+                grid-template-columns: 1fr; /* Topic cards stack vertically in their wrapper */
+            }
+            .topic-card { /* Each topic card takes full width inside the wrapper on mobile */
+                grid-column: 1 / -1;
+            }
+            .topic-mentions { /* Adjust mentions position for stacked mobile layout if needed */
+                position: static; /* Revert to static for normal flow */
+                margin-top: 10px; /* Add some space above */
+                text-align: left; /* Align to left */
+            }
+
+
+            .action-button {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+            .action-buttons-container {
+                display: flex;
+                flex-wrap: wrap; 
+                justify-content: center; 
+                gap: 10px; 
+            }
+            .action-buttons-container .action-button {
+                 width: calc(50% - 10px); 
+                 min-width: 180px; 
+                 margin: 5px 0; 
+            }
+            @media (max-width: 480px) {
+                .action-buttons-container .action-button {
+                    width: 80%;
+                }
+            }
+        }
+         /* Message area for copy/error feedback */
+        #feedback-message {
+            text-align: center;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+        #feedback-message.success {
+            color: green;
+        }
+        #feedback-message.error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="report-content-wrapper">
+        <div class="grid-container">
+            <div class="card main-card">
+                <h1>[主报告标题 - 例如：AI产品团日报]</h1>
+                <div class="date">[日期 - 例如：2025年5月19日]</div>
+                <div class="meta-info">
+                    <span><i class="fas fa-comment"></i> 消息数: [数字]+</span>
+                    <span><i class="fas fa-users"></i> 活跃用户: [数字]+</span>
+                    <span><i class="fas fa-fire"></i> 热点话题: [数字]</span>
+                    <span><i class="fas fa-clock"></i> 统计时间: [时间范围]</span>
+                </div>
+                <p class="summary">[在此处填写当日讨论的总体摘要。保持简洁明了，突出群组的主要主题和氛围。]</p>
+                <i class="fas fa-microchip card-icon"></i> 
+            </div>
+
+            <div class="topic-cards-wrapper">
+                <div class="card topic-card">
+                    <div> <h2><i class="fas fa-lightbulb"></i> [主题1标题]</h2>
+                        <div class="topic-category">[分类1 - 例如：工具技巧]</div>
+                        <p>[主题1简要描述。讨论了什么？有何关键 takeaways？]</p>
+                        <div class="topic-keywords">
+                            <span class="keyword">[关键词1A]</span>
+                            <span class="keyword">[关键词1B]</span>
+                            <span class="keyword">[关键词1C]</span>
+                        </div>
+                    </div>
+                    <div class="topic-mentions"><i class="fas fa-bullhorn"></i> 提及次数: [数量1]</div>
+                    <i class="fas fa-tools card-icon"></i> </div>
+
+                <div class="card topic-card">
+                    <div> <h2><i class="fas fa-rocket"></i> [主题2标题]</h2>
+                        <div class="topic-category">[分类2 - 例如：新功能]</div>
+                        <p>[主题2简要描述。]</p>
+                        <div class="topic-keywords">
+                            <span class="keyword">[关键词2A]</span>
+                            <span class="keyword">[关键词2B]</span>
+                        </div>
+                    </div>
+                    <div class="topic-mentions"><i class="fas fa-bullhorn"></i> 提及次数: [数量2]</div>
+                    <i class="fas fa-star card-icon"></i> </div>
+                
+                <div class="card topic-card">
+                    <div> <h2><i class="fas fa-comments-dollar"></i> [主题3标题]</h2>
+                        <div class="topic-category">[分类3 - 例如：工具体验]</div>
+                        <p>[主题3简要描述。]</p>
+                        <div class="topic-keywords">
+                            <span class="keyword">[关键词3A]</span>
+                            <span class="keyword">[关键词3B]</span>
+                            <span class="keyword">[关键词3C]</span>
+                        </div>
+                    </div>
+                    <div class="topic-mentions"><i class="fas fa-bullhorn"></i> 提及次数: [数量3]</div>
+                    <i class="fas fa-comments card-icon"></i> </div>
+                
+                <!--
+                <div class="card topic-card">
+                    <div> 
+                        <h2><i class="fas fa-chart-pie"></i> [主题4标题]</h2>
+                        <div class="topic-category">[分类4 - 例如：数据分析]</div>
+                        <p>[主题4简要描述。]</p>
+                        <div class="topic-keywords">
+                            <span class="keyword">[关键词4A]</span>
+                            <span class="keyword">[关键词4B]</span>
+                        </div>
+                    </div>
+                    <div class="topic-mentions"><i class="fas fa-bullhorn"></i> 提及次数: [数量4]</div>
+                    <i class="fas fa-chart-pie card-icon"></i>
+                </div>
+                -->
+            </div>
+            <div class="card quote-card">
+                <h2><i class="fas fa-quote-left"></i> 精彩引用</h2>
+                <div class="quote">
+                    "[引言1内容。使其具有影响力或代表性。]"
+                    <div class="quote-author">- @[发言人1]</div>
+                </div>
+                <div class="quote">
+                    "[引言2内容。]"
+                    <div class="quote-author">- @[发言人2]</div>
+                </div>
+                <div class="quote">
+                    "[引言3内容。]"
+                    <div class="quote-author">- @[发言人3]</div>
+                </div>
+                <i class="fas fa-comment-dots card-icon"></i> 
+            </div>
+
+            <div class="card links-card">
+                <h2><i class="fas fa-link"></i> 重要链接与资源</h2>
+                <div class="link-item">
+                     <a href="[URL链接1]" target="_blank">
+                         <i class="fas fa-external-link-alt link-icon"></i> 
+                         <span class="link-title">[链接1标题]</span>
+                     </a>
+                </div>
+                <div class="link-item">
+                     <a href="[URL链接2]" target="_blank">
+                         <i class="fas fa-external-link-alt link-icon"></i>
+                         <span class="link-title">[链接2标题]</span>
+                     </a>
+                </div>
+                <div class="link-item">
+                    <i class="fas fa-file link-icon"></i> 
+                    <span class="link-title">[文档1标题 - 例如：共享提示词V5]</span> 
+                    </div>
+                <i class="fas fa-share-alt card-icon"></i> 
+            </div>
+
+            <div class="card stats-card">
+                <h2><i class="fas fa-chart-line"></i> 活跃之星</h2>
+                <div class="user-stats">
+                    <div class="user-stat-item">
+                        <span class="user-name">@[发言人1]</span>
+                        <span class="user-count">[数量1]+</span>
+                    </div>
+                    <div class="user-stat-item">
+                        <span class="user-name">@[发言人2]</span>
+                        <span class="user-count">[数量2]+</span>
+                    </div>
+                    <div class="user-stat-item">
+                        <span class="user-name">@[发言人3]</span>
+                        <span class="user-count">[数量3]+</span>
+                    </div>
+                </div>
+                <div style="margin-top: 15px;">
+                    <h3>[活跃时段标题 - 例如：活跃时段]</h3>
+                    <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 1.2rem; color: var(--accent-blue);">[时间段1 - 例如：上午]</div>
+                            <div>[时间范围1 - 例如：09:00-12:00]</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 1.2rem; color: var(--accent-tertiary);">[时间段2 - 例如：下午]</div>
+                            <div>[时间范围2 - 例如：14:00-17:00]</div>
+                        </div>
+                    </div>
+                </div>
+                <i class="fas fa-user-friends card-icon"></i> 
+            </div>
+
+            <div class="card wordcloud-card">
+                <h2><i class="fas fa-cloud"></i> 词云</h2>
+                <div class="wordcloud">
+                    <span class="wordcloud-item size-5">[关键词A]</span>
+                    <span class="wordcloud-item size-5">[关键词B]</span>
+                    <span class="wordcloud-item size-4">[关键词C]</span>
+                    <span class="wordcloud-item size-4">[关键词D]</span>
+                    <span class="wordcloud-item size-3">[关键词E]</span>
+                    <span class="wordcloud-item size-3">[关键词F]</span>
+                    <span class="wordcloud-item size-2">[关键词G]</span>
+                    <span class="wordcloud-item size-2">[关键词H]</span>
+                    <span class="wordcloud-item size-1">[关键词I]</span>
+                </div>
+                <i class="fas fa-tags card-icon"></i> 
+            </div>
+        </div> 
+        
+        <div class="footer">
+            <p>数据来源：[您的数据来源 - 例如：AI产品团聊天记录] | 生成时间：[生成日期] | 统计周期：[统计周期 - 例如：[日期]全天]</p>
+            <p>[免责声明 - 例如：本报告由AI自动生成，仅供参考，不代表所有群成员观点。]</p>
+        </div>
+    </div> 
+
+    <div class="action-buttons-container">
+        <button id="viewPreviousReportBtn" class="action-button"><i class="fas fa-calendar-alt"></i> 查看昨日日报</button>
+        <button id="screenshotToClipboardBtn" class="action-button"><i class="fas fa-clipboard"></i> 拷贝截图</button>
+        <button id="screenshotDownloadBtn" class="action-button"><i class="fas fa-camera"></i> 下载截图</button>
+        <button id="copyHtmlBtn" class="action-button"><i class="fas fa-copy"></i> 拷贝源码</button>
+        <button id="downloadHtmlBtn" class="action-button"><i class="fas fa-download"></i> 下载报告</button>
+    </div>
+    <div id="feedback-message"></div>
+
+
+    <script>
+        // =====================================================================================
+        // 在这里配置昨日日报的URL
+        // 重要提示：请务必将下面的 "在此处填写昨日日报的URL" 替换为真实的、完整的网页链接
+        // 例如: const previousReportUrl = "https://www.example.com/reports/yesterday.html";
+        // 或者: const previousReportUrl = "reports/yesterday-report-2025-05-23.html"; // 如果是相对路径
+        // 如果此URL无效或未正确配置，"查看昨日日报"按钮将无法正常工作。
+        // =====================================================================================
+        const previousReportUrl = "在此处填写昨日日报的URL"; 
+
+        // Helper function to display feedback messages
+        function showFeedbackMessage(message, type = 'info', duration = 3000) {
+            const feedbackElement = document.getElementById('feedback-message');
+            if (feedbackElement) {
+                feedbackElement.textContent = message;
+                feedbackElement.className = type; // 'success', 'error', or 'info'
+                setTimeout(() => {
+                    feedbackElement.textContent = '';
+                    feedbackElement.className = '';
+                }, duration);
+            }
+        }
+        
+        // Generic screenshot function (used by both clipboard and download)
+        async function captureScreenshot(elementToCapture) {
+            // Ensure fonts are loaded before taking screenshot
+            await document.fonts.ready;
+            return html2canvas(elementToCapture, { 
+                useCORS: true,
+                scale: window.devicePixelRatio || 1,
+                logging: false,
+                backgroundColor: getComputedStyle(document.body).getPropertyValue('--bg-primary').trim() || '#f5f4ee',
+                scrollX: -window.scrollX,
+                scrollY: -window.scrollY,
+                windowWidth: document.documentElement.scrollWidth,
+                windowHeight: document.documentElement.scrollHeight
+            });
+        }
+
+        // Screenshot to Clipboard Functionality
+        document.getElementById('screenshotToClipboardBtn').addEventListener('click', async function() {
+            const reportContent = document.getElementById('report-content-wrapper');
+            if (!reportContent) {
+                showFeedbackMessage('截图错误: 未找到报告内容。', 'error');
+                return;
+            }
+
+            const actionButtons = document.querySelector('.action-buttons-container');
+            const feedbackMsgElement = document.getElementById('feedback-message');
+            const originalButtonText = this.innerHTML;
+            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 处理中...';
+            this.disabled = true;
+            
+            actionButtons.style.visibility = 'hidden';
+            if(feedbackMsgElement) feedbackMsgElement.style.visibility = 'hidden';
+
+            try {
+                const canvas = await captureScreenshot(reportContent);
+                canvas.toBlob(async function(blob) {
+                    if (blob) {
+                        try {
+                            if (navigator.clipboard && navigator.clipboard.write) {
+                                await navigator.clipboard.write([
+                                    new ClipboardItem({ 'image/png': blob })
+                                ]);
+                                showFeedbackMessage('截图已拷贝到剪贴板!', 'success');
+                            } else {
+                                showFeedbackMessage('截图已生成，但您的浏览器不支持直接拷贝图片。请尝试下载截图。', 'error', 5000);
+                                console.warn('Clipboard API or ClipboardItem not supported for direct image copy.');
+                            }
+                        } catch (copyError) {
+                            console.error('Error copying screenshot to clipboard:', copyError);
+                            showFeedbackMessage('拷贝截图到剪贴板失败: ' + copyError.message, 'error', 5000);
+                        }
+                    } else {
+                        throw new Error('无法将Canvas转换为Blob。');
+                    }
+                }, 'image/png');
+            } catch (error) {
+                console.error('Error capturing screenshot for clipboard:', error);
+                showFeedbackMessage('截图捕获失败: ' + error.message, 'error');
+            } finally {
+                actionButtons.style.visibility = 'visible';
+                if(feedbackMsgElement) feedbackMsgElement.style.visibility = 'visible';
+                this.innerHTML = originalButtonText;
+                this.disabled = false;
+            }
+        });
+
+
+        // Screenshot to Download Functionality
+        document.getElementById('screenshotDownloadBtn').addEventListener('click', async function() {
+            const reportContent = document.getElementById('report-content-wrapper');
+            if (!reportContent) {
+                showFeedbackMessage('截图错误: 未找到报告内容。', 'error');
+                return;
+            }
+
+            const actionButtons = document.querySelector('.action-buttons-container');
+            const feedbackMsgElement = document.getElementById('feedback-message');
+            const originalButtonText = this.innerHTML;
+            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 生成中...';
+            this.disabled = true;
+            
+            actionButtons.style.visibility = 'hidden';
+            if(feedbackMsgElement) feedbackMsgElement.style.visibility = 'hidden';
+
+            try {
+                const canvas = await captureScreenshot(reportContent);
+                const image = canvas.toDataURL('image/png');
+                const link = document.createElement('a');
+                
+                const reportTitleElement = document.querySelector('.main-card h1');
+                const reportDateElement = document.querySelector('.main-card .date');
+                let filename = 'AI产品日报截图';
+                if (reportTitleElement && reportTitleElement.textContent.trim() !== '[主报告标题 - 例如：AI产品团日报]') {
+                    filename = reportTitleElement.textContent.trim();
+                } else {
+                     const pageTitleTag = document.querySelector('title');
+                     if (pageTitleTag && pageTitleTag.textContent.includes('-')) {
+                         filename = pageTitleTag.textContent.split('-')[0].trim();
+                     }
+                }
+                if (reportDateElement && reportDateElement.textContent.trim() !== '[日期 - 例如：2025年5月19日]') {
+                    filename += '-' + reportDateElement.textContent.trim();
+                }
+                filename += '.png';
+                filename = filename.replace(/[^a-z0-9\u4e00-\u9fa5_\-\.]/gi, '_').replace(/_+/g, '_');
+
+                link.href = image;
+                link.download = filename;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                showFeedbackMessage('截图已下载!', 'success');
+
+            } catch (error) {
+                console.error('Error generating screenshot for download:', error);
+                showFeedbackMessage('下载截图失败: ' + error.message, 'error');
+            } finally {
+                actionButtons.style.visibility = 'visible';
+                if(feedbackMsgElement) feedbackMsgElement.style.visibility = 'visible';
+                this.innerHTML = originalButtonText;
+                this.disabled = false;
+            }
+        });
+
+        // Download HTML functionality
+        document.getElementById('downloadHtmlBtn').addEventListener('click', function() {
+            try {
+                const htmlContent = document.documentElement.outerHTML;
+                const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+                const link = document.createElement('a');
+
+                const reportTitleElement = document.querySelector('.main-card h1');
+                const reportDateElement = document.querySelector('.main-card .date');
+                let filename = 'AI产品日报';
+                if (reportTitleElement && reportTitleElement.textContent.trim() !== '[主报告标题 - 例如：AI产品团日报]') {
+                    filename = reportTitleElement.textContent.trim();
+                } else {
+                     const pageTitleTag = document.querySelector('title');
+                     if (pageTitleTag && pageTitleTag.textContent.includes('-')) {
+                         filename = pageTitleTag.textContent.split('-')[0].trim();
+                     }
+                }
+                if (reportDateElement && reportDateElement.textContent.trim() !== '[日期 - 例如：2025年5月19日]') {
+                    filename += '-' + reportDateElement.textContent.trim();
+                }
+                filename += '.html';
+                filename = filename.replace(/[^a-z0-9\u4e00-\u9fa5_\-\.]/gi, '_').replace(/_+/g, '_');
+
+                link.href = URL.createObjectURL(blob);
+                link.download = filename;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(link.href); 
+                showFeedbackMessage('HTML报告已下载!', 'success');
+            } catch (error) {
+                console.error('Error downloading HTML:', error);
+                showFeedbackMessage('下载HTML失败: ' + error.message, 'error');
+            }
+        });
+
+        // Copy HTML to Clipboard functionality
+        document.getElementById('copyHtmlBtn').addEventListener('click', function() {
+            const htmlContent = document.documentElement.outerHTML;
+            const Gthis = this; 
+            const originalButtonHTML = Gthis.innerHTML; 
+
+            const textarea = document.createElement('textarea');
+            textarea.value = htmlContent;
+            textarea.style.position = 'fixed'; 
+            textarea.style.top = '-9999px';
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+
+            try {
+                textarea.select();
+                textarea.setSelectionRange(0, textarea.value.length); 
+
+                if (document.execCommand('copy')) {
+                    Gthis.innerHTML = '<i class="fas fa-check"></i> 已拷贝!';
+                    showFeedbackMessage('HTML已拷贝到剪贴板!', 'success', 2000);
+                } else {
+                    Gthis.innerHTML = '<i class="fas fa-times"></i> 拷贝失败';
+                    showFeedbackMessage('拷贝失败。您的浏览器可能不支持此操作。', 'error', 2000);
+                }
+            } catch (err) {
+                console.error('Error copying HTML to clipboard:', err);
+                Gthis.innerHTML = '<i class="fas fa-times"></i> 拷贝出错';
+                showFeedbackMessage('拷贝出错: ' + err.message, 'error', 2000);
+            } finally {
+                setTimeout(function() {
+                    Gthis.innerHTML = originalButtonHTML; 
+                }, 2000);
+                document.body.removeChild(textarea);
+            }
+        });
+
+        // View Previous Report Button
+        document.getElementById('viewPreviousReportBtn').addEventListener('click', function() {
+            const urlToOpen = previousReportUrl.trim();
+            const placeholderUrlText = "在此处填写昨日日报的URL";
+            
+            console.log("查看昨日日报按钮点击。配置的URL是:", `"${urlToOpen}"`); // Log the exact value being checked
+
+            if (urlToOpen && urlToOpen !== placeholderUrlText && (urlToOpen.startsWith('http://') || urlToOpen.startsWith('https://') || !urlToOpen.includes('://'))) {
+                let finalUrl = urlToOpen;
+                
+                console.log("URL有效，尝试在新标签页打开:", finalUrl);
+                const newWindow = window.open(finalUrl, '_blank');
+                if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
+                    // Pop-up blocked
+                    showFeedbackMessage('无法打开新窗口。请检查您的弹出窗口拦截设置。', 'error', 5000);
+                    console.warn('无法打开新窗口，可能被弹出窗口拦截器阻止。');
+                }
+
+            } else {
+                console.warn('昨日日报的URL未配置或无效。当前值:', `"${urlToOpen}"`);
+                showFeedbackMessage('昨日日报的URL未配置或无效。请检查脚本中的 previousReportUrl 变量，并确保它是一个有效的网址或相对路径。', 'error', 5000);
+            }
+        });
+
+
+        // Adjust action buttons display on load and resize for responsive layout
+        function adjustActionButtonsLayout() {
+            const actionButtonsContainer = document.querySelector('.action-buttons-container');
+            if (actionButtonsContainer) {
+                if (window.innerWidth <= 768) {
+                    // For smaller screens, allow buttons to wrap and center them
+                    actionButtonsContainer.style.display = 'flex';
+                    actionButtonsContainer.style.flexWrap = 'wrap';
+                    actionButtonsContainer.style.justifyContent = 'center';
+                } else {
+                    // For larger screens, revert to default block behavior (which is centered by text-align)
+                    actionButtonsContainer.style.display = 'block'; 
+                    actionButtonsContainer.style.flexWrap = 'nowrap'; // Reset wrap
+                }
+            }
+        }
+        window.addEventListener('load', adjustActionButtonsLayout);
+        window.addEventListener('resize', adjustActionButtonsLayout);
+
+    </script>
+</body>
+</html>
