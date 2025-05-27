@@ -1,0 +1,1069 @@
+<html lang="zh-CN" style=""><head>
+    <style id="__________cytoscape_stylesheet">.__________cytoscape_container { position: relative; }</style><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI产品蝗虫团日报 - 2025年5月26日</title>
+    <link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-100-M/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" xintegrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoVBL5rLesXWW/sGuLhYFChxgYnz2Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        :root {
+            /* 极简主义风格配色 (from report) */
+            --bg-primary: #f5f4ee; /* 略暖的米白色 */
+            --bg-secondary: #faf9f6; /* 更浅的卡片背景色 */
+            --bg-tertiary: #f1f3f5; /* 第三背景色，用于标签等 */
+            --text-primary: #212529; /* 主要文字颜色 */
+            --text-secondary: #495057; /* 次要文字颜色 */
+            --accent-primary: #ff8906; /* 主要强调色 - 橙色 */
+            --accent-secondary: #f76707; /* 次要强调色 - 深橙色 */
+            --accent-tertiary: #e8590c; /* 第三强调色 - 焦橙色 */
+            --accent-blue: #339af0;     /* 特定元素的蓝色强调 */
+            --accent-purple: #7048e8; /* 词云的紫色强调 */
+            --accent-cyan: #22b8cf;     /* 词云的青色强调 */
+            --highlight-keyword-bg: #ffe8cc; /* 关键词高亮背景 */
+            --highlight-name-color: #7048e8; /* 人名高亮颜色 */
+            --card-padding: 24px; /* 卡片内边距 */
+            --grid-gap: 16px; /* 网格间距 */
+            --card-radius: 12px; /* 卡片圆角 */
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); /* 卡片阴影 */
+            --font-family: 'Inter', 'SF Pro Display', 'Segoe UI', sans-serif; /* 定义字体变量 */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family); /* 使用字体变量 */
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+            width: 100%;
+            max-width: 1000px; /* 内容最大宽度 */
+            margin: 0 auto; /* 内容居中 */
+            padding: 20px; /* 内容周围内边距 */
+        }
+        body.modal-active {
+            overflow: hidden; /* Prevent body scroll when modal is open */
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        h1 {
+            font-size: 2.5rem; /* 主卡片大标题 */
+            margin-bottom: 0.5rem;
+            color: var(--accent-primary);
+        }
+
+        h2 { /* H2通用样式, 也用于主题卡片 */
+            font-size: 1.75rem; /* 版块标题 */
+            margin-bottom: 1rem;
+            color: var(--accent-primary); /* 区块和主题卡片标题颜色 */
+        }
+
+        h3 { /* 用于子标题或特定元素，如统计卡片 */
+            font-size: 1.25rem; /* 子版块标题 */
+            margin-bottom: 0.75rem;
+            color: var(--accent-blue); /* 子标题使用蓝色以形成对比 */
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr); /* 12列网格系统 */
+            grid-auto-rows: minmax(100px, auto); /* 行高根据内容自动调整, 至少100px */
+            gap: var(--grid-gap);
+            margin-top: 20px;
+            grid-template-areas: /* 更新的网格区域 */
+                "main      main      main      main      main      main      main      main      main      main      main      main"
+                "topics    topics    topics    topics    topics    topics    topics    topics    topics    topics    topics    topics"
+                "mindmap   mindmap   mindmap   mindmap   mindmap   mindmap   mindmap   mindmap   mindmap   mindmap   mindmap   mindmap"
+                "quote     quote     quote     quote     quote     quote     links     links     links     links     links     links"
+                "stats     stats     stats     stats     stats     stats     stats     wordcloud wordcloud wordcloud wordcloud wordcloud";
+        }
+
+        .card {
+            background-color: var(--bg-secondary);
+            border-radius: var(--card-radius);
+            padding: var(--card-padding);
+            box-shadow: var(--card-shadow);
+            position: relative; /* 用于图标定位和伪元素 */
+            overflow: hidden; /* 确保伪元素不超出卡片圆角 */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex; /* 为卡片内flex布局添加 */
+            flex-direction: column; /* 垂直堆叠项目 */
+        }
+
+        .card:hover {
+            transform: translateY(-5px); /* 鼠标悬停时轻微上浮效果 */
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); /* 鼠标悬停时增强阴影 */
+        }
+
+        /* 卡片顶部强调边框 */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent-primary);
+        }
+
+        /* 卡片右下角装饰性图标 */
+        .card-icon {
+            position: absolute;
+            bottom: var(--card-padding);
+            right: var(--card-padding);
+            font-size: 4rem;
+            opacity: 0.07;
+            color: var(--accent-primary);
+            z-index: 0; /* Ensure it's behind content if necessary */
+        }
+
+        /* 网格区域分配 */
+        .main-card { grid-area: main; }
+        .topic-cards-wrapper {
+            grid-area: topics;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: var(--grid-gap);
+        }
+        .mindmap-card-container { grid-area: mindmap; } /* Container for the mindmap card */
+        .quote-card { grid-area: quote; }
+        .links-card { grid-area: links; }
+        .stats-card { grid-area: stats; }
+        .wordcloud-card { grid-area: wordcloud; }
+
+        .topic-card {
+            grid-column: span 6; /* 默认占据6列 */
+            min-height: 250px;
+        }
+        .topic-card > .topic-card-content-wrapper {
+            flex-grow: 1; 
+            padding-bottom: 1rem; 
+        }
+        /* If there are 4 topic cards, this rule makes the last one span 12 if it's the 3rd in a row of 2.
+           For 3 cards, the 3rd card will span 12. For 4 cards, they will be 2x2.
+           The rule for odd number of cards to span full width:
+        */
+        .topic-cards-wrapper > .topic-card:nth-last-child(1):nth-child(odd) {
+             grid-column: span 12; /* This will make the 3rd card span full if there are 3 cards */
+        }
+
+
+        .main-card h1 { text-align: center; }
+        .main-card .date { text-align: center; }
+        .date { font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 1rem; }
+        .meta-info { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 1rem; justify-content: center; }
+        .meta-info span { background-color: var(--bg-tertiary); padding: 5px 10px; border-radius: 20px; font-size: 0.9rem; color: var(--accent-blue); }
+        .summary { margin-top: 1rem; line-height: 1.7; text-align: left; }
+        .topic-category { display: inline-block; background-color: var(--accent-tertiary); color: var(--bg-primary); padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; margin-bottom: 0.5rem; }
+        .topic-keywords { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 0.75rem; margin-bottom: 0.75rem; }
+        .keyword { background-color: var(--bg-tertiary); color: var(--accent-primary); padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; }
+        .highlight-keyword { background-color: var(--highlight-keyword-bg); padding: 1px 2px; border-radius: 2px; font-weight: 500; display: inline; line-height: 1.2; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+        .highlight-name { color: var(--highlight-name-color); font-weight: 500; }
+        .topic-mentions { font-size: 0.9rem; color: var(--text-secondary); }
+        .quote { position: relative; padding-left: 20px; margin: 10px 0; font-style: italic; color: var(--text-secondary); }
+        .quote::before { content: '"'; position: absolute; left: 0; top: 0; font-size: 1.5rem; color: var(--accent-tertiary); }
+        .quote-author { text-align: right; font-size: 0.9rem; color: var(--accent-tertiary); margin-top: 5px; }
+        .link-item { display: flex; align-items: center; margin-bottom: 10px; padding: 8px; border-radius: 6px; background-color: var(--bg-tertiary); transition: background-color 0.2s ease; text-decoration: none; }
+        .link-item:hover { background-color: rgba(51, 154, 240, 0.1); }
+        .link-item a { text-decoration: none; color: inherit; display: flex; align-items: center; width: 100%; }
+        .link-item a:hover .link-title { text-decoration: underline; color: var(--accent-blue); }
+        .link-icon { margin-right: 10px; color: var(--accent-blue); }
+        .link-title { flex-grow: 1; color: var(--text-primary); }
+        .link-title.is-link { color: var(--accent-blue); }
+        .link-title.is-link:hover { text-decoration: underline; }
+        .user-stats-table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; }
+        .user-stats-table th { text-align: center; padding: 0.75rem 0.5rem; border-bottom: 2px solid var(--accent-primary); color: var(--text-primary); font-weight: 600; font-size: 0.9rem; }
+        .user-stats-table td { padding: 0.75rem 0.5rem; border-bottom: 1px solid var(--bg-tertiary); color: var(--text-secondary); font-size: 0.85rem; vertical-align: top; text-align: left; }
+        .user-stats-table .user-name-col { width: 25%; font-weight: 500; word-break: break-all; }
+        .user-stats-table .message-count-col { text-align: center; width: 15%; white-space: nowrap; }
+        .user-stats-table .contribution-col { width: 60%; word-break: break-all; }
+        .user-stats-table tr:last-child td { border-bottom: none; }
+        .wordcloud { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; padding: 20px 0; }
+        .wordcloud-item { padding: 5px 10px; border-radius: 4px; font-weight: 500; transition: transform 0.2s ease; }
+        .wordcloud-item:hover { transform: scale(1.1); }
+        .size-1 { font-size: 0.9rem; color: var(--text-secondary); }
+        .size-2 { font-size: 1.1rem; color: var(--accent-cyan); }
+        .size-3 { font-size: 1.3rem; color: var(--accent-blue); }
+        .size-4 { font-size: 1.5rem; color: var(--accent-purple); }
+        .size-5 { font-size: 1.8rem; color: var(--accent-tertiary); }
+        .action-buttons-container { text-align: center; margin: 20px 0; padding-bottom: 20px; }
+        .action-button { background-color: var(--accent-primary); color: white; border: none; padding: 10px 20px; border-radius: var(--card-radius); font-size: 1rem; font-weight: 500; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease; margin: 5px 10px; box-shadow: var(--card-shadow); display: inline-flex; align-items: center; justify-content: center; }
+        .action-button:hover { background-color: var(--accent-secondary); transform: translateY(-2px); }
+        .action-button i, .action-button .fas { margin-right: 8px; }
+        .footer { margin-top: 30px; text-align: center; color: var(--text-secondary); font-size: 0.9rem; }
+        #report-content-wrapper .footer { margin-top: 30px; padding-bottom: 20px; }
+
+        /* Mermaid Diagram Specific Styles */
+        .mindmap-card { /* This class is applied to the card holding the mindmap */
+            min-height: 400px; /* Adjust as needed */
+            /* max-width: 900px; /* Let grid control width, or set if needed */
+        }
+        .mindmap-card h2 i { margin-right: 8px; }
+        .mindmap-controls { display: flex; gap: 10px; margin-bottom: 15px; align-items: center; flex-wrap: wrap; }
+        .mindmap-controls button { background-color: var(--accent-blue); color: white; border: none; padding: 8px 12px; border-radius: var(--card-radius); font-size: 0.9rem; cursor: pointer; transition: background-color 0.2s ease; font-weight: 500; display: inline-flex; align-items: center; justify-content: center; }
+        .mindmap-controls button:hover { background-color: #228be6; /* Darker blue for hover */ }
+        .mindmap-controls button i { margin-right: 5px; }
+        .mindmap-controls .fullscreen-toggle-btn { margin-left: auto; }
+        .mermaid-container { flex-grow: 1; display: flex; justify-content: center; align-items: center; overflow: auto; background-color: #fff; border-radius: 8px; padding: 10px; border: 1px solid var(--bg-tertiary); min-height: 300px; cursor: grab; }
+        .mermaid-container.dragging { cursor: grabbing; }
+        .mermaid-container:empty::before { content: "在此处生成或粘贴Mermaid导图代码。"; color: var(--text-secondary); font-style: italic; text-align: center; padding: 20px; }
+        .mermaid-container svg { max-width: none; height: auto; display: block; transition: transform 0.2s ease-out; }
+
+        /* Feedback messages for Mermaid */
+        #mermaid-main-feedback-message, #mermaid-modal-feedback-message { text-align: center; margin-top: 15px; padding: 8px; border-radius: 4px; font-weight: 500; font-size: 0.9rem; display: none; }
+        #mermaid-main-feedback-message.success, #mermaid-modal-feedback-message.success { color: #155724; background-color: #d4edda; border: 1px solid #c3e6cb; display: block; }
+        #mermaid-main-feedback-message.error, #mermaid-modal-feedback-message.error { color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; display: block; }
+        #mermaid-main-feedback-message.info, #mermaid-modal-feedback-message.info { color: #0c5460; background-color: #d1ecf1; border: 1px solid #bee5eb; display: block; }
+        
+        /* Report's own feedback message styling */
+        #feedback-message { text-align: center; margin-top: 10px; font-weight: 500; }
+        #feedback-message.success { color: green; }
+        #feedback-message.error { color: red; }
+
+        /* Fullscreen Modal Styles for Mermaid */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.75); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal-content { /* This class is also used by the Mermaid modal's inner card */
+            width: 95%; height: 90%; max-width: 1200px; 
+            /* display: flex; flex-direction: column; /* Already part of .card */
+        }
+        .modal-close-btn { position: absolute; top: 15px; right: 20px; background: none; border: none; font-size: 2.2rem; color: var(--text-secondary); cursor: pointer; line-height: 1; padding: 5px; z-index: 1010; }
+        .modal-close-btn:hover { color: var(--text-primary); }
+        #modalMermaidContainer { flex-grow: 1; min-height: 0; /* Ensure it uses space within modal-content */ }
+        #modalMermaidContainer:empty::before { content: "导图内容将在此显示。"; color: var(--text-secondary); font-style: italic; text-align: center; padding: 20px; display: flex; justify-content: center; align-items: center; height: 100%; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .card { animation: fadeIn 0.5s ease forwards; }
+        .main-card { animation-delay: 0.1s; }
+        .topic-cards-wrapper .topic-card:nth-child(1) { animation-delay: 0.2s; }
+        .topic-cards-wrapper .topic-card:nth-child(2) { animation-delay: 0.3s; }
+        .topic-cards-wrapper .topic-card:nth-child(3) { animation-delay: 0.4s; }
+        .topic-cards-wrapper .topic-card:nth-child(4) { animation-delay: 0.5s; }
+        .mindmap-card-container .card { animation-delay: 0.6s; } /* Mindmap card animation */
+        .quote-card { animation-delay: 0.7s; }
+        .links-card { animation-delay: 0.8s; }
+        .stats-card { animation-delay: 0.9s; }
+        .wordcloud-card { animation-delay: 1.0s; }
+        #report-content-wrapper .footer { animation: fadeIn 0.5s ease forwards; animation-delay: 1.1s; } /* Footer animation */
+        .action-buttons-container { animation: fadeIn 0.5s ease forwards; animation-delay: 1.2s; } /* Buttons animation */
+
+
+        @media (max-width: 768px) {
+            body { padding: 10px; font-size: 14px; }
+            h1 { font-size: 1.8rem; }
+            h2 { font-size: 1.4rem; }
+            h3 { font-size: 1.1rem; }
+            .grid-container {
+                grid-template-columns: 1fr;
+                grid-template-areas:
+                    "main"
+                    "topics"
+                    "mindmap"
+                    "quote"
+                    "links"
+                    "stats"
+                    "wordcloud";
+            }
+            .topic-cards-wrapper { grid-template-columns: 1fr; } /* Each topic card takes full width on mobile */
+            .topic-card { grid-column: 1 / -1; min-height: auto; } /* Ensure topic cards span full width */
+            .topic-card > .topic-card-content-wrapper { padding-bottom: 1rem; }
+            .topic-mentions { position: static; margin-top: 10px; margin-bottom: 10px; text-align: left; }
+            .card-icon { font-size: 2.5rem; opacity:0.05; /* position: relative; margin-top: auto; margin-left: auto; padding-top: 10px; bottom:15px; right:15px; (Original card-icon positioning is fine for most cards)*/ }
+            .mindmap-card .card-icon { bottom: 15px; right: 15px; /* Ensure mindmap card icon is positioned like others */ }
+
+            .user-stats-table th, .user-stats-table td { padding: 0.5rem 0.25rem; font-size: 0.8rem; }
+            .user-stats-table td { text-align: left; }
+            .user-stats-table .message-count-col { text-align: center; }
+            .action-button { padding: 8px 15px; font-size: 0.9rem; }
+            .action-buttons-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+            .action-buttons-container .action-button { width: calc(50% - 10px); min-width: 180px; margin: 5px 0; }
+            
+            /* Mermaid specific responsive */
+            .mindmap-card .card { padding: 15px; }
+            .mindmap-controls button { font-size: 0.8rem; padding: 6px 10px; }
+            .modal-content { width: 100%; height: 95%; }
+            .modal-close-btn { font-size: 1.8rem; top:10px; right:10px;}
+        }
+        @media (max-width: 480px) {
+            .action-buttons-container .action-button { width: 80%; }
+            .user-stats-table { display: block; overflow-x: auto; }
+            .user-stats-table th, .user-stats-table td { white-space: normal; }
+            .user-stats-table thead, .user-stats-table tbody, .user-stats-table tr { display: block; }
+            .user-stats-table tr { border-bottom: 1px solid var(--bg-tertiary); }
+            .user-stats-table th { display: none; }
+            .user-stats-table td { display: block; text-align: left; border-bottom: none; padding-left: 0.5rem; }
+            .user-stats-table td.message-count-col { text-align: left; }
+            .user-stats-table td::before { content: attr(data-label); font-weight: bold; display: inline-block; width: 100px; margin-right: 10px; color: var(--text-primary); text-align: left; }
+            .user-stats-table tr:last-child { border-bottom: none; }
+        }
+    </style>
+</head>
+<body style="">
+    <div id="report-content-wrapper">
+        <div class="grid-container">
+            <div class="card main-card">
+                <h1 contenteditable="true">AI产品蝗虫团日报</h1>
+                <div class="date" contenteditable="true">2025年5月26日</div>
+                <div class="meta-info">
+                    <span><i class="fas fa-comment"></i> 消息数: 83+</span>
+                    <span><i class="fas fa-users"></i> 活跃用户: 10+</span>
+                    <span><i class="fas fa-fire"></i> 热点话题: 4</span>
+                </div>
+                <p class="summary">2025年5月26日，AI产品蝗虫团的群聊内容围绕AI工具的最新进展、使用体验及未来趋势展开。讨论焦点包括ChatGPT Deep Research与云盘（Dropbox、Box）的集成，以及与Google Drive、Gemini Deep Research在知识库构建方面的对比。群友们还深入探讨了Claude模型的使用策略，包括API、第三方平台（Raycast AI、POE、OpenRouter）的选择，以及IP纯净度对AI模型性能（如Perplexity的“降智”现象）的影响。此外，群聊还涉及Chrome浏览器内置AI模型、国产AI浏览器发展、Grok-3.5的预期发布，以及AI视频生成（Veo3）的技术细节和挑战。整体讨论展现了群友们对AI前沿技术的敏锐洞察和积极探索精神，尤其关注AI在实际应用中的性能表现和用户体验。</p>
+                <i class="fas fa-microchip card-icon"></i>
+            </div>
+
+            <div class="topic-cards-wrapper">
+                <div class="card topic-card">
+                    <div class="topic-card-content-wrapper"> 
+                        <h2 contenteditable="true"><i class="fas fa-database"></i> ChatGPT Deep Research与云盘集成及知识库构建</h2>
+                        <div class="topic-category">AI工具与知识库</div>
+                        <p>讨论了<span class="highlight-name">@Ronin_Chang</span>分享的<span class="highlight-keyword">ChatGPT Deep Research</span>与<span class="highlight-keyword">Dropbox</span>、<span class="highlight-keyword">Box</span>集成构建知识库的功能，并与<span class="highlight-name">@晶</span>提到的<span class="highlight-keyword">Google Drive</span>及<span class="highlight-keyword">Gemini Deep Research</span>进行了对比，探讨了数据集成方式和不同模型处理大规模数据的差异。</p>
+                        <div class="topic-keywords">
+                            <span class="keyword">ChatGPT</span>
+                            <span class="keyword">Deep Research</span>
+                            <span class="keyword">Dropbox</span>
+                            <span class="keyword">Box</span>
+                            <span class="keyword">知识库</span>
+                        </div>
+                        <div class="topic-mentions"><i class="fas fa-bullhorn"></i> 提及次数: 较多</div>
+                    </div>
+                    <i class="fas fa-database card-icon"></i> 
+                </div>
+                <div class="card topic-card">
+                    <div class="topic-card-content-wrapper"> 
+                        <h2 contenteditable="true"><i class="fas fa-shield-alt"></i> Claude模型使用策略与IP纯净度影响</h2>
+                        <div class="topic-category">AI模型使用与网络环境</div>
+                        <p>围绕<span class="highlight-keyword">Claude</span>模型的稳定使用展开，<span class="highlight-name">@nicewere</span>、<span class="highlight-name">@向阳乔木</span>、<span class="highlight-name">@Lemoon</span>、<span class="highlight-name">@烤啦</span>、<span class="highlight-name">@Ronin_Chang</span>、<span class="highlight-name">@(xiaolei0vip)</span>等讨论了官网充值、第三方平台(<span class="highlight-keyword">OpenRouter</span>, <span class="highlight-keyword">Raycast AI</span>, <span class="highlight-keyword">POE</span>)及<span class="highlight-keyword">IP纯净度</span>对模型性能和封号的影响。</p>
+                        <div class="topic-keywords">
+                            <span class="keyword">Claude</span>
+                            <span class="keyword">API</span>
+                            <span class="keyword">IP纯净度</span>
+                            <span class="keyword">Raycast</span>
+                            <span class="keyword">POE</span>
+                        </div>
+                        <div class="topic-mentions"><i class="fas fa-bullhorn"></i> 提及次数: 热烈</div>
+                    </div>
+                    <i class="fas fa-shield-alt card-icon"></i> 
+                </div>
+                <div class="card topic-card"> <div class="topic-card-content-wrapper"> 
+                        <h2 contenteditable="true"><i class="fas fa-video"></i> AI视频生成技术与挑战</h2>
+                        <div class="topic-category">AI多媒体生成</div>
+                        <p><span class="highlight-name">@十一</span>分享了使用<span class="highlight-keyword">Veo3</span>生成视频的体验，讨论了其在一致性、稳定性方面的表现及通过<span class="highlight-keyword">Prompt Engineering</span>优化效果的尝试，但也遇到了内容生成限制和动作自然度等挑战。群友们还提及了<span class="highlight-keyword">Grok</span>未来可能的视频模型。</p>
+                        <div class="topic-keywords">
+                            <span class="keyword">Veo3</span>
+                            <span class="keyword">AI视频</span>
+                            <span class="keyword">Prompt</span>
+                            <span class="keyword">Grok</span>
+                            <span class="keyword">技术挑战</span>
+                        </div>
+                        <div class="topic-mentions"><i class="fas fa-bullhorn"></i> 提及次数: 积极</div>
+                    </div>
+                    <i class="fas fa-video card-icon"></i> 
+                </div>
+            </div>
+            
+            <div class="mindmap-card-container card"> <div class="mindmap-card"> 
+                    <h2><i class="fas fa-sitemap"></i> 核心概念关系图</h2>
+                    <div class="mindmap-controls">
+                        <button id="zoomInBtn"><i class="fas fa-search-plus"></i> 放大</button>
+                        <button id="zoomOutBtn"><i class="fas fa-search-minus"></i> 缩小</button>
+                        <button id="downloadDiagramBtn"><i class="fas fa-download"></i> 下载导图</button>
+                        <button id="fullscreenOpenBtn" class="fullscreen-toggle-btn"><i class="fas fa-expand"></i> 全屏</button> 
+                    </div>
+                    <div class="mermaid-container" id="mainMermaidContainer"><svg aria-roledescription="mindmap" role="graphics-document document" viewBox="0 0 1248.2666015625 502.01318359375" style="max-width: 1248.27px; transform: scale(1); transform-origin: center center;" xmlns="http://www.w3.org/2000/svg" width="100%" id="initialMainDiagramSvg"><style>#initialMainDiagramSvg{font-family:"Inter",sans-serif;font-size:16px;fill:#333;}#initialMainDiagramSvg .error-icon{fill:hsl(220.5882352941, 100%, 98.3333333333%);}#initialMainDiagramSvg .error-text{fill:rgb(8.5000000002, 5.7500000001, 0);stroke:rgb(8.5000000002, 5.7500000001, 0);}#initialMainDiagramSvg .edge-thickness-normal{stroke-width:2px;}#initialMainDiagramSvg .edge-thickness-thick{stroke-width:3.5px;}#initialMainDiagramSvg .edge-pattern-solid{stroke-dasharray:0;}#initialMainDiagramSvg .edge-pattern-dashed{stroke-dasharray:3;}#initialMainDiagramSvg .edge-pattern-dotted{stroke-dasharray:2;}#initialMainDiagramSvg .marker{fill:#0b0b0b;stroke:#0b0b0b;}#initialMainDiagramSvg .marker.cross{stroke:#0b0b0b;}#initialMainDiagramSvg svg{font-family:"Inter",sans-serif;font-size:16px;}#initialMainDiagramSvg .edge{stroke-width:3;}#initialMainDiagramSvg .section--1 rect,#initialMainDiagramSvg .section--1 path,#initialMainDiagramSvg .section--1 circle,#initialMainDiagramSvg .section--1 polygon,#initialMainDiagramSvg .section--1 path{fill:hsl(40.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .section--1 text{fill:#333;}#initialMainDiagramSvg .node-icon--1{font-size:40px;color:#333;}#initialMainDiagramSvg .section-edge--1{stroke:hsl(40.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .edge-depth--1{stroke-width:17;}#initialMainDiagramSvg .section--1 line{stroke:rgb(0, 52.2500000001, 161.5000000002);stroke-width:3;}#initialMainDiagramSvg .disabled,#initialMainDiagramSvg .disabled circle,#initialMainDiagramSvg .disabled text{fill:lightgray;}#initialMainDiagramSvg .disabled text{fill:#efefef;}#initialMainDiagramSvg .section-0 rect,#initialMainDiagramSvg .section-0 path,#initialMainDiagramSvg .section-0 circle,#initialMainDiagramSvg .section-0 polygon,#initialMainDiagramSvg .section-0 path{fill:hsl(-79.4117647059, 100%, 68.3333333333%);}#initialMainDiagramSvg .section-0 text{fill:#333;}#initialMainDiagramSvg .node-icon-0{font-size:40px;color:#333;}#initialMainDiagramSvg .section-edge-0{stroke:hsl(-79.4117647059, 100%, 68.3333333333%);}#initialMainDiagramSvg .edge-depth-0{stroke-width:14;}#initialMainDiagramSvg .section-0 line{stroke:rgb(52.2500000001, 161.5000000002, 0);stroke-width:3;}#initialMainDiagramSvg .disabled,#initialMainDiagramSvg .disabled circle,#initialMainDiagramSvg .disabled text{fill:lightgray;}#initialMainDiagramSvg .disabled text{fill:#efefef;}#initialMainDiagramSvg .section-1 rect,#initialMainDiagramSvg .section-1 path,#initialMainDiagramSvg .section-1 circle,#initialMainDiagramSvg .section-1 polygon,#initialMainDiagramSvg .section-1 path{fill:hsl(220.5882352941, 100%, 73.3333333333%);}#initialMainDiagramSvg .section-1 text{fill:#333;}#initialMainDiagramSvg .node-icon-1{font-size:40px;color:#333;}#initialMainDiagramSvg .section-edge-1{stroke:hsl(220.5882352941, 100%, 73.3333333333%);}#initialMainDiagramSvg .edge-depth-1{stroke-width:11;}#initialMainDiagramSvg .section-1 line{stroke:rgb(136.0000000002, 92.0000000001, 0);stroke-width:3;}#initialMainDiagramSvg .disabled,#initialMainDiagramSvg .disabled circle,#initialMainDiagramSvg .disabled text{fill:lightgray;}#initialMainDiagramSvg .disabled text{fill:#efefef;}#initialMainDiagramSvg .section-2 rect,#initialMainDiagramSvg .section-2 path,#initialMainDiagramSvg .section-2 circle,#initialMainDiagramSvg .section-2 polygon,#initialMainDiagramSvg .section-2 path{fill:hsl(70.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .section-2 text{fill:#333;}#initialMainDiagramSvg .node-icon-2{font-size:40px;color:#333;}#initialMainDiagramSvg .section-edge-2{stroke:hsl(70.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .edge-depth-2{stroke-width:8;}#initialMainDiagramSvg .section-2 line{stroke:rgb(28.5, 0, 161.5000000002);stroke-width:3;}#initialMainDiagramSvg .disabled,#initialMainDiagramSvg .disabled circle,#initialMainDiagramSvg .disabled text{fill:lightgray;}#initialMainDiagramSvg .disabled text{fill:#efefef;}#initialMainDiagramSvg .section-3 rect,#initialMainDiagramSvg .section-3 path,#initialMainDiagramSvg .section-3 circle,#initialMainDiagramSvg .section-3 polygon,#initialMainDiagramSvg .section-3 path{fill:hsl(100.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .section-3 text{fill:#333;}#initialMainDiagramSvg .node-icon-3{font-size:40px;color:#333;}#initialMainDiagramSvg .section-edge-3{stroke:hsl(100.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .edge-depth-3{stroke-width:5;}#initialMainDiagramSvg .section-3 line{stroke:rgb(109.2500000001, 0, 161.5000000002);stroke-width:3;}#initialMainDiagramSvg .disabled,#initialMainDiagramSvg .disabled circle,#initialMainDiagramSvg .disabled text{fill:lightgray;}#initialMainDiagramSvg .disabled text{fill:#efefef;}#initialMainDiagramSvg .section-4 rect,#initialMainDiagramSvg .section-4 path,#initialMainDiagramSvg .section-4 circle,#initialMainDiagramSvg .section-4 polygon,#initialMainDiagramSvg .section-4 path{fill:hsl(130.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .section-4 text{fill:#333;}#initialMainDiagramSvg .node-icon-4{font-size:40px;color:#333;}#initialMainDiagramSvg .section-edge-4{stroke:hsl(130.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .edge-depth-4{stroke-width:2;}#initialMainDiagramSvg .section-4 line{stroke:rgb(161.5000000002, 0, 133.0000000002);stroke-width:3;}#initialMainDiagramSvg .disabled,#initialMainDiagramSvg .disabled circle,#initialMainDiagramSvg .disabled text{fill:lightgray;}#initialMainDiagramSvg .disabled text{fill:#efefef;}#initialMainDiagramSvg .section-5 rect,#initialMainDiagramSvg .section-5 path,#initialMainDiagramSvg .section-5 circle,#initialMainDiagramSvg .section-5 polygon,#initialMainDiagramSvg .section-5 path{fill:hsl(160.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .section-5 text{fill:#333;}#initialMainDiagramSvg .node-icon-5{font-size:40px;color:#333;}#initialMainDiagramSvg .section-edge-5{stroke:hsl(160.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .edge-depth-5{stroke-width:-1;}#initialMainDiagramSvg .section-5 line{stroke:rgb(161.5000000002, 0, 52.2500000001);stroke-width:3;}#initialMainDiagramSvg .disabled,#initialMainDiagramSvg .disabled circle,#initialMainDiagramSvg .disabled text{fill:lightgray;}#initialMainDiagramSvg .disabled text{fill:#efefef;}#initialMainDiagramSvg .section-6 rect,#initialMainDiagramSvg .section-6 path,#initialMainDiagramSvg .section-6 circle,#initialMainDiagramSvg .section-6 polygon,#initialMainDiagramSvg .section-6 path{fill:hsl(190.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .section-6 text{fill:#333;}#initialMainDiagramSvg .node-icon-6{font-size:40px;color:#333;}#initialMainDiagramSvg .section-edge-6{stroke:hsl(190.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .edge-depth-6{stroke-width:-4;}#initialMainDiagramSvg .section-6 line{stroke:rgb(161.5000000002, 28.5, 0);stroke-width:3;}#initialMainDiagramSvg .disabled,#initialMainDiagramSvg .disabled circle,#initialMainDiagramSvg .disabled text{fill:lightgray;}#initialMainDiagramSvg .disabled text{fill:#efefef;}#initialMainDiagramSvg .section-7 rect,#initialMainDiagramSvg .section-7 path,#initialMainDiagramSvg .section-7 circle,#initialMainDiagramSvg .section-7 polygon,#initialMainDiagramSvg .section-7 path{fill:hsl(250.5882352941, 100%, 75%);}#initialMainDiagramSvg .section-7 text{fill:#333;}#initialMainDiagramSvg .node-icon-7{font-size:40px;color:#333;}#initialMainDiagramSvg .section-edge-7{stroke:hsl(250.5882352941, 100%, 75%);}#initialMainDiagramSvg .edge-depth-7{stroke-width:-7;}#initialMainDiagramSvg .section-7 line{stroke:rgb(105, 127.5, 0);stroke-width:3;}#initialMainDiagramSvg .disabled,#initialMainDiagramSvg .disabled circle,#initialMainDiagramSvg .disabled text{fill:lightgray;}#initialMainDiagramSvg .disabled text{fill:#efefef;}#initialMainDiagramSvg .section-8 rect,#initialMainDiagramSvg .section-8 path,#initialMainDiagramSvg .section-8 circle,#initialMainDiagramSvg .section-8 polygon,#initialMainDiagramSvg .section-8 path{fill:hsl(310.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .section-8 text{fill:#333;}#initialMainDiagramSvg .node-icon-8{font-size:40px;color:#333;}#initialMainDiagramSvg .section-edge-8{stroke:hsl(310.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .edge-depth-8{stroke-width:-10;}#initialMainDiagramSvg .section-8 line{stroke:rgb(0, 161.5000000002, 28.5);stroke-width:3;}#initialMainDiagramSvg .disabled,#initialMainDiagramSvg .disabled circle,#initialMainDiagramSvg .disabled text{fill:lightgray;}#initialMainDiagramSvg .disabled text{fill:#efefef;}#initialMainDiagramSvg .section-9 rect,#initialMainDiagramSvg .section-9 path,#initialMainDiagramSvg .section-9 circle,#initialMainDiagramSvg .section-9 polygon,#initialMainDiagramSvg .section-9 path{fill:hsl(340.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .section-9 text{fill:#333;}#initialMainDiagramSvg .node-icon-9{font-size:40px;color:#333;}#initialMainDiagramSvg .section-edge-9{stroke:hsl(340.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .edge-depth-9{stroke-width:-13;}#initialMainDiagramSvg .section-9 line{stroke:rgb(0, 161.5000000002, 109.2500000001);stroke-width:3;}#initialMainDiagramSvg .disabled,#initialMainDiagramSvg .disabled circle,#initialMainDiagramSvg .disabled text{fill:lightgray;}#initialMainDiagramSvg .disabled text{fill:#efefef;}#initialMainDiagramSvg .section-10 rect,#initialMainDiagramSvg .section-10 path,#initialMainDiagramSvg .section-10 circle,#initialMainDiagramSvg .section-10 polygon,#initialMainDiagramSvg .section-10 path{fill:hsl(10.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .section-10 text{fill:#333;}#initialMainDiagramSvg .node-icon-10{font-size:40px;color:#333;}#initialMainDiagramSvg .section-edge-10{stroke:hsl(10.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .edge-depth-10{stroke-width:-16;}#initialMainDiagramSvg .section-10 line{stroke:rgb(0, 133.0000000002, 161.5000000002);stroke-width:3;}#initialMainDiagramSvg .disabled,#initialMainDiagramSvg .disabled circle,#initialMainDiagramSvg .disabled text{fill:lightgray;}#initialMainDiagramSvg .disabled text{fill:#efefef;}#initialMainDiagramSvg .section-root rect,#initialMainDiagramSvg .section-root path,#initialMainDiagramSvg .section-root circle,#initialMainDiagramSvg .section-root polygon{fill:hsl(40.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .section-root text{fill:#333;}#initialMainDiagramSvg .icon-container{height:100%;display:flex;justify-content:center;align-items:center;}#initialMainDiagramSvg .edge{fill:none;}#initialMainDiagramSvg .mindmap-node-label{dy:1em;alignment-baseline:middle;text-anchor:middle;dominant-baseline:middle;text-align:center;}#initialMainDiagramSvg :root{--mermaid-font-family:"Inter",sans-serif;}</style><g></g><g class="mindmap-edges"><path class="edge section-edge-0 edge-depth-2" d="M 716.0765754071026,152.88435931563043 L 678.3409055770671,115.78118312256723 L640.6052357470319,78.67800692950401"></path><path class="edge section-edge-0 edge-depth-2" d="M 737.3608632616231,152.77619978378405 L 781.8091365978564,108.17547198803295 L826.2574099340898,63.574744192281855"></path><path class="edge section-edge-0 edge-depth-2" d="M 741.6981725581072,161.91017839083085 L 865.7865477776984,149.51636642446744 L989.8749229972896,137.12255445810405"></path><path class="edge section-edge-0 edge-depth-1" d="M 592.380783515124,253.6879510142851 L 653.3510793331657,212.72688397858735 L714.3213751512073,171.76581694288961"></path><path class="edge section-edge-0 edge-depth-2" d="M 862.4971916089726,317.35622688969863 L 992.4963296784433,294.58405376861583 L1122.495467747914,271.81188064753303"></path><path class="edge section-edge-0 edge-depth-2" d="M 849.6113300301895,334.8249533909251 L 855.5079359248962,381.27130611676574 L861.4045418196029,427.7176588426064"></path><path class="edge section-edge-0 edge-depth-2" d="M 862.142414882409,324.074334510882 L 966.5769581200461,353.98425344246357 L1071.011501357683,383.8941723740451"></path><path class="edge section-edge-0 edge-depth-2" d="M 857.7653874010206,308.8028634074978 L 889.79362950398,273.27207095734 L921.8218716069395,237.74127850718227"></path><path class="edge section-edge-0 edge-depth-1" d="M 594.5910426849681,265.22231830970753 L 713.825944211993,290.99860843987443 L833.060845739018,316.77489857004133"></path><path class="edge section-edge-0 edge-depth-2" d="M 373.78032964029455,367.3795385616996 L 337.9753527068908,406.7022640671918 L302.1703757734871,446.024989572684"></path><path class="edge section-edge-0 edge-depth-2" d="M 369.3560772104322,352.5363696319328 L 258.0200445023014,323.7725229663358 L146.68401179417057,295.00867630073884"></path><path class="edge section-edge-0 edge-depth-2" d="M 394.72205470370704,366.65344336680704 L 437.0079344117901,407.07582455898955 L479.2938141198731,447.49820575117207"></path><path class="edge section-edge-0 edge-depth-2" d="M 369.0022863035767,358.20590005816416 L 257.395788321147,372.5905744969492 L145.7892903387173,386.97524893573427"></path><path class="edge section-edge-0 edge-depth-1" d="M 566.4104135266966,268.551151992608 L 481.9044752065164,309.17063628929907 L397.3985368863361,349.7901205859901"></path><path class="edge section-edge-0 edge-depth-2" d="M 400.9754703681973,167.50345238772152 L 264.97930680640854,169.24640270569176 L128.98314324461978,170.98935302366203"></path><path class="edge section-edge-0 edge-depth-2" d="M 402.1973930958652,161.37839088163028 L 321.23968637390715,126.51491714602464 L240.28197965194906,91.651443410419"></path><path class="edge section-edge-0 edge-depth-2" d="M 417.0111751390617,152.3471097514619 L 419.9524768110393,109.90094472300171 L422.89377848301683,67.45477969454156"></path><path class="edge section-edge-0 edge-depth-2" d="M 407.32580060577214,179.56702094908607 L 382.16795955587685,215.21847055089233 L357.01011850598155,250.8699201526986"></path><path class="edge section-edge-0 edge-depth-1" d="M 566.9421503219294,254.54796071367727 L 497.9519807047826,214.68202440093302 L428.96181108763585,174.81608808818876"></path><path class="edge section-edge-0 edge-depth-0" d="M 604.3699634446781,360.83010501027104 L 593.951229425471,318.72191790371926 L583.5324954062637,276.6137307971675"></path></g><g class="mindmap-nodes"><g transform="translate(523.3750798041937, 344.94101335220864)" class="mindmap-node section--1 section-root"><g transform="translate(84.59765625, 30.449999237060545)"><circle r="84.59765625" class="node-bkg node-circle" id="node-0"></circle></g><g transform="translate(84.59765625, 7.5)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">AI产品蝗虫团日报</tspan><tspan font-weight="normal" class="text-inner-tspan" font-style="normal"> -</tspan></tspan><tspan dy="1.1em" y="1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">2025年5月26日</tspan></tspan></text></g></g></g><g transform="translate(517.9297227967481, 232.90282321816935)" class="mindmap-node section-0"><g><rect width="124" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-1"></rect></g><g transform="translate(62, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">今日热点</tspan></tspan></text></g></g></g><g transform="translate(588.1943108695833, 133.40094473900535)" class="mindmap-node section-0"><g><rect width="277.15625" ry="30" rx="30" height="60" class="node-bkg node-rounded-rect" id="node-2"></rect></g><g transform="translate(163.578125, 15.850000000000001)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">ChatGPT</tspan><tspan font-weight="normal" class="text-inner-tspan" font-style="normal"> &amp;</tspan><tspan font-weight="normal" class="text-inner-tspan" font-style="normal"> 云盘知识库</tspan></tspan></text></g></g><foreignObject style="text-align: center;margin-top:0.8500000000000014px;" height="60" width="60px"><div xmlns="http://www.w3.org/1999/xhtml" class="icon-container"><i class="node-icon-0 fas fa-database"></i></div></foreignObject></g><g transform="translate(534.5773440345512, 39.011421506129075)" class="mindmap-node section-0"><g><rect width="190.6640625" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-3"></rect></g><g transform="translate(95.33203125, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">Dropbox/Box集成</tspan></tspan></text></g></g></g><g transform="translate(755.5138060761296, 15)" class="mindmap-node section-0"><g><rect width="162.6640625" ry="30" rx="30" height="75.89999847412109" class="node-bkg node-rounded-rect" id="node-4"></rect></g><g transform="translate(81.33203125, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">Gemini</tspan><tspan font-weight="normal" class="text-inner-tspan" font-style="normal"> Deep</tspan></tspan><tspan dy="1.1em" y="1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">Research对比</tspan></tspan></text></g></g></g><g transform="translate(926.8006596858136, 106.48178810992954)" class="mindmap-node section-0"><g><rect width="156" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-5"></rect></g><g transform="translate(78, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">数据集成方式</tspan></tspan></text></g></g></g><g transform="translate(717.2456031272379, 289.9443936615795)" class="mindmap-node section-0"><g><rect width="260.953125" ry="30" rx="30" height="60" class="node-bkg node-rounded-rect" id="node-6"></rect></g><g transform="translate(155.4765625, 15.850000000000001)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">Claude模型策略</tspan><tspan font-weight="normal" class="text-inner-tspan" font-style="normal"> &amp;</tspan><tspan font-weight="normal" class="text-inner-tspan" font-style="normal"> IP</tspan></tspan></text></g></g><foreignObject style="text-align: center;margin-top:0.8500000000000014px;" height="60" width="60px"><div xmlns="http://www.w3.org/1999/xhtml" class="icon-container"><i class="node-icon-0 fas fa-shield-alt"></i></div></foreignObject></g><g transform="translate(1041.2743999796487, 240.07371387565215)" class="mindmap-node section-0"><g><rect width="191.9921875" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-7"></rect></g><g transform="translate(95.99609375, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">API</tspan><tspan font-weight="normal" class="text-inner-tspan" font-style="normal"> vs</tspan><tspan font-weight="normal" class="text-inner-tspan" font-style="normal"> 第三方平台</tspan></tspan></text></g></g></g><g transform="translate(780.5944874725544, 404.64821933489145)" class="mindmap-node section-0"><g><rect width="165.3984375" ry="30" rx="30" height="75.89999847412109" class="node-bkg node-rounded-rect" id="node-8"></rect></g><g transform="translate(82.69921875, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">Raycast,</tspan><tspan font-weight="normal" class="text-inner-tspan" font-style="normal"> POE,</tspan></tspan><tspan dy="1.1em" y="1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">OpenRouter</tspan></tspan></text></g></g></g><g transform="translate(1008.1739381128541, 358.87411322334765)" class="mindmap-node section-0"><g><rect width="154.515625" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-9"></rect></g><g transform="translate(77.2578125, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">IP纯净度影响</tspan></tspan></text></g></g></g><g transform="translate(850.9822808807221, 197.44974825310055)" class="mindmap-node section-0"><g><rect width="161.765625" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-10"></rect></g><g transform="translate(80.8828125, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">封号/降智风险</tspan></tspan></text></g></g></g><g transform="translate(273.21125886628454, 326.2884493604288)" class="mindmap-node section-0"><g><rect width="221.3359375" ry="30" rx="30" height="60" class="node-bkg node-rounded-rect" id="node-11"></rect></g><g transform="translate(135.66796875, 15.850000000000001)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">AI视频生成技术</tspan></tspan></text></g></g><foreignObject style="text-align: center;margin-top:0.8500000000000014px;" height="60" width="60px"><div xmlns="http://www.w3.org/1999/xhtml" class="icon-container"><i class="node-icon-0 fas fa-video"></i></div></foreignObject></g><g transform="translate(226.5558527974971, 427.9660787739548)" class="mindmap-node section-0"><g><rect width="131.03125" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-12"></rect></g><g transform="translate(65.515625, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">Veo3体验</tspan></tspan></text></g></g></g><g transform="translate(51.27804888831821, 262.1065965722429)" class="mindmap-node section-0"><g><rect width="161.765625" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-13"></rect></g><g transform="translate(80.8828125, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">一致性/稳定性</tspan></tspan></text></g></g></g><g transform="translate(385.4842974572956, 428.71319975755034)" class="mindmap-node section-0"><g><rect width="209.3046875" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-14"></rect></g><g transform="translate(104.65234375, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">Prompt</tspan><tspan font-weight="normal" class="text-inner-tspan" font-style="normal"> Engineering</tspan></tspan></text></g></g></g><g transform="translate(52.91234902600945, 359.74269963346967)" class="mindmap-node section-0"><g><rect width="156" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-15"></rect></g><g transform="translate(78, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">内容限制挑战</tspan></tspan></text></g></g></g><g transform="translate(271.6539261128171, 137.31122558369668)" class="mindmap-node section-0"><g><rect width="288.640625" ry="30" rx="30" height="60" class="node-bkg node-rounded-rect" id="node-16"></rect></g><g transform="translate(169.3203125, 15.850000000000001)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">浏览器内置AI</tspan><tspan font-weight="normal" class="text-inner-tspan" font-style="normal"> &amp;</tspan><tspan font-weight="normal" class="text-inner-tspan" font-style="normal"> 国产发展</tspan></tspan></text></g></g><foreignObject style="text-align: center;margin-top:0.8500000000000014px;" height="60" width="60px"><div xmlns="http://www.w3.org/1999/xhtml" class="icon-container"><i class="node-icon-0 fas fa-window-maximize"></i></div></foreignObject></g><g transform="translate(15, 142.03157982768687)" class="mindmap-node section-0"><g><rect width="197.96875" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-17"></rect></g><g transform="translate(98.984375, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">Chrome</tspan><tspan font-weight="normal" class="text-inner-tspan" font-style="normal"> 138内置AI</tspan></tspan></text></g></g></g><g transform="translate(141.2551341349972, 56.568608708352606)" class="mindmap-node section-0"><g><rect width="170.5" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-18"></rect></g><g transform="translate(85.25, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">Vue/React调用</tspan></tspan></text></g></g></g><g transform="translate(345.39555875926146, 23.34066386230677)" class="mindmap-node section-0"><g><rect width="157.0703125" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-19"></rect></g><g transform="translate(78.53515625, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">Gemini</tspan><tspan font-weight="normal" class="text-inner-tspan" font-style="normal"> Nano</tspan></tspan></text></g></g></g><g transform="translate(244.1780867489366, 233.97571551808798)" class="mindmap-node section-0"><g><rect width="208.3671875" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-20"></rect></g><g transform="translate(104.18359375, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">国产AI浏览器</tspan><tspan font-weight="normal" class="text-inner-tspan" font-style="normal"> (Qbot)</tspan></tspan></text></g></g></g></g></svg></div>
+                    <div id="mermaid-main-feedback-message"></div>
+                    <i class="fas fa-project-diagram card-icon"></i>
+                </div>
+            </div>
+            <div class="card quote-card">
+                <h2 contenteditable="false"><i class="fas fa-quote-left"></i> 精彩引用</h2>
+                <div class="quote">
+                    "哇，这个gemini生成的这个把卡片保存下来，因为不是图片"
+                    <div class="quote-author">- @🇨🇳(wxid_nox1tzzg4s3y22)</div>
+                </div>
+                <div class="quote">
+                    "Gemini 香在无敌广度[旺柴]次数需求是可以用钱解决的"
+                    <div class="quote-author">- @Ronin_Chang(Ronin_Chang)</div>
+                </div>
+                <div class="quote">
+                    "claude 对 ip 和 ip 质量挺看重的 频繁切换 ip 和万人骑 ip 就直接封号"
+                    <div class="quote-author">- @(xiaolei0vip)</div>
+                </div>
+                <i class="fas fa-comment-dots card-icon"></i> 
+            </div>
+
+            <div class="card links-card">
+                <h2 contenteditable="false"><i class="fas fa-link"></i> 重要链接与资源</h2>
+                <div class="link-item">
+                    <a href="http://mp.weixin.qq.com/s?__biz=MzI4NTgxMDk1NA==&amp;mid=2247507488&amp;idx=1&amp;sn=803a24f413e43b6dda76a0616171af1c&amp;chksm=eadb145958f354f60bcc4862ad21a90158a39722ea4454bc607a8e732df2937acc0cee5b5457&amp;mpshare=1&amp;scene=1&amp;srcid=0525lQQUitLE3r5A5HNPSTbW&amp;sharer_shareinfo=99d39db586cd4ea85b73f0ea8f685b35&amp;sharer_shareinfo_first=4b07073a209ab22858f3c03eea471091#rd" target="_blank">
+                        <i class="fas fa-external-link-alt link-icon"></i> 
+                        <span class="link-title is-link">深度｜Anthropic首席产品官：从Claude到MCP...</span>
+                    </a>
+                </div>
+                <div class="link-item">
+                    <a href="http://mp.weixin.qq.com/s?__biz=MzUzNTk3MjE2Ng==&amp;mid=2247517793&amp;idx=1&amp;sn=d46e14a2f6697bde7a4763236ba2a05c&amp;chksm=fb4917c4cad7d1babdcd21840546906e3f878849c3dddbf77f776c0f6c9cb348825da4b6626a&amp;mpshare=1&amp;scene=1&amp;srcid=0526UEm4mcTSLqitrlUFtd37&amp;sharer_shareinfo=8f3cc78f1ca98f5ccdc466e936691ec6&amp;sharer_shareinfo_first=9271f4f3812febed6aff99b627a326b9#rd" target="_blank">
+                        <i class="fas fa-external-link-alt link-icon"></i>
+                        <span class="link-title is-link">Chrome 138 将内置强大的 AI 模型...</span>
+                    </a>
+                </div>
+                <div class="link-item">
+                     <a href="https://mcp.so/server/skywork-super-agents/Skywork-ai" target="_blank">
+                        <i class="fas fa-key link-icon"></i> 
+                        <span class="link-title is-link">Skywork AI API密钥获取</span> 
+                    </a>
+                </div>
+                <i class="fas fa-share-alt card-icon"></i> 
+            </div>
+
+            <div class="card stats-card">
+                <h2 contenteditable="false"><i class="fas fa-chart-line"></i> 活跃之星</h2>
+                <table class="user-stats-table">
+                    <thead>
+                        <tr>
+                            <th class="user-name-col">用户</th>
+                            <th class="message-count-col">发言数</th>
+                            <th class="contribution-col">主要贡献</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-label="用户" class="user-name-col">@Ronin_Chang</td>
+                            <td data-label="发言数" class="message-count-col">20</td>
+                            <td data-label="主要贡献" class="contribution-col">讨论ChatGPT与云盘集成、Claude使用策略、Gemini优势。</td>
+                        </tr>
+                        <tr>
+                            <td data-label="用户" class="user-name-col">@(xiaolei0vip)</td>
+                            <td data-label="发言数" class="message-count-col">15</td>
+                            <td data-label="主要贡献" class="contribution-col">深入讨论Claude使用与IP纯净度，分享API经验。</td>
+                        </tr>
+                        <tr>
+                            <td data-label="用户" class="user-name-col">@风物长宜放眼量</td>
+                            <td data-label="发言数" class="message-count-col">9</td>
+                            <td data-label="主要贡献" class="contribution-col">分享Chrome内置AI文章，讨论国产AI浏览器。</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <i class="fas fa-user-friends card-icon"></i> 
+            </div>
+
+            <div class="card wordcloud-card">
+                <h2 contenteditable="false"><i class="fas fa-cloud"></i> 词云</h2>
+                <div class="wordcloud">
+                    <span class="wordcloud-item size-5">AI</span>
+                    <span class="wordcloud-item size-5">Claude</span>
+                    <span class="wordcloud-item size-4">Gemini</span>
+                    <span class="wordcloud-item size-4">IP</span>
+                    <span class="wordcloud-item size-3">Deep Research</span>
+                    <span class="wordcloud-item size-3">浏览器</span>
+                    <span class="wordcloud-item size-2">视频</span>
+                    <span class="wordcloud-item size-2">知识库</span>
+                    <span class="wordcloud-item size-1">Raycast</span>
+                </div>
+                <i class="fas fa-tags card-icon"></i> 
+            </div>
+        </div> 
+        
+        <div class="footer">
+            <p>数据来源：AI产品蝗虫团聊天记录 | 生成日期：2025年5月26日 | 统计周期：2025年5月26日全天</p>
+            <p>本报告由AI自动生成，仅供参考，不代表所有群成员观点。</p>
+        </div>
+    </div> 
+
+    <div class="action-buttons-container" style="display: block; flex-wrap: nowrap; justify-content: center;">
+        <button id="viewPreviousReportBtn" class="action-button"><i class="fas fa-calendar-alt"></i> 查看昨日日报</button>
+        <button id="screenshotToClipboardBtn" class="action-button"><i class="fas fa-clipboard"></i> 拷贝截图</button>
+        <button id="screenshotDownloadBtn" class="action-button"><i class="fas fa-camera"></i> 下载截图</button>
+        <button id="copyHtmlBtn" class="action-button"><i class="fas fa-copy"></i> 拷贝源码</button>
+        <button id="downloadHtmlBtn" class="action-button"><i class="fas fa-download"></i> 下载报告</button>
+    </div>
+    <div id="feedback-message"></div> <div id="fullscreenModal" class="modal-overlay">
+        <div class="modal-content card"> <button id="fullscreenCloseBtn" class="modal-close-btn" aria-label="关闭全屏">×</button>
+            <h2><i class="fas fa-sitemap"></i> 核心概念关系图 (全屏)</h2>
+            <div class="mindmap-controls">
+                 <button id="modalZoomInBtn"><i class="fas fa-search-plus"></i> 放大</button>
+                <button id="modalZoomOutBtn"><i class="fas fa-search-minus"></i> 缩小</button>
+                <button id="modalDownloadDiagramBtn"><i class="fas fa-download"></i> 下载导图</button>
+            </div>
+            <div class="mermaid-container" id="modalMermaidContainer">
+                </div>
+            <div id="mermaid-modal-feedback-message"></div>
+        </div>
+    </div>
+    <script>
+    // --- Mermaid Diagram JavaScript START ---
+    // --- Global Variables for Mermaid ---
+    let mainCurrentScale = 1;
+    let modalCurrentScale = 1;
+    let currentMindmapDefinition = ''; // Store the current definition
+
+    // --- DOM Elements for Mermaid ---
+    const mainZoomInBtn = document.getElementById('zoomInBtn');
+    const mainZoomOutBtn = document.getElementById('zoomOutBtn');
+    const mainDownloadDiagramBtn = document.getElementById('downloadDiagramBtn'); // Renamed from downloadBtn
+    const mainMermaidContainer = document.getElementById('mainMermaidContainer');
+    const mermaidMainFeedbackMessage = document.getElementById('mermaid-main-feedback-message'); // Renamed
+    const mainMindmapDiagramDiv = document.getElementById('mindmapDiagram'); 
+
+    const fullscreenOpenBtn = document.getElementById('fullscreenOpenBtn');
+    const fullscreenModal = document.getElementById('fullscreenModal');
+    const fullscreenCloseBtn = document.getElementById('fullscreenCloseBtn');
+    const modalMermaidContainer = document.getElementById('modalMermaidContainer');
+    const modalZoomInBtn = document.getElementById('modalZoomInBtn');
+    const modalZoomOutBtn = document.getElementById('modalZoomOutBtn');
+    const modalDownloadDiagramBtn = document.getElementById('modalDownloadDiagramBtn'); // Renamed
+    const mermaidModalFeedbackMessage = document.getElementById('mermaid-modal-feedback-message'); // Renamed
+
+    // --- Mermaid Initialization ---
+    if (typeof mermaid !== 'undefined') {
+        mermaid.initialize({
+            startOnLoad: false, // Will render manually after content is set
+            theme: 'base', // Options: 'default', 'forest', 'dark', 'neutral', 'base'
+            fontFamily: '"Inter", sans-serif',
+            mindmap: { padding: 15 }
+            // For other diagram types, you might add specific configs here
+            // e.g., sequence: { actorMargin: 50 }
+        });
+    } else {
+        console.error("Mermaid library not loaded.");
+        if(mermaidMainFeedbackMessage) mermaidMainFeedbackMessage.textContent = "错误：Mermaid库未能加载。";
+    }
+    
+
+    // --- Helper Functions for Mermaid ---
+    function showMermaidFeedback(element, message, type = 'info', duration = 3000) {
+        if (element) {
+            element.textContent = message;
+            element.className = type; // success, error, info
+            element.style.display = 'block';
+            setTimeout(() => {
+                element.textContent = '';
+                element.className = '';
+                element.style.display = 'none';
+            }, duration);
+        }
+    }
+
+    function applySvgScale(svgElement, scale) {
+        if (svgElement) {
+            svgElement.style.transform = `scale(${scale})`;
+            svgElement.style.transformOrigin = 'center center'; // Ensure scaling is from center
+        }
+    }
+
+    function makeDraggable(containerElement) {
+        let isDragging = false;
+        let startX, startY, scrollLeftStart, scrollTopStart;
+
+        if (!containerElement) return;
+
+        containerElement.addEventListener('mousedown', (e) => {
+            if (e.button !== 0) return; // Only main mouse button
+            // Prevent dragging if clicking on interactive elements within the SVG or buttons
+            if (e.target.closest('button') || e.target.closest('a') || e.target.closest('[onclick]')) return;
+            
+            // Check if clicking on scrollbars (simple check, might need refinement)
+             if (e.target === containerElement) { // Only drag if mousedown is on container itself, not SVG content
+                const verticalScrollbarVisible = containerElement.scrollHeight > containerElement.clientHeight;
+                const horizontalScrollbarVisible = containerElement.scrollWidth > containerElement.clientWidth;
+                const clickedOnVerticalScrollbar = verticalScrollbarVisible && e.offsetX >= containerElement.clientWidth - 17; // Approx scrollbar width
+                const clickedOnHorizontalScrollbar = horizontalScrollbarVisible && e.offsetY >= containerElement.clientHeight - 17;
+                if (clickedOnVerticalScrollbar || clickedOnHorizontalScrollbar) return;
+            }
+
+
+            isDragging = true;
+            startX = e.pageX; startY = e.pageY;
+            scrollLeftStart = containerElement.scrollLeft; scrollTopStart = containerElement.scrollTop;
+            containerElement.classList.add('dragging');
+            // e.preventDefault(); // Be careful with preventDefault on container, might affect text selection inside SVG if not handled well
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            e.preventDefault(); // Prevent text selection during drag
+            const deltaX = e.pageX - startX; const deltaY = e.pageY - startY;
+            containerElement.scrollLeft = scrollLeftStart - deltaX;
+            containerElement.scrollTop = scrollTopStart - deltaY;
+        });
+
+        document.addEventListener('mouseup', (e) => {
+            if (e.button !== 0 || !isDragging) return;
+            isDragging = false;
+            containerElement.classList.remove('dragging');
+        });
+         // Touch events for dragging on mobile
+        containerElement.addEventListener('touchstart', (e) => {
+            if (e.target.closest('button') || e.target.closest('a') || e.target.closest('[onclick]')) return;
+            if (e.touches.length === 1) {
+                isDragging = true;
+                const touch = e.touches[0];
+                startX = touch.pageX;
+                startY = touch.pageY;
+                scrollLeftStart = containerElement.scrollLeft;
+                scrollTopStart = containerElement.scrollTop;
+                containerElement.classList.add('dragging');
+            }
+        }, { passive: true }); // Use passive true if not calling preventDefault
+
+        document.addEventListener('touchmove', (e) => {
+            if (!isDragging || e.touches.length !== 1) return;
+            // e.preventDefault(); // To prevent page scroll if dragging content
+            const touch = e.touches[0];
+            const deltaX = touch.pageX - startX;
+            const deltaY = touch.pageY - startY;
+            containerElement.scrollLeft = scrollLeftStart - deltaX;
+            containerElement.scrollTop = scrollTopStart - deltaY;
+        }/*, { passive: false }*/); // Set passive: false if e.preventDefault() is used
+
+        document.addEventListener('touchend', (e) => {
+            if (!isDragging) return;
+            isDragging = false;
+            containerElement.classList.remove('dragging');
+        });
+    }
+    
+    async function downloadMermaidAsSVG(svgElement, baseFilename, feedbackElem) {
+        if (svgElement && svgElement.innerHTML.trim() !== "") {
+            try {
+                // Apply current scale to the SVG for download if desired, or download at 100%
+                // For simplicity, we download the SVG as it is currently rendered (potentially scaled in view, but SVG itself is 100%)
+                const svgData = new XMLSerializer().serializeToString(svgElement);
+                const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `${baseFilename}.svg`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+                showMermaidFeedback(feedbackElem, `${baseFilename}.svg 已下载!`, 'success');
+            } catch (error) {
+                console.error(`Error during SVG download for ${baseFilename}:`, error);
+                showMermaidFeedback(feedbackElem, `下载 ${baseFilename}.svg 失败: ${error.message}`, 'error');
+            }
+        } else {
+            showMermaidFeedback(feedbackElem, '无法下载：图表内容为空。', 'error');
+        }
+    }
+
+    async function renderDiagram(definition, targetContainer, scaleVariableRef, feedbackElem, uniqueSvgId) {
+        if (!targetContainer) {
+            console.error("Target container for Mermaid diagram not found.");
+            return null;
+        }
+        targetContainer.innerHTML = '<p style="text-align:center; padding:20px;">图表加载中...</p>';
+        targetContainer.classList.remove('empty');
+
+        if (!definition || definition.trim() === "" || definition.trim().toLowerCase() === "mindmap") {
+            targetContainer.innerHTML = ''; 
+            targetContainer.classList.add('empty'); 
+            return null;
+        }
+        
+        currentMindmapDefinition = definition; // Store the definition for fullscreen toggle
+
+        try {
+            if (typeof mermaid === 'undefined') throw new Error("Mermaid library is not available.");
+            const {svg, bindFunctions} = await mermaid.render(uniqueSvgId, definition);
+            targetContainer.innerHTML = svg;
+            if (bindFunctions) bindFunctions(targetContainer);
+
+            const svgElement = targetContainer.querySelector('svg');
+            if (svgElement) {
+                // Reset scale to 1 initially for the new render
+                if (targetContainer === mainMermaidContainer) mainCurrentScale = 1;
+                else if (targetContainer === modalMermaidContainer) modalCurrentScale = 1;
+                
+                applySvgScale(svgElement, scaleVariableRef.value); // Apply current scale (which should be 1 after reset)
+                makeDraggable(targetContainer); // Make the container draggable
+                return svgElement;
+            } else {
+                targetContainer.innerHTML = '';
+                targetContainer.classList.add('empty');
+                showMermaidFeedback(feedbackElem, '图表生成了，但未找到SVG内容。', 'error');
+                return null;
+            }
+        } catch (error) {
+            console.error("Error rendering Mermaid:", error);
+            targetContainer.innerHTML = `<p style="color:red; text-align:center; padding:20px;">渲染图表时出错: ${error.message}</p>`;
+            showMermaidFeedback(feedbackElem, `渲染图表时出错: ${error.message}`, 'error', 5000);
+            return null;
+        }
+    }
+
+    // --- Main Mindmap Logic ---
+    if(mainZoomInBtn) mainZoomInBtn.addEventListener('click', () => {
+        mainCurrentScale += 0.1;
+        const svg = mainMermaidContainer.querySelector('svg');
+        applySvgScale(svg, mainCurrentScale);
+    });
+
+    if(mainZoomOutBtn) mainZoomOutBtn.addEventListener('click', () => {
+        if (mainCurrentScale > 0.2) { // Prevent scaling too small
+            mainCurrentScale -= 0.1;
+            const svg = mainMermaidContainer.querySelector('svg');
+            applySvgScale(svg, mainCurrentScale);
+        }
+    });
+
+    if(mainDownloadDiagramBtn) mainDownloadDiagramBtn.addEventListener('click', () => {
+        const svg = mainMermaidContainer.querySelector('svg');
+        downloadMermaidAsSVG(svg, '核心概念关系图', mermaidMainFeedbackMessage);
+    });
+
+    // --- Fullscreen Modal Logic for Mermaid ---
+    if(fullscreenOpenBtn) fullscreenOpenBtn.addEventListener('click', async () => {
+        if (!currentMindmapDefinition || currentMindmapDefinition.trim() === "" || currentMindmapDefinition.trim().toLowerCase() === "mindmap") {
+             showMermaidFeedback(mermaidMainFeedbackMessage, '请先生成一个有效的导图才能全屏查看。', 'info');
+             return;
+        }
+        if(fullscreenModal) fullscreenModal.classList.add('active');
+        document.body.classList.add('modal-active');
+        modalCurrentScale = mainCurrentScale; // Sync scale from main view or reset
+        await renderDiagram(currentMindmapDefinition, modalMermaidContainer, {value: modalCurrentScale}, mermaidModalFeedbackMessage, 'modalGeneratedSvgId');
+    });
+
+    if(fullscreenCloseBtn) fullscreenCloseBtn.addEventListener('click', () => {
+        if(fullscreenModal) fullscreenModal.classList.remove('active');
+        document.body.classList.remove('modal-active');
+        if(modalMermaidContainer) {
+            modalMermaidContainer.innerHTML = ''; 
+            modalMermaidContainer.classList.add('empty');
+        }
+    });
+
+    if(modalZoomInBtn) modalZoomInBtn.addEventListener('click', () => {
+        modalCurrentScale += 0.1;
+        const svg = modalMermaidContainer.querySelector('svg');
+        applySvgScale(svg, modalCurrentScale);
+    });
+
+    if(modalZoomOutBtn) modalZoomOutBtn.addEventListener('click', () => {
+        if (modalCurrentScale > 0.2) {
+            modalCurrentScale -= 0.1;
+            const svg = modalMermaidContainer.querySelector('svg');
+            applySvgScale(svg, modalCurrentScale);
+        }
+    });
+
+    if(modalDownloadDiagramBtn) modalDownloadDiagramBtn.addEventListener('click', () => {
+        const svg = modalMermaidContainer.querySelector('svg');
+        downloadMermaidAsSVG(svg, '核心概念关系图-全屏', mermaidModalFeedbackMessage);
+    });
+
+    // --- Initial Setup for Mermaid ---
+    async function initializeMainDiagram() {
+        if (mainMindmapDiagramDiv && mainMermaidContainer) {
+            const initialDefinition = mainMindmapDiagramDiv.textContent.trim();
+            if (initialDefinition) {
+                await renderDiagram(initialDefinition, mainMermaidContainer, { value: mainCurrentScale }, mermaidMainFeedbackMessage, 'initialMainDiagramSvg');
+            } else {
+                mainMermaidContainer.classList.add('empty'); // Ensure it's marked empty if no initial content
+            }
+        } else {
+             if(mermaidMainFeedbackMessage && !mainMermaidContainer) showMermaidFeedback(mermaidMainFeedbackMessage, '错误：导图容器未找到。', 'error');
+        }
+    }
+    // --- Mermaid Diagram JavaScript END ---
+
+
+    // --- Report Page JavaScript START ---
+    // Helper function: Get CSS variable value
+    function getCssVariable(variableName, defaultValue = null) {
+        const value = getComputedStyle(document.documentElement).getPropertyValue(variableName).trim();
+        return value || defaultValue;
+    }
+
+    function getWebpageNameForFilename() {
+        const pageTitleTag = document.querySelector('title');
+        let baseName = 'AI产品日报'; 
+        if (pageTitleTag && pageTitleTag.textContent) {
+            const fullTitle = pageTitleTag.textContent.trim();
+            const titleParts = fullTitle.split(' - '); 
+            if (titleParts.length > 0 && titleParts[0].trim() !== "" && titleParts[0].trim() !== "[在此处填写报告标题]") {
+                baseName = titleParts[0].trim(); 
+            }
+        }
+        return baseName;
+    }
+
+    function getDateStringForFilename() {
+        const reportDateElement = document.querySelector('.main-card .date');
+        let dateStr = "未指定日期"; 
+        if (reportDateElement && reportDateElement.textContent) {
+            const dateContent = reportDateElement.textContent.trim();
+            if (dateContent && dateContent !== "[日期 - 例如：2025年5月19日]") { 
+                dateStr = dateContent;
+            }
+        }
+        return dateStr;
+    }
+    
+    function sanitizeFilename(filename) {
+        return filename.replace(/[^a-z0-9\u4e00-\u9fa5_\-\.\(\)\[\]]/gi, '_').replace(/_+/g, '_');
+    }
+
+    const previousReportUrl = "https://www.32kw.com/view/673452b"; 
+
+    function showReportFeedbackMessage(message, type = 'info', duration = 3000) { // Renamed to avoid conflict
+        const feedbackElement = document.getElementById('feedback-message'); // This is the report's general feedback
+        if (feedbackElement) {
+            feedbackElement.textContent = message;
+            feedbackElement.className = type; 
+            setTimeout(() => {
+                feedbackElement.textContent = '';
+                feedbackElement.className = '';
+            }, duration);
+        }
+    }
+    
+    async function captureScreenshot(elementToCapture) {
+        await document.fonts.ready; 
+        return html2canvas(elementToCapture, { 
+            useCORS: true, 
+            scale: window.devicePixelRatio || 1, 
+            logging: false, 
+            backgroundColor: getCssVariable('--bg-primary', '#f5f4ee'), 
+            scrollX: -window.scrollX, 
+            scrollY: -window.scrollY,
+            windowWidth: document.documentElement.scrollWidth,
+            windowHeight: document.documentElement.scrollHeight,
+            onclone: function(clonedDoc) {
+                const highlightElements = clonedDoc.querySelectorAll('.highlight-keyword');
+                highlightElements.forEach(el => {
+                    el.style.display = 'inline';
+                    el.style.padding = '1px 2px';
+                    el.style.lineHeight = '1.2';
+                    el.style.boxDecorationBreak = 'clone';
+                    el.style.webkitBoxDecorationBreak = 'clone';
+                });
+            }
+        });
+    }
+
+    const screenshotToClipboardBtn = document.getElementById('screenshotToClipboardBtn');
+    if(screenshotToClipboardBtn) screenshotToClipboardBtn.addEventListener('click', async function() {
+        const reportContent = document.getElementById('report-content-wrapper');
+        if (!reportContent) {
+            showReportFeedbackMessage('截图错误: 未找到报告内容。', 'error');
+            return;
+        }
+        const actionButtons = document.querySelector('.action-buttons-container');
+        const feedbackMsgElement = document.getElementById('feedback-message');
+        const originalButtonText = this.innerHTML;
+        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 处理中...';
+        this.disabled = true;
+        if(actionButtons) actionButtons.style.visibility = 'hidden'; 
+        if(feedbackMsgElement) feedbackMsgElement.style.visibility = 'hidden';
+
+        try {
+            const canvas = await captureScreenshot(reportContent);
+            canvas.toBlob(async function(blob) {
+                if (blob) {
+                    try {
+                        if (navigator.clipboard && navigator.clipboard.write) {
+                            await navigator.clipboard.write([
+                                new ClipboardItem({ 'image/png': blob })
+                            ]);
+                            showReportFeedbackMessage('截图已拷贝到剪贴板!', 'success');
+                        } else {
+                            // Fallback for browsers that do not support navigator.clipboard.write with images
+                            // or for environments where it's restricted (like insecure contexts)
+                            // One option is to use document.execCommand('copy') with a temporary image,
+                            // but this is tricky and not universally supported for images.
+                            // For now, inform the user.
+                             const dataUrl = canvas.toDataURL('image/png');
+                             const Gthis = screenshotToClipboardBtn; // Use the button that was clicked
+                             const originalButtonHTML = Gthis.innerHTML;
+                             const tempTextarea = document.createElement('textarea');
+                             // Try to copy as text (won't work for image, but fulfills execCommand structure)
+                             // A more robust solution for execCommand with images is complex and often involves hidden inputs/iframes
+                             // and might not be reliable.
+                             // Let's try a simple text copy of the data URL as a last resort, though not ideal.
+                             tempTextarea.value = `截图已生成，请手动复制以下Data URL或下载截图： ${dataUrl.substring(0,100)}...`; // Show part of DataURL
+                             document.body.appendChild(tempTextarea);
+                             tempTextarea.select();
+                             try {
+                                 document.execCommand('copy');
+                                 showReportFeedbackMessage('截图Data URL (部分)已拷贝。请尝试下载截图以获得完整图片。', 'info', 5000);
+                             } catch (err) {
+                                 showReportFeedbackMessage('截图已生成，但您的浏览器不支持直接拷贝图片。请尝试下载截图。', 'error', 5000);
+                             }
+                             document.body.removeChild(tempTextarea);
+                        }
+                    } catch (copyError) {
+                        console.error('拷贝到剪贴板失败:', copyError);
+                        showReportFeedbackMessage('拷贝截图到剪贴板失败: ' + copyError.message, 'error', 5000);
+                    }
+                } else {
+                    throw new Error('无法将Canvas转换为Blob。');
+                }
+            }, 'image/png');
+        } catch (error) {
+            console.error('截图捕获失败:', error);
+            showReportFeedbackMessage('截图捕获失败: ' + error.message, 'error');
+        } finally {
+            if(actionButtons) actionButtons.style.visibility = 'visible'; 
+            if(feedbackMsgElement) feedbackMsgElement.style.visibility = 'visible'; 
+            this.innerHTML = originalButtonText;
+            this.disabled = false;
+        }
+    });
+
+    const screenshotDownloadBtn = document.getElementById('screenshotDownloadBtn');
+    if(screenshotDownloadBtn) screenshotDownloadBtn.addEventListener('click', async function() {
+        const reportContent = document.getElementById('report-content-wrapper');
+        if (!reportContent) {
+            showReportFeedbackMessage('截图错误: 未找到报告内容。', 'error');
+            return;
+        }
+        const actionButtons = document.querySelector('.action-buttons-container');
+        const feedbackMsgElement = document.getElementById('feedback-message');
+        const originalButtonText = this.innerHTML;
+        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 生成中...';
+        this.disabled = true;
+        if(actionButtons) actionButtons.style.visibility = 'hidden';
+        if(feedbackMsgElement) feedbackMsgElement.style.visibility = 'hidden';
+
+        try {
+            const canvas = await captureScreenshot(reportContent);
+            const image = canvas.toDataURL('image/png');
+            const link = document.createElement('a');
+            
+            const webpageName = getWebpageNameForFilename();
+            const dateString = getDateStringForFilename();
+            let filename = sanitizeFilename(webpageName + '-' + dateString) + '.png';
+
+            link.href = image;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showReportFeedbackMessage('截图已下载!', 'success');
+        } catch (error) {
+            console.error('下载截图失败:', error);
+            showReportFeedbackMessage('下载截图失败: ' + error.message, 'error');
+        } finally {
+            if(actionButtons) actionButtons.style.visibility = 'visible';
+            if(feedbackMsgElement) feedbackMsgElement.style.visibility = 'visible';
+            this.innerHTML = originalButtonText;
+            this.disabled = false;
+        }
+    });
+    
+    const downloadHtmlBtn = document.getElementById('downloadHtmlBtn');
+    if(downloadHtmlBtn) downloadHtmlBtn.addEventListener('click', function() {
+        try {
+            const htmlContent = document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+            const link = document.createElement('a');
+            
+            const webpageName = getWebpageNameForFilename();
+            const dateString = getDateStringForFilename();
+            let filename = sanitizeFilename(webpageName + '-' + dateString) + '.html';
+            
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(link.href); 
+            showReportFeedbackMessage('HTML报告已下载!', 'success');
+        } catch (error) {
+            console.error('下载HTML失败:', error);
+            showReportFeedbackMessage('下载HTML失败: ' + error.message, 'error');
+        }
+    });
+
+    const copyHtmlBtn = document.getElementById('copyHtmlBtn');
+    if(copyHtmlBtn) copyHtmlBtn.addEventListener('click', function() {
+        const htmlContent = document.documentElement.outerHTML;
+        const Gthis = this; 
+        const originalButtonHTML = Gthis.innerHTML; 
+        const textarea = document.createElement('textarea');
+        textarea.value = htmlContent;
+        textarea.style.position = 'fixed'; 
+        textarea.style.top = '-9999px'; 
+        textarea.style.left = '-9999px';
+        document.body.appendChild(textarea);
+        try {
+            textarea.select();
+            textarea.setSelectionRange(0, textarea.value.length); 
+            if (document.execCommand('copy')) {
+                Gthis.innerHTML = '<i class="fas fa-check"></i> 已拷贝!';
+                showReportFeedbackMessage('HTML已拷贝到剪贴板!', 'success', 2000);
+            } else {
+                Gthis.innerHTML = '<i class="fas fa-times"></i> 拷贝失败';
+                showReportFeedbackMessage('拷贝失败。您的浏览器可能不支持此操作。', 'error', 2000);
+            }
+        } catch (err) {
+            Gthis.innerHTML = '<i class="fas fa-times"></i> 拷贝出错';
+            showReportFeedbackMessage('拷贝出错: ' + err.message, 'error', 2000);
+            console.error('拷贝HTML源码出错:', err);
+        } finally {
+            setTimeout(function() { 
+                Gthis.innerHTML = originalButtonHTML; 
+            }, 2000);
+            document.body.removeChild(textarea);
+        }
+    });
+
+    const viewPreviousReportBtn = document.getElementById('viewPreviousReportBtn');
+    if(viewPreviousReportBtn) viewPreviousReportBtn.addEventListener('click', function() {
+        const urlToOpen = previousReportUrl.trim();
+        const placeholderUrlText = "在此处填写昨日日报的URL"; 
+        if (urlToOpen && urlToOpen !== placeholderUrlText && (urlToOpen.startsWith('http://') || urlToOpen.startsWith('https://') || !urlToOpen.includes('://'))) {
+            let finalUrl = urlToOpen;
+            // Basic check if it's a relative path, might need more robust logic depending on deployment
+            // if (!urlToOpen.startsWith('http://') && !urlToOpen.startsWith('https://')) {
+            // finalUrl = window.location.origin + (urlToOpen.startsWith('/') ? '' : '/') + urlToOpen;
+            // }
+            const newWindow = window.open(finalUrl, '_blank'); 
+            if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
+                showReportFeedbackMessage('无法打开新窗口。请检查您的弹出窗口拦截设置。', 'error', 5000);
+            }
+        } else {
+            showReportFeedbackMessage('昨日日报的URL未配置或无效。请检查脚本中的 previousReportUrl 变量，并确保它是一个有效的网址或相对路径。', 'error', 5000);
+        }
+    });
+
+    function adjustActionButtonsLayout() {
+        const actionButtonsContainer = document.querySelector('.action-buttons-container');
+        if (actionButtonsContainer) {
+            if (window.innerWidth <= 768) { 
+                actionButtonsContainer.style.display = 'flex';
+                actionButtonsContainer.style.flexWrap = 'wrap';
+                actionButtonsContainer.style.justifyContent = 'center';
+            } else { 
+                actionButtonsContainer.style.display = 'block'; 
+                actionButtonsContainer.style.flexWrap = 'nowrap'; 
+            }
+        }
+    }
+    
+    // --- Event Listeners Call on Load ---
+    window.addEventListener('load', () => {
+        initializeMainDiagram(); // Initialize Mermaid diagram
+        adjustActionButtonsLayout(); // Adjust report buttons layout
+    });
+    window.addEventListener('resize', adjustActionButtonsLayout); // Adjust on resize as well
+
+    // --- Report Page JavaScript END ---
+</script>
+
+
+</body></html>
