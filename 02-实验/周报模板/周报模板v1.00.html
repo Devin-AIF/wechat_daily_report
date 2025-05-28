@@ -1,0 +1,1241 @@
+<html lang="zh-CN" style=""><head>
+    <style id="__________cytoscape_stylesheet">.__________cytoscape_container { position: relative; }</style><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI产品蝗虫团周报 - 2025年5月19日至5月25日</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" xintegrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoVBL5rLesXWW/sGuLhYFChxgYnz2Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #f5f4ee;
+            --bg-secondary: #faf9f6;
+            --bg-tertiary: #f1f3f5;
+            --text-primary: #212529;
+            --text-secondary: #495057;
+            --accent-primary: #ff8906;
+            --accent-secondary: #f76707;
+            --accent-tertiary: #e8590c;
+            --accent-blue: #339af0;
+            --accent-purple: #7048e8;
+            --accent-cyan: #22b8cf;
+            --highlight-keyword-bg: #ffe8cc;
+            --highlight-name-color: #7048e8;
+            --card-padding: 24px;
+            --grid-gap: 16px;
+            --card-radius: 12px;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            --font-family: 'Inter', 'SF Pro Display', 'Segoe UI', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        body.modal-active {
+            overflow: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-primary);
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+            color: var(--accent-primary);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: var(--accent-blue);
+        }
+        h4 {
+            font-size: 1.1rem;
+            margin-top: 0.75rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-secondary);
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-auto-rows: minmax(100px, auto);
+            gap: var(--grid-gap);
+            margin-top: 20px;
+            grid-template-areas:
+                "main    main    main    main    main    main    main    main    main    main    main    main"
+                "topics  topics  topics  topics  topics  topics  topics  topics  topics  topics  topics  topics"
+                "mindmap mindmap mindmap mindmap mindmap mindmap mindmap mindmap mindmap mindmap mindmap mindmap"
+                "tools   tools   tools   tools   tools   tools   links   links   links   links   links   links"
+                "stats   stats   stats   stats   stats   stats   stats   wordcloud wordcloud wordcloud wordcloud wordcloud"
+                "trends  trends  trends  trends  trends  trends  trends  trends  trends  trends  trends  trends";
+        }
+
+        .card {
+            background-color: var(--bg-secondary);
+            border-radius: var(--card-radius);
+            padding: var(--card-padding);
+            box-shadow: var(--card-shadow);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent-primary);
+        }
+
+        .card-icon {
+            position: absolute;
+            bottom: var(--card-padding);
+            right: var(--card-padding);
+            font-size: 4rem;
+            opacity: 0.07;
+            color: var(--accent-primary);
+            z-index: 0;
+        }
+
+        .main-card { grid-area: main; }
+        .topic-cards-wrapper {
+            grid-area: topics;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: var(--grid-gap);
+        }
+        .mindmap-card-container { grid-area: mindmap; }
+        .tools-card { grid-area: tools; } /* Renamed from quote-card */
+        .links-card { grid-area: links; }
+        .stats-card { grid-area: stats; }
+        .wordcloud-card { grid-area: wordcloud; }
+        .trends-card { grid-area: trends; }
+
+
+        .topic-card {
+            grid-column: span 6;
+            min-height: 250px;
+        }
+        .topic-card > .topic-card-content-wrapper {
+            flex-grow: 1;
+            padding-bottom: 1rem;
+        }
+        .topic-cards-wrapper > .topic-card:nth-last-child(1):nth-child(odd) {
+            grid-column: span 12;
+        }
+
+        .main-card h1 { text-align: center; }
+        .main-card .date { text-align: center; }
+        .date { font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 1rem; }
+        .meta-info { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 1rem; justify-content: center; }
+        .meta-info span { background-color: var(--bg-tertiary); padding: 5px 10px; border-radius: 20px; font-size: 0.9rem; color: var(--accent-blue); display: inline-flex; align-items: center;}
+        .meta-info span i { margin-right: 5px; }
+        .summary { margin-top: 1rem; line-height: 1.7; text-align: left; }
+        .topic-category { display: inline-block; background-color: var(--accent-tertiary); color: var(--bg-primary); padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; margin-bottom: 0.5rem; }
+        .topic-keywords { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 0.75rem; margin-bottom: 0.75rem; }
+        .keyword { background-color: var(--bg-tertiary); color: var(--accent-primary); padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; }
+        .highlight-keyword { background-color: var(--highlight-keyword-bg); padding: 1px 2px; border-radius: 2px; font-weight: 500; display: inline; line-height: 1.2; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+        .highlight-name { color: var(--highlight-name-color); font-weight: 500; }
+        .topic-content p { margin-bottom: 0.5rem; color: var(--text-secondary);}
+        .excerpt-block { margin-top: 1rem; padding-top: 0.75rem; border-top: 1px dashed var(--bg-tertiary); }
+        .excerpt { position: relative; padding-left: 20px; margin: 5px 0; font-style: italic; color: var(--text-secondary); }
+        .excerpt::before { content: '"'; position: absolute; left: 0; top: 0; font-size: 1.5rem; color: var(--accent-tertiary); }
+        .excerpt-author { text-align: right; font-size: 0.9rem; color: var(--accent-tertiary); margin-top: 5px; }
+        
+        .link-item { display: flex; align-items: center; margin-bottom: 10px; padding: 8px; border-radius: 6px; background-color: var(--bg-tertiary); transition: background-color 0.2s ease; text-decoration: none; }
+        .link-item:hover { background-color: rgba(51, 154, 240, 0.1); }
+        .link-item a { text-decoration: none; color: inherit; display: flex; align-items: center; width: 100%; }
+        .link-item a:hover .link-title { text-decoration: underline; color: var(--accent-blue); }
+        .link-icon { margin-right: 10px; color: var(--accent-blue); }
+        .link-title { flex-grow: 1; color: var(--text-primary); }
+        .link-title.is-link { color: var(--accent-blue); }
+        .link-title.is-link:hover { text-decoration: underline; }
+        .links-card ul, .tools-card ul, .trends-card ul { list-style-type: none; padding-left: 0; }
+        .links-card li, .tools-card li, .trends-card li { margin-bottom: 0.5rem; }
+        .links-card ol { padding-left: 20px; margin-top: 0.5rem;}
+        .links-card ol li { margin-bottom: 0.5rem; }
+
+
+        .user-stats-table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; }
+        .user-stats-table th { text-align: center; padding: 0.75rem 0.5rem; border-bottom: 2px solid var(--accent-primary); color: var(--text-primary); font-weight: 600; font-size: 0.9rem; }
+        .user-stats-table td { padding: 0.75rem 0.5rem; border-bottom: 1px solid var(--bg-tertiary); color: var(--text-secondary); font-size: 0.85rem; vertical-align: top; text-align: left; }
+        .user-stats-table .user-name-col { width: 25%; font-weight: 500; word-break: break-all; }
+        .user-stats-table .message-count-col { text-align: center; width: 15%; white-space: nowrap; }
+        .user-stats-table .contribution-col { width: 60%; word-break: break-all; }
+        .user-stats-table tr:last-child td { border-bottom: none; }
+        
+        .wordcloud { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px; padding: 20px 0; }
+        .wordcloud-item { padding: 5px 10px; border-radius: 4px; font-weight: 500; transition: transform 0.2s ease; line-height: 1; }
+        .wordcloud-item:hover { transform: scale(1.1); }
+        .size-1 { font-size: 0.9rem; color: var(--text-secondary); } /* DIY, 数据处理, 监管, 合规, 树莓派 */
+        .size-2 { font-size: 1.1rem; color: var(--accent-cyan); } /* 客户, AI创业, 测试, 权益, 图表生成, 网络安全 */
+        .size-3 { font-size: 1.3rem; color: var(--accent-blue); } /* 网站生成, O3-Pro, Perplexity Pro, 交付, 投资回报, AI硬件 */
+        .size-4 { font-size: 1.6rem; color: var(--accent-purple); } /* Manus, 付费, Claude 4, 天工, 竞争, Cursor, MCP, 订阅 */
+        .size-5 { font-size: 2rem; color: var(--accent-tertiary); } /* SkyWork, Google */
+        
+        .action-buttons-container { text-align: center; margin: 20px 0; padding-bottom: 20px; }
+        .action-button { background-color: var(--accent-primary); color: white; border: none; padding: 10px 20px; border-radius: var(--card-radius); font-size: 1rem; font-weight: 500; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease; margin: 5px 10px; box-shadow: var(--card-shadow); display: inline-flex; align-items: center; justify-content: center; }
+        .action-button:hover { background-color: var(--accent-secondary); transform: translateY(-2px); }
+        .action-button i, .action-button .fas, .action-button .fab { margin-right: 8px; }
+        .footer { margin-top: 30px; text-align: center; color: var(--text-secondary); font-size: 0.9rem; }
+        #report-content-wrapper .footer { margin-top: 30px; padding-bottom: 20px; }
+
+        .mindmap-card { min-height: 400px; }
+        .mindmap-card h2 i { margin-right: 8px; }
+        .mindmap-controls { display: flex; gap: 10px; margin-bottom: 15px; align-items: center; flex-wrap: wrap; }
+        .mindmap-controls button { background-color: var(--accent-blue); color: white; border: none; padding: 8px 12px; border-radius: var(--card-radius); font-size: 0.9rem; cursor: pointer; transition: background-color 0.2s ease; font-weight: 500; display: inline-flex; align-items: center; justify-content: center; }
+        .mindmap-controls button:hover { background-color: #228be6; }
+        .mindmap-controls button i { margin-right: 5px; }
+        .mindmap-controls .fullscreen-toggle-btn { margin-left: auto; }
+        .mermaid-container { flex-grow: 1; display: flex; justify-content: center; align-items: center; overflow: auto; background-color: #fff; border-radius: 8px; padding: 10px; border: 1px solid var(--bg-tertiary); min-height: 300px; cursor: grab; }
+        .mermaid-container.dragging { cursor: grabbing; }
+        .mermaid-container:empty::before { content: "在此处生成或粘贴Mermaid导图代码。"; color: var(--text-secondary); font-style: italic; text-align: center; padding: 20px; }
+        .mermaid-container svg { max-width: none; height: auto; display: block; transition: transform 0.2s ease-out; }
+
+        #mermaid-main-feedback-message, #mermaid-modal-feedback-message { text-align: center; margin-top: 15px; padding: 8px; border-radius: 4px; font-weight: 500; font-size: 0.9rem; display: none; }
+        #mermaid-main-feedback-message.success, #mermaid-modal-feedback-message.success { color: #155724; background-color: #d4edda; border: 1px solid #c3e6cb; display: block; }
+        #mermaid-main-feedback-message.error, #mermaid-modal-feedback-message.error { color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; display: block; }
+        #mermaid-main-feedback-message.info, #mermaid-modal-feedback-message.info { color: #0c5460; background-color: #d1ecf1; border: 1px solid #bee5eb; display: block; }
+        
+        #feedback-message { text-align: center; margin-top: 10px; font-weight: 500; }
+        #feedback-message.success { color: green; }
+        #feedback-message.error { color: red; }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.75); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal-content { width: 95%; height: 90%; max-width: 1200px; }
+        .modal-close-btn { position: absolute; top: 15px; right: 20px; background: none; border: none; font-size: 2.2rem; color: var(--text-secondary); cursor: pointer; line-height: 1; padding: 5px; z-index: 1010; }
+        .modal-close-btn:hover { color: var(--text-primary); }
+        #modalMermaidContainer { flex-grow: 1; min-height: 0; }
+        #modalMermaidContainer:empty::before { content: "导图内容将在此显示。"; color: var(--text-secondary); font-style: italic; text-align: center; padding: 20px; display: flex; justify-content: center; align-items: center; height: 100%; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .card { animation: fadeIn 0.5s ease forwards; }
+        .main-card { animation-delay: 0.1s; }
+        .topic-cards-wrapper .topic-card:nth-child(1) { animation-delay: 0.2s; }
+        .topic-cards-wrapper .topic-card:nth-child(2) { animation-delay: 0.3s; }
+        /* ... Add more delays for other cards if needed ... */
+        .trends-card { animation-delay: 1.1s; }
+        #report-content-wrapper .footer { animation: fadeIn 0.5s ease forwards; animation-delay: 1.2s; }
+        .action-buttons-container { animation: fadeIn 0.5s ease forwards; animation-delay: 1.3s; }
+
+
+        @media (max-width: 768px) {
+            body { padding: 10px; font-size: 14px; }
+            h1 { font-size: 1.8rem; }
+            h2 { font-size: 1.4rem; }
+            h3 { font-size: 1.1rem; }
+            .grid-container {
+                grid-template-columns: 1fr;
+                grid-template-areas:
+                    "main"
+                    "topics"
+                    "mindmap"
+                    "tools"
+                    "links"
+                    "stats"
+                    "wordcloud"
+                    "trends";
+            }
+            .topic-cards-wrapper { grid-template-columns: 1fr; }
+            .topic-card { grid-column: 1 / -1; min-height: auto; }
+            .topic-card > .topic-card-content-wrapper { padding-bottom: 1rem; }
+            .card-icon { font-size: 2.5rem; opacity:0.05; }
+            .user-stats-table th, .user-stats-table td { padding: 0.5rem 0.25rem; font-size: 0.8rem; }
+            .action-button { padding: 8px 15px; font-size: 0.9rem; }
+            .action-buttons-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+            .action-buttons-container .action-button { width: calc(50% - 10px); min-width: 180px; margin: 5px 0; }
+            .mindmap-card .card { padding: 15px; }
+            .mindmap-controls button { font-size: 0.8rem; padding: 6px 10px; }
+            .modal-content { width: 100%; height: 95%; }
+            .modal-close-btn { font-size: 1.8rem; top:10px; right:10px;}
+        }
+        @media (max-width: 480px) {
+            .action-buttons-container .action-button { width: 80%; }
+            .user-stats-table { display: block; overflow-x: auto; }
+            .user-stats-table th, .user-stats-table td { white-space: normal; }
+            .user-stats-table thead, .user-stats-table tbody, .user-stats-table tr { display: block; }
+            .user-stats-table tr { border-bottom: 1px solid var(--bg-tertiary); }
+            .user-stats-table th { display: none; }
+            .user-stats-table td { display: block; text-align: left; border-bottom: none; padding-left: 0.5rem; }
+            .user-stats-table td.message-count-col { text-align: left; }
+            .user-stats-table td::before { content: attr(data-label); font-weight: bold; display: inline-block; width: 100px; margin-right: 10px; color: var(--text-primary); text-align: left; }
+            .user-stats-table tr:last-child { border-bottom: none; }
+        }
+    </style>
+</head>
+<body style="">
+    <div id="report-content-wrapper">
+        <div class="grid-container">
+            <div class="card main-card">
+                <h1>AI产品蝗虫团周报</h1>
+                <div class="date">2025年5月19日至5月25日</div>
+                <div class="meta-info">
+                    <span><i class="fas fa-users"></i> 群名称: AI产品蝗虫团</span>
+                    <span><i class="fas fa-comment"></i> 消息总数: 1,247条</span>
+                    <span><i class="fas fa-user-check"></i> 活跃用户: 42人</span>
+                    <span><i class="fas fa-fire"></i> 热点话题: 9个</span>
+                    <span><i class="fas fa-cogs"></i> 技术资源分享: 15个</span>
+                    <span><i class="fas fa-toolbox"></i> 工具推荐: 23个</span>
+                    <span><i class="fas fa-question-circle"></i> 问题解决: 8个</span>
+                </div>
+                <p class="summary">本周“AI产品蝗虫团”（群成员42人，总消息1247条）讨论热烈，核心议题（共9大方向）围绕各大AI平台与工具（如天工SkyWork, Manus AI, Claude 4, Perplexity Pro）的深度评测、商业化应用前景（如Manus AI项目交付）、行业竞争格局（Google AI发布会冲击）、新兴技术趋势（MCP协议、AI硬件DIY）以及合规性问题（网络安全）展开。成员们积极分享了15个技术资源、23个工具推荐，并共同解决了8个技术问题。本报告汇总了本周的关键讨论、活跃用户、实用工具与资源、解决方案及行业趋势观察。</p>
+                <i class="fas fa-calendar-week card-icon"></i>
+            </div>
+
+            <div class="topic-cards-wrapper">
+                <div class="card topic-card">
+                    <div class="topic-card-content-wrapper">
+                        <h2><i class="fas fa-search-dollar"></i> 天工SkyWork AI平台深度体验与评测</h2>
+                        <div class="topic-category">国产AI平台</div>
+                        <div class="topic-content">
+                            <p>本周群内对<span class="highlight-keyword">天工SkyWork AI平台</span>进行了深度体验和讨论。用户们发现该平台在<span class="highlight-keyword">市场调研</span>方面表现出色，特别是在处理国内相关任务时，能够提供比其他平台更准确的本土化内容。平台支持多种输出格式，包括<span class="highlight-keyword">网站生成</span>、PDF制作等，用户<span class="highlight-name">@🇨🇳</span>反馈可以直接为产品制作宣传材料。与Gemini 2.5 Pro和Bolt相比，SkyWork在某些场景下展现出更好的实用性。群主<span class="highlight-name">@向阳乔木</span>表示将在下午2点发布相关评测文章，并建议大家多分享生成案例供稿件参考。平台目前处于内测阶段，群内用户被建议暂时不要对外传播，以保护这个国产AI产品的发展机会。</p>
+                        </div>
+                        <div class="topic-keywords">
+                            <span class="keyword">SkyWork (28次)</span>
+                            <span class="keyword">天工 (15次)</span>
+                            <span class="keyword">网站生成 (12次)</span>
+                        </div>
+                        <div class="excerpt-block">
+                            <div class="excerpt">"同样的提示词做市场调研 这一轮skywork完胜"</div>
+                            <div class="excerpt-author">- @强子</div>
+                        </div>
+                    </div>
+                    <i class="fas fa-search-dollar card-icon"></i>
+                </div>
+
+                <div class="card topic-card">
+                    <div class="topic-card-content-wrapper">
+                        <h2><i class="fas fa-briefcase"></i> Manus AI工具商业化应用实践</h2>
+                        <div class="topic-category">AI工具商业化</div>
+                        <div class="topic-content">
+                             <p><span class="highlight-name">@大白</span>分享了使用<span class="highlight-keyword">Manus AI工具</span>进行客户项目<span class="highlight-keyword">交付</span>的成功案例，200美元月费的投入在单个项目中就能收回成本。Manus在生成高质量内容方面表现突出，特别是其App端的用户体验设计优秀，能够直接用于<span class="highlight-keyword">客户</span>交付。然而，该工具在知识库管理方面存在局限，无法将上一个任务的输出内容作为下一个任务的知识库使用。群内讨论了AI工具的商业价值，认为专业人士使用Agent工具能够获得更好的效果，但也担心随着这类强交付工具的普及，现有的认知差优势可能会被快速削弱。</p>
+                        </div>
+                        <div class="topic-keywords">
+                            <span class="keyword">Manus (18次)</span>
+                            <span class="keyword">交付 (11次)</span>
+                            <span class="keyword">客户 (9次)</span>
+                        </div>
+                         <div class="excerpt-block">
+                            <div class="excerpt">"200 刀一月，我觉得还是超值的"</div>
+                            <div class="excerpt-author">- @大白</div>
+                        </div>
+                    </div>
+                    <i class="fas fa-briefcase card-icon"></i>
+                </div>
+
+                <div class="card topic-card">
+                    <div class="topic-card-content-wrapper">
+                        <h2><i class="fab fa-google"></i> Google AI发布会影响与行业竞争格局分析</h2>
+                        <div class="topic-category">行业观察</div>
+                         <div class="topic-content">
+                            <p>群内深入讨论了<span class="highlight-keyword">Google</span>最新AI发布会的影响，认为Google的全家桶策略将对中小AI公司造成巨大冲击。<span class="highlight-name">@年轮</span>表示"不知道多少中下公司老板和创业者会睡不好"，反映了行业对Google垄断性优势的担忧。讨论中提到，只要防火墙存在，国内的AI公司仍有发展空间，可能会从"六小龙"变成"四小龙"或"八小龙"。群内建议<span class="highlight-keyword">AI创业</span>公司应该早点转向传统行业+AI的模式，纯AI产品的<span class="highlight-keyword">竞争</span>将变得更加激烈。同时，讨论了OpenAI与Jony Ive合作开发AI电脑的消息，以及MCP协议的广泛支持情况。</p>
+                        </div>
+                        <div class="topic-keywords">
+                            <span class="keyword">Google (22次)</span>
+                            <span class="keyword">AI创业 (8次)</span>
+                            <span class="keyword">竞争 (15次)</span>
+                        </div>
+                        <div class="excerpt-block">
+                            <div class="excerpt">"所有的ai创业公司，早点下海去做传统行业+ai比较好"</div>
+                            <div class="excerpt-author">- @Lethe</div>
+                        </div>
+                    </div>
+                    <i class="fab fa-google card-icon"></i>
+                </div>
+
+                <div class="card topic-card">
+                    <div class="topic-card-content-wrapper">
+                        <h2><i class="fas fa-code"></i> Claude 4与O3-Pro模型预期与测试体验</h2>
+                        <div class="topic-category">模型动态</div>
+                        <div class="topic-content">
+                            <p>本周群内热议了即将发布的<span class="highlight-keyword">Claude 4</span>和<span class="highlight-keyword">O3-Pro</span>模型。<span class="highlight-name">@Ronin_Chang</span>透露已有KOL获得<span class="highlight-keyword">测试</span>权限，并表示Claude 4"很炸"，引发群内广泛关注。讨论中提到Anthropic公司的理念导向特点，认为其将理念置于利益之前，但同时也指出了该公司在某些政策立场上的争议。群内分析了Claude 4发布会主题"code with Claude"，预测其将主要聚焦编程能力提升。同时讨论了各大AI公司的不同策略，OpenAI注重商业化，而Anthropic更注重技术理念的坚持。</p>
+                        </div>
+                        <div class="topic-keywords">
+                            <span class="keyword">Claude 4 (16次)</span>
+                            <span class="keyword">O3-Pro (12次)</span>
+                            <span class="keyword">测试 (8次)</span>
+                        </div>
+                        <div class="excerpt-block">
+                            <div class="excerpt">"老外爆料人说 Claude4 很炸"</div>
+                            <div class="excerpt-author">- @Ronin_Chang</div>
+                        </div>
+                    </div>
+                    <i class="fas fa-code card-icon"></i>
+                </div>
+
+                <div class="card topic-card">
+                    <div class="topic-card-content-wrapper">
+                        <h2><i class="fas fa-credit-card"></i> AI工具付费订阅模式与投资回报讨论</h2>
+                        <div class="topic-category">商业模式</div>
+                        <div class="topic-content">
+                            <p>群内深入讨论了AI工具的<span class="highlight-keyword">付费</span><span class="highlight-keyword">订阅</span>模式和<span class="highlight-keyword">投资回报</span>问题。针对250美元月费的高端订阅，群内分析了其合理性，认为如果能够替代一个员工的工作量，这样的投资是划算的。然而，大部分用户对于高昂的订阅费用持谨慎态度。<span class="highlight-name">@大白</span>分享了实际使用经验，指出真正赚钱的团队往往只是简单使用AI工具查询背景信息，而不是深度依赖。讨论中还涉及了AI课程销售的现象，认为"挖矿的不如卖铲子的"，反映了当前AI培训市场的现状。群内建议用户应该聚焦当下，理性看待AI工具的价值。</p>
+                        </div>
+                        <div class="topic-keywords">
+                            <span class="keyword">付费 (18次)</span>
+                            <span class="keyword">订阅 (14次)</span>
+                            <span class="keyword">投资回报 (10次)</span>
+                        </div>
+                        <div class="excerpt-block">
+                            <div class="excerpt">"如果一个会员能开掉一个员工的话，那还是很划算的"</div>
+                            <div class="excerpt-author">- @Liu、</div>
+                        </div>
+                    </div>
+                    <i class="fas fa-credit-card card-icon"></i>
+                </div>
+
+                <div class="card topic-card">
+                    <div class="topic-card-content-wrapper">
+                        <h2><i class="fas fa-gift"></i> Perplexity Pro会员权益与工具整合体验</h2>
+                        <div class="topic-category">会员福利</div>
+                        <div class="topic-content">
+                            <p>群内发现<span class="highlight-keyword">Perplexity Pro</span>会员可以领取多种第三方工具的免费<span class="highlight-keyword">权益</span>，包括3个月<span class="highlight-keyword">Cursor</span>订阅等价值较高的服务。<span class="highlight-name">@Ronin_Chang</span>分享了相关链接和领取方式，需要美国IP地址才能访问。群内讨论了这些权益的实际价值，Cursor 3个月订阅相当于小500元人民币的价值。同时讨论了这些免费权益是否会与现有的白嫖订阅产生冲突。群内还分享了30元出售Cursor 3个月订阅的信息，反映了这类权益在二手市场的流通情况。这种会员权益整合模式为用户提供了更多价值，也体现了各平台之间的合作趋势。</p>
+                        </div>
+                        <div class="topic-keywords">
+                            <span class="keyword">Perplexity Pro (12次)</span>
+                            <span class="keyword">Cursor (15次)</span>
+                            <span class="keyword">权益 (8次)</span>
+                        </div>
+                        <div class="excerpt-block">
+                            <div class="excerpt">"有 perplexity pro 的好像可以领这些鸡蛋"</div>
+                            <div class="excerpt-author">- @Ronin_Chang</div>
+                        </div>
+                    </div>
+                    <i class="fas fa-gift card-icon"></i>
+                </div>
+                
+                <div class="card topic-card">
+                    <div class="topic-card-content-wrapper">
+                        <h2><i class="fas fa-microchip"></i> AI硬件产品发展现状与DIY探索</h2>
+                        <div class="topic-category">硬件趋势</div>
+                        <div class="topic-content">
+                            <p>群内讨论了当前<span class="highlight-keyword">AI硬件</span>产品的发展现状，<span class="highlight-name">@Ronin_Chang</span>直言"现在出的都是诈骗的"，反映了对市面上AI硬件产品质量的担忧。<span class="highlight-name">@Liu、</span>表达了对<span class="highlight-keyword">DIY</span> AI硬件的兴趣，希望用<span class="highlight-keyword">树莓派</span>制作一个能在编程时陪伴聊天的小助手。<span class="highlight-name">@刘博</span>分享了AR和Folo等硬件的使用体验，认为这些产品还有一定的可玩性。讨论中提到了智能交互硬件的发展方向，以及个人定制化AI助手的可能性。群内认为相比于商业化的AI硬件产品，自己动手制作的DIY方案可能更有实用价值和趣味性。</p>
+                        </div>
+                        <div class="topic-keywords">
+                            <span class="keyword">AI硬件 (10次)</span>
+                            <span class="keyword">DIY (6次)</span>
+                            <span class="keyword">树莓派 (4次)</span>
+                        </div>
+                        <div class="excerpt-block">
+                            <div class="excerpt">"挺想做个小人在旁边vibe coding的时候陪我聊天"</div>
+                            <div class="excerpt-author">- @Liu、</div>
+                        </div>
+                    </div>
+                    <i class="fas fa-microchip card-icon"></i>
+                </div>
+
+                <div class="card topic-card">
+                    <div class="topic-card-content-wrapper">
+                        <h2><i class="fas fa-network-wired"></i> MCP协议生态发展与图表生成工具推荐</h2>
+                        <div class="topic-category">技术生态</div>
+                        <div class="topic-content">
+                            <p>本周群内关注了<span class="highlight-keyword">MCP</span>（Model Context Protocol）协议的生态发展，多个服务提供商感谢OpenAI将其纳入MCP生态系统。<span class="highlight-name">@Ronin_Chang</span>分享了专门处理表格数据的sheets.chat工具，以及蚂蚁集团开源的mcp-server-chart<span class="highlight-keyword">图表生成</span>工具。这些工具的出现丰富了MCP生态，为用户提供了更多专业化的<span class="highlight-keyword">数据处理</span>和可视化选择。群内讨论了MCP协议对AI工具集成的重要意义，认为这将推动AI应用的标准化和互操作性。同时，ChatGPT也计划在App中整合会议记录等功能，Perplexity的Comet也在开发类似功能，显示了AI工具向全流程整合的发展趋势。</p>
+                        </div>
+                        <div class="topic-keywords">
+                            <span class="keyword">MCP (14次)</span>
+                            <span class="keyword">图表生成 (8次)</span>
+                            <span class="keyword">数据处理 (6次)</span>
+                        </div>
+                        <div class="excerpt-block">
+                            <div class="excerpt">"刷到了一片各种服务提供商感谢 OpenAI 把自己纳入了 OpenAI MCP"</div>
+                            <div class="excerpt-author">- @Ronin_Chang</div>
+                        </div>
+                    </div>
+                    <i class="fas fa-network-wired card-icon"></i>
+                </div>
+
+                <div class="card topic-card">
+                    <div class="topic-card-content-wrapper">
+                        <h2><i class="fas fa-shield-alt"></i> 网络安全监管与技术合规讨论</h2>
+                        <div class="topic-category">合规与安全</div>
+                        <div class="topic-content">
+                            <p>群内讨论了当前<span class="highlight-keyword">网络安全</span><span class="highlight-keyword">监管</span>的严格程度，<span class="highlight-name">@张热烈啊</span>分享了自建NAS被运营商检测并拍照的经历，反映了国家对网络安全的严格监管。群内讨论了各种技术应用的<span class="highlight-keyword">合规</span>性问题，以及如何在合规前提下使用各种AI工具和服务。这一话题引发了群内对技术发展与监管平衡的思考，认为在享受技术便利的同时，也需要注意合规使用。讨论中还涉及了不同地区网络政策的差异，以及这些政策对AI工具使用的影响。群内建议用户在使用各种技术工具时要注意相关法规要求。</p>
+                        </div>
+                        <div class="topic-keywords">
+                            <span class="keyword">网络安全 (8次)</span>
+                            <span class="keyword">监管 (6次)</span>
+                            <span class="keyword">合规 (5次)</span>
+                        </div>
+                        <div class="excerpt-block">
+                            <div class="excerpt">"现在查的真严，我自己搭建了个 nas，联通检测到异常，然后给你拍照"</div>
+                            <div class="excerpt-author">- @张热烈啊</div>
+                        </div>
+                    </div>
+                    <i class="fas fa-shield-alt card-icon"></i>
+                </div>
+            </div>
+            
+            <div class="mindmap-card-container card"> <div class="mindmap-card"> 
+                <h2><i class="fas fa-sitemap"></i> 核心概念关系图</h2>
+                <div class="mindmap-controls">
+                    <button id="zoomInBtn"><i class="fas fa-search-plus"></i> 放大</button>
+                    <button id="zoomOutBtn"><i class="fas fa-search-minus"></i> 缩小</button>
+                    <button id="downloadDiagramBtn"><i class="fas fa-download"></i> 下载导图</button>
+                    <button id="fullscreenOpenBtn" class="fullscreen-toggle-btn"><i class="fas fa-expand"></i> 全屏</button> 
+                </div>
+                <div class="mermaid-container" id="mainMermaidContainer"><svg aria-roledescription="mindmap" role="graphics-document document" viewBox="0 0 1020.3292236328125 500.1817626953125" height="500.1817626953125" xmlns="http://www.w3.org/2000/svg" width="1020.3292236328125" id="initialMainDiagramSvg" style="transform: scale(1); transform-origin: center center;"><style>#initialMainDiagramSvg{font-family:"Inter",sans-serif;font-size:16px;fill:#333;}#initialMainDiagramSvg .error-icon{fill:hsl(220.5882352941, 100%, 98.3333333333%);}#initialMainDiagramSvg .error-text{fill:rgb(8.5000000002, 5.7500000001, 0);stroke:rgb(8.5000000002, 5.7500000001, 0);}#initialMainDiagramSvg .edge-thickness-normal{stroke-width:2px;}#initialMainDiagramSvg .edge-thickness-thick{stroke-width:3.5px;}#initialMainDiagramSvg .edge-pattern-solid{stroke-dasharray:0;}#initialMainDiagramSvg .edge-pattern-dashed{stroke-dasharray:3;}#initialMainDiagramSvg .edge-pattern-dotted{stroke-dasharray:2;}#initialMainDiagramSvg .marker{fill:#0b0b0b;stroke:#0b0b0b;}#initialMainDiagramSvg .marker.cross{stroke:#0b0b0b;}#initialMainDiagramSvg svg{font-family:"Inter",sans-serif;font-size:16px;}#initialMainDiagramSvg .edge{stroke-width:3;}#initialMainDiagramSvg .section--1 rect,#initialMainDiagramSvg .section--1 path,#initialMainDiagramSvg .section--1 circle,#initialMainDiagramSvg .section--1 polygon,#initialMainDiagramSvg .section--1 path{fill:hsl(40.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .section--1 text{fill:#333;}#initialMainDiagramSvg .node-icon--1{font-size:40px;color:#333;}#initialMainDiagramSvg .section-edge--1{stroke:hsl(40.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .edge-depth--1{stroke-width:17;}#initialMainDiagramSvg .section--1 line{stroke:rgb(0, 52.2500000001, 161.5000000002);stroke-width:3;}#initialMainDiagramSvg .disabled,#initialMainDiagramSvg .disabled circle,#initialMainDiagramSvg .disabled text{fill:lightgray;}#initialMainDiagramSvg .disabled text{fill:#efefef;}#initialMainDiagramSvg .section-0 rect,#initialMainDiagramSvg .section-0 path,#initialMainDiagramSvg .section-0 circle,#initialMainDiagramSvg .section-0 polygon,#initialMainDiagramSvg .section-0 path{fill:hsl(-79.4117647059, 100%, 68.3333333333%);}#initialMainDiagramSvg .section-0 text{fill:#333;}#initialMainDiagramSvg .node-icon-0{font-size:40px;color:#333;}#initialMainDiagramSvg .section-edge-0{stroke:hsl(-79.4117647059, 100%, 68.3333333333%);}#initialMainDiagramSvg .edge-depth-0{stroke-width:14;}#initialMainDiagramSvg .section-0 line{stroke:rgb(52.2500000001, 161.5000000002, 0);stroke-width:3;}#initialMainDiagramSvg .disabled,#initialMainDiagramSvg .disabled circle,#initialMainDiagramSvg .disabled text{fill:lightgray;}#initialMainDiagramSvg .disabled text{fill:#efefef;}#initialMainDiagramSvg .section-1 rect,#initialMainDiagramSvg .section-1 path,#initialMainDiagramSvg .section-1 circle,#initialMainDiagramSvg .section-1 polygon,#initialMainDiagramSvg .section-1 path{fill:hsl(220.5882352941, 100%, 73.3333333333%);}#initialMainDiagramSvg .section-1 text{fill:#333;}#initialMainDiagramSvg .node-icon-1{font-size:40px;color:#333;}#initialMainDiagramSvg .section-edge-1{stroke:hsl(220.5882352941, 100%, 73.3333333333%);}#initialMainDiagramSvg .edge-depth-1{stroke-width:11;}#initialMainDiagramSvg .section-1 line{stroke:rgb(136.0000000002, 92.0000000001, 0);stroke-width:3;}#initialMainDiagramSvg .disabled,#initialMainDiagramSvg .disabled circle,#initialMainDiagramSvg .disabled text{fill:lightgray;}#initialMainDiagramSvg .disabled text{fill:#efefef;}#initialMainDiagramSvg .section-2 rect,#initialMainDiagramSvg .section-2 path,#initialMainDiagramSvg .section-2 circle,#initialMainDiagramSvg .section-2 polygon,#initialMainDiagramSvg .section-2 path{fill:hsl(70.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .section-2 text{fill:#333;}#initialMainDiagramSvg .node-icon-2{font-size:40px;color:#333;}#initialMainDiagramSvg .section-edge-2{stroke:hsl(70.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .edge-depth-2{stroke-width:8;}#initialMainDiagramSvg .section-2 line{stroke:rgb(28.5, 0, 161.5000000002);stroke-width:3;}#initialMainDiagramSvg .disabled,#initialMainDiagramSvg .disabled circle,#initialMainDiagramSvg .disabled text{fill:lightgray;}#initialMainDiagramSvg .disabled text{fill:#efefef;}#initialMainDiagramSvg .section-3 rect,#initialMainDiagramSvg .section-3 path,#initialMainDiagramSvg .section-3 circle,#initialMainDiagramSvg .section-3 polygon,#initialMainDiagramSvg .section-3 path{fill:hsl(100.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .section-3 text{fill:#333;}#initialMainDiagramSvg .node-icon-3{font-size:40px;color:#333;}#initialMainDiagramSvg .section-edge-3{stroke:hsl(100.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .edge-depth-3{stroke-width:5;}#initialMainDiagramSvg .section-3 line{stroke:rgb(109.2500000001, 0, 161.5000000002);stroke-width:3;}#initialMainDiagramSvg .disabled,#initialMainDiagramSvg .disabled circle,#initialMainDiagramSvg .disabled text{fill:lightgray;}#initialMainDiagramSvg .disabled text{fill:#efefef;}#initialMainDiagramSvg .section-4 rect,#initialMainDiagramSvg .section-4 path,#initialMainDiagramSvg .section-4 circle,#initialMainDiagramSvg .section-4 polygon,#initialMainDiagramSvg .section-4 path{fill:hsl(130.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .section-4 text{fill:#333;}#initialMainDiagramSvg .node-icon-4{font-size:40px;color:#333;}#initialMainDiagramSvg .section-edge-4{stroke:hsl(130.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .edge-depth-4{stroke-width:2;}#initialMainDiagramSvg .section-4 line{stroke:rgb(161.5000000002, 0, 133.0000000002);stroke-width:3;}#initialMainDiagramSvg .disabled,#initialMainDiagramSvg .disabled circle,#initialMainDiagramSvg .disabled text{fill:lightgray;}#initialMainDiagramSvg .disabled text{fill:#efefef;}#initialMainDiagramSvg .section-5 rect,#initialMainDiagramSvg .section-5 path,#initialMainDiagramSvg .section-5 circle,#initialMainDiagramSvg .section-5 polygon,#initialMainDiagramSvg .section-5 path{fill:hsl(160.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .section-5 text{fill:#333;}#initialMainDiagramSvg .node-icon-5{font-size:40px;color:#333;}#initialMainDiagramSvg .section-edge-5{stroke:hsl(160.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .edge-depth-5{stroke-width:-1;}#initialMainDiagramSvg .section-5 line{stroke:rgb(161.5000000002, 0, 52.2500000001);stroke-width:3;}#initialMainDiagramSvg .disabled,#initialMainDiagramSvg .disabled circle,#initialMainDiagramSvg .disabled text{fill:lightgray;}#initialMainDiagramSvg .disabled text{fill:#efefef;}#initialMainDiagramSvg .section-6 rect,#initialMainDiagramSvg .section-6 path,#initialMainDiagramSvg .section-6 circle,#initialMainDiagramSvg .section-6 polygon,#initialMainDiagramSvg .section-6 path{fill:hsl(190.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .section-6 text{fill:#333;}#initialMainDiagramSvg .node-icon-6{font-size:40px;color:#333;}#initialMainDiagramSvg .section-edge-6{stroke:hsl(190.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .edge-depth-6{stroke-width:-4;}#initialMainDiagramSvg .section-6 line{stroke:rgb(161.5000000002, 28.5, 0);stroke-width:3;}#initialMainDiagramSvg .disabled,#initialMainDiagramSvg .disabled circle,#initialMainDiagramSvg .disabled text{fill:lightgray;}#initialMainDiagramSvg .disabled text{fill:#efefef;}#initialMainDiagramSvg .section-7 rect,#initialMainDiagramSvg .section-7 path,#initialMainDiagramSvg .section-7 circle,#initialMainDiagramSvg .section-7 polygon,#initialMainDiagramSvg .section-7 path{fill:hsl(250.5882352941, 100%, 75%);}#initialMainDiagramSvg .section-7 text{fill:#333;}#initialMainDiagramSvg .node-icon-7{font-size:40px;color:#333;}#initialMainDiagramSvg .section-edge-7{stroke:hsl(250.5882352941, 100%, 75%);}#initialMainDiagramSvg .edge-depth-7{stroke-width:-7;}#initialMainDiagramSvg .section-7 line{stroke:rgb(105, 127.5, 0);stroke-width:3;}#initialMainDiagramSvg .disabled,#initialMainDiagramSvg .disabled circle,#initialMainDiagramSvg .disabled text{fill:lightgray;}#initialMainDiagramSvg .disabled text{fill:#efefef;}#initialMainDiagramSvg .section-8 rect,#initialMainDiagramSvg .section-8 path,#initialMainDiagramSvg .section-8 circle,#initialMainDiagramSvg .section-8 polygon,#initialMainDiagramSvg .section-8 path{fill:hsl(310.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .section-8 text{fill:#333;}#initialMainDiagramSvg .node-icon-8{font-size:40px;color:#333;}#initialMainDiagramSvg .section-edge-8{stroke:hsl(310.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .edge-depth-8{stroke-width:-10;}#initialMainDiagramSvg .section-8 line{stroke:rgb(0, 161.5000000002, 28.5);stroke-width:3;}#initialMainDiagramSvg .disabled,#initialMainDiagramSvg .disabled circle,#initialMainDiagramSvg .disabled text{fill:lightgray;}#initialMainDiagramSvg .disabled text{fill:#efefef;}#initialMainDiagramSvg .section-9 rect,#initialMainDiagramSvg .section-9 path,#initialMainDiagramSvg .section-9 circle,#initialMainDiagramSvg .section-9 polygon,#initialMainDiagramSvg .section-9 path{fill:hsl(340.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .section-9 text{fill:#333;}#initialMainDiagramSvg .node-icon-9{font-size:40px;color:#333;}#initialMainDiagramSvg .section-edge-9{stroke:hsl(340.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .edge-depth-9{stroke-width:-13;}#initialMainDiagramSvg .section-9 line{stroke:rgb(0, 161.5000000002, 109.2500000001);stroke-width:3;}#initialMainDiagramSvg .disabled,#initialMainDiagramSvg .disabled circle,#initialMainDiagramSvg .disabled text{fill:lightgray;}#initialMainDiagramSvg .disabled text{fill:#efefef;}#initialMainDiagramSvg .section-10 rect,#initialMainDiagramSvg .section-10 path,#initialMainDiagramSvg .section-10 circle,#initialMainDiagramSvg .section-10 polygon,#initialMainDiagramSvg .section-10 path{fill:hsl(10.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .section-10 text{fill:#333;}#initialMainDiagramSvg .node-icon-10{font-size:40px;color:#333;}#initialMainDiagramSvg .section-edge-10{stroke:hsl(10.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .edge-depth-10{stroke-width:-16;}#initialMainDiagramSvg .section-10 line{stroke:rgb(0, 133.0000000002, 161.5000000002);stroke-width:3;}#initialMainDiagramSvg .disabled,#initialMainDiagramSvg .disabled circle,#initialMainDiagramSvg .disabled text{fill:lightgray;}#initialMainDiagramSvg .disabled text{fill:#efefef;}#initialMainDiagramSvg .section-root rect,#initialMainDiagramSvg .section-root path,#initialMainDiagramSvg .section-root circle,#initialMainDiagramSvg .section-root polygon{fill:hsl(40.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .section-root text{fill:#333;}#initialMainDiagramSvg .icon-container{height:100%;display:flex;justify-content:center;align-items:center;}#initialMainDiagramSvg .edge{fill:none;}#initialMainDiagramSvg .mindmap-node-label{dy:1em;alignment-baseline:middle;text-anchor:middle;dominant-baseline:middle;text-align:center;}#initialMainDiagramSvg :root{--mermaid-font-family:"Inter",sans-serif;}</style><g></g><g class="mindmap-edges"><path class="edge section-edge-0 edge-depth-0" d="M 521.3887677565297,268.4868518200982 L 476.6475404124526,351.2614371779715 L431.90631306837554,434.0360225358448"></path><path class="edge section-edge-1 edge-depth-0" d="M 540.0043875858892,245.64029267454896 L 596.6682829980891,198.0176998074292 L653.3321784102892,150.39510694030952"></path><path class="edge section-edge-2 edge-depth-0" d="M 513.528502074018,254.82643709820576 L 334.5946354847606,249.28043331417146 L155.66076889550317,243.73442953013716"></path><path class="edge section-edge-3 edge-depth-0" d="M 514.6235102968488,260.93483728743786 L 420.14476240696376,299.3013607904766 L325.6660145170787,337.6678842935154"></path><path class="edge section-edge-4 edge-depth-0" d="M 543.3530653502098,257.53140301563985 L 649.7632464330027,273.60416269912093 L756.1734275157954,289.6769223826021"></path><path class="edge section-edge-5 edge-depth-0" d="M 521.845984964501,241.8583337486673 L 480.4319835040917,158.52056655256854 L439.01798204368254,75.18279935646984"></path><path class="edge section-edge-6 edge-depth-0" d="M 543.4144753407647,253.5041275295565 L 705.4155061830728,234.0658929638127 L867.4165370253809,214.62765839806883"></path><path class="edge section-edge-7 edge-depth-0" d="M 515.4703700724044,247.8970038442804 L 453.101258652801,212.56118555248784 L390.7321472331975,177.2253672606953"></path><path class="edge section-edge-8 edge-depth-0" d="M 537.4234710422633,267.36388867685827 L 575.215331171102,318.61565005716085 L613.0071912999408,369.86741143746343"></path></g><g class="mindmap-nodes"><g transform="translate(449.8533334695212, 233.64113463101603)" class="mindmap-node section--1 section-root"><g transform="translate(78.66796875, 21.65)"><circle r="78.66796875" class="node-bkg node-circle" id="node-0"></circle></g><g transform="translate(78.66796875, 7.5)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">AI产品蝗虫团周报</tspan></tspan></text></g></g></g><g transform="translate(315.105809855384, 409.2817404878664)" class="mindmap-node section-0"><g><rect width="219.3359375" ry="30" rx="30" height="75.89999847412109" class="node-bkg node-rounded-rect" id="node-1"></rect></g><g transform="translate(109.66796875, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">天工SkyWork</tspan></tspan><tspan dy="1.1em" y="1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">AI平台深度体验与评测</tspan></tspan></text></g></g></g><g transform="translate(555.1472950266572, 102.79426574678189)" class="mindmap-node section-1"><g><rect width="219.3359375" ry="30" rx="30" height="75.89999847412109" class="node-bkg node-rounded-rect" id="node-2"></rect></g><g transform="translate(109.66796875, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">Manus</tspan></tspan><tspan dy="1.1em" y="1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">AI工具商业化应用实践</tspan></tspan></text></g></g></g><g transform="translate(15, 196.5197335232058)" class="mindmap-node section-2"><g><rect width="251.3359375" ry="30" rx="30" height="93.49999694824218" class="node-bkg node-rounded-rect" id="node-3"></rect></g><g transform="translate(125.66796875, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">Google</tspan></tspan><tspan dy="1.1em" y="1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">AI发布会影响与行业竞争格</tspan></tspan><tspan dy="1.1em" y="2.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">局分析</tspan></tspan></text></g></g></g><g transform="translate(185.07681634440632, 296.56158847581617)" class="mindmap-node section-3"><g><rect width="253.3828125" ry="30" rx="30" height="93.49999694824218" class="node-bkg node-rounded-rect" id="node-4"></rect></g><g transform="translate(126.69140625, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">Claude</tspan></tspan><tspan dy="1.1em" y="1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">4与O3-Pro模型预期与测试</tspan></tspan><tspan dy="1.1em" y="2.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">体验</tspan></tspan></text></g></g></g><g transform="translate(645.337221896484, 253.9671915301653)" class="mindmap-node section-4"><g><rect width="251.3359375" ry="30" rx="30" height="75.89999847412109" class="node-bkg node-rounded-rect" id="node-5"></rect></g><g transform="translate(125.66796875, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">AI工具付费订阅模式与投资</tspan></tspan><tspan dy="1.1em" y="1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">回报讨论</tspan></tspan></text></g></g></g><g transform="translate(309.5575085386623, 15)" class="mindmap-node section-5"><g><rect width="245.5703125" ry="30" rx="30" height="93.49999694824218" class="node-bkg node-rounded-rect" id="node-6"></rect></g><g transform="translate(122.78515625, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">Perplexity</tspan></tspan><tspan dy="1.1em" y="1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">Pro会员权益与工具整合体</tspan></tspan><tspan dy="1.1em" y="2.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">验</tspan></tspan></text></g></g></g><g transform="translate(759.2901788966245, 174.89065205954876)" class="mindmap-node section-6"><g><rect width="246.0390625" ry="30" rx="30" height="75.89999847412109" class="node-bkg node-rounded-rect" id="node-7"></rect></g><g transform="translate(123.01953125, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">AI硬件产品发展现状与DIY</tspan></tspan><tspan dy="1.1em" y="1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">探索</tspan></tspan></text></g></g></g><g transform="translate(249.50152758608067, 131.8812372368991)" class="mindmap-node section-7"><g><rect width="256.359375" ry="30" rx="30" height="75.89999847412109" class="node-bkg node-rounded-rect" id="node-8"></rect></g><g transform="translate(128.1796875, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">MCP协议生态发展与图表生</tspan></tspan><tspan dy="1.1em" y="1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">成工具推荐</tspan></tspan></text></g></g></g><g transform="translate(495.90936012268287, 343.99016624624517)" class="mindmap-node section-8"><g><rect width="252" ry="30" rx="30" height="75.89999847412109" class="node-bkg node-rounded-rect" id="node-9"></rect></g><g transform="translate(126, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">网络安全监管与技术合规讨</tspan></tspan><tspan dy="1.1em" y="1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">论</tspan></tspan></text></g></g></g></g></svg></div>
+                <div id="mermaid-main-feedback-message"></div>
+                <i class="fas fa-project-diagram card-icon"></i>
+            </div>
+            </div>
+
+            <div class="card tools-card"> <h2><i class="fas fa-tools"></i> 🛠️ 实用工具与技巧推荐</h2>
+                <h4><i class="fas fa-robot"></i> AI平台工具</h4>
+                <ul>
+                    <li>天工SkyWork - 国产AI平台，市场调研能力强</li>
+                    <li>Manus AI - 高质量内容生成，适合商业交付</li>
+                    <li>sheets.chat - 专业表格数据处理工具</li>
+                    <li>mcp-server-chart - 蚂蚁集团开源图表生成工具</li>
+                </ul>
+                <h4><i class="fas fa-code-branch"></i> 开发工具</h4>
+                <ul>
+                    <li>Cursor - AI编程助手，可通过Perplexity Pro获得免费权益</li>
+                    <li>ComfyUI - 图像生成工具，支持像素风格创作</li>
+                    <li>树莓派 - DIY AI硬件的理想选择</li>
+                </ul>
+                <h4><i class="fas fa-tags"></i> 订阅优化</h4>
+                <ul>
+                    <li>Perplexity Pro会员权益 - 可领取多种第三方工具免费订阅</li>
+                    <li>教育优惠 - 多个AI平台提供学生优惠政策</li>
+                </ul>
+                <i class="fas fa-toolbox card-icon"></i> 
+            </div>
+
+            <div class="card links-card">
+                <h2><i class="fas fa-link"></i> 🔗 重要资源链接与解决方案</h2>
+                <h4><i class="fas fa-external-link-alt"></i> 重要资源链接汇总</h4>
+                <ul>
+                    <li class="link-item"><a href="#" target="_blank"><i class="fas fa-rocket link-icon"></i> <span class="link-title is-link">天工SkyWork平台 - 国产AI综合平台</span></a></li>
+                    <li class="link-item"><a href="#" target="_blank"><i class="fas fa-table link-icon"></i> <span class="link-title is-link">sheets.chat - 表格数据处理工具</span></a></li>
+                    <li class="link-item"><a href="#" target="_blank"><i class="fas fa-gift link-icon"></i> <span class="link-title is-link">Perplexity Pro权益页面 - 会员权益领取</span></a></li>
+                    <li class="link-item"><a href="#" target="_blank"><i class="fas fa-chart-pie link-icon"></i> <span class="link-title is-link">mcp-server-chart - 开源图表生成工具</span></a></li>
+                    <li class="link-item"><a href="#" target="_blank"><i class="fas fa-images link-icon"></i> <span class="link-title is-link">群内分享的SkyWork生成案例展示页面</span></a></li>
+                </ul>
+                <h3 style="margin-top: 1.5rem;"><i class="fas fa-wrench"></i> 🔧 技术问题解决方案记录</h3>
+                <ol>
+                    <li><strong>SkyWork平台使用优化</strong>
+                        <ul><li>问题： 如何提高SkyWork生成内容的质量</li><li>解决方案： 使用专业的网页设计提示词，结合平台的MCP搜索功能</li></ul>
+                    </li>
+                    <li><strong>Manus知识库管理</strong>
+                        <ul><li>问题： 无法将上个任务输出作为下个任务知识库</li><li>解决方案： 手动整理和导入相关内容，或寻找替代工具</li></ul>
+                    </li>
+                    <li><strong>Perplexity Pro权益领取</strong>
+                        <ul><li>问题： 需要美国IP才能访问权益页面</li><li>解决方案： 使用合规的网络工具切换到美国节点</li></ul>
+                    </li>
+                    <li><strong>AI工具订阅冲突</strong>
+                        <ul><li>问题： 免费权益可能与现有订阅冲突</li><li>解决方案： 先了解具体条款，避免重复订阅</li></ul>
+                    </li>
+                </ol>
+                <i class="fas fa-share-alt card-icon"></i> 
+            </div>
+
+            <div class="card stats-card">
+                <h2><i class="fas fa-star"></i> 👥 活跃用户</h2>
+                <table class="user-stats-table">
+                    <thead>
+                        <tr>
+                            <th class="user-name-col">用户</th>
+                            <th class="message-count-col">发言数</th>
+                            <th class="contribution-col">主要贡献</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td data-label="用户" class="user-name-col">@Ronin_Chang</td><td data-label="发言数" class="message-count-col">156</td><td data-label="主要贡献" class="contribution-col">技术资讯分享活跃, Claude 4爆料, Perplexity Pro权益分享, MCP协议关注</td></tr>
+                        <tr><td data-label="用户" class="user-name-col">@向阳乔木 (vista8)</td><td data-label="发言数" class="message-count-col">89</td><td data-label="主要贡献" class="contribution-col">产品评测与行业分析, SkyWork评测预告</td></tr>
+                        <tr><td data-label="用户" class="user-name-col">@大白 (wanganjing)</td><td data-label="发言数" class="message-count-col">67</td><td data-label="主要贡献" class="contribution-col">商业应用实践分享, Manus AI案例, AI工具付费讨论</td></tr>
+                        <tr><td data-label="用户" class="user-name-col">@🇨🇳 (wxid_nox1tzzg4s3y22)</td><td data-label="发言数" class="message-count-col">54</td><td data-label="主要贡献" class="contribution-col">产品体验反馈, SkyWork体验</td></tr>
+                        <tr><td data-label="用户" class="user-name-col">@Liu、(kissyougwj)</td><td data-label="发言数" class="message-count-col">48</td><td data-label="主要贡献" class="contribution-col">技术讨论参与, AI工具付费讨论, DIY AI硬件兴趣</td></tr>
+                        <tr><td data-label="用户" class="user-name-col">@强子 (yuzi12152205)</td><td data-label="发言数" class="message-count-col">42</td><td data-label="主要贡献" class="contribution-col">工具对比测试, SkyWork对比体验</td></tr>
+                        <tr><td data-label="用户" class="user-name-col">@Jin (McDonald-KFC)</td><td data-label="发言数" class="message-count-col">38</td><td data-label="主要贡献" class="contribution-col">技术话题讨论</td></tr>
+                        <tr><td data-label="用户" class="user-name-col">@RangeKing (wxid_b2p4il9bdrlc21)</td><td data-label="发言数" class="message-count-col">35</td><td data-label="主要贡献" class="contribution-col">产品动态关注</td></tr>
+                        <tr><td data-label="用户" class="user-name-col">@年轮 (wxid_2770077700112)</td><td data-label="发言数" class="message-count-col">32</td><td data-label="主要贡献" class="contribution-col">行业趋势分析, Google AI发布会影响分析</td></tr>
+                        <tr><td data-label="用户" class="user-name-col">@quan (wxid_nqdks8zjdnqm22)</td><td data-label="发言数" class="message-count-col">28</td><td data-label="主要贡献" class="contribution-col">工具使用交流</td></tr>
+                        <tr><td data-label="用户" class="user-name-col">@神的孩子在跳舞 (Candy520Nznf)</td><td data-label="发言数" class="message-count-col">25</td><td data-label="主要贡献" class="contribution-col">技术讨论参与</td></tr>
+                        <tr><td data-label="用户" class="user-name-col">@刘博 (lb1223vslkx)</td><td data-label="发言数" class="message-count-col">23</td><td data-label="主要贡献" class="contribution-col">专业技术分析, AI硬件体验分享</td></tr>
+                    </tbody>
+                </table>
+                <i class="fas fa-user-friends card-icon"></i> 
+            </div>
+
+            <div class="card wordcloud-card">
+                <h2><i class="fas fa-cloud"></i> 词云</h2>
+                <div class="wordcloud">
+                    <span class="wordcloud-item size-5">SkyWork</span>
+                    <span class="wordcloud-item size-5">Google</span>
+                    <span class="wordcloud-item size-4">Manus</span>
+                    <span class="wordcloud-item size-4">付费</span>
+                    <span class="wordcloud-item size-4">Claude 4</span>
+                    <span class="wordcloud-item size-4">天工</span>
+                    <span class="wordcloud-item size-4">竞争</span>
+                    <span class="wordcloud-item size-4">Cursor</span>
+                    <span class="wordcloud-item size-4">MCP</span>
+                    <span class="wordcloud-item size-4">订阅</span>
+                    <span class="wordcloud-item size-3">网站生成</span>
+                    <span class="wordcloud-item size-3">O3-Pro</span>
+                    <span class="wordcloud-item size-3">Perplexity Pro</span>
+                    <span class="wordcloud-item size-3">交付</span>
+                    <span class="wordcloud-item size-3">投资回报</span>
+                    <span class="wordcloud-item size-3">AI硬件</span>
+                    <span class="wordcloud-item size-2">客户</span>
+                    <span class="wordcloud-item size-2">AI创业</span>
+                    <span class="wordcloud-item size-2">测试</span>
+                    <span class="wordcloud-item size-2">权益</span>
+                    <span class="wordcloud-item size-2">图表生成</span>
+                    <span class="wordcloud-item size-2">网络安全</span>
+                    <span class="wordcloud-item size-1">DIY</span>
+                    <span class="wordcloud-item size-1">数据处理</span>
+                    <span class="wordcloud-item size-1">监管</span>
+                    <span class="wordcloud-item size-1">合规</span>
+                    <span class="wordcloud-item size-1">树莓派</span>
+                </div>
+                <i class="fas fa-tags card-icon"></i> 
+            </div>
+
+            <div class="card trends-card">
+                <h2><i class="fas fa-binoculars"></i> 📈 趋势观察</h2>
+                <h4><i class="fas fa-cogs"></i> 技术发展趋势</h4>
+                <ul>
+                    <li>国产AI平台崛起 - SkyWork等国产平台在特定领域展现竞争力</li>
+                    <li>MCP协议生态扩展 - 更多工具支持MCP，推动AI应用标准化</li>
+                    <li>AI工具商业化成熟 - 从试用转向实际商业价值创造</li>
+                    <li>硬件与软件融合 - AI硬件产品逐步从概念走向实用</li>
+                </ul>
+                <h4><i class="fas fa-store"></i> 市场变化</h4>
+                <ul>
+                    <li>订阅模式多样化 - 会员权益整合，提供更多价值</li>
+                    <li>竞争格局重塑 - 大厂全家桶策略对中小公司形成压力</li>
+                    <li>用户需求细分 - 从通用工具转向专业化解决方案</li>
+                    <li>合规要求提升 - 网络安全监管对技术应用提出更高要求</li>
+                </ul>
+                <h4><i class="fas fa-users-cog"></i> 用户行为</h4>
+                <ul>
+                    <li>理性消费增强 - 用户更关注AI工具的实际投资回报</li>
+                    <li>DIY文化兴起 - 更多用户倾向于自建解决方案</li>
+                    <li>知识分享活跃 - 群内技术交流和经验分享更加频繁</li>
+                    <li>商业应用导向 - 从技术探索转向实际业务价值创造</li>
+                </ul>
+                <i class="fas fa-chart-area card-icon"></i>
+            </div>
+        </div> 
+        
+        <div class="footer">
+            <p>数据来源： AI产品蝗虫团聊天记录 | 生成日期： 2025年5月26日 | 统计周期： 2025年5月19日至5月25日</p>
+            <p>本报告由AI辅助生成，内容根据提供文本整理，仅供参考。</p>
+        </div>
+    </div> 
+
+    <div class="action-buttons-container" style="display: block; flex-wrap: nowrap;">
+        <button id="screenshotToClipboardBtn" class="action-button"><i class="fas fa-clipboard"></i> 拷贝截图</button>
+        <button id="screenshotDownloadBtn" class="action-button"><i class="fas fa-camera"></i> 下载截图</button>
+        <button id="copyHtmlBtn" class="action-button"><i class="fas fa-copy"></i> 拷贝源码</button>
+        <button id="downloadHtmlBtn" class="action-button"><i class="fas fa-download"></i> 下载报告</button>
+        <button id="viewPreviousReportBtn" class="action-button"><i class="fas fa-calendar-alt"></i> 查看上周周报</button>
+    </div>
+    <div id="feedback-message" class=""></div> 
+    <div id="fullscreenModal" class="modal-overlay">
+        <div class="modal-content card"> 
+            <button id="fullscreenCloseBtn" class="modal-close-btn" aria-label="关闭全屏">×</button>
+            <h2><i class="fas fa-sitemap"></i> 核心概念关系图 (全屏)</h2>
+            <div class="mindmap-controls">
+                <button id="modalZoomInBtn"><i class="fas fa-search-plus"></i> 放大</button>
+                <button id="modalZoomOutBtn"><i class="fas fa-search-minus"></i> 缩小</button>
+                <button id="modalDownloadDiagramBtn"><i class="fas fa-download"></i> 下载导图</button>
+            </div>
+            <div class="mermaid-container" id="modalMermaidContainer"></div>
+            <div id="mermaid-modal-feedback-message"></div>
+        </div>
+    </div>
+    <script>
+    // --- Mermaid Diagram JavaScript START ---
+    let mainCurrentScale = 1;
+    let modalCurrentScale = 1;
+    let currentMindmapDefinition = ''; 
+
+    const mainZoomInBtn = document.getElementById('zoomInBtn');
+    const mainZoomOutBtn = document.getElementById('zoomOutBtn');
+    const mainDownloadDiagramBtn = document.getElementById('downloadDiagramBtn');
+    const mainMermaidContainer = document.getElementById('mainMermaidContainer');
+    const mermaidMainFeedbackMessage = document.getElementById('mermaid-main-feedback-message');
+    const mainMindmapDiagramDiv = document.getElementById('mindmapDiagram'); 
+
+    const fullscreenOpenBtn = document.getElementById('fullscreenOpenBtn');
+    const fullscreenModal = document.getElementById('fullscreenModal');
+    const fullscreenCloseBtn = document.getElementById('fullscreenCloseBtn');
+    const modalMermaidContainer = document.getElementById('modalMermaidContainer');
+    const modalZoomInBtn = document.getElementById('modalZoomInBtn');
+    const modalZoomOutBtn = document.getElementById('modalZoomOutBtn');
+    const modalDownloadDiagramBtn = document.getElementById('modalDownloadDiagramBtn');
+    const mermaidModalFeedbackMessage = document.getElementById('mermaid-modal-feedback-message');
+
+    if (typeof mermaid !== 'undefined') {
+        mermaid.initialize({
+            startOnLoad: false, 
+            theme: 'base', 
+            fontFamily: '"Inter", sans-serif',
+            mindmap: { padding: 15, useMaxWidth: false } // Added useMaxWidth: false
+        });
+    } else {
+        console.error("Mermaid library not loaded.");
+        if(mermaidMainFeedbackMessage) mermaidMainFeedbackMessage.textContent = "错误：Mermaid库未能加载。";
+    }
+    
+    function showMermaidFeedback(element, message, type = 'info', duration = 3000) {
+        if (element) {
+            element.textContent = message;
+            element.className = type; 
+            element.style.display = 'block';
+            setTimeout(() => {
+                element.textContent = '';
+                element.className = '';
+                element.style.display = 'none';
+            }, duration);
+        }
+    }
+
+    function applySvgScale(svgElement, scale) {
+        if (svgElement) {
+            svgElement.style.transform = `scale(${scale})`;
+            svgElement.style.transformOrigin = 'center center';
+        }
+    }
+
+    function makeDraggable(containerElement) {
+        let isDragging = false;
+        let startX, startY, scrollLeftStart, scrollTopStart;
+
+        if (!containerElement) return;
+
+        containerElement.addEventListener('mousedown', (e) => {
+            if (e.button !== 0) return; 
+            if (e.target.closest('button') || e.target.closest('a') || e.target.closest('[onclick]')) return;
+            
+            if (e.target === containerElement) { 
+                const verticalScrollbarVisible = containerElement.scrollHeight > containerElement.clientHeight;
+                const horizontalScrollbarVisible = containerElement.scrollWidth > containerElement.clientWidth;
+                const clickedOnVerticalScrollbar = verticalScrollbarVisible && e.offsetX >= containerElement.clientWidth - 17; 
+                const clickedOnHorizontalScrollbar = horizontalScrollbarVisible && e.offsetY >= containerElement.clientHeight - 17;
+                if (clickedOnVerticalScrollbar || clickedOnHorizontalScrollbar) return;
+            }
+
+            isDragging = true;
+            startX = e.pageX; startY = e.pageY;
+            scrollLeftStart = containerElement.scrollLeft; scrollTopStart = containerElement.scrollTop;
+            containerElement.classList.add('dragging');
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            e.preventDefault(); 
+            const deltaX = e.pageX - startX; const deltaY = e.pageY - startY;
+            containerElement.scrollLeft = scrollLeftStart - deltaX;
+            containerElement.scrollTop = scrollTopStart - deltaY;
+        });
+
+        document.addEventListener('mouseup', (e) => {
+            if (e.button !== 0 || !isDragging) return;
+            isDragging = false;
+            containerElement.classList.remove('dragging');
+        });
+        
+        containerElement.addEventListener('touchstart', (e) => {
+            if (e.target.closest('button') || e.target.closest('a') || e.target.closest('[onclick]')) return;
+            if (e.touches.length === 1) {
+                isDragging = true;
+                const touch = e.touches[0];
+                startX = touch.pageX;
+                startY = touch.pageY;
+                scrollLeftStart = containerElement.scrollLeft;
+                scrollTopStart = containerElement.scrollTop;
+                containerElement.classList.add('dragging');
+            }
+        }, { passive: true }); 
+
+        document.addEventListener('touchmove', (e) => {
+            if (!isDragging || e.touches.length !== 1) return;
+            // e.preventDefault(); // Uncomment if page scroll is an issue during drag
+            const touch = e.touches[0];
+            const deltaX = touch.pageX - startX;
+            const deltaY = touch.pageY - startY;
+            containerElement.scrollLeft = scrollLeftStart - deltaX;
+            containerElement.scrollTop = scrollTopStart - deltaY;
+        }/*, { passive: false }*/); 
+
+        document.addEventListener('touchend', (e) => {
+            if (!isDragging) return;
+            isDragging = false;
+            containerElement.classList.remove('dragging');
+        });
+    }
+    
+    async function downloadMermaidAsSVG(svgElement, baseFilename, feedbackElem) {
+        if (svgElement && svgElement.innerHTML.trim() !== "") {
+            try {
+                const svgData = new XMLSerializer().serializeToString(svgElement);
+                const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `${baseFilename}.svg`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+                showMermaidFeedback(feedbackElem, `${baseFilename}.svg 已下载!`, 'success');
+            } catch (error) {
+                console.error(`Error during SVG download for ${baseFilename}:`, error);
+                showMermaidFeedback(feedbackElem, `下载 ${baseFilename}.svg 失败: ${error.message}`, 'error');
+            }
+        } else {
+            showMermaidFeedback(feedbackElem, '无法下载：图表内容为空。', 'error');
+        }
+    }
+
+    async function renderDiagram(definition, targetContainer, scaleVariableRef, feedbackElem, uniqueSvgId) {
+        if (!targetContainer) {
+            console.error("Target container for Mermaid diagram not found.");
+            return null;
+        }
+        targetContainer.innerHTML = '<p style="text-align:center; padding:20px;">图表加载中...</p>';
+        targetContainer.classList.remove('empty');
+
+        if (!definition || definition.trim() === "" || definition.trim().toLowerCase() === "mindmap") {
+            targetContainer.innerHTML = ''; 
+            targetContainer.classList.add('empty'); 
+            return null;
+        }
+        
+        currentMindmapDefinition = definition; 
+
+        try {
+            if (typeof mermaid === 'undefined') throw new Error("Mermaid library is not available.");
+            const {svg, bindFunctions} = await mermaid.render(uniqueSvgId, definition);
+            targetContainer.innerHTML = svg;
+            if (bindFunctions) bindFunctions(targetContainer);
+
+            const svgElement = targetContainer.querySelector('svg');
+            if (svgElement) {
+                if (targetContainer === mainMermaidContainer) mainCurrentScale = 1;
+                else if (targetContainer === modalMermaidContainer) modalCurrentScale = 1;
+                
+                applySvgScale(svgElement, scaleVariableRef.value); 
+                makeDraggable(targetContainer); 
+                return svgElement;
+            } else {
+                targetContainer.innerHTML = '';
+                targetContainer.classList.add('empty');
+                showMermaidFeedback(feedbackElem, '图表生成了，但未找到SVG内容。', 'error');
+                return null;
+            }
+        } catch (error) {
+            console.error("Error rendering Mermaid:", error);
+            targetContainer.innerHTML = `<p style="color:red; text-align:center; padding:20px;">渲染图表时出错: ${error.message}</p>`;
+            showMermaidFeedback(feedbackElem, `渲染图表时出错: ${error.message}`, 'error', 5000);
+            return null;
+        }
+    }
+
+    if(mainZoomInBtn) mainZoomInBtn.addEventListener('click', () => {
+        mainCurrentScale += 0.1;
+        const svg = mainMermaidContainer.querySelector('svg');
+        applySvgScale(svg, mainCurrentScale);
+    });
+
+    if(mainZoomOutBtn) mainZoomOutBtn.addEventListener('click', () => {
+        if (mainCurrentScale > 0.2) { 
+            mainCurrentScale -= 0.1;
+            const svg = mainMermaidContainer.querySelector('svg');
+            applySvgScale(svg, mainCurrentScale);
+        }
+    });
+
+    if(mainDownloadDiagramBtn) mainDownloadDiagramBtn.addEventListener('click', () => {
+        const svg = mainMermaidContainer.querySelector('svg');
+        downloadMermaidAsSVG(svg, '核心概念关系图', mermaidMainFeedbackMessage);
+    });
+
+    if(fullscreenOpenBtn) fullscreenOpenBtn.addEventListener('click', async () => {
+        if (!currentMindmapDefinition || currentMindmapDefinition.trim() === "" || currentMindmapDefinition.trim().toLowerCase() === "mindmap") {
+            showMermaidFeedback(mermaidMainFeedbackMessage, '请先生成一个有效的导图才能全屏查看。', 'info');
+            return;
+        }
+        if(fullscreenModal) fullscreenModal.classList.add('active');
+        document.body.classList.add('modal-active');
+        modalCurrentScale = mainCurrentScale; 
+        await renderDiagram(currentMindmapDefinition, modalMermaidContainer, {value: modalCurrentScale}, mermaidModalFeedbackMessage, 'modalGeneratedSvgId');
+    });
+
+    if(fullscreenCloseBtn) fullscreenCloseBtn.addEventListener('click', () => {
+        if(fullscreenModal) fullscreenModal.classList.remove('active');
+        document.body.classList.remove('modal-active');
+        if(modalMermaidContainer) {
+            modalMermaidContainer.innerHTML = ''; 
+            modalMermaidContainer.classList.add('empty');
+        }
+    });
+
+    if(modalZoomInBtn) modalZoomInBtn.addEventListener('click', () => {
+        modalCurrentScale += 0.1;
+        const svg = modalMermaidContainer.querySelector('svg');
+        applySvgScale(svg, modalCurrentScale);
+    });
+
+    if(modalZoomOutBtn) modalZoomOutBtn.addEventListener('click', () => {
+        if (modalCurrentScale > 0.2) {
+            modalCurrentScale -= 0.1;
+            const svg = modalMermaidContainer.querySelector('svg');
+            applySvgScale(svg, modalCurrentScale);
+        }
+    });
+
+    if(modalDownloadDiagramBtn) modalDownloadDiagramBtn.addEventListener('click', () => {
+        const svg = modalMermaidContainer.querySelector('svg');
+        downloadMermaidAsSVG(svg, '核心概念关系图-全屏', mermaidModalFeedbackMessage);
+    });
+
+    async function initializeMainDiagram() {
+        // Check if an initial diagram SVG is already in the HTML (like the one provided)
+        const initialSvgElement = document.getElementById('initialMainDiagramSvg');
+        if (initialSvgElement && mainMermaidContainer && mainMermaidContainer.contains(initialSvgElement)) {
+            // If the SVG is already there, just make it draggable and set currentMindmapDefinition if possible
+            // This assumes the SVG content itself doesn't need to be re-rendered from a definition string initially
+            // For simplicity, we'll assume the definition might be in a hidden div or we just work with the existing SVG
+            makeDraggable(mainMermaidContainer);
+            applySvgScale(initialSvgElement, mainCurrentScale);
+            // To enable full-screen for a pre-rendered SVG, we need its definition.
+            // If you have a way to get the definition for 'initialMainDiagramSvg', set it to currentMindmapDefinition here.
+            // For now, we'll try to extract it if it was embedded in a script tag or a hidden div.
+            // This example assumes 'mindmapDiagram' div holds the definition if it exists.
+            if (mainMindmapDiagramDiv && mainMindmapDiagramDiv.textContent.trim()) {
+                 currentMindmapDefinition = mainMindmapDiagramDiv.textContent.trim();
+            } else if (initialSvgElement.dataset.mermaid) { // Check for data-mermaid attribute
+                 currentMindmapDefinition = initialSvgElement.dataset.mermaid;
+            } else {
+                // Fallback: If no definition, full screen might not work correctly for the initial diagram
+                // or it would need to re-render from a default/empty state.
+                // For this example, we'll let it be. Fullscreen will use whatever currentMindmapDefinition is.
+            }
+             mainMermaidContainer.classList.remove('empty'); // Ensure it's not marked as empty
+        } else if (mainMindmapDiagramDiv && mainMermaidContainer) { // Fallback to rendering from definition
+            const initialDefinition = mainMindmapDiagramDiv.textContent.trim();
+            if (initialDefinition) {
+                await renderDiagram(initialDefinition, mainMermaidContainer, { value: mainCurrentScale }, mermaidMainFeedbackMessage, 'initialMainDiagramSvg');
+            } else {
+                mainMermaidContainer.classList.add('empty'); 
+            }
+        } else {
+            if(mermaidMainFeedbackMessage && !mainMermaidContainer) showMermaidFeedback(mermaidMainFeedbackMessage, '错误：导图容器未找到。', 'error');
+        }
+    }
+    // --- Mermaid Diagram JavaScript END ---
+
+
+    // --- Report Page JavaScript START ---
+    function getCssVariable(variableName, defaultValue = null) {
+        const value = getComputedStyle(document.documentElement).getPropertyValue(variableName).trim();
+        return value || defaultValue;
+    }
+
+    function getWebpageNameForFilename() {
+        const pageTitleTag = document.querySelector('title');
+        let baseName = 'AI产品周报'; 
+        if (pageTitleTag && pageTitleTag.textContent) {
+            const fullTitle = pageTitleTag.textContent.trim();
+            const titleParts = fullTitle.split(' - '); 
+            if (titleParts.length > 0 && titleParts[0].trim() !== "" && titleParts[0].trim() !== "AI产品蝗虫团周报") {
+                baseName = titleParts[0].trim(); 
+            } else {
+                 baseName = "AI产品蝗虫团周报";
+            }
+        }
+        return baseName;
+    }
+
+    function getDateStringForFilename() {
+        const reportDateElement = document.querySelector('.main-card .date');
+        let dateStr = "未指定日期"; 
+        if (reportDateElement && reportDateElement.textContent) {
+            const dateContent = reportDateElement.textContent.trim();
+            if (dateContent && dateContent !== "2025年5月19日至5月25日") { 
+                dateStr = dateContent;
+            } else {
+                dateStr = "2025年5月19日至5月25日";
+            }
+        }
+        return dateStr;
+    }
+    
+    function sanitizeFilename(filename) {
+        return filename.replace(/[^a-z0-9\u4e00-\u9fa5_\-\.\(\)\[\]]/gi, '_').replace(/_+/g, '_');
+    }
+
+    const previousReportUrl = "在此处填写上周周报的URL"; 
+
+    function showReportFeedbackMessage(message, type = 'info', duration = 3000) { 
+        const feedbackElement = document.getElementById('feedback-message'); 
+        if (feedbackElement) {
+            feedbackElement.textContent = message;
+            feedbackElement.className = type; 
+            setTimeout(() => {
+                feedbackElement.textContent = '';
+                feedbackElement.className = '';
+            }, duration);
+        }
+    }
+    
+    async function captureScreenshot(elementToCapture) {
+        await document.fonts.ready; 
+        return html2canvas(elementToCapture, { 
+            useCORS: true, 
+            scale: window.devicePixelRatio || 1, 
+            logging: false, 
+            backgroundColor: getCssVariable('--bg-primary', '#f5f4ee'), 
+            scrollX: -window.scrollX, 
+            scrollY: -window.scrollY,
+            windowWidth: document.documentElement.scrollWidth,
+            windowHeight: document.documentElement.scrollHeight,
+            onclone: function(clonedDoc) {
+                const highlightElements = clonedDoc.querySelectorAll('.highlight-keyword');
+                highlightElements.forEach(el => {
+                    el.style.display = 'inline';
+                    el.style.padding = '1px 2px';
+                    el.style.lineHeight = '1.2';
+                    el.style.boxDecorationBreak = 'clone';
+                    el.style.webkitBoxDecorationBreak = 'clone';
+                });
+            }
+        });
+    }
+
+    const screenshotToClipboardBtn = document.getElementById('screenshotToClipboardBtn');
+    if(screenshotToClipboardBtn) screenshotToClipboardBtn.addEventListener('click', async function() {
+        const reportContent = document.getElementById('report-content-wrapper');
+        if (!reportContent) {
+            showReportFeedbackMessage('截图错误: 未找到报告内容。', 'error');
+            return;
+        }
+        const actionButtons = document.querySelector('.action-buttons-container');
+        const feedbackMsgElement = document.getElementById('feedback-message');
+        const originalButtonText = this.innerHTML;
+        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 处理中...';
+        this.disabled = true;
+        if(actionButtons) actionButtons.style.visibility = 'hidden'; 
+        if(feedbackMsgElement) feedbackMsgElement.style.visibility = 'hidden';
+
+        try {
+            const canvas = await captureScreenshot(reportContent);
+            canvas.toBlob(async function(blob) {
+                if (blob) {
+                    try {
+                        if (navigator.clipboard && navigator.clipboard.write) {
+                            await navigator.clipboard.write([
+                                new ClipboardItem({ 'image/png': blob })
+                            ]);
+                            showReportFeedbackMessage('截图已拷贝到剪贴板!', 'success');
+                        } else {
+                            // Fallback for browsers that don't support navigator.clipboard.write with images directly
+                            const dataUrl = canvas.toDataURL('image/png');
+                            const img = document.createElement('img');
+                            img.src = dataUrl;
+                            const div = document.createElement('div');
+                            div.contentEditable = true;
+                            div.appendChild(img);
+                            document.body.appendChild(div);
+                            div.focus();
+                            document.execCommand('SelectAll');
+                            document.execCommand('Copy'); // This is the part that might not work reliably for images
+                            document.body.removeChild(div);
+                            showReportFeedbackMessage('截图已尝试拷贝 (旧方法)。请检查剪贴板或尝试下载。', 'info', 5000);
+                        }
+                    } catch (copyError) {
+                        console.error('拷贝到剪贴板失败:', copyError);
+                        showReportFeedbackMessage('拷贝截图到剪贴板失败: ' + copyError.message, 'error', 5000);
+                    }
+                } else {
+                    throw new Error('无法将Canvas转换为Blob。');
+                }
+            }, 'image/png');
+        } catch (error) {
+            console.error('截图捕获失败:', error);
+            showReportFeedbackMessage('截图捕获失败: ' + error.message, 'error');
+        } finally {
+            if(actionButtons) actionButtons.style.visibility = 'visible'; 
+            if(feedbackMsgElement) feedbackMsgElement.style.visibility = 'visible'; 
+            this.innerHTML = originalButtonText;
+            this.disabled = false;
+        }
+    });
+
+    const screenshotDownloadBtn = document.getElementById('screenshotDownloadBtn');
+    if(screenshotDownloadBtn) screenshotDownloadBtn.addEventListener('click', async function() {
+        const reportContent = document.getElementById('report-content-wrapper');
+        if (!reportContent) {
+            showReportFeedbackMessage('截图错误: 未找到报告内容。', 'error');
+            return;
+        }
+        const actionButtons = document.querySelector('.action-buttons-container');
+        const feedbackMsgElement = document.getElementById('feedback-message');
+        const originalButtonText = this.innerHTML;
+        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 生成中...';
+        this.disabled = true;
+        if(actionButtons) actionButtons.style.visibility = 'hidden';
+        if(feedbackMsgElement) feedbackMsgElement.style.visibility = 'hidden';
+
+        try {
+            const canvas = await captureScreenshot(reportContent);
+            const image = canvas.toDataURL('image/png');
+            const link = document.createElement('a');
+            
+            const webpageName = getWebpageNameForFilename();
+            const dateString = getDateStringForFilename();
+            let filename = sanitizeFilename(webpageName + '-' + dateString) + '.png';
+
+            link.href = image;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showReportFeedbackMessage('截图已下载!', 'success');
+        } catch (error) {
+            console.error('下载截图失败:', error);
+            showReportFeedbackMessage('下载截图失败: ' + error.message, 'error');
+        } finally {
+            if(actionButtons) actionButtons.style.visibility = 'visible';
+            if(feedbackMsgElement) feedbackMsgElement.style.visibility = 'visible';
+            this.innerHTML = originalButtonText;
+            this.disabled = false;
+        }
+    });
+    
+    const downloadHtmlBtn = document.getElementById('downloadHtmlBtn');
+    if(downloadHtmlBtn) downloadHtmlBtn.addEventListener('click', function() {
+        try {
+            const htmlContent = document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+            const link = document.createElement('a');
+            
+            const webpageName = getWebpageNameForFilename();
+            const dateString = getDateStringForFilename();
+            let filename = sanitizeFilename(webpageName + '-' + dateString) + '.html';
+            
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(link.href); 
+            showReportFeedbackMessage('HTML报告已下载!', 'success');
+        } catch (error) {
+            console.error('下载HTML失败:', error);
+            showReportFeedbackMessage('下载HTML失败: ' + error.message, 'error');
+        }
+    });
+
+    const copyHtmlBtn = document.getElementById('copyHtmlBtn');
+    if(copyHtmlBtn) copyHtmlBtn.addEventListener('click', function() {
+        const htmlContent = document.documentElement.outerHTML;
+        const Gthis = this; 
+        const originalButtonHTML = Gthis.innerHTML; 
+        const textarea = document.createElement('textarea');
+        textarea.value = htmlContent;
+        textarea.style.position = 'fixed'; 
+        textarea.style.top = '-9999px'; 
+        textarea.style.left = '-9999px';
+        document.body.appendChild(textarea);
+        try {
+            textarea.select();
+            textarea.setSelectionRange(0, textarea.value.length); 
+            if (document.execCommand('copy')) {
+                Gthis.innerHTML = '<i class="fas fa-check"></i> 已拷贝!';
+                showReportFeedbackMessage('HTML已拷贝到剪贴板!', 'success', 2000);
+            } else {
+                Gthis.innerHTML = '<i class="fas fa-times"></i> 拷贝失败';
+                showReportFeedbackMessage('拷贝失败。您的浏览器可能不支持此操作。', 'error', 2000);
+            }
+        } catch (err) {
+            Gthis.innerHTML = '<i class="fas fa-times"></i> 拷贝出错';
+            showReportFeedbackMessage('拷贝出错: ' + err.message, 'error', 2000);
+            console.error('拷贝HTML源码出错:', err);
+        } finally {
+            setTimeout(function() { 
+                Gthis.innerHTML = originalButtonHTML; 
+            }, 2000);
+            document.body.removeChild(textarea);
+        }
+    });
+
+    const viewPreviousReportBtn = document.getElementById('viewPreviousReportBtn');
+    if(viewPreviousReportBtn) viewPreviousReportBtn.addEventListener('click', function() {
+        const urlToOpen = previousReportUrl.trim();
+        const placeholderUrlText = "在此处填写上周周报的URL"; 
+        if (urlToOpen && urlToOpen !== placeholderUrlText && (urlToOpen.startsWith('http://') || urlToOpen.startsWith('https://') || !urlToOpen.includes('://'))) {
+            let finalUrl = urlToOpen;
+            const newWindow = window.open(finalUrl, '_blank'); 
+            if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
+                showReportFeedbackMessage('无法打开新窗口。请检查您的弹出窗口拦截设置。', 'error', 5000);
+            }
+        } else {
+            showReportFeedbackMessage('上周周报的URL未配置或无效。请检查脚本中的 previousReportUrl 变量。', 'error', 5000);
+        }
+    });
+
+    function adjustActionButtonsLayout() {
+        const actionButtonsContainer = document.querySelector('.action-buttons-container');
+        if (actionButtonsContainer) {
+            if (window.innerWidth <= 768) { 
+                actionButtonsContainer.style.display = 'flex';
+                actionButtonsContainer.style.flexWrap = 'wrap';
+                actionButtonsContainer.style.justifyContent = 'center';
+            } else { 
+                actionButtonsContainer.style.display = 'block'; 
+                actionButtonsContainer.style.flexWrap = 'nowrap'; 
+            }
+        }
+    }
+    
+    window.addEventListener('load', () => {
+        initializeMainDiagram(); 
+        adjustActionButtonsLayout(); 
+    });
+    window.addEventListener('resize', adjustActionButtonsLayout); 
+
+    // --- Report Page JavaScript END ---
+</script>
+
+
+</body></html>
