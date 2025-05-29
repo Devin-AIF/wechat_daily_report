@@ -1,0 +1,1410 @@
+<html lang="zh-CN"><head>
+    <style id="__________cytoscape_stylesheet">.__________cytoscape_container { position: relative; }</style><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI产品与技术综合日报 - 2025-05-28</title>
+    <link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-100-M/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" xintegrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoVBL5rLesXWW/sGuLhYFChxgYnz2Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        :root {
+            /* 极简主义风格配色 (from report) */
+            --bg-primary: #F5F5EE; /* 略暖的米白色 */
+            --bg-secondary: #faf9f6; /* 更浅的卡片背景色 */
+            --bg-tertiary: #f1f3f5; /* 第三背景色，用于标签等 */
+            --text-primary: #212529; /* 主要文字颜色 */
+            --text-secondary: #495057; /* 次要文字颜色 */
+            --accent-primary: #FB651E; /* 主要强调色 - 橙色 */
+            --accent-secondary: #ff8906; /* 次要强调色 - 深橙色 */
+            --accent-tertiary: #e8590c; /* 第三强调色 - 焦橙色 */
+            --accent-blue: #007EFF;      /* 特定元素的蓝色强调 */
+            --accent-purple: #7048e8; /* 词云的紫色强调 */
+            --accent-cyan: #10B981;      /* 词云的青色强调 */
+            --highlight-keyword-bg: #ffe8cc; /* 关键词高亮背景 */
+            --highlight-name-color: #7048e8; /* 人名高亮颜色 */
+            --card-padding: 24px; /* 卡片内边距 */
+            --grid-gap: 16px; /* 网格间距 */
+            --card-radius: 12px; /* 卡片圆角 */
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); /* 卡片阴影 */
+            --font-family: 'Inter', 'SF Pro Display', 'Segoe UI', sans-serif; /* 定义字体变量 */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family); /* 使用字体变量 */
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+            width: 100%;
+            max-width: 1000px; /* 内容最大宽度 */
+            margin: 0 auto; /* 内容居中 */
+            padding: 20px; /* 内容周围内边距 */
+        }
+        body.modal-active {
+            overflow: hidden; /* Prevent body scroll when modal is open */
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        h1 {
+            font-size: 2.5rem; /* 主卡片大标题 */
+            margin-bottom: 0.5rem;
+            color: var(--accent-primary);
+        }
+
+        h2 { /* H2通用样式, 也用于主题卡片 */
+            font-size: 1.75rem; /* 版块标题 */
+            margin-bottom: 1rem;
+            color: var(--accent-primary); /* 区块和主题卡片标题颜色 */
+        }
+
+        h3 { /* 用于子标题或特定元素，如统计卡片 */
+            font-size: 1.25rem; /* 子版块标题 */
+            margin-bottom: 0.75rem;
+            color: var(--accent-blue); /* 子标题使用蓝色以形成对比 */
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr); /* 12列网格系统 */
+            grid-auto-rows: minmax(100px, auto); /* 行高根据内容自动调整, 至少100px */
+            gap: var(--grid-gap);
+            margin-top: 20px;
+            grid-template-areas: /* 更新的网格区域 */
+                "main        main         main         main         main         main         main         main         main         main         main         main"
+                "topics      topics       topics       topics       topics       topics       topics       topics       topics       topics       topics       topics"
+                "mindmap     mindmap      mindmap      mindmap      mindmap      mindmap      mindmap      mindmap      mindmap      mindmap      mindmap      mindmap"
+                "quote       quote        quote        quote        quote        quote        links        links        links        links        links        links"
+                "bottom_row  bottom_row   bottom_row   bottom_row   bottom_row   bottom_row   bottom_row   bottom_row   bottom_row   bottom_row   bottom_row   bottom_row";
+        }
+
+        .card {
+            background-color: var(--bg-secondary);
+            border-radius: var(--card-radius);
+            padding: var(--card-padding);
+            box-shadow: var(--card-shadow);
+            position: relative; /* 用于图标定位和伪元素 */
+            overflow: hidden; /* 确保伪元素不超出卡片圆角 */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex; /* 为卡片内flex布局添加 */
+            flex-direction: column; /* 垂直堆叠项目 */
+        }
+
+        .card:hover {
+            transform: translateY(-5px); /* 鼠标悬停时轻微上浮效果 */
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); /* 鼠标悬停时增强阴影 */
+        }
+
+        /* 卡片顶部强调边框 */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent-primary);
+        }
+
+        /* 卡片右下角装饰性图标 */
+        .card-icon {
+            position: absolute;
+            bottom: var(--card-padding);
+            right: var(--card-padding);
+            font-size: 4rem;
+            opacity: 0.07;
+            color: var(--accent-primary);
+            z-index: 0; /* Ensure it's behind content if necessary */
+        }
+
+        /* 网格区域分配 */
+        .main-card { grid-area: main; }
+        .topic-cards-wrapper {
+            grid-area: topics;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: var(--grid-gap);
+        }
+        .mindmap-card-container { grid-area: mindmap; } 
+        .quote-card { grid-area: quote; }
+        .links-card { grid-area: links; }
+       
+        .stats-wordcloud-row {
+            grid-area: bottom_row;
+            display: flex;
+            gap: var(--grid-gap);
+            align-items: stretch; 
+        }
+
+        .stats-card {
+            flex-grow: 7; 
+            flex-shrink: 1;
+            flex-basis: 0; /* Changed from auto to 0 for more proportional grow based on flex-grow factor */
+            min-width: 0;  
+        }
+        .wordcloud-card {
+            flex-grow: 5; 
+            flex-shrink: 1;
+            flex-basis: 0; /* Changed from auto to 0 */
+            min-width: 0;  
+            max-width: 50%; /* Ensures wordcloud card does not exceed 50% of the row width */
+        }
+
+
+        .topic-card {
+            grid-column: span 6; 
+            min-height: 250px;
+        }
+        .topic-card > .topic-card-content-wrapper {
+            flex-grow: 1; 
+            padding-bottom: 1rem; 
+        }
+        .topic-cards-wrapper > .topic-card:nth-last-child(1):nth-child(odd) {
+            grid-column: span 12;
+        }
+
+        .main-card h1 { text-align: center; }
+        .main-card .date { text-align: center; }
+        .date { font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 1rem; }
+        .meta-info { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 1rem; justify-content: center; }
+        .meta-info span { background-color: var(--bg-tertiary); padding: 5px 10px; border-radius: 20px; font-size: 0.9rem; color: var(--accent-blue); }
+        .summary { margin-top: 1rem; line-height: 1.7; text-align: left; }
+        .topic-category { display: inline-block; background-color: var(--accent-tertiary); color: var(--bg-primary); padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; margin-bottom: 0.5rem; }
+        .topic-keywords { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 0.75rem; margin-bottom: 0.75rem; }
+        .keyword { background-color: var(--bg-tertiary); color: var(--accent-primary); padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; }
+        .highlight-keyword { background-color: var(--highlight-keyword-bg); padding: 1px 2px; border-radius: 2px; font-weight: 500; display: inline; line-height: 1.2; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+        .highlight-name { color: var(--highlight-name-color); font-weight: 500; }
+        .topic-mentions { font-size: 0.9rem; color: var(--text-secondary); }
+        .quote { position: relative; padding-left: 20px; margin: 10px 0; font-style: italic; color: var(--text-secondary); }
+        .quote::before { content: '"'; position: absolute; left: 0; top: 0; font-size: 1.5rem; color: var(--accent-tertiary); }
+        .quote-author { text-align: right; font-size: 0.9rem; color: var(--accent-tertiary); margin-top: 5px; }
+        .link-item { display: flex; align-items: center; margin-bottom: 10px; padding: 8px; border-radius: 6px; background-color: var(--bg-tertiary); transition: background-color 0.2s ease; text-decoration: none; }
+        .link-item:hover { background-color: rgba(51, 154, 240, 0.1); }
+        .link-item a { text-decoration: none; color: inherit; display: flex; align-items: center; width: 100%; }
+        .link-item a:hover .link-title { text-decoration: underline; color: var(--accent-blue); }
+        .link-icon { margin-right: 10px; color: var(--accent-blue); }
+        .link-title { flex-grow: 1; color: var(--text-primary); }
+        .link-title.is-link { color: var(--accent-blue); }
+        .link-title.is-link:hover { text-decoration: underline; }
+        .user-stats-table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; }
+        .user-stats-table th { text-align: center; padding: 0.75rem 0.5rem; border-bottom: 2px solid var(--accent-primary); color: var(--text-primary); font-weight: 600; font-size: 0.9rem; }
+        .user-stats-table td { padding: 0.75rem 0.5rem; border-bottom: 1px solid var(--bg-tertiary); color: var(--text-secondary); font-size: 0.85rem; vertical-align: top; text-align: left; }
+        .user-stats-table .user-name-col { width: 25%; font-weight: 500; word-break: break-all; }
+        .user-stats-table .message-count-col { text-align: center; width: 15%; white-space: nowrap; }
+        .user-stats-table .contribution-col { width: 60%; word-break: break-all; }
+        .user-stats-table tr:last-child td { border-bottom: none; }
+        .wordcloud { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; padding: 20px 0; }
+        .wordcloud-item { padding: 5px 10px; border-radius: 4px; font-weight: 500; transition: transform 0.2s ease; }
+        .wordcloud-item:hover { transform: scale(1.1); }
+        .size-1 { font-size: 0.9rem; color: var(--text-secondary); }
+        .size-2 { font-size: 1.1rem; color: var(--accent-cyan); }
+        .size-3 { font-size: 1.3rem; color: var(--accent-blue); }
+        .size-4 { font-size: 1.5rem; color: var(--accent-purple); }
+        .size-5 { font-size: 1.8rem; color: var(--accent-tertiary); }
+        .action-buttons-container { text-align: center; margin: 20px 0; padding-bottom: 20px; }
+        .action-button { background-color: var(--accent-primary); color: white; border: none; padding: 10px 20px; border-radius: var(--card-radius); font-size: 1rem; font-weight: 500; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease; margin: 5px 10px; box-shadow: var(--card-shadow); display: inline-flex; align-items: center; justify-content: center; }
+        .action-button:hover { background-color: var(--accent-secondary); transform: translateY(-2px); }
+        .action-button i, .action-button .fas { margin-right: 8px; }
+        .footer { margin-top: 30px; text-align: center; color: var(--text-secondary); font-size: 0.9rem; }
+        #report-content-wrapper .footer { margin-top: 30px; padding-bottom: 20px; }
+
+        /* Mermaid Diagram Specific Styles */
+        .mindmap-card { 
+            min-height: 400px; 
+        }
+        .mindmap-card h2 i { margin-right: 8px; }
+        .mindmap-controls { display: flex; gap: 10px; margin-bottom: 15px; align-items: center; flex-wrap: wrap; }
+        .mindmap-controls button { background-color: var(--accent-blue); color: white; border: none; padding: 8px 12px; border-radius: var(--card-radius); font-size: 0.9rem; cursor: pointer; transition: background-color 0.2s ease; font-weight: 500; display: inline-flex; align-items: center; justify-content: center; }
+        .mindmap-controls button:hover { background-color: #228be6; }
+        .mindmap-controls button i { margin-right: 5px; }
+        .mindmap-controls .fullscreen-toggle-btn { margin-left: auto; }
+        .mermaid-container { flex-grow: 1; display: flex; justify-content: center; align-items: center; overflow: auto; background-color: #fff; border-radius: 8px; padding: 10px; border: 1px solid var(--bg-tertiary); min-height: 300px; cursor: grab; }
+        .mermaid-container.dragging { cursor: grabbing; }
+        .mermaid-container:empty::before { content: "在此处生成或粘贴Mermaid导图代码。"; color: var(--text-secondary); font-style: italic; text-align: center; padding: 20px; }
+        .mermaid-container svg { max-width: none; height: auto; display: block; transition: transform 0.2s ease-out; }
+
+        /* Feedback messages for Mermaid */
+        #mermaid-main-feedback-message, #mermaid-modal-feedback-message { text-align: center; margin-top: 15px; padding: 8px; border-radius: 4px; font-weight: 500; font-size: 0.9rem; display: none; }
+        #mermaid-main-feedback-message.success, #mermaid-modal-feedback-message.success { color: #155724; background-color: #d4edda; border: 1px solid #c3e6cb; display: block; }
+        #mermaid-main-feedback-message.error, #mermaid-modal-feedback-message.error { color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; display: block; }
+        #mermaid-main-feedback-message.info, #mermaid-modal-feedback-message.info { color: #0c5460; background-color: #d1ecf1; border: 1px solid #bee5eb; display: block; }
+       
+        /* Report's own feedback message styling */
+        #feedback-message { text-align: center; margin-top: 10px; font-weight: 500; }
+        #feedback-message.success { color: green; }
+        #feedback-message.error { color: red; }
+
+        /* Fullscreen Modal Styles for Mermaid */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.75); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal-content { 
+            width: 95%; height: 90%; max-width: 1200px; 
+        }
+        .modal-close-btn { position: absolute; top: 15px; right: 20px; background: none; border: none; font-size: 2.2rem; color: var(--text-secondary); cursor: pointer; line-height: 1; padding: 5px; z-index: 1010; }
+        .modal-close-btn:hover { color: var(--text-primary); }
+        #modalMermaidContainer { flex-grow: 1; min-height: 0; }
+        #modalMermaidContainer:empty::before { content: "导图内容将在此显示。"; color: var(--text-secondary); font-style: italic; text-align: center; padding: 20px; display: flex; justify-content: center; align-items: center; height: 100%; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .card { animation: fadeIn 0.5s ease forwards; }
+        .main-card { animation-delay: 0.1s; }
+        .topic-cards-wrapper .topic-card:nth-child(1) { animation-delay: 0.2s; }
+        .topic-cards-wrapper .topic-card:nth-child(2) { animation-delay: 0.3s; }
+        .topic-cards-wrapper .topic-card:nth-child(3) { animation-delay: 0.4s; }
+        .topic-cards-wrapper .topic-card:nth-child(4) { animation-delay: 0.5s; }
+        .mindmap-card-container .card { animation-delay: 0.6s; } 
+        .quote-card { animation-delay: 0.7s; }
+        .links-card { animation-delay: 0.8s; }
+        .stats-wordcloud-row { animation: fadeIn 0.5s ease forwards; animation-delay: 0.9s; }
+
+
+        #report-content-wrapper .footer { animation: fadeIn 0.5s ease forwards; animation-delay: 1.1s; } 
+        .action-buttons-container { animation: fadeIn 0.5s ease forwards; animation-delay: 1.2s; } 
+
+
+        @media (max-width: 768px) {
+            body { padding: 10px; font-size: 14px; }
+            h1 { font-size: 1.8rem; }
+            h2 { font-size: 1.4rem; }
+            h3 { font-size: 1.1rem; }
+            .grid-container {
+                grid-template-columns: 1fr;
+                grid-template-areas:
+                    "main"
+                    "topics"
+                    "mindmap"
+                    "quote"
+                    "links"
+                    "bottom_row"; 
+            }
+            .stats-wordcloud-row {
+                flex-direction: column; 
+            }
+            .stats-wordcloud-row > .card { 
+                width: 100%;
+                flex-basis: auto !important; 
+                max-width: none; /* Remove max-width when stacked */
+            }
+
+            .topic-cards-wrapper { grid-template-columns: 1fr; }
+            .topic-card { grid-column: 1 / -1; min-height: auto; }
+            .topic-card > .topic-card-content-wrapper { padding-bottom: 1rem; }
+            .topic-mentions { position: static; margin-top: 10px; margin-bottom: 10px; text-align: left; }
+            .card-icon { font-size: 2.5rem; opacity:0.05; }
+            .mindmap-card .card-icon { bottom: 15px; right: 15px; }
+
+            .user-stats-table th, .user-stats-table td { padding: 0.5rem 0.25rem; font-size: 0.8rem; }
+            .user-stats-table td { text-align: left; }
+            .user-stats-table .message-count-col { text-align: center; }
+            .action-button { padding: 8px 15px; font-size: 0.9rem; }
+            .action-buttons-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+            .action-buttons-container .action-button { width: calc(50% - 10px); min-width: 180px; margin: 5px 0; }
+           
+            .mindmap-card .card { padding: 15px; } 
+            .mindmap-controls button { font-size: 0.8rem; padding: 6px 10px; }
+            .modal-content { width: 100%; height: 95%; }
+            .modal-close-btn { font-size: 1.8rem; top:10px; right:10px;}
+        }
+        @media (max-width: 480px) {
+            .action-buttons-container .action-button { width: 80%; }
+            .user-stats-table { display: block; overflow-x: auto; }
+            .user-stats-table th, .user-stats-table td { white-space: normal; }
+            .user-stats-table thead, .user-stats-table tbody, .user-stats-table tr { display: block; }
+            .user-stats-table tr { border-bottom: 1px solid var(--bg-tertiary); }
+            .user-stats-table th { display: none; }
+            .user-stats-table td { display: block; text-align: left; border-bottom: none; padding-left: 0.5rem; }
+            .user-stats-table td.message-count-col { text-align: left; }
+            .user-stats-table td::before { content: attr(data-label); font-weight: bold; display: inline-block; width: 100px; margin-right: 10px; color: var(--text-primary); text-align: left; }
+            .user-stats-table tr:last-child { border-bottom: none; }
+        }
+    </style>
+</head>
+<body>
+    <div id="report-content-wrapper">
+        <div class="grid-container">
+            <div class="card main-card">
+                <h1 contenteditable="false">AI产品与技术综合日报</h1>
+                <div class="date">2025年5月28日</div>
+                <div class="meta-info">
+                    <span><i class="fas fa-comment"></i> 消息数: 360+</span>
+                    <span><i class="fas fa-users"></i> 活跃用户: 80+</span>
+                    <span><i class="fas fa-fire"></i> 热点话题: 14</span>
+                </div>
+                <p class="summary">今日，三大AI交流群（AI产品蝗虫团、Dia浏览器使用交流群、NotebookLM使用交流群）讨论热烈，议题广泛。核心议题包括：对各类AI模型（如GPT的降智问题、Gemini/Claude的稳定表现、字节MegaTTS的惊艳效果）的深度测评与比较；多款AI应用与工具（如Screen Studio的盗版争议、Lovart的会员制与邀请码分享热潮、Eney/Coze/扣子AI播客/Dia浏览器/Pagetalk等）的使用体验与功能探讨；AI产品的市场策略（尤其是出海与国内竞争问题）；以及相关的技术实践（如前端AI编程、AI阅读训练）与硬件选购（Mac mini）。社群成员积极分享资源、交流心得，展现了对AI技术发展的高度关注与实践热情。</p>
+                <i class="fas fa-newspaper card-icon"></i>
+            </div>
+
+            <div class="topic-cards-wrapper">
+                <div class="card topic-card">
+                    <div class="topic-card-content-wrapper"> 
+                        <h2 contenteditable="false"><i class="fas fa-user-secret"></i> Screen Studio真伪辨别</h2> 
+                        <div class="topic-category">[来源]：AI产品蝗虫团日报</div>
+                        <p>群友<span class="highlight-name">@xiaolei0vip</span>分享了购买Screen Studio国内<span class="highlight-keyword">盗版</span>经历，发现与原版签名不同，且国内公司抢注商标。通过官方邮件确认。群友<span class="highlight-name">@胡翔</span>补充说明这是武汉某公司的固定版本破解。讨论揭示了国内软件市场存在的<span class="highlight-keyword">盗版问题</span>，以及一些公司通过<span class="highlight-keyword">逆向工程</span>、重新签名牟利的现象，侵犯知识产权并给用户带来风险。</p>
+                        <div class="topic-keywords">
+                            <span class="keyword">Screen Studio</span>
+                            <span class="keyword">盗版</span>
+                            <span class="keyword">知识产权</span>
+                        </div>
+                    </div>
+                    <i class="fas fa-shield-alt card-icon"></i> 
+                </div>
+                <div class="card topic-card">
+                    <div class="topic-card-content-wrapper"> 
+                        <h2 contenteditable="false"><i class="fas fa-brain"></i> GPT降智现象探讨</h2> 
+                        <div class="topic-category">[来源]：AI产品蝗虫团日报</div>
+                        <p>群内对GPT<span class="highlight-keyword">降智</span>现象展开深入讨论，多位群友分享了图片PDF无法读取、思考过程变秒回等情况。<span class="highlight-name">@xiaolei0vip</span>表示研究半年仍无法完全避免。讨论了IP地址、系统语言、时区、使用习惯等多维度原因。<span class="highlight-name">@Ronin_Chang</span>提到这可能是OpenAI和Anthropic针对特定用户的策略。部分群友因此转向<span class="highlight-keyword">Gemini</span>和<span class="highlight-keyword">Claude</span>。</p>
+                        <div class="topic-keywords">
+                            <span class="keyword">GPT降智</span>
+                            <span class="keyword">OpenAI</span>
+                            <span class="keyword">Gemini</span>
+                            <span class="keyword">Claude</span>
+                        </div>
+                    </div>
+                    <i class="fas fa-search-minus card-icon"></i> 
+                </div>
+                <div class="card topic-card">
+                    <div class="topic-card-content-wrapper"> 
+                        <h2 contenteditable="false"><i class="fas fa-globe-asia"></i> AI产品出海与市场挑战</h2> 
+                        <div class="topic-category">[来源]：AI产品蝗虫团日报</div>
+                        <p>Lovart推会员服务引发对AI产品<span class="highlight-keyword">定价</span>和<span class="highlight-keyword">出海</span>讨论。群友指出国内市场<span class="highlight-keyword">监管严格</span>、用户<span class="highlight-keyword">付费意愿低</span>是挑战。<span class="highlight-name">@quan</span>认为国外AI产品价格合理，国内白嫖文化盛行。<span class="highlight-name">@¹輝朤¹</span>补充国内市场易<span class="highlight-keyword">价格战</span>，挤压初创公司。反映AI创业公司面临的市场选择困境。</p>
+                        <div class="topic-keywords">
+                            <span class="keyword">AI出海</span>
+                            <span class="keyword">国内市场</span>
+                            <span class="keyword">付费意愿</span>
+                        </div>
+                    </div>
+                    <i class="fas fa-plane-departure card-icon"></i> 
+                </div>
+                 <div class="card topic-card">
+                    <div class="topic-card-content-wrapper"> 
+                        <h2 contenteditable="false"><i class="fas fa-balance-scale"></i> Gemini与其他AI模型对比</h2> 
+                        <div class="topic-category">[来源]：AI产品蝗虫团日报</div>
+                        <p><span class="highlight-name">@周彦充</span>询问GPT Plus必要性，表示用<span class="highlight-keyword">Gemini</span>付费版体验不错。<span class="highlight-name">@logointo</span>强调Gemini不降智。 <span class="highlight-name">@Jason@菩提散人</span>遇Gemini输出<span class="highlight-keyword">mermaid</span>格式出错，<span class="highlight-name">@axtrur</span>提供优化提示词方案。<span class="highlight-name">@🇨🇳</span>分享Gemini使用视频。讨论展示了不同AI模型选择考量及稳定性、功能性差异。</p>
+                        <div class="topic-keywords">
+                            <span class="keyword">Gemini</span>
+                            <span class="keyword">AI模型对比</span>
+                            <span class="keyword">Mermaid</span>
+                        </div>
+                    </div>
+                    <i class="fas fa-cogs card-icon"></i> 
+                </div>
+                <div class="card topic-card">
+                    <div class="topic-card-content-wrapper"> 
+                        <h2 contenteditable="false"><i class="fas fa-lightbulb"></i> 新兴AI产品体验分享</h2> 
+                        <div class="topic-category">[来源]：AI产品蝗虫团日报</div>
+                        <p><span class="highlight-name">@Ronin_Chang</span>介绍乌克兰AI应用<span class="highlight-keyword">Eney</span>（识别意图启动功能）。<span class="highlight-name">@魔云兽</span>设想AI助手交互。 <span class="highlight-name">@向阳乔木</span>分享微软<span class="highlight-keyword">AI阅读训练工具</span>和<span class="highlight-keyword">扣子空间AI播客</span>。<span class="highlight-name">@Liu、</span>分享<span class="highlight-keyword">前端AI编程</span>实践和Coze空间Python功能。Lovart邀请码热传。</p>
+                        <div class="topic-keywords">
+                            <span class="keyword">Eney</span>
+                            <span class="keyword">AI助手</span>
+                            <span class="keyword">扣子AI播客</span>
+                        </div>
+                    </div>
+                    <i class="fas fa-star card-icon"></i> 
+                </div>
+                <div class="card topic-card">
+                    <div class="topic-card-content-wrapper"> 
+                        <h2 contenteditable="false"><i class="fas fa-mouse-pointer"></i> AI优先与浏览器选择</h2> 
+                        <div class="topic-category">[来源]：Dia浏览器使用交流日报</div>
+                        <p><span class="highlight-name">@Super黄</span>提倡"<span class="highlight-keyword">AI first</span>"理念，思考用Dia浏览器解决场景问题。<span class="highlight-name">@Charles</span>则主张"<span class="highlight-keyword">AI best</span>"，按需选择工具。<span class="highlight-name">@大白</span>因<span class="highlight-keyword">跨设备同步</span>需求和插件生态回归Chrome。<span class="highlight-name">@Jiong</span>强调Chrome<span class="highlight-keyword">插件生态</span>强大。反映用户在功能、兼容性、AI能力间的平衡考量。</p>
+                        <div class="topic-keywords">
+                            <span class="keyword">AI First</span>
+                            <span class="keyword">浏览器选择</span>
+                            <span class="keyword">Dia</span>
+                            <span class="keyword">Chrome</span>
+                        </div>
+                    </div>
+                    <i class="fab fa-chrome card-icon"></i> 
+                </div>
+                <div class="card topic-card">
+                    <div class="topic-card-content-wrapper"> 
+                        <h2 contenteditable="false"><i class="fas fa-sync-alt"></i> 浏览器数据同步挑战</h2> 
+                        <div class="topic-category">[来源]：Dia浏览器使用交流日报</div>
+                        <p><span class="highlight-name">@老虎｜加好友注明来意</span>分享<span class="highlight-keyword">Dia浏览器</span>数据同步经历，聊天数据迁移失败，仅历史记录成功。扩展需手动重装但部分数据仍在。讨论揭示新兴浏览器在<span class="highlight-keyword">数据同步</span>和<span class="highlight-keyword">扩展管理</span>方面的不足，及用户对无缝跨设备体验的需求。</p>
+                        <div class="topic-keywords">
+                            <span class="keyword">数据同步</span>
+                            <span class="keyword">扩展管理</span>
+                            <span class="keyword">Dia浏览器</span>
+                        </div>
+                    </div>
+                    <i class="fas fa-database card-icon"></i> 
+                </div>
+                <div class="card topic-card">
+                    <div class="topic-card-content-wrapper"> 
+                        <h2 contenteditable="false"><i class="fas fa-ticket-alt"></i> Lovart会员与邀请码热潮</h2> 
+                        <div class="topic-category">[来源]：Dia浏览器使用交流日报</div>
+                        <p><span class="highlight-keyword">Lovart</span>开始推会员服务，<span class="highlight-name">@ZXQ</span>、<span class="highlight-name">@天宇</span>、<span class="highlight-name">@Ro斯</span>等多位群友分享<span class="highlight-keyword">邀请码</span>。讨论了注册过程中的<span class="highlight-keyword">IP限制</span>问题，建议使用特定地区IP或检查分流规则。反映AI工具热度及用户尝鲜热情。</p>
+                        <div class="topic-keywords">
+                            <span class="keyword">Lovart</span>
+                            <span class="keyword">邀请码</span>
+                            <span class="keyword">IP限制</span>
+                        </div>
+                    </div>
+                    <i class="fas fa-gift card-icon"></i> 
+                </div>
+                <div class="card topic-card">
+                    <div class="topic-card-content-wrapper"> 
+                        <h2 contenteditable="false"><i class="fab fa-apple"></i> Mac生产力工具推荐</h2> 
+                        <div class="topic-category">[来源]：Dia浏览器使用交流日报</div>
+                        <p>群友讨论Mac截图软件，<span class="highlight-name">@Ronin_Chang</span>和<span class="highlight-name">@窦窦</span>推荐<span class="highlight-keyword">CleanShot</span>，称其文字识别便捷。<span class="highlight-name">@Bala🌍</span>询问音转文免费插件，<span class="highlight-name">@向阳乔木</span>推荐<span class="highlight-keyword">MacWhisper</span>，<span class="highlight-name">@木子不是木子狸</span>建议用豆包语音输入替代。展示用户对效率提升和工具互操作性的追求。</p>
+                        <div class="topic-keywords">
+                            <span class="keyword">Mac工具</span>
+                            <span class="keyword">CleanShot</span>
+                            <span class="keyword">MacWhisper</span>
+                        </div>
+                    </div>
+                    <i class="fas fa-laptop-code card-icon"></i> 
+                </div>
+                <div class="card topic-card">
+                    <div class="topic-card-content-wrapper"> 
+                        <h2 contenteditable="false"><i class="fas fa-podcast"></i> 扣子AI播客与MegaTTS</h2> 
+                        <div class="topic-category">[来源]：NotebookLM使用交流日报</div>
+                        <p><span class="highlight-name">@骆志勇</span>分享<span class="highlight-keyword">扣子空间AI播客</span>，采用字节<span class="highlight-keyword">MegaTTS模型</span>，语音质量高、拟人效果出色。 <span class="highlight-name">@xiaolei0vip</span>补充豆包播客亦用此模型，中英文发音佳但不能自定义声音。 <span class="highlight-name">@向阳乔木</span>指扣子或将发布API。<span class="highlight-name">@xiaolei0vip</span>分享IndexTTS整合包。</p>
+                        <div class="topic-keywords">
+                            <span class="keyword">扣子AI播客</span>
+                            <span class="keyword">MegaTTS</span>
+                            <span class="keyword">AI语音</span>
+                        </div>
+                    </div>
+                    <i class="fas fa-headphones-alt card-icon"></i> 
+                </div>
+                <div class="card topic-card">
+                    <div class="topic-card-content-wrapper"> 
+                        <h2 contenteditable="false"><i class="fas fa-desktop"></i> Mac mini购买决策分析</h2> 
+                        <div class="topic-category">[来源]：NotebookLM使用交流日报</div>
+                        <p>群内讨论<span class="highlight-keyword">Mac mini</span>购买，多数推荐512GB。 <span class="highlight-name">@mingxuan</span>分享通过教育优惠和以旧换新，512GB版价格可降至2249元，引关注。群友分享京东、优惠券等<span class="highlight-keyword">购买渠道</span>和策略。<span class="highlight-name">@xiaolei0vip</span>分析了不同配置的合理价格范围。</p>
+                        <div class="topic-keywords">
+                            <span class="keyword">Mac mini</span>
+                            <span class="keyword">教育优惠</span>
+                            <span class="keyword">价格分析</span>
+                        </div>
+                    </div>
+                    <i class="fas fa-shopping-cart card-icon"></i> 
+                </div>
+                 <div class="card topic-card">
+                    <div class="topic-card-content-wrapper"> 
+                        <h2 contenteditable="false"><i class="fas fa-fire-alt"></i> Lovart邀请码分享 (NotebookLM)</h2> 
+                        <div class="topic-category">[来源]：NotebookLM使用交流日报</div>
+                        <p>群内出现大规模<span class="highlight-keyword">Lovart邀请码</span>分享热潮，<span class="highlight-name">@ZXQ</span>、<span class="highlight-name">@金</span>、<span class="highlight-name">@白告</span>等多位群友接力发送。用户及时反馈使用情况。讨论了Lovart<span class="highlight-keyword">会员服务</span>及网站访问问题（<span class="highlight-name">@ઇ十恉緊釦ོ</span>遇排版混乱）。展示了群内<span class="highlight-keyword">互助精神</span>和对新兴AI工具的热情。</p>
+                        <div class="topic-keywords">
+                            <span class="keyword">Lovart</span>
+                            <span class="keyword">邀请码</span>
+                            <span class="keyword">社区互助</span>
+                        </div>
+                    </div>
+                    <i class="fas fa-users card-icon"></i> 
+                </div>
+                <div class="card topic-card">
+                    <div class="topic-card-content-wrapper"> 
+                        <h2 contenteditable="false"><i class="fab fa-firefox-browser"></i> 浏览器评测与Dia争议</h2> 
+                        <div class="topic-category">[来源]：NotebookLM使用交流日报</div>
+                        <p><span class="highlight-name">@安德鲁</span>评测不推荐<span class="highlight-keyword">Dia浏览器</span>：担心始乱终弃、批评邀请码饥饿营销、闭源且中文支持差。推荐基于Firefox复刻的开源<span class="highlight-keyword">Zen浏览器</span>。<span class="highlight-name">@meeer</span>分享自研<span class="highlight-keyword">Pagetalk 3.0</span>插件（Dia小平替），实现多页面对话、YouTube解析等功能。</p>
+                        <div class="topic-keywords">
+                            <span class="keyword">Dia浏览器</span>
+                            <span class="keyword">Zen浏览器</span>
+                            <span class="keyword">Pagetalk</span>
+                        </div>
+                    </div>
+                    <i class="fas fa-compass card-icon"></i> 
+                </div>
+                <div class="card topic-card">
+                    <div class="topic-card-content-wrapper"> 
+                        <h2 contenteditable="false"><i class="fas fa-code-branch"></i> AI辅助编程与插件开发</h2> 
+                        <div class="topic-category">[来源]：NotebookLM使用交流日报</div>
+                        <p><span class="highlight-name">@meeer</span>分享0基础开发<span class="highlight-keyword">Pagetalk 3.0</span>浏览器插件，实现多页面对话、视频图片解析。代码自嘲“<span class="highlight-keyword">屎山</span>”但功能实用。<span class="highlight-name">@大熊</span>赞赏图片解析，建议增自定义模型。讨论<span class="highlight-keyword">AI编程</span>（vibe coding）心得与挑战，强调用户需求驱动。</p>
+                        <div class="topic-keywords">
+                            <span class="keyword">AI辅助编程</span>
+                            <span class="keyword">Pagetalk</span>
+                            <span class="keyword">插件开发</span>
+                        </div>
+                    </div>
+                    <i class="fas fa-puzzle-piece card-icon"></i> 
+                </div>
+            </div>
+           
+            <div class="mindmap-card-container card"> <div class="mindmap-card"> 
+                    <h2><i class="fas fa-sitemap"></i> 核心概念关系图</h2>
+                    <div class="mindmap-controls">
+                        <button id="zoomInBtn"><i class="fas fa-search-plus"></i> 放大</button>
+                        <button id="zoomOutBtn"><i class="fas fa-search-minus"></i> 缩小</button>
+                        <button id="downloadDiagramBtn"><i class="fas fa-download"></i> 下载导图</button>
+                        <button id="fullscreenOpenBtn" class="fullscreen-toggle-btn"><i class="fas fa-expand"></i> 全屏</button> 
+                    </div>
+                    <div class="mermaid-container" id="mainMermaidContainer"><svg aria-roledescription="mindmap" role="graphics-document document" viewBox="0 0 1451.55126953125 879.9334106445312" style="max-width: 1451.55px; transform: scale(1); transform-origin: center center;" xmlns="http://www.w3.org/2000/svg" width="100%" id="initialMainDiagramSvg"><style>#initialMainDiagramSvg{font-family:"Inter",sans-serif;font-size:16px;fill:#333;}#initialMainDiagramSvg .error-icon{fill:hsl(220.5882352941, 100%, 98.3333333333%);}#initialMainDiagramSvg .error-text{fill:rgb(8.5000000002, 5.7500000001, 0);stroke:rgb(8.5000000002, 5.7500000001, 0);}#initialMainDiagramSvg .edge-thickness-normal{stroke-width:2px;}#initialMainDiagramSvg .edge-thickness-thick{stroke-width:3.5px;}#initialMainDiagramSvg .edge-pattern-solid{stroke-dasharray:0;}#initialMainDiagramSvg .edge-pattern-dashed{stroke-dasharray:3;}#initialMainDiagramSvg .edge-pattern-dotted{stroke-dasharray:2;}#initialMainDiagramSvg .marker{fill:#0b0b0b;stroke:#0b0b0b;}#initialMainDiagramSvg .marker.cross{stroke:#0b0b0b;}#initialMainDiagramSvg svg{font-family:"Inter",sans-serif;font-size:16px;}#initialMainDiagramSvg .edge{stroke-width:3;}#initialMainDiagramSvg .section--1 rect,#initialMainDiagramSvg .section--1 path,#initialMainDiagramSvg .section--1 circle,#initialMainDiagramSvg .section--1 polygon,#initialMainDiagramSvg .section--1 path{fill:hsl(40.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .section--1 text{fill:#333;}#initialMainDiagramSvg .node-icon--1{font-size:40px;color:#333;}#initialMainDiagramSvg .section-edge--1{stroke:hsl(40.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .edge-depth--1{stroke-width:17;}#initialMainDiagramSvg .section--1 line{stroke:rgb(0, 52.2500000001, 161.5000000002);stroke-width:3;}#initialMainDiagramSvg .disabled,#initialMainDiagramSvg .disabled circle,#initialMainDiagramSvg .disabled text{fill:lightgray;}#initialMainDiagramSvg .disabled text{fill:#efefef;}#initialMainDiagramSvg .section-0 rect,#initialMainDiagramSvg .section-0 path,#initialMainDiagramSvg .section-0 circle,#initialMainDiagramSvg .section-0 polygon,#initialMainDiagramSvg .section-0 path{fill:hsl(-79.4117647059, 100%, 68.3333333333%);}#initialMainDiagramSvg .section-0 text{fill:#333;}#initialMainDiagramSvg .node-icon-0{font-size:40px;color:#333;}#initialMainDiagramSvg .section-edge-0{stroke:hsl(-79.4117647059, 100%, 68.3333333333%);}#initialMainDiagramSvg .edge-depth-0{stroke-width:14;}#initialMainDiagramSvg .section-0 line{stroke:rgb(52.2500000001, 161.5000000002, 0);stroke-width:3;}#initialMainDiagramSvg .disabled,#initialMainDiagramSvg .disabled circle,#initialMainDiagramSvg .disabled text{fill:lightgray;}#initialMainDiagramSvg .disabled text{fill:#efefef;}#initialMainDiagramSvg .section-1 rect,#initialMainDiagramSvg .section-1 path,#initialMainDiagramSvg .section-1 circle,#initialMainDiagramSvg .section-1 polygon,#initialMainDiagramSvg .section-1 path{fill:hsl(220.5882352941, 100%, 73.3333333333%);}#initialMainDiagramSvg .section-1 text{fill:#333;}#initialMainDiagramSvg .node-icon-1{font-size:40px;color:#333;}#initialMainDiagramSvg .section-edge-1{stroke:hsl(220.5882352941, 100%, 73.3333333333%);}#initialMainDiagramSvg .edge-depth-1{stroke-width:11;}#initialMainDiagramSvg .section-1 line{stroke:rgb(136.0000000002, 92.0000000001, 0);stroke-width:3;}#initialMainDiagramSvg .disabled,#initialMainDiagramSvg .disabled circle,#initialMainDiagramSvg .disabled text{fill:lightgray;}#initialMainDiagramSvg .disabled text{fill:#efefef;}#initialMainDiagramSvg .section-2 rect,#initialMainDiagramSvg .section-2 path,#initialMainDiagramSvg .section-2 circle,#initialMainDiagramSvg .section-2 polygon,#initialMainDiagramSvg .section-2 path{fill:hsl(70.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .section-2 text{fill:#333;}#initialMainDiagramSvg .node-icon-2{font-size:40px;color:#333;}#initialMainDiagramSvg .section-edge-2{stroke:hsl(70.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .edge-depth-2{stroke-width:8;}#initialMainDiagramSvg .section-2 line{stroke:rgb(28.5, 0, 161.5000000002);stroke-width:3;}#initialMainDiagramSvg .disabled,#initialMainDiagramSvg .disabled circle,#initialMainDiagramSvg .disabled text{fill:lightgray;}#initialMainDiagramSvg .disabled text{fill:#efefef;}#initialMainDiagramSvg .section-3 rect,#initialMainDiagramSvg .section-3 path,#initialMainDiagramSvg .section-3 circle,#initialMainDiagramSvg .section-3 polygon,#initialMainDiagramSvg .section-3 path{fill:hsl(100.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .section-3 text{fill:#333;}#initialMainDiagramSvg .node-icon-3{font-size:40px;color:#333;}#initialMainDiagramSvg .section-edge-3{stroke:hsl(100.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .edge-depth-3{stroke-width:5;}#initialMainDiagramSvg .section-3 line{stroke:rgb(109.2500000001, 0, 161.5000000002);stroke-width:3;}#initialMainDiagramSvg .disabled,#initialMainDiagramSvg .disabled circle,#initialMainDiagramSvg .disabled text{fill:lightgray;}#initialMainDiagramSvg .disabled text{fill:#efefef;}#initialMainDiagramSvg .section-4 rect,#initialMainDiagramSvg .section-4 path,#initialMainDiagramSvg .section-4 circle,#initialMainDiagramSvg .section-4 polygon,#initialMainDiagramSvg .section-4 path{fill:hsl(130.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .section-4 text{fill:#333;}#initialMainDiagramSvg .node-icon-4{font-size:40px;color:#333;}#initialMainDiagramSvg .section-edge-4{stroke:hsl(130.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .edge-depth-4{stroke-width:2;}#initialMainDiagramSvg .section-4 line{stroke:rgb(161.5000000002, 0, 133.0000000002);stroke-width:3;}#initialMainDiagramSvg .disabled,#initialMainDiagramSvg .disabled circle,#initialMainDiagramSvg .disabled text{fill:lightgray;}#initialMainDiagramSvg .disabled text{fill:#efefef;}#initialMainDiagramSvg .section-5 rect,#initialMainDiagramSvg .section-5 path,#initialMainDiagramSvg .section-5 circle,#initialMainDiagramSvg .section-5 polygon,#initialMainDiagramSvg .section-5 path{fill:hsl(160.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .section-5 text{fill:#333;}#initialMainDiagramSvg .node-icon-5{font-size:40px;color:#333;}#initialMainDiagramSvg .section-edge-5{stroke:hsl(160.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .edge-depth-5{stroke-width:-1;}#initialMainDiagramSvg .section-5 line{stroke:rgb(161.5000000002, 0, 52.2500000001);stroke-width:3;}#initialMainDiagramSvg .disabled,#initialMainDiagramSvg .disabled circle,#initialMainDiagramSvg .disabled text{fill:lightgray;}#initialMainDiagramSvg .disabled text{fill:#efefef;}#initialMainDiagramSvg .section-6 rect,#initialMainDiagramSvg .section-6 path,#initialMainDiagramSvg .section-6 circle,#initialMainDiagramSvg .section-6 polygon,#initialMainDiagramSvg .section-6 path{fill:hsl(190.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .section-6 text{fill:#333;}#initialMainDiagramSvg .node-icon-6{font-size:40px;color:#333;}#initialMainDiagramSvg .section-edge-6{stroke:hsl(190.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .edge-depth-6{stroke-width:-4;}#initialMainDiagramSvg .section-6 line{stroke:rgb(161.5000000002, 28.5, 0);stroke-width:3;}#initialMainDiagramSvg .disabled,#initialMainDiagramSvg .disabled circle,#initialMainDiagramSvg .disabled text{fill:lightgray;}#initialMainDiagramSvg .disabled text{fill:#efefef;}#initialMainDiagramSvg .section-7 rect,#initialMainDiagramSvg .section-7 path,#initialMainDiagramSvg .section-7 circle,#initialMainDiagramSvg .section-7 polygon,#initialMainDiagramSvg .section-7 path{fill:hsl(250.5882352941, 100%, 75%);}#initialMainDiagramSvg .section-7 text{fill:#333;}#initialMainDiagramSvg .node-icon-7{font-size:40px;color:#333;}#initialMainDiagramSvg .section-edge-7{stroke:hsl(250.5882352941, 100%, 75%);}#initialMainDiagramSvg .edge-depth-7{stroke-width:-7;}#initialMainDiagramSvg .section-7 line{stroke:rgb(105, 127.5, 0);stroke-width:3;}#initialMainDiagramSvg .disabled,#initialMainDiagramSvg .disabled circle,#initialMainDiagramSvg .disabled text{fill:lightgray;}#initialMainDiagramSvg .disabled text{fill:#efefef;}#initialMainDiagramSvg .section-8 rect,#initialMainDiagramSvg .section-8 path,#initialMainDiagramSvg .section-8 circle,#initialMainDiagramSvg .section-8 polygon,#initialMainDiagramSvg .section-8 path{fill:hsl(310.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .section-8 text{fill:#333;}#initialMainDiagramSvg .node-icon-8{font-size:40px;color:#333;}#initialMainDiagramSvg .section-edge-8{stroke:hsl(310.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .edge-depth-8{stroke-width:-10;}#initialMainDiagramSvg .section-8 line{stroke:rgb(0, 161.5000000002, 28.5);stroke-width:3;}#initialMainDiagramSvg .disabled,#initialMainDiagramSvg .disabled circle,#initialMainDiagramSvg .disabled text{fill:lightgray;}#initialMainDiagramSvg .disabled text{fill:#efefef;}#initialMainDiagramSvg .section-9 rect,#initialMainDiagramSvg .section-9 path,#initialMainDiagramSvg .section-9 circle,#initialMainDiagramSvg .section-9 polygon,#initialMainDiagramSvg .section-9 path{fill:hsl(340.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .section-9 text{fill:#333;}#initialMainDiagramSvg .node-icon-9{font-size:40px;color:#333;}#initialMainDiagramSvg .section-edge-9{stroke:hsl(340.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .edge-depth-9{stroke-width:-13;}#initialMainDiagramSvg .section-9 line{stroke:rgb(0, 161.5000000002, 109.2500000001);stroke-width:3;}#initialMainDiagramSvg .disabled,#initialMainDiagramSvg .disabled circle,#initialMainDiagramSvg .disabled text{fill:lightgray;}#initialMainDiagramSvg .disabled text{fill:#efefef;}#initialMainDiagramSvg .section-10 rect,#initialMainDiagramSvg .section-10 path,#initialMainDiagramSvg .section-10 circle,#initialMainDiagramSvg .section-10 polygon,#initialMainDiagramSvg .section-10 path{fill:hsl(10.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .section-10 text{fill:#333;}#initialMainDiagramSvg .node-icon-10{font-size:40px;color:#333;}#initialMainDiagramSvg .section-edge-10{stroke:hsl(10.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .edge-depth-10{stroke-width:-16;}#initialMainDiagramSvg .section-10 line{stroke:rgb(0, 133.0000000002, 161.5000000002);stroke-width:3;}#initialMainDiagramSvg .disabled,#initialMainDiagramSvg .disabled circle,#initialMainDiagramSvg .disabled text{fill:lightgray;}#initialMainDiagramSvg .disabled text{fill:#efefef;}#initialMainDiagramSvg .section-root rect,#initialMainDiagramSvg .section-root path,#initialMainDiagramSvg .section-root circle,#initialMainDiagramSvg .section-root polygon{fill:hsl(40.5882352941, 100%, 68.3333333333%);}#initialMainDiagramSvg .section-root text{fill:#333;}#initialMainDiagramSvg .icon-container{height:100%;display:flex;justify-content:center;align-items:center;}#initialMainDiagramSvg .edge{fill:none;}#initialMainDiagramSvg .mindmap-node-label{dy:1em;alignment-baseline:middle;text-anchor:middle;dominant-baseline:middle;text-align:center;}#initialMainDiagramSvg :root{--mermaid-font-family:"Inter",sans-serif;}</style><g></g><g class="mindmap-edges"><path class="edge section-edge-0 edge-depth-2" d="M 915.1074967515292,192.43592680256023 L 942.2883431360699,155.18773166194833 L969.4691895206106,117.93953652133644"></path><path class="edge section-edge-0 edge-depth-2" d="M 897.3820827719537,192.4662871857916 L 866.8300917643901,150.89812933446186 L836.2781007568265,109.32997148313211"></path><path class="edge section-edge-0 edge-depth-1" d="M 928.4092044662132,303.65023795798027 L 918.9729283937513,261.4210243570386 L909.5366523212895,219.191810756097"></path><path class="edge section-edge-0 edge-depth-2" d="M 1079.9085671771702,199.51430064599134 L 1096.7964964984528,156.24761203518815 L1113.6844258197355,112.98092342438495"></path><path class="edge section-edge-0 edge-depth-2" d="M 1089.4387724366657,214.17400673196738 L 1172.7154560609415,217.98880061729182 L1255.9921396852171,221.80359450261628"></path><path class="edge section-edge-0 edge-depth-2" d="M 1088.326320980993,207.78039115501593 L 1177.3289696821996,171.16256839642713 L1266.3316183834063,134.54474563783833"></path><path class="edge section-edge-0 edge-depth-1" d="M 943.7723504574851,309.4132226384745 L 1003.0674124773593,265.88840628389266 L1062.3624744972335,222.36358992931082"></path><path class="edge section-edge-0 edge-depth-2" d="M 1164.8892086830779,304.9523801508698 L 1250.653251188162,306.6864329866076 L1336.417293693246,308.42048582234537"></path><path class="edge section-edge-0 edge-depth-1" d="M 946.6511199299581,317.35341796073425 L 1040.786306377825,311.469187479878 L1134.921492825692,305.5849569990217"></path><path class="edge section-edge-0 edge-depth-2" d="M 1174.1605019278036,411.0455225479854 L 1220.7673811254117,450.4037953385934 L1267.3742603230198,489.7620681292014"></path><path class="edge section-edge-0 edge-depth-2" d="M 1177.6727605241754,402.27477903812496 L 1268.6257674803069,407.7854789662615 L1359.5787744364382,413.29617889439794"></path><path class="edge section-edge-0 edge-depth-1" d="M 945.7953776079305,323.3652070435529 L 1047.190278063283,359.8284160818707 L1148.5851785186353,396.29162512018854"></path><path class="edge section-edge-0 edge-depth-0" d="M 700.8947024185863,405.7290149649198 L 809.2740362615664,364.6663764880405 L917.6533701045464,323.60373801116117"></path><path class="edge section-edge-1 edge-depth-2" d="M 1017.7248559067331,583.8502950418612 L 1093.6016941826351,616.476173530565 L1169.478532458537,649.1020520192689"></path><path class="edge section-edge-1 edge-depth-1" d="M 723.0532657957945,574.370127662892 L 855.9996042244802,576.0526807610975 L988.945942653166,577.735233859303"></path><path class="edge section-edge-1 edge-depth-2" d="M 835.797971175976,718.3914405053205 L 905.602292011664,717.5341539349685 L975.4066128473519,716.6768673646164"></path><path class="edge section-edge-1 edge-depth-2" d="M 833.4928571387563,726.5674283399272 L 894.0236640088688,764.6766440619592 L954.554470878981,802.7858597839912"></path><path class="edge section-edge-1 edge-depth-2" d="M 821.9489981970264,733.5315055484646 L 825.3049191963635,777.1795284242531 L828.6608401957004,820.8275513000417"></path><path class="edge section-edge-1 edge-depth-1" d="M 717.2858616758358,586.0032209989063 L 764.426784604379,646.3779752456253 L811.567707532922,706.7527294923442"></path><path class="edge section-edge-1 edge-depth-1" d="M 717.4197308318767,562.4631449112898 L 746.5782089639836,525.9821071514484 L775.7366870960905,489.5010693916072"></path><path class="edge section-edge-1 edge-depth-2" d="M 494.27086415370866,680.9385247768527 L 434.8116539594664,717.2579838490822 L375.35244376522417,753.5774429213117"></path><path class="edge section-edge-1 edge-depth-2" d="M 492.0768177610337,672.7273479627603 L 396.4823951723072,670.2279844644752 L300.8879725835806,667.7286209661901"></path><path class="edge section-edge-1 edge-depth-1" d="M 694.5967403370485,580.8052268892843 L 607.5630802113756,623.6498505268933 L520.5294200857027,666.4944741645021"></path><path class="edge section-edge-1 edge-depth-2" d="M 666.5459345563606,701.8590918283143 L 602.1399753833123,737.8998523607345 L537.734016210264,773.9406128931547"></path><path class="edge section-edge-1 edge-depth-2" d="M 694.1266593632155,690.6591345460654 L 768.7936880158159,670.6922929189523 L843.4607166684162,650.7254512918391"></path><path class="edge section-edge-1 edge-depth-2" d="M 680.4099051185062,709.5141670372295 L 682.5837224210297,751.5820212432291 L684.7575397235534,793.6498754492286"></path><path class="edge section-edge-1 edge-depth-1" d="M 704.6073745742161,588.778850948563 L 693.845146885237,634.3572291174921 L683.0829191962578,679.9356072864211"></path><path class="edge section-edge-1 edge-depth-1" d="M 698.5672887567044,562.5616364666354 L 673.1695403530719,531.4577607380589 L647.7717919494391,500.35388500948255"></path><path class="edge section-edge-1 edge-depth-1" d="M 693.4534358215063,570.7437525364849 L 588.4404322013438,546.0275077779204 L483.4274285811812,521.311263019356"></path><path class="edge section-edge-1 edge-depth-1" d="M 693.118347428205,575.5631763045772 L 593.2806761741422,584.806720874017 L493.44300492007926,594.0502654434566"></path><path class="edge section-edge-1 edge-depth-1" d="M 722.39782344438,569.7907575033231 L 821.0304846205299,539.6058621147753 L919.6631457966798,509.4209667262275"></path><path class="edge section-edge-1 edge-depth-0" d="M 688.7995748198575,425.9186164183866 L 697.4611002352469,492.6119207953973 L706.1226256506363,559.3052251724079"></path><path class="edge section-edge-2 edge-depth-1" d="M 379.323602984389,346.9349771027579 L 324.04030725731343,308.8299073383831 L268.7570115302378,270.72483757400835"></path><path class="edge section-edge-2 edge-depth-1" d="M 377.58286985672976,360.58966736576946 L 282.34023146754464,395.3441489958779 L187.09759307835955,430.09863062598635"></path><path class="edge section-edge-2 edge-depth-1" d="M 376.70348334828486,354.50808334069393 L 283.54694191676265,348.660920264777 L190.3904004852404,342.81375718886"></path><path class="edge section-edge-2 edge-depth-1" d="M 406.66544823030904,354.94063366692336 L 487.51502501753953,352.2057803917117 L568.36460180477,349.47092711650004"></path><path class="edge section-edge-2 edge-depth-0" d="M 672.1268894518287,408.26729564993315 L 539.2708780582633,383.24563857993 L406.41486666469785,358.2239815099269"></path><path class="edge section-edge-3 edge-depth-1" d="M 617.576187408098,269.2613684313008 L 527.1265374714021,250.9592677632237 L436.6768875347061,232.6571670951466"></path><path class="edge section-edge-3 edge-depth-2" d="M 577.1722899420193,145.9274209943945 L 618.864101693667,108.18765320441726 L660.5559134453147,70.44788541444002"></path><path class="edge section-edge-3 edge-depth-2" d="M 560.8406628401167,141.92811585464506 L 545.333820715641,100.07192465404333 L529.8269785911652,58.2157334534416"></path><path class="edge section-edge-3 edge-depth-2" d="M 551.3161414449542,153.1898072267 L 471.2943544215922,137.96241592586435 L391.2725673982302,122.7350246250287"></path><path class="edge section-edge-3 edge-depth-1" d="M 624.8528626832706,259.2030771491366 L 599.1649752513716,214.1150564596712 L573.4770878194727,169.02703577020574"></path><path class="edge section-edge-3 edge-depth-1" d="M 644.5117545271053,263.5563540709511 L 692.8577367788247,229.25400037610245 L741.2037190305441,194.95164668125386"></path><path class="edge section-edge-3 edge-depth-0" d="M 681.3778886607976,397.0842531818267 L 659.5729807857319,341.63990027969777 L637.7680729106664,286.19554737756886"></path><path class="edge section-edge-4 edge-depth-2" d="M 257.95727781934306,521.5925810710837 L 174.67384954877076,546.0890163909751 L91.39042127819849,570.5854517108664"></path><path class="edge section-edge-4 edge-depth-1" d="M 435.4073102545062,439.52969142900156 L 360.64601110371814,475.21410045342714 L285.88471195292993,510.8985094778528"></path><path class="edge section-edge-4 edge-depth-0" d="M 671.9315936913133,412.4261889652693 L 567.9060283219345,422.05592993623924 L463.8804629525557,431.68567090720916"></path><path class="edge section-edge-5 edge-depth-1" d="M 941.624881988368,420.7423742888693 L 1021.8604050628196,454.9304352135106 L1102.0959281372714,489.11849613815195"></path><path class="edge section-edge-5 edge-depth-1" d="M 914.214041066622,408.5591428259163 L 847.3912992848846,377.61400345941433 L780.5685575031471,346.66886409291226"></path><path class="edge section-edge-5 edge-depth-0" d="M 701.8658499789384,411.28124076237225 L 807.3465518427913,412.95299502918004 L912.8272537066441,414.62474929598784"></path></g><g class="mindmap-nodes"><g transform="translate(605.9497647839744, 389.39353694813985)" class="mindmap-node section--1 section-root"><g transform="translate(80.91796875, 21.65)"><circle r="80.91796875" class="node-bkg node-circle" id="node-0"></circle></g><g transform="translate(80.91796875, 7.5)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">AI</tspan><tspan font-weight="normal" class="text-inner-tspan" font-style="normal"> 产品与技术交流</tspan></tspan></text></g></g></g><g transform="translate(850.7623702391584, 288.28921602794117)" class="mindmap-node section-0"><g><rect width="161.8359375" ry="30" rx="30" height="60" class="node-bkg node-rounded-rect" id="node-1"></rect></g><g transform="translate(105.91796875, 15.850000000000001)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">AI</tspan><tspan font-weight="normal" class="text-inner-tspan" font-style="normal"> 模型</tspan></tspan></text></g></g><foreignObject style="text-align: center;margin-top:0.8500000000000014px;" height="60" width="60px"><div xmlns="http://www.w3.org/1999/xhtml" class="icon-container"><i class="node-icon-0 fas fa-brain"></i></div></foreignObject></g><g transform="translate(860.0233302983443, 175.4028326861361)" class="mindmap-node section-0"><g><rect width="92.484375" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-2"></rect></g><g transform="translate(46.2421875, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">GPT</tspan></tspan></text></g></g></g><g transform="translate(916.3111684737955, 76.67263063776056)" class="mindmap-node section-0"><g><rect width="124" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-3"></rect></g><g transform="translate(62, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">降智问题</tspan></tspan></text></g></g></g><g transform="translate(765.3946657304359, 68.09342598278761)" class="mindmap-node section-0"><g><rect width="124" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-4"></rect></g><g transform="translate(62, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">使用体验</tspan></tspan></text></g></g></g><g transform="translate(993.2122984655603, 183.48759653984416)" class="mindmap-node section-0"><g><rect width="162.484375" ry="30" rx="30" height="60" class="node-bkg node-rounded-rect" id="node-5"></rect></g><g transform="translate(106.2421875, 15.850000000000001)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">Gemini</tspan></tspan></text></g></g><foreignObject style="text-align: center;margin-top:0.8500000000000014px;" height="60" width="60px"><div xmlns="http://www.w3.org/1999/xhtml" class="icon-container"><i class="node-icon-0 fas fa-gem"></i></div></foreignObject></g><g transform="translate(1065.1385070313454, 69.85762753053211)" class="mindmap-node section-0"><g><rect width="108" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-6"></rect></g><g transform="translate(54, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">稳定性</tspan></tspan></text></g></g></g><g transform="translate(1208.9764261563225, 193.3400046947395)" class="mindmap-node section-0"><g><rect width="124" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-7"></rect></g><g transform="translate(62, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">功能对比</tspan></tspan></text></g></g></g><g transform="translate(1200.8401721488392, 99.68754025301007)" class="mindmap-node section-0"><g><rect width="158.7265625" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-8"></rect></g><g transform="translate(79.36328125, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">Mermaid输出</tspan></tspan></text></g></g></g><g transform="translate(1068.3258675164918, 274.6491589318148)" class="mindmap-node section-0"><g><rect width="163.1328125" ry="30" rx="30" height="60" class="node-bkg node-rounded-rect" id="node-9"></rect></g><g transform="translate(106.56640625, 15.850000000000001)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">Claude</tspan></tspan></text></g></g><foreignObject style="text-align: center;margin-top:0.8500000000000014px;" height="60" width="60px"><div xmlns="http://www.w3.org/1999/xhtml" class="icon-container"><i class="node-icon-0 fas fa-cloud"></i></div></foreignObject></g><g transform="translate(1289.414228609832, 279.57370704140044)" class="mindmap-node section-0"><g><rect width="124" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-10"></rect></g><g transform="translate(62, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">替代选择</tspan></tspan></text></g></g></g><g transform="translate(1071.4970921374074, 371.3676161358003)" class="mindmap-node section-0"><g><rect width="182.40625" ry="30" rx="30" height="60" class="node-bkg node-rounded-rect" id="node-11"></rect></g><g transform="translate(116.203125, 15.850000000000001)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">MegaTTS</tspan></tspan></text></g></g><foreignObject style="text-align: center;margin-top:0.8500000000000014px;" height="60" width="60px"><div xmlns="http://www.w3.org/1999/xhtml" class="icon-container"><i class="node-icon-0 fas fa-microphone-alt"></i></div></foreignObject></g><g transform="translate(1216.834545113416, 470.2899745413865)" class="mindmap-node section-0"><g><rect width="124" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-12"></rect></g><g transform="translate(62, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">语音质量</tspan></tspan></text></g></g></g><g transform="translate(1312.551317823206, 385.05334179672263)" class="mindmap-node section-0"><g><rect width="124" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-13"></rect></g><g transform="translate(62, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">扣子空间</tspan></tspan></text></g></g></g><g transform="translate(603.1364981865195, 544.1803046426546)" class="mindmap-node section-1"><g><rect width="209.8359375" ry="30" rx="30" height="60" class="node-bkg node-rounded-rect" id="node-14"></rect></g><g transform="translate(129.91796875, 15.850000000000001)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">AI</tspan><tspan font-weight="normal" class="text-inner-tspan" font-style="normal"> 应用与工具</tspan></tspan></text></g></g><foreignObject style="text-align: center;margin-top:0.8500000000000014px;" height="60" width="60px"><div xmlns="http://www.w3.org/1999/xhtml" class="icon-container"><i class="node-icon-1 fas fa-tools"></i></div></foreignObject></g><g transform="translate(920.9447415124409, 548.7750568795404)" class="mindmap-node section-1"><g><rect width="166" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-15"></rect></g><g transform="translate(83, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">Screen</tspan><tspan font-weight="normal" class="text-inner-tspan" font-style="normal"> Studio</tspan></tspan></text></g></g></g><g transform="translate(1121.2586468528293, 625.8772901815896)" class="mindmap-node section-1"><g><rect width="124" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-16"></rect></g><g transform="translate(62, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">盗版问题</tspan></tspan></text></g></g></g><g transform="translate(766.9319147722383, 689.4256458485959)" class="mindmap-node section-1"><g><rect width="107.734375" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-17"></rect></g><g transform="translate(53.8671875, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">Lovart</tspan></tspan></text></g></g></g><g transform="translate(936.4054817510895, 687.3426620213411)" class="mindmap-node section-1"><g><rect width="108" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-18"></rect></g><g transform="translate(54, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">会员制</tspan></tspan></text></g></g></g><g transform="translate(913.2482257454989, 781.6276422753226)" class="mindmap-node section-1"><g><rect width="108" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-19"></rect></g><g transform="translate(54, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">邀请码</tspan></tspan></text></g></g></g><g transform="translate(776.5529236204885, 806.6334109999104)" class="mindmap-node section-1"><g><rect width="106.515625" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-20"></rect></g><g transform="translate(53.2578125, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">IP限制</tspan></tspan></text></g></g></g><g transform="translate(736.5628884914477, 448.63390966024235)" class="mindmap-node section-1"><g><rect width="97.078125" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-21"></rect></g><g transform="translate(48.5390625, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">Eney</tspan></tspan></text></g></g></g><g transform="translate(418.2005997362316, 643.9693964111318)" class="mindmap-node section-1"><g><rect width="177.7421875" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-22"></rect></g><g transform="translate(88.87109375, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">Coze</tspan><tspan font-weight="normal" class="text-inner-tspan" font-style="normal"> /</tspan><tspan font-weight="normal" class="text-inner-tspan" font-style="normal"> 扣子空间</tspan></tspan></text></g></g></g><g transform="translate(308.8836456827013, 732.2465712870326)" class="mindmap-node section-1"><g><rect width="107.3359375" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-23"></rect></g><g transform="translate(53.66796875, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">AI播客</tspan></tspan></text></g></g></g><g transform="translate(213.2993468583827, 638.1865725178186)" class="mindmap-node section-1"><g><rect width="145.1875" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-24"></rect></g><g transform="translate(72.59375, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">Python功能</tspan></tspan></text></g></g></g><g transform="translate(613.4327018339544, 665.3841535923295)" class="mindmap-node section-1"><g><rect width="132.40625" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-25"></rect></g><g transform="translate(66.203125, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">Dia浏览器</tspan></tspan></text></g></g></g><g transform="translate(452.21443643267025, 752.1155511291395)" class="mindmap-node section-1"><g><rect width="144.859375" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-26"></rect></g><g transform="translate(72.4296875, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">AI</tspan><tspan font-weight="normal" class="text-inner-tspan" font-style="normal"> First理念</tspan></tspan></text></g></g></g><g transform="translate(795.9515491976773, 617.700432245575)" class="mindmap-node section-1"><g><rect width="124" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-27"></rect></g><g transform="translate(62, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">数据同步</tspan></tspan></text></g></g></g><g transform="translate(623.5316180081052, 779.4798888941286)" class="mindmap-node section-1"><g><rect width="124" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-28"></rect></g><g transform="translate(62, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">评测争议</tspan></tspan></text></g></g></g><g transform="translate(559.6361762696241, 459.5852168334634)" class="mindmap-node section-1"><g><rect width="157.296875" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-29"></rect></g><g transform="translate(78.6484375, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">Pagetalk插件</tspan></tspan></text></g></g></g><g transform="translate(399.8068662161681, 488.7247109131863)" class="mindmap-node section-1"><g><rect width="138.0390625" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-30"></rect></g><g transform="translate(69.01953125, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">CleanShot</tspan></tspan></text></g></g></g><g transform="translate(401.2764166617648, 566.2831371053792)" class="mindmap-node section-1"><g><rect width="154.4609375" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-31"></rect></g><g transform="translate(77.23046875, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">MacWhisper</tspan></tspan></text></g></g></g><g transform="translate(855.3463460545404, 475.8814195868961)" class="mindmap-node section-1"><g><rect width="157.3203125" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-32"></rect></g><g transform="translate(78.66015625, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">NotebookLM</tspan></tspan></text></g></g></g><g transform="translate(296.6740225825521, 325.4477402117202)" class="mindmap-node section-2"><g><rect width="190" ry="30" rx="30" height="60" class="node-bkg node-rounded-rect" id="node-33"></rect></g><g transform="translate(120, 15.850000000000001)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">技术与开发</tspan></tspan></text></g></g><foreignObject style="text-align: center;margin-top:0.8500000000000014px;" height="60" width="60px"><div xmlns="http://www.w3.org/1999/xhtml" class="icon-container"><i class="node-icon-2 fas fa-code"></i></div></foreignObject></g><g transform="translate(186.73862318207472, 233.06207446504604)" class="mindmap-node section-2"><g><rect width="139.3359375" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-34"></rect></g><g transform="translate(69.66796875, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">前端AI编程</tspan></tspan></text></g></g></g><g transform="translate(87.3384716025372, 406.0905577800356)" class="mindmap-node section-2"><g><rect width="171.3359375" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-35"></rect></g><g transform="translate(85.66796875, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">AI阅读训练工具</tspan></tspan></text></g></g></g><g transform="translate(113.41986125097321, 312.72410031783375)" class="mindmap-node section-2"><g><rect width="124" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-36"></rect></g><g transform="translate(62, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">插件开发</tspan></tspan></text></g></g></g><g transform="translate(513.688058702527, 319.8138205717032)" class="mindmap-node section-2"><g><rect width="139.3359375" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-37"></rect></g><g transform="translate(69.66796875, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">AI辅助编程</tspan></tspan></text></g></g></g><g transform="translate(537.2782280374896, 242.2362636112557)" class="mindmap-node section-3"><g><rect width="190" ry="30" rx="30" height="60" class="node-bkg node-rounded-rect" id="node-38"></rect></g><g transform="translate(120, 15.850000000000001)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">市场与用户</tspan></tspan></text></g></g><foreignObject style="text-align: center;margin-top:0.8500000000000014px;" height="60" width="60px"><div xmlns="http://www.w3.org/1999/xhtml" class="icon-container"><i class="node-icon-3 fas fa-chart-line"></i></div></foreignObject></g><g transform="translate(352.30687815531456, 200.5322719151917)" class="mindmap-node section-3"><g><rect width="139.3359375" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-39"></rect></g><g transform="translate(69.66796875, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">AI产品出海</tspan></tspan></text></g></g></g><g transform="translate(488.05172246525376, 126.84384930808665)" class="mindmap-node section-3"><g><rect width="156" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-40"></rect></g><g transform="translate(78, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">国内市场挑战</tspan></tspan></text></g></g></g><g transform="translate(625.6764809220803, 31.23145710074789)" class="mindmap-node section-3"><g><rect width="92" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-41"></rect></g><g transform="translate(46, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">监管</tspan></tspan></text></g></g></g><g transform="translate(462.6159189660282, 15)" class="mindmap-node section-3"><g><rect width="124" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-42"></rect></g><g transform="translate(62, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">付费意愿</tspan></tspan></text></g></g></g><g transform="translate(322.53698637793065, 90.78098254364204)" class="mindmap-node section-3"><g><rect width="108" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-43"></rect></g><g transform="translate(54, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">价格战</tspan></tspan></text></g></g></g><g transform="translate(675.4372455201598, 157.12173714094922)" class="mindmap-node section-3"><g><rect width="156" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-44"></rect></g><g transform="translate(78, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">用户需求收集</tspan></tspan></text></g></g></g><g transform="translate(361.94432310989464, 403.06832292433864)" class="mindmap-node section-4"><g><rect width="174" ry="30" rx="30" height="60" class="node-bkg node-rounded-rect" id="node-45"></rect></g><g transform="translate(112, 15.850000000000001)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">硬件讨论</tspan></tspan></text></g></g><foreignObject style="text-align: center;margin-top:0.8500000000000014px;" height="60" width="60px"><div xmlns="http://www.w3.org/1999/xhtml" class="icon-container"><i class="node-icon-4 fas fa-desktop"></i></div></foreignObject></g><g transform="translate(192.19926159754152, 488.20987798251576)" class="mindmap-node section-4"><g><rect width="160.296875" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-46"></rect></g><g transform="translate(80.1484375, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">Mac</tspan><tspan font-weight="normal" class="text-inner-tspan" font-style="normal"> mini选购</tspan></tspan></text></g></g></g><g transform="translate(15, 545.6681547994344)" class="mindmap-node section-4"><g><rect width="124" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-47"></rect></g><g transform="translate(62, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">价格优惠</tspan></tspan></text></g></g></g><g transform="translate(840.8253701516081, 384.86245311022026)" class="mindmap-node section-5"><g><rect width="174" ry="30" rx="30" height="60" class="node-bkg node-rounded-rect" id="node-48"></rect></g><g transform="translate(112, 15.850000000000001)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">社区互动</tspan></tspan></text></g></g><foreignObject style="text-align: center;margin-top:0.8500000000000014px;" height="60" width="60px"><div xmlns="http://www.w3.org/1999/xhtml" class="icon-container"><i class="node-icon-5 fas fa-users"></i></div></foreignObject></g><g transform="translate(1045.8954399740312, 465.84841731680103)" class="mindmap-node section-5"><g><rect width="140" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-49"></rect></g><g transform="translate(70, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">邀请码分享</tspan></tspan></text></g></g></g><g transform="translate(704.957228418161, 311.2155538086083)" class="mindmap-node section-5"><g><rect width="124" ry="30" rx="30" height="58.3" class="node-bkg node-rounded-rect" id="node-50"></rect></g><g transform="translate(62, 15)" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><g><rect class="background"></rect><text y="-10.1"><tspan dy="1.1em" y="-0.1em" x="0" class="text-outer-tspan"><tspan font-weight="normal" class="text-inner-tspan" font-style="normal">资源共享</tspan></tspan></text></g></g></g></g></svg></div>
+                    <div id="mermaid-main-feedback-message"></div>
+                    <i class="fas fa-project-diagram card-icon"></i>
+                </div>
+            </div>
+            <div class="card quote-card">
+                <h2 contenteditable="false"><i class="fas fa-quote-left"></i> 精彩引用</h2>
+                <div class="quote">
+                    "研究gpt降智 研究了半年"
+                    <div class="quote-author">- @xiaolei0vip (AI产品蝗虫团)</div>
+                </div>
+                <div class="quote">
+                    "好想法，既然是套壳客户端，那这个客户端完全可以是一只满屏幕跑来跑去的瑞幸小狮子。拖文件过去就张开嘴吞了，然后问你下一步要做什么？"
+                    <div class="quote-author">- @魔云兽 (AI产品蝗虫团)</div>
+                </div>
+                <div class="quote">
+                    "我是AI best，不能拿着锤子到处找钉子，到了厨房就是刀叉铲的天下不是[捂脸]"
+                    <div class="quote-author">- @Charles (Dia浏览器使用交流)</div>
+                </div>
+                <div class="quote">
+                    "真需求才是第一位，然后再去做，到慢慢熟练擅长，喜欢的程度。最后把产品做出来，去推广，去成交就能赚钱了。所以，有事没事多收集需求，一定要记录下来，然后多练习，去做，慢慢就成了。Ai编程值得，可以玩10年，天花板很高。"
+                    <div class="quote-author">- @周彦充 (AI产品蝗虫团)</div>
+                </div>
+                <div class="quote">
+                    "关键还有强大的插件体系，有些插件有刚需，其他平台替换不了[破涕为笑]"
+                    <div class="quote-author">- @Jiong (Dia浏览器使用交流)</div>
+                </div>
+                <div class="quote">
+                    "扣子空间。直接登录扣子空间，然后你给文本或者上传文件或链接，给它提示词，今天的我只给了生成播客，大概十来分钟完成。"
+                    <div class="quote-author">- @骆志勇 (NotebookLM使用交流)</div>
+                </div>
+                 <div class="quote">
+                    "真的不是大而全就好，能力不行会变成大而散、全而弱"
+                    <div class="quote-author">- @爱德华花生 (AI产品蝗虫团)</div>
+                </div>
+                <div class="quote">
+                    "我觉得这个是AI编程最大的优势，出自用户的需求，而不是程序员的想象"
+                    <div class="quote-author">- @大熊 (NotebookLM使用交流)</div>
+                </div>
+                <div class="quote">
+                    "邀请码饥饿疗法令人作呕，根本原因AI服务需要资金托举。免费的AI不长远。"
+                    <div class="quote-author">- @安德鲁 (NotebookLM使用交流)</div>
+                </div>
+                <i class="fas fa-comment-dots card-icon"></i> 
+            </div>
+
+            <div class="card links-card">
+                <h2 contenteditable="false"><i class="fas fa-link"></i> 重要链接与资源</h2>
+                <div class="link-item">
+                    <a href="#" target="_blank"> <i class="fas fa-external-link-alt link-icon"></i> 
+                        <span class="link-title">鸭哥新博文：为什么普通用户一直很难真正感受到ai的强大 (分享者: @DieselNiu - AI产品蝗虫团)</span>
+                    </a>
+                </div>
+                <div class="link-item">
+                    <a href="#" target="_blank">
+                        <i class="fas fa-external-link-alt link-icon"></i>
+                        <span class="link-title">解决前端AI编程难题：万字长文-团队1年多的AI编程实践总结的系统化方案 (分享者: @Liu、 - AI产品蝗虫团)</span>
+                    </a>
+                </div>
+                <div class="link-item"> 
+                     <a href="https://www.lovart.ai" target="_blank">
+                        <i class="fas fa-external-link-alt link-icon"></i>
+                        <span class="link-title">Lovart官网 (多群分享)</span>
+                    </a>
+                </div>
+                 <div class="link-item"> 
+                     <a href="#" target="_blank">
+                        <i class="fas fa-external-link-alt link-icon"></i>
+                        <span class="link-title">扣子空间上线极致拟人的AI播客 (分享者: @向阳乔木 - AI产品蝗虫团/NotebookLM)</span>
+                    </a>
+                </div>
+                <div class="link-item">
+                    <a href="#" target="_blank">
+                        <i class="fas fa-book-open link-icon"></i>
+                        <span class="link-title">道德经解读 (分享者: @nardinmarcus, Claude Opus 4模型 - AI产品蝗虫团)</span>
+                    </a>
+                </div>
+                <div class="link-item">
+                    <a href="#" target="_blank">
+                        <i class="fas fa-graduation-cap link-icon"></i>
+                        <span class="link-title">微软推出了一个强大的Ai阅读训练神器 (分享者: @向阳乔木 - AI产品蝗虫团)</span>
+                    </a>
+                </div>
+                 <div class="link-item">
+                    <a href="#" target="_blank">
+                        <i class="fas fa-file-code link-icon"></i>
+                        <span class="link-title">IndexTTS整合包 (提取码: f3b1) (分享者: @xiaolei0vip - NotebookLM)</span>
+                    </a>
+                </div>
+                <div class="link-item">
+                     <a href="#" target="_blank">
+                        <i class="fas fa-lightbulb link-icon"></i>
+                        <span class="link-title">从0到1：用AI深度调研企业的完整方法论 (NotebookLM)</span>
+                    </a>
+                </div>
+                <div class="link-item">
+                    <i class="fas fa-file-archive link-icon"></i>
+                    <span class="link-title">Pagetalk_3.0.zip (分享者: @meeer - NotebookLM)</span>
+                </div>
+                <div class="link-item">
+                    <a href="#" target="_blank">
+                        <i class="fas fa-newspaper link-icon"></i>
+                        <span class="link-title">一键生成公众号排版，告别排版烦恼！提示词直播后公开 (分享者: @向阳乔木 - Dia浏览器)</span>
+                    </a>
+                </div>
+                 <div class="link-item">
+                    <a href="#" target="_blank">
+                        <i class="fas fa-laptop-code link-icon"></i>
+                        <span class="link-title">Apple/苹果AI电脑/【教育优惠】【10Gb以太网】MacminiM4银色 (NotebookLM)</span>
+                    </a>
+                </div>
+                <div class="link-item">
+                    <a href="#" target="_blank">
+                        <i class="fab fa-youtube link-icon"></i>
+                        <span class="link-title">Gemini使用体验视频 (分享者: @🇨🇳 - AI产品蝗虫团)</span>
+                    </a>
+                </div>
+                <div class="link-item">
+                    <a href="#" target="_blank">
+                        <i class="fas fa-cogs link-icon"></i>
+                        <span class="link-title">Coze空间自带Python功能演示 (分享者: @Liu、 - AI产品蝗虫团)</span>
+                    </a>
+                </div>
+                <div class="link-item">
+                    <a href="#" target="_blank">
+                        <i class="fas fa-comments link-icon"></i>
+                        <span class="link-title">豆包浏览器使用体验分享 (AI产品蝗虫团)</span>
+                    </a>
+                </div>
+                 <div class="link-item">
+                    <a href="#" target="_blank">
+                        <i class="fas fa-question-circle link-icon"></i>
+                        <span class="link-title">Screen Studio 官方邮件沟通记录 (AI产品蝗虫团)</span>
+                    </a>
+                </div>
+                <i class="fas fa-share-alt card-icon"></i> 
+            </div>
+
+            <div class="stats-wordcloud-row">
+                <div class="card stats-card">
+                    <h2 contenteditable="false"><i class="fas fa-chart-line"></i> 活跃之星</h2>
+                    <table class="user-stats-table">
+                        <thead>
+                            <tr>
+                                <th class="user-name-col">用户</th>
+                                <th class="message-count-col">总发言数(约)</th>
+                                <th class="contribution-col">主要贡献</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td data-label="用户" class="user-name-col">@xiaolei0vip</td>
+                                <td data-label="发言数" class="message-count-col">27+</td>
+                                <td data-label="主要贡献" class="contribution-col">Screen Studio盗版分析, GPT降智研究, MegaTTS/Mac Mini见解, IndexTTS分享 (多群)</td>
+                            </tr>
+                            <tr>
+                                <td data-label="用户" class="user-name-col">@meeer</td>
+                                <td data-label="发言数" class="message-count-col">20+</td>
+                                <td data-label="主要贡献" class="contribution-col">开发并分享Pagetalk 3.0插件, 讨论AI辅助编程实践 (NotebookLM)</td>
+                            </tr>
+                            <tr>
+                                <td data-label="用户" class="user-name-col">@Ronin_Chang</td>
+                                <td data-label="发言数" class="message-count-col">16+</td>
+                                <td data-label="主要贡献" class="contribution-col">GPT降智原因讨论, Eney应用与Mac工具推荐 (多群)</td>
+                            </tr>
+                            <tr>
+                                <td data-label="用户" class="user-name-col">@安德鲁</td>
+                                <td data-label="发言数" class="message-count-col">12+</td>
+                                <td data-label="主要贡献" class="contribution-col">Dia浏览器深度评测与批评, Zen浏览器推荐 (NotebookLM)</td>
+                            </tr>
+                            <tr>
+                                <td data-label="用户" class="user-name-col">@mingxuan</td>
+                                <td data-label="发言数" class="message-count-col">11+</td>
+                                <td data-label="主要贡献" class="contribution-col">Mac mini购买经验与优惠信息分享 (NotebookLM)</td>
+                            </tr>
+                            <tr>
+                                <td data-label="用户" class="user-name-col">@周彦充</td>
+                                <td data-label="发言数" class="message-count-col">9+</td>
+                                <td data-label="主要贡献" class="contribution-col">AI需求收集与产品开发心得分享, Gemini体验 (AI产品蝗虫团)</td>
+                            </tr>
+                             <tr>
+                                <td data-label="用户" class="user-name-col">@骆志勇</td>
+                                <td data-label="发言数" class="message-count-col">9+</td>
+                                <td data-label="主要贡献" class="contribution-col">分享扣子空间AI播客使用体验, MegaTTS效果 (NotebookLM)</td>
+                            </tr>
+                            <tr>
+                                <td data-label="用户" class="user-name-col">@老虎｜加好友注明来意</td>
+                                <td data-label="发言数" class="message-count-col">8+</td>
+                                <td data-label="主要贡献" class="contribution-col">浏览器数据同步问题探讨, Lovart注册IP限制解决方案 (Dia浏览器)</td>
+                            </tr>
+                             <tr>
+                                <td data-label="用户" class="user-name-col">@🇨🇳</td>
+                                <td data-label="发言数" class="message-count-col">8+</td>
+                                <td data-label="主要贡献" class="contribution-col">分享Gemini使用体验和扣子空间AI播客评价 (AI产品蝗虫团)</td>
+                            </tr>
+                            <tr>
+                                <td data-label="用户" class="user-name-col">@大白</td>
+                                <td data-label="发言数" class="message-count-col">7+</td>
+                                <td data-label="主要贡献" class="contribution-col">详细分析浏览器选择考量, 跨设备同步需求 (Dia浏览器)</td>
+                            </tr>
+                             <tr>
+                                <td data-label="用户" class="user-name-col">@lyrl</td>
+                                <td data-label="发言数" class="message-count-col">7+</td>
+                                <td data-label="主要贡献" class="contribution-col">讨论Lovart注册和Dia自动退出问题 (Dia浏览器)</td>
+                            </tr>
+                            <tr>
+                                <td data-label="用户" class="user-name-col">@Bala🌍</td>
+                                <td data-label="发言数" class="message-count-col">7+</td>
+                                <td data-label="主要贡献" class="contribution-col">询问音频转文工具和分享Lovart邀请码 (Dia浏览器)</td>
+                            </tr>
+                             <tr>
+                                <td data-label="用户" class="user-name-col">@向阳乔木</td>
+                                <td data-label="发言数" class="message-count-col">N/A</td>
+                                <td data-label="主要贡献" class="contribution-col">分享微软AI阅读工具, 扣子AI播客, MacWhisper等多种资源 (多群)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <i class="fas fa-user-friends card-icon"></i> 
+                </div>
+
+                <div class="card wordcloud-card">
+                    <h2 contenteditable="false"><i class="fas fa-cloud"></i> 词云</h2>
+                    <div class="wordcloud">
+                        <span class="wordcloud-item size-5">GPT降智</span>
+                        <span class="wordcloud-item size-5">Lovart</span>
+                        <span class="wordcloud-item size-4">AI产品</span>
+                        <span class="wordcloud-item size-4">邀请码</span>
+                        <span class="wordcloud-item size-4">Gemini</span>
+                        <span class="wordcloud-item size-3">Dia浏览器</span>
+                        <span class="wordcloud-item size-3">Screen Studio</span>
+                        <span class="wordcloud-item size-3">扣子空间</span>
+                        <span class="wordcloud-item size-3">MegaTTS</span>
+                        <span class="wordcloud-item size-2">AI出海</span>
+                        <span class="wordcloud-item size-2">Pagetalk</span>
+                        <span class="wordcloud-item size-2">Mac mini</span>
+                        <span class="wordcloud-item size-2">AI编程</span>
+                        <span class="wordcloud-item size-2">盗版问题</span>
+                        <span class="wordcloud-item size-1">Claude</span>
+                        <span class="wordcloud-item size-1">Eney</span>
+                        <span class="wordcloud-item size-1">CleanShot</span>
+                        <span class="wordcloud-item size-1">MacWhisper</span>
+                        <span class="wordcloud-item size-1">IP限制</span>
+                        <span class="wordcloud-item size-1">数据同步</span>
+                        <span class="wordcloud-item size-1">插件生态</span>
+                        <span class="wordcloud-item size-1">AI First</span>
+                        <span class="wordcloud-item size-1">前端AI</span>
+                        <span class="wordcloud-item size-1">AI阅读</span>
+                        <span class="wordcloud-item size-1">Mermaid</span>
+                        <span class="wordcloud-item size-1">国内市场</span>
+                        <span class="wordcloud-item size-1">价格战</span>
+                        <span class="wordcloud-item size-1">教育优惠</span>
+                        <span class="wordcloud-item size-1">AI语音</span>
+                        <span class="wordcloud-item size-1">Zen浏览器</span>
+                        <span class="wordcloud-item size-1">用户需求</span>
+                    </div>
+                    <i class="fas fa-tags card-icon"></i> 
+                </div>
+            </div>
+        </div> 
+       
+        <div class="footer">
+            <p>数据来源：AI产品蝗虫团、Dia浏览器使用交流群、NotebookLM使用交流群 聊天记录 | 生成日期：2025年5月28日 | 统计周期：2025年5月28日</p>
+            <p>本报告由AI自动整合生成，内容仅供参考，不完全代表所有群成员观点。</p>
+        </div>
+    </div> 
+
+    <div class="action-buttons-container" style="display: block; flex-wrap: nowrap; justify-content: center;">
+        <button id="screenshotToClipboardBtn" class="action-button"><i class="fas fa-clipboard"></i> 拷贝截图</button>
+        <button id="screenshotDownloadBtn" class="action-button"><i class="fas fa-camera"></i> 下载截图</button>
+        <button id="copyHtmlBtn" class="action-button"><i class="fas fa-copy"></i> 拷贝源码</button>
+        <button id="downloadHtmlBtn" class="action-button"><i class="fas fa-download"></i> 下载报告</button>
+        <button id="viewPreviousReportBtn" class="action-button"><i class="fas fa-calendar-alt"></i> 查看昨日日报</button>
+    </div>
+    <div id="feedback-message"></div> <div id="fullscreenModal" class="modal-overlay">
+        <div class="modal-content card"> <button id="fullscreenCloseBtn" class="modal-close-btn" aria-label="关闭全屏">×</button>
+            <h2><i class="fas fa-sitemap"></i> 核心概念关系图 (全屏)</h2>
+            <div class="mindmap-controls">
+                <button id="modalZoomInBtn"><i class="fas fa-search-plus"></i> 放大</button>
+                <button id="modalZoomOutBtn"><i class="fas fa-search-minus"></i> 缩小</button>
+                <button id="modalDownloadDiagramBtn"><i class="fas fa-download"></i> 下载导图</button>
+            </div>
+            <div class="mermaid-container" id="modalMermaidContainer">
+            </div>
+            <div id="mermaid-modal-feedback-message"></div>
+        </div>
+    </div>
+    <script>
+    // --- Mermaid Diagram JavaScript START ---
+    // --- Global Variables for Mermaid ---
+    let mainCurrentScale = 1;
+    let modalCurrentScale = 1;
+    let currentMindmapDefinition = ''; // Store the current definition
+
+    // --- DOM Elements for Mermaid ---
+    const mainZoomInBtn = document.getElementById('zoomInBtn');
+    const mainZoomOutBtn = document.getElementById('zoomOutBtn');
+    const mainDownloadDiagramBtn = document.getElementById('downloadDiagramBtn');
+    const mainMermaidContainer = document.getElementById('mainMermaidContainer');
+    const mermaidMainFeedbackMessage = document.getElementById('mermaid-main-feedback-message');
+    const mainMindmapDiagramDiv = document.getElementById('mindmapDiagram'); 
+
+    const fullscreenOpenBtn = document.getElementById('fullscreenOpenBtn');
+    const fullscreenModal = document.getElementById('fullscreenModal');
+    const fullscreenCloseBtn = document.getElementById('fullscreenCloseBtn');
+    const modalMermaidContainer = document.getElementById('modalMermaidContainer');
+    const modalZoomInBtn = document.getElementById('modalZoomInBtn');
+    const modalZoomOutBtn = document.getElementById('modalZoomOutBtn');
+    const modalDownloadDiagramBtn = document.getElementById('modalDownloadDiagramBtn');
+    const mermaidModalFeedbackMessage = document.getElementById('mermaid-modal-feedback-message');
+
+    // --- Mermaid Initialization ---
+    if (typeof mermaid !== 'undefined') {
+        mermaid.initialize({
+            startOnLoad: false, 
+            theme: 'base', 
+            fontFamily: '"Inter", sans-serif',
+            mindmap: { padding: 15 }
+        });
+    } else {
+        console.error("Mermaid library not loaded.");
+        if(mermaidMainFeedbackMessage) mermaidMainFeedbackMessage.textContent = "错误：Mermaid库未能加载。";
+    }
+   
+
+    // --- Helper Functions for Mermaid ---
+    function showMermaidFeedback(element, message, type = 'info', duration = 3000) {
+        if (element) {
+            element.textContent = message;
+            element.className = type; 
+            element.style.display = 'block';
+            setTimeout(() => {
+                element.textContent = '';
+                element.className = '';
+                element.style.display = 'none';
+            }, duration);
+        }
+    }
+
+    function applySvgScale(svgElement, scale) {
+        if (svgElement) {
+            svgElement.style.transform = `scale(${scale})`;
+            svgElement.style.transformOrigin = 'center center'; 
+        }
+    }
+
+    function makeDraggable(containerElement) {
+        let isDragging = false;
+        let startX, startY, scrollLeftStart, scrollTopStart;
+
+        if (!containerElement) return;
+
+        containerElement.addEventListener('mousedown', (e) => {
+            if (e.button !== 0) return; 
+            if (e.target.closest('button') || e.target.closest('a') || e.target.closest('[onclick]')) return;
+           
+            if (e.target === containerElement) { 
+                const verticalScrollbarVisible = containerElement.scrollHeight > containerElement.clientHeight;
+                const horizontalScrollbarVisible = containerElement.scrollWidth > containerElement.clientWidth;
+                const clickedOnVerticalScrollbar = verticalScrollbarVisible && e.offsetX >= containerElement.clientWidth - 17; 
+                const clickedOnHorizontalScrollbar = horizontalScrollbarVisible && e.offsetY >= containerElement.clientHeight - 17;
+                if (clickedOnVerticalScrollbar || clickedOnHorizontalScrollbar) return;
+            }
+
+            isDragging = true;
+            startX = e.pageX; startY = e.pageY;
+            scrollLeftStart = containerElement.scrollLeft; scrollTopStart = containerElement.scrollTop;
+            containerElement.classList.add('dragging');
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            e.preventDefault(); 
+            const deltaX = e.pageX - startX; const deltaY = e.pageY - startY;
+            containerElement.scrollLeft = scrollLeftStart - deltaX;
+            containerElement.scrollTop = scrollTopStart - deltaY;
+        });
+
+        document.addEventListener('mouseup', (e) => {
+            if (e.button !== 0 || !isDragging) return;
+            isDragging = false;
+            containerElement.classList.remove('dragging');
+        });
+       
+        containerElement.addEventListener('touchstart', (e) => {
+            if (e.target.closest('button') || e.target.closest('a') || e.target.closest('[onclick]')) return;
+            if (e.touches.length === 1) {
+                isDragging = true;
+                const touch = e.touches[0];
+                startX = touch.pageX;
+                startY = touch.pageY;
+                scrollLeftStart = containerElement.scrollLeft;
+                scrollTopStart = containerElement.scrollTop;
+                containerElement.classList.add('dragging');
+            }
+        }, { passive: true }); 
+
+        document.addEventListener('touchmove', (e) => {
+            if (!isDragging || e.touches.length !== 1) return;
+            e.preventDefault(); 
+            const touch = e.touches[0];
+            const deltaX = touch.pageX - startX;
+            const deltaY = touch.pageY - startY;
+            containerElement.scrollLeft = scrollLeftStart - deltaX;
+            containerElement.scrollTop = scrollTopStart - deltaY;
+        }, { passive: false }); 
+
+        document.addEventListener('touchend', (e) => {
+            if (!isDragging) return;
+            isDragging = false;
+            containerElement.classList.remove('dragging');
+        });
+    }
+   
+    async function downloadMermaidAsSVG(svgElement, baseFilename, feedbackElem) {
+        if (svgElement && svgElement.innerHTML.trim() !== "") {
+            try {
+                const svgData = new XMLSerializer().serializeToString(svgElement);
+                const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `${baseFilename}.svg`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+                showMermaidFeedback(feedbackElem, `${baseFilename}.svg 已下载!`, 'success');
+            } catch (error) {
+                console.error(`Error during SVG download for ${baseFilename}:`, error);
+                showMermaidFeedback(feedbackElem, `下载 ${baseFilename}.svg 失败: ${error.message}`, 'error');
+            }
+        } else {
+            showMermaidFeedback(feedbackElem, '无法下载：图表内容为空。', 'error');
+        }
+    }
+
+    async function renderDiagram(definition, targetContainer, scaleVariableRef, feedbackElem, uniqueSvgId) {
+        if (!targetContainer) {
+            console.error("Target container for Mermaid diagram not found.");
+            return null;
+        }
+        targetContainer.innerHTML = '<p style="text-align:center; padding:20px;">图表加载中...</p>';
+        targetContainer.classList.remove('empty');
+
+        if (!definition || definition.trim() === "" || definition.trim().toLowerCase() === "mindmap") {
+            targetContainer.innerHTML = ''; 
+            targetContainer.classList.add('empty'); 
+            return null;
+        }
+       
+        currentMindmapDefinition = definition; 
+
+        try {
+            if (typeof mermaid === 'undefined') throw new Error("Mermaid library is not available.");
+            const {svg, bindFunctions} = await mermaid.render(uniqueSvgId, definition);
+            targetContainer.innerHTML = svg;
+            if (bindFunctions) bindFunctions(targetContainer);
+
+            const svgElement = targetContainer.querySelector('svg');
+            if (svgElement) {
+                if (targetContainer === mainMermaidContainer) mainCurrentScale = 1;
+                else if (targetContainer === modalMermaidContainer) modalCurrentScale = 1;
+               
+                applySvgScale(svgElement, scaleVariableRef.value); 
+                makeDraggable(targetContainer); 
+                return svgElement;
+            } else {
+                targetContainer.innerHTML = '';
+                targetContainer.classList.add('empty');
+                showMermaidFeedback(feedbackElem, '图表生成了，但未找到SVG内容。', 'error');
+                return null;
+            }
+        } catch (error) {
+            console.error("Error rendering Mermaid:", error);
+            targetContainer.innerHTML = `<p style="color:red; text-align:center; padding:20px;">渲染图表时出错: ${error.message}</p>`;
+            showMermaidFeedback(feedbackElem, `渲染图表时出错: ${error.message}`, 'error', 5000);
+            return null;
+        }
+    }
+
+    // --- Main Mindmap Logic ---
+    if(mainZoomInBtn) mainZoomInBtn.addEventListener('click', () => {
+        mainCurrentScale += 0.1;
+        const svg = mainMermaidContainer.querySelector('svg');
+        applySvgScale(svg, mainCurrentScale);
+    });
+
+    if(mainZoomOutBtn) mainZoomOutBtn.addEventListener('click', () => {
+        if (mainCurrentScale > 0.2) { 
+            mainCurrentScale -= 0.1;
+            const svg = mainMermaidContainer.querySelector('svg');
+            applySvgScale(svg, mainCurrentScale);
+        }
+    });
+
+    if(mainDownloadDiagramBtn) mainDownloadDiagramBtn.addEventListener('click', () => {
+        const svg = mainMermaidContainer.querySelector('svg');
+        downloadMermaidAsSVG(svg, '核心概念关系图', mermaidMainFeedbackMessage);
+    });
+
+    // --- Fullscreen Modal Logic for Mermaid ---
+    if(fullscreenOpenBtn) fullscreenOpenBtn.addEventListener('click', async () => {
+        if (!currentMindmapDefinition || currentMindmapDefinition.trim() === "" || currentMindmapDefinition.trim().toLowerCase() === "mindmap") {
+             showMermaidFeedback(mermaidMainFeedbackMessage, '请先生成一个有效的导图才能全屏查看。', 'info');
+             return;
+        }
+        if(fullscreenModal) fullscreenModal.classList.add('active');
+        document.body.classList.add('modal-active');
+        modalCurrentScale = mainCurrentScale; 
+        await renderDiagram(currentMindmapDefinition, modalMermaidContainer, {value: modalCurrentScale}, mermaidModalFeedbackMessage, 'modalGeneratedSvgId');
+    });
+
+    if(fullscreenCloseBtn) fullscreenCloseBtn.addEventListener('click', () => {
+        if(fullscreenModal) fullscreenModal.classList.remove('active');
+        document.body.classList.remove('modal-active');
+        if(modalMermaidContainer) {
+            modalMermaidContainer.innerHTML = ''; 
+            modalMermaidContainer.classList.add('empty');
+        }
+    });
+
+    if(modalZoomInBtn) modalZoomInBtn.addEventListener('click', () => {
+        modalCurrentScale += 0.1;
+        const svg = modalMermaidContainer.querySelector('svg');
+        applySvgScale(svg, modalCurrentScale);
+    });
+
+    if(modalZoomOutBtn) modalZoomOutBtn.addEventListener('click', () => {
+        if (modalCurrentScale > 0.2) {
+            modalCurrentScale -= 0.1;
+            const svg = modalMermaidContainer.querySelector('svg');
+            applySvgScale(svg, modalCurrentScale);
+        }
+    });
+
+    if(modalDownloadDiagramBtn) modalDownloadDiagramBtn.addEventListener('click', () => {
+        const svg = modalMermaidContainer.querySelector('svg');
+        downloadMermaidAsSVG(svg, '核心概念关系图-全屏', mermaidModalFeedbackMessage);
+    });
+
+    // --- Initial Setup for Mermaid ---
+    async function initializeMainDiagram() {
+        if (mainMindmapDiagramDiv && mainMermaidContainer) {
+            const initialDefinition = mainMindmapDiagramDiv.textContent.trim();
+            if (initialDefinition) {
+                await renderDiagram(initialDefinition, mainMermaidContainer, { value: mainCurrentScale }, mermaidMainFeedbackMessage, 'initialMainDiagramSvg');
+            } else {
+                mainMermaidContainer.classList.add('empty'); 
+            }
+        } else {
+             if(mermaidMainFeedbackMessage && !mainMermaidContainer) showMermaidFeedback(mermaidMainFeedbackMessage, '错误：导图容器未找到。', 'error');
+        }
+    }
+    // --- Mermaid Diagram JavaScript END ---
+
+
+    // --- Report Page JavaScript START ---
+    function getCssVariable(variableName, defaultValue = null) {
+        const value = getComputedStyle(document.documentElement).getPropertyValue(variableName).trim();
+        return value || defaultValue;
+    }
+
+    function getReportBaseName() {
+        const mainTitleElement = document.querySelector('.main-card h1');
+        let reportTitle = "报告"; 
+        const placeholderTitle = "AI产品与技术综合日报"; // Match the actual title
+
+        if (mainTitleElement && mainTitleElement.textContent) {
+            const currentTitle = mainTitleElement.textContent.trim();
+            if (currentTitle && currentTitle !== placeholderTitle && currentTitle !== "[主报告标题 - 例如：AI产品团日报]") { // Check against generic placeholder too
+                reportTitle = currentTitle;
+            } else {
+                 reportTitle = placeholderTitle; // Default to specific title if current is placeholder
+            }
+        }
+        if (reportTitle.endsWith("日报")) {
+            reportTitle = reportTitle.substring(0, reportTitle.length - 2);
+        }
+        return reportTitle + "日报"; 
+    }
+
+    function getFormattedDateString() {
+        const reportDateElement = document.querySelector('.main-card .date');
+        let dateStr = "nodate"; 
+        const placeholderDate = "2025年5月28日"; // Match actual date
+
+        if (reportDateElement && reportDateElement.textContent) {
+            const dateContent = reportDateElement.textContent.trim();
+           
+            if (dateContent && dateContent !== placeholderDate && dateContent !== "[日期 - 例如：2025年5月19日]") { // Check against generic placeholder
+                const match = dateContent.match(/(\d{4})年\s*(\d{1,2})月\s*(\d{1,2})日/);
+                if (match) {
+                    const year = match[1];
+                    const month = match[2].padStart(2, '0'); 
+                    const day = match[3].padStart(2, '0');   
+                    dateStr = `${year}-${month}-${day}`;
+                } else {
+                    console.warn("Date content in .main-card .date element ('" + dateContent + "') does not match 'YYYY年M月D日' format. Using 'nodate' for filename.");
+                }
+            } else if (dateContent === placeholderDate) { // If it's the specific date
+                 const match = dateContent.match(/(\d{4})年\s*(\d{1,2})月\s*(\d{1,2})日/);
+                if (match) {
+                    dateStr = `${match[1]}-${match[2].padStart(2, '0')}-${match[3].padStart(2, '0')}`;
+                }
+            }else {
+                 console.warn("Date content in .main-card .date is placeholder or empty. Using 'nodate' for filename.");
+            }
+        } else {
+            console.warn(".main-card .date element not found or has no content. Using 'nodate' for filename.");
+        }
+        return dateStr;
+    }
+   
+    function sanitizeFilename(filename) {
+        return filename.replace(/[^\w\u4e00-\u9fa5\-\.]/g, '_').replace(/_+/g, '_');
+    }
+
+    const previousReportUrl = "https://www.32kw.com/view/bd5ae52"; 
+
+    function showReportFeedbackMessage(message, type = 'info', duration = 3000) {
+        const feedbackElement = document.getElementById('feedback-message');
+        if (feedbackElement) {
+            feedbackElement.textContent = message;
+            feedbackElement.className = type; 
+            setTimeout(() => {
+                feedbackElement.textContent = '';
+                feedbackElement.className = '';
+            }, duration);
+        }
+    }
+   
+    async function captureScreenshot(elementToCapture) {
+        await document.fonts.ready; 
+        return html2canvas(elementToCapture, { 
+            useCORS: true, 
+            scale: window.devicePixelRatio || 1, 
+            logging: false, 
+            backgroundColor: getCssVariable('--bg-primary', '#f5f4ee'), 
+            scrollX: -window.scrollX, 
+            scrollY: -window.scrollY,
+            windowWidth: document.documentElement.scrollWidth,
+            windowHeight: document.documentElement.scrollHeight,
+            onclone: function(clonedDoc) {
+                const highlightElements = clonedDoc.querySelectorAll('.highlight-keyword');
+                highlightElements.forEach(el => {
+                    el.style.display = 'inline';
+                    el.style.padding = '1px 2px';
+                    el.style.lineHeight = '1.2';
+                    el.style.boxDecorationBreak = 'clone';
+                    el.style.webkitBoxDecorationBreak = 'clone';
+                });
+            }
+        });
+    }
+
+    const screenshotToClipboardBtn = document.getElementById('screenshotToClipboardBtn');
+    if(screenshotToClipboardBtn) screenshotToClipboardBtn.addEventListener('click', async function() {
+        const reportContent = document.getElementById('report-content-wrapper');
+        if (!reportContent) {
+            showReportFeedbackMessage('截图错误: 未找到报告内容。', 'error');
+            return;
+        }
+        const actionButtons = document.querySelector('.action-buttons-container');
+        const feedbackMsgElement = document.getElementById('feedback-message');
+        const originalButtonText = this.innerHTML;
+        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 处理中...';
+        this.disabled = true;
+        if(actionButtons) actionButtons.style.visibility = 'hidden'; 
+        if(feedbackMsgElement) feedbackMsgElement.style.visibility = 'hidden';
+
+        try {
+            const canvas = await captureScreenshot(reportContent);
+            canvas.toBlob(async function(blob) {
+                if (blob) {
+                    try {
+                        if (navigator.clipboard && navigator.clipboard.write) {
+                            await navigator.clipboard.write([
+                                new ClipboardItem({ 'image/png': blob })
+                            ]);
+                            showReportFeedbackMessage('截图已拷贝到剪贴板!', 'success');
+                        } else {
+                             // Fallback for browsers that do not support navigator.clipboard.write
+                            const dataUrl = canvas.toDataURL('image/png');
+                            const img = document.createElement('img');
+                            img.src = dataUrl;
+                            
+                            const tempContainer = document.createElement('div');
+                            tempContainer.style.position = 'fixed';
+                            tempContainer.style.left = '-9999px';
+                            tempContainer.appendChild(img);
+                            document.body.appendChild(tempContainer);
+
+                            const range = document.createRange();
+                            range.selectNodeContents(img);
+                            const selection = window.getSelection();
+                            selection.removeAllRanges();
+                            selection.addRange(range);
+
+                            try {
+                                document.execCommand('copy');
+                                showReportFeedbackMessage('截图已拷贝到剪贴板 (备用方法)!', 'success');
+                            } catch (execCommandError) {
+                                console.error('备用拷贝方法失败:', execCommandError);
+                                showReportFeedbackMessage('截图已生成，但您的浏览器不支持直接拷贝图片到剪贴板。请尝试下载截图或手动复制。', 'error', 6000);
+                            } finally {
+                                selection.removeAllRanges();
+                                document.body.removeChild(tempContainer);
+                            }
+                        }
+                    } catch (copyError) {
+                        console.error('拷贝到剪贴板失败:', copyError);
+                        showReportFeedbackMessage('拷贝截图到剪贴板失败: ' + copyError.message, 'error', 5000);
+                    }
+                } else {
+                    throw new Error('无法将Canvas转换为Blob。');
+                }
+            }, 'image/png');
+        } catch (error) {
+            console.error('截图捕获失败:', error);
+            showReportFeedbackMessage('截图捕获失败: ' + error.message, 'error');
+        } finally {
+            if(actionButtons) actionButtons.style.visibility = 'visible'; 
+            if(feedbackMsgElement) feedbackMsgElement.style.visibility = 'visible'; 
+            this.innerHTML = originalButtonText;
+            this.disabled = false;
+        }
+    });
+
+    const screenshotDownloadBtn = document.getElementById('screenshotDownloadBtn');
+    if(screenshotDownloadBtn) screenshotDownloadBtn.addEventListener('click', async function() {
+        const reportContent = document.getElementById('report-content-wrapper');
+        if (!reportContent) {
+            showReportFeedbackMessage('截图错误: 未找到报告内容。', 'error');
+            return;
+        }
+        const actionButtons = document.querySelector('.action-buttons-container');
+        const feedbackMsgElement = document.getElementById('feedback-message');
+        const originalButtonText = this.innerHTML;
+        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 生成中...';
+        this.disabled = true;
+        if(actionButtons) actionButtons.style.visibility = 'hidden';
+        if(feedbackMsgElement) feedbackMsgElement.style.visibility = 'hidden';
+
+        try {
+            const canvas = await captureScreenshot(reportContent);
+            const image = canvas.toDataURL('image/png');
+            const link = document.createElement('a');
+           
+            const reportBaseName = getReportBaseName(); 
+            const dateSuffix = getFormattedDateString(); 
+            let filename = sanitizeFilename(reportBaseName + '-' + dateSuffix) + '.png';
+
+            link.href = image;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showReportFeedbackMessage('截图已下载为 ' + filename + '!', 'success');
+        } catch (error) {
+            console.error('下载截图失败:', error);
+            showReportFeedbackMessage('下载截图失败: ' + error.message, 'error');
+        } finally {
+            if(actionButtons) actionButtons.style.visibility = 'visible';
+            if(feedbackMsgElement) feedbackMsgElement.style.visibility = 'visible';
+            this.innerHTML = originalButtonText;
+            this.disabled = false;
+        }
+    });
+   
+    const downloadHtmlBtn = document.getElementById('downloadHtmlBtn');
+    if(downloadHtmlBtn) downloadHtmlBtn.addEventListener('click', function() {
+        try {
+            const htmlContent = document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+            const link = document.createElement('a');
+           
+            const reportBaseName = getReportBaseName(); 
+            const dateSuffix = getFormattedDateString(); 
+            let filename = sanitizeFilename(reportBaseName + '-' + dateSuffix) + '.html';
+           
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(link.href); 
+            showReportFeedbackMessage('HTML报告已下载为 ' + filename + '!', 'success');
+        } catch (error) {
+            console.error('下载HTML失败:', error);
+            showReportFeedbackMessage('下载HTML失败: ' + error.message, 'error');
+        }
+    });
+
+    const copyHtmlBtn = document.getElementById('copyHtmlBtn');
+    if(copyHtmlBtn) copyHtmlBtn.addEventListener('click', function() {
+        const htmlContent = document.documentElement.outerHTML;
+        const Gthis = this; 
+        const originalButtonHTML = Gthis.innerHTML; 
+        const textarea = document.createElement('textarea');
+        textarea.value = htmlContent;
+        textarea.style.position = 'fixed'; 
+        textarea.style.top = '-9999px'; 
+        textarea.style.left = '-9999px';
+        document.body.appendChild(textarea);
+        try {
+            textarea.select();
+            textarea.setSelectionRange(0, textarea.value.length); 
+            if (document.execCommand('copy')) {
+                Gthis.innerHTML = '<i class="fas fa-check"></i> 已拷贝!';
+                showReportFeedbackMessage('HTML已拷贝到剪贴板!', 'success', 2000);
+            } else {
+                Gthis.innerHTML = '<i class="fas fa-times"></i> 拷贝失败';
+                showReportFeedbackMessage('拷贝失败。您的浏览器可能不支持此操作。', 'error', 2000);
+            }
+        } catch (err) {
+            Gthis.innerHTML = '<i class="fas fa-times"></i> 拷贝出错';
+            showReportFeedbackMessage('拷贝出错: ' + err.message, 'error', 2000);
+            console.error('拷贝HTML源码出错:', err);
+        } finally {
+            setTimeout(function() { 
+                Gthis.innerHTML = originalButtonHTML; 
+            }, 2000);
+            document.body.removeChild(textarea);
+        }
+    });
+
+    const viewPreviousReportBtn = document.getElementById('viewPreviousReportBtn');
+    if(viewPreviousReportBtn) viewPreviousReportBtn.addEventListener('click', function() {
+        const urlToOpen = previousReportUrl.trim();
+        const placeholderUrlText = "在此处填写昨日日报的URL"; 
+        if (urlToOpen && urlToOpen !== placeholderUrlText && (urlToOpen.startsWith('http://') || urlToOpen.startsWith('https://') || !urlToOpen.includes('://'))) {
+            let finalUrl = urlToOpen;
+            const newWindow = window.open(finalUrl, '_blank'); 
+            if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
+                showReportFeedbackMessage('无法打开新窗口。请检查您的弹出窗口拦截设置。', 'error', 5000);
+            }
+        } else {
+            showReportFeedbackMessage('昨日日报的URL未配置或无效。请检查脚本中的 previousReportUrl 变量，并确保它是一个有效的网址或相对路径。', 'error', 5000);
+        }
+    });
+
+    function adjustActionButtonsLayout() {
+        const actionButtonsContainer = document.querySelector('.action-buttons-container');
+        if (actionButtonsContainer) {
+            if (window.innerWidth <= 768) { 
+                actionButtonsContainer.style.display = 'flex';
+                actionButtonsContainer.style.flexWrap = 'wrap';
+                actionButtonsContainer.style.justifyContent = 'center';
+            } else { 
+                actionButtonsContainer.style.display = 'block'; 
+                actionButtonsContainer.style.flexWrap = 'nowrap'; 
+            }
+        }
+    }
+   
+    // --- Event Listeners Call on Load ---
+    window.addEventListener('load', () => {
+        initializeMainDiagram(); 
+        adjustActionButtonsLayout(); 
+    });
+    window.addEventListener('resize', adjustActionButtonsLayout); 
+
+    // --- Report Page JavaScript END ---
+</script>
+
+
+</body></html>
