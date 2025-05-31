@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KityMinder 核心概念关系图</title>
+    <link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-100-M/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script>
+
+    <style>
+        :root {
+            --bg-primary: #f5f4ee;
+            --bg-secondary: #faf9f6;
+            --bg-tertiary: #f1f3f5;
+            --text-primary: #212529;
+            --text-secondary: #495057;
+            --accent-primary: #ff8906; /* 网页主强调色 - 橙色 */
+            --accent-secondary: #f76707;
+            --accent-tertiary: #e8590c;
+            --accent-blue: #339af0; /* 网页蓝色调 */
+            /* 从图片观察到的颜色，可能需要微调 */
+            --km-orange: #ff8906; /* 1级节点背景 */
+            --km-blue: #339af0;   /* 2级节点背景 */
+            --km-lightblue: #8fcaed; /* 3级节点背景 (图片中的浅蓝) */
+            --km-root-bg: #f0f0f0; /* 根节点背景 (浅灰) */
+            --km-root-stroke: #ff8906; /* 根节点边框 (橙色) */
+            --km-root-text: #333333; /* 根节点文字 (深灰) */
+            --km-node-text: #ffffff; /* 1,2,3级节点文字 (白色) */
+            --km-connect-color: #777777; /* 连接线颜色 (比之前稍深) */
+
+
+            --card-padding: 24px;
+            --card-radius: 12px;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', 'SF Pro Display', 'Segoe UI', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        body.modal-active { overflow: hidden; }
+        h2 {
+            font-size: 1.75rem; margin-bottom: 1rem; color: var(--accent-primary);
+            font-weight: 600; letter-spacing: 0.5px;
+        }
+        .card {
+            background-color: var(--bg-secondary); border-radius: var(--card-radius);
+            padding: var(--card-padding); box-shadow: var(--card-shadow);
+            position: relative; transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex; flex-direction: column; width: 100%; max-width: 900px;
+        }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); }
+        .card::before {
+            content: ''; position: absolute; top: 0; left: 0;
+            width: 100%; height: 3px; background: var(--accent-primary);
+        }
+        .card-icon {
+            position: absolute; bottom: var(--card-padding); right: var(--card-padding);
+            font-size: 4rem; opacity: 0.07; color: var(--accent-primary); z-index: 0;
+        }
+        .mindmap-card { /* Removed fixed min-height to allow dynamic adjustment */ }
+        .mindmap-card h2 i { margin-right: 8px; }
+        .mindmap-controls {
+            display: flex; gap: 10px; margin-bottom: 15px;
+            align-items: center; flex-wrap: wrap;
+        }
+        .mindmap-controls button {
+            background-color: var(--accent-blue); color: white; border: none;
+            padding: 8px 12px; border-radius: var(--card-radius); font-size: 0.9rem;
+            cursor: pointer; transition: background-color 0.2s ease; font-weight: 500;
+            display: inline-flex; align-items: center; justify-content: center;
+        }
+        .mindmap-controls button:hover { background-color: #228be6; }
+        .mindmap-controls button i { margin-right: 5px; }
+        .mindmap-controls .fullscreen-toggle-btn { margin-left: auto; }
+        
+        .kityminder-container {
+            flex-grow: 1; 
+            overflow: hidden; 
+            background-color: #fff; 
+            border-radius: 8px;
+            padding: 0; 
+            border: 1px solid var(--bg-tertiary);
+            min-height: 300px; /* Initial smaller min-height, will be adjusted by JS */
+            position: relative; 
+            transition: height 0.3s ease-in-out; /* Smooth height transition */
+        }
+        .kityminder-container:empty::before {
+            content: "思维导图加载中或内容为空...";
+            color: var(--text-secondary); font-style: italic; text-align: center;
+            padding: 20px; display: flex; justify-content: center; align-items: center;
+            height: 100%; min-height: 150px; /* Ensure placeholder is visible */
+        }
+
+        #feedback-message, #modal-feedback-message {
+            text-align: center; margin-top: 15px; padding: 8px; border-radius: 4px;
+            font-weight: 500; font-size: 0.9rem; display: none;
+        }
+        #feedback-message.success, #modal-feedback-message.success { color: #155724; background-color: #d4edda; border: 1px solid #c3e6cb; display: block; }
+        #feedback-message.error, #modal-feedback-message.error { color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; display: block; }
+        #feedback-message.info, #modal-feedback-message.info { color: #0c5460; background-color: #d1ecf1; border: 1px solid #bee5eb; display: block; }
+
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.75); display: none;
+            justify-content: center; align-items: center; z-index: 1000; padding: 20px;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-content { 
+            width: 95%; height: 90%; max-width: 1200px;
+            display: flex; flex-direction: column;
+            background-color: var(--bg-secondary); 
+            border-radius: var(--card-radius); padding: var(--card-padding);
+            box-shadow: var(--card-shadow); position: relative;
+        }
+         .modal-content::before { 
+            content: ''; position: absolute; top: 0; left: 0;
+            width: 100%; height: 3px; background: var(--accent-primary);
+        }
+        .modal-close-btn {
+            position: absolute; top: 15px; right: 20px; background: none; border: none;
+            font-size: 2.2rem; color: var(--text-secondary); cursor: pointer;
+            line-height: 1; padding: 5px; z-index: 1010;
+        }
+        .modal-close-btn:hover { color: var(--text-primary); }
+        #modalKityMinderContainer { 
+            flex-grow: 1; min-height: 0; 
+        }
+
+        @media (max-width: 768px) {
+            h2 { font-size: 1.4rem; }
+            .card { padding: 15px; }
+            .card-icon { font-size: 2.5rem; opacity: 0.05; }
+            .mindmap-controls button { font-size: 0.8rem; padding: 6px 10px; }
+            .modal-content { width: 100%; height: 95%; padding:15px; }
+            .modal-close-btn { font-size: 1.8rem; top:10px; right:10px;}
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card mindmap-card">
+        <h2><i class="fas fa-sitemap"></i> KityMinder 核心概念关系图</h2>
+        <div class="mindmap-controls">
+            <button id="zoomInBtn"><i class="fas fa-search-plus"></i> 放大</button>
+            <button id="zoomOutBtn"><i class="fas fa-search-minus"></i> 缩小</button>
+            <button id="downloadBtn"><i class="fas fa-download"></i> 下载 SVG</button>
+            <button id="fullscreenOpenBtn" class="fullscreen-toggle-btn"><i class="fas fa-expand"></i> 全屏</button>    
+        </div>
+        <div class="kityminder-container" id="mainKityMinderContainer"></div>
+        <div id="feedback-message"></div>
+        <i class="fas fa-project-diagram card-icon"></i>
+    </div>
+
+    <div id="fullscreenModal" class="modal-overlay">
+        <div class="modal-content"> 
+            <button id="fullscreenCloseBtn" class="modal-close-btn" aria-label="关闭全屏">&times;</button>
+            <h2 style="padding-top: 15px;"><i class="fas fa-sitemap"></i> KityMinder 核心概念关系图 (全屏)</h2>
+            <div class="mindmap-controls">
+                <button id="modalZoomInBtn"><i class="fas fa-search-plus"></i> 放大</button>
+                <button id="modalZoomOutBtn"><i class="fas fa-search-minus"></i> 缩小</button>
+                <button id="modalDownloadBtn"><i class="fas fa-download"></i> 下载 SVG</button>
+            </div>
+            <div class="kityminder-container" id="modalKityMinderContainer"></div>
+            <div id="modal-feedback-message"></div>
+        </div>
+    </div>
+
+    <script>
+        // --- Global Variables ---
+        let mainKM, modalKM; 
+        const kityminderData = { 
+            root: {
+                data: { text: "项目总览", expandState: "expand" },
+                children: [
+                    { data: { text: "业务目标", expandState: "expand" }, children: [ { data: { text: "降本提效" } }, { data: { text: "多项目协同" } } ] },
+                    { data: { text: "核心需求", expandState: "expand" }, children: [ { data: { text: "清单编制规则", expandState: "expand" }, children: [ { data: { text: "基础维度" } }, { data: { text: "争议点" } } ] }, { data: { text: "标段功能" } }, { data: { text: "系统兼容性", expandState: "expand"}, children: [ { data: { text: "对标ES系统"} }, { data: { text: "数据一致性"} } ] } ] },
+                    { data: { text: "业务流程", expandState: "expand"}, children: [ { data: { text: "需求发起" } }, { data: { text: "清单编制", expandState: "expand"}, children: [ { data: { text: "按项目+专业分期"} }, { data: { text: "审核清单一致性"} } ] }, { data: { text: "标段打包", expandState: "expand"}, children: [ { data: { text: "按采购策略组合"} }, { data: { text: "定义标段属性"} } ] } ] },
+                    { data: { text: "关键争议点", expandState: "expand" }, children: [ { data: { text: "标段与清单层级", expandState: "expand" }, children: [ { data: { text: "观点1: 上层容器" } }, { data: { text: "观点2: 映射关系" } } ] }, { data: { text: "测试验证重点", expandState: "expand" }, children: [ { data: { text: "多项目清单展示" } }, { data: { text: "跨项目数据统计" } } ] } ] }
+                ]
+            },
+            template: 'default', 
+            theme: 'customPictureTheme', // 使用新的自定义主题名
+            version: "1.4.50"
+        };
+
+        // --- DOM Elements ---
+        const mainZoomInBtn = document.getElementById('zoomInBtn');
+        const mainZoomOutBtn = document.getElementById('zoomOutBtn');
+        const mainDownloadBtn = document.getElementById('downloadBtn');
+        const mainKityMinderContainer = document.getElementById('mainKityMinderContainer');
+        const mainFeedbackMessage = document.getElementById('feedback-message');
+        const fullscreenOpenBtn = document.getElementById('fullscreenOpenBtn');
+        const fullscreenModal = document.getElementById('fullscreenModal');
+        const fullscreenCloseBtn = document.getElementById('fullscreenCloseBtn');
+        const modalKityMinderContainer = document.getElementById('modalKityMinderContainer');
+        const modalZoomInBtn = document.getElementById('modalZoomInBtn');
+        const modalZoomOutBtn = document.getElementById('modalZoomOutBtn');
+        const modalDownloadBtn = document.getElementById('modalDownloadBtn');
+        const modalFeedbackMessage = document.getElementById('modal-feedback-message');
+
+        // --- KityMinder Custom Theme Definition based on Picture ---
+        if (typeof kityminder !== 'undefined' && kityminder.Theme) {
+            kityminder.Theme.register('customPictureTheme', {
+                // 根节点样式 (浅灰色背景，深灰色文字，橙色边框)
+                'root-color': 'var(--km-root-text, #333333)', 
+                'root-background': 'var(--km-root-bg, #f0f0f0)', 
+                'root-stroke': 'var(--km-root-stroke, #ff8906)', 
+                'root-font-size': 16, 'root-padding': [15, 25], 'root-margin': [30, 100],
+                'root-radius': 5, 'root-space': 10, 'root-stroke-width': 2,
+
+                // 1级节点样式 (橙色背景，白色文字)
+                'main-color': 'var(--km-node-text, #ffffff)', 
+                'main-background': 'var(--km-orange, #ff8906)', 
+                'main-stroke': 'var(--km-orange, #ff8906)', // 可以用同色或稍暗的颜色
+                'main-font-size': 14, 'main-padding': [10, 20], 'main-margin': [20, 60],
+                'main-radius': 5, 'main-space': 5, 'main-stroke-width': 1,
+                
+                // 2级节点样式 (蓝色背景，白色文字)
+                'sub-color': 'var(--km-node-text, #ffffff)', 
+                'sub-background': 'var(--km-blue, #339af0)', 
+                'sub-stroke': 'var(--km-blue, #339af0)', // 可以用同色或稍暗的颜色
+                'sub-font-size': 12, 'sub-padding': [8, 15], 'sub-margin': [15, 40],
+                'sub-radius': 5, 'sub-space': 5, 'sub-stroke-width': 1,
+                
+                // 连接线样式 (图片中连接线颜色较深)
+                'connect-color': 'var(--km-connect-color, #777777)', 
+                'connect-width': 1.5, // 稍微加粗一点
+                'main-connect-width': 1.5, // 保持一致或稍粗
+                'selected-connect-color': 'var(--km-orange, #ff8906)', 
+                'selected-connect-width': 2.5,
+                
+                'background': "#ffffff", 
+                'text-selection-color': 'var(--km-blue, #339af0)',
+                'node-padding': [5, 10], 'node-margin': [10, 20], 'node-radius': 5, 'font-size': 12,
+            });
+            console.log("KityMinder Debug: Custom theme 'customPictureTheme' registered.");
+        } else {
+            console.error("KityMinder Debug: kityminder or kityminder.Theme is not defined. Cannot register custom theme.");
+        }
+
+
+        // --- Helper Functions ---
+        function showFeedback(element, message, type = 'info', duration = 3000) {
+            if (element) {
+                element.textContent = message; element.className = type; element.style.display = 'block';
+                setTimeout(() => { element.textContent = ''; element.className = ''; element.style.display = 'none'; }, duration);
+            }
+        }
+
+        async function downloadKityMinderAsSVG(kmInstance, baseFilename, feedbackElem) {
+            if (!kmInstance || typeof kmInstance.exportData !== 'function' || !kmInstance.getRoot || !kmInstance.getRoot()) {
+                showFeedback(feedbackElem, '无法下载：思维导图实例无效或内容为空。', 'error');
+                return;
+            }
+            try {
+                if (typeof kmInstance.refresh === 'function') {
+                    kmInstance.refresh();
+                    await new Promise(resolve => setTimeout(resolve, 100)); 
+                }
+                const svgExportPromise = kmInstance.exportData('svg');
+                if (!svgExportPromise || typeof svgExportPromise.then !== 'function') {
+                    showFeedback(feedbackElem, '下载失败：导出函数行为异常。', 'error');
+                    return;
+                }
+                const exportedObject = await svgExportPromise; 
+                let svgString = "";
+                if (typeof exportedObject === 'string') { svgString = exportedObject; } 
+                else if (exportedObject && typeof exportedObject.data === 'string') { svgString = exportedObject.data; } 
+                else {
+                    const paper = kmInstance.getPaper && kmInstance.getPaper();
+                    const svgNode = paper && paper.container && paper.container.firstChild;
+                    if (svgNode && typeof XMLSerializer !== 'undefined') {
+                        svgString = new XMLSerializer().serializeToString(svgNode);
+                    }
+                }
+                if (svgString && svgString.length > 100) { 
+                    const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url; link.download = `${baseFilename}.svg`;
+                    document.body.appendChild(link); link.click(); document.body.removeChild(link);
+                    URL.revokeObjectURL(url);
+                    showFeedback(feedbackElem, `${baseFilename}.svg 已下载!`, 'success');
+                } else {
+                    showFeedback(feedbackElem, `下载失败：生成的SVG内容为空或无效。请确保导图已正确渲染。`, 'error');
+                }
+            } catch (error) {
+                showFeedback(feedbackElem, `下载 ${baseFilename}.svg 失败: ${error.message || error}`, 'error');
+            }
+        }
+        
+        function initializeKityMinder(containerElement, data, feedbackElem, isModal = false) {
+            console.log("Initializing KityMinder in container:", containerElement.id);
+            containerElement.innerHTML = ''; 
+             if (typeof kityminder === 'undefined' || typeof kityminder.Minder === 'undefined') {
+                showFeedback(feedbackElem, "KityMinder库未加载!", 'error');
+                return null;
+            }
+            try {
+                const km = new kityminder.Minder({ renderTo: containerElement });
+                km.importJson(data); // data should now reference 'customPictureTheme'
+                km.enable(); 
+                
+                setTimeout(() => {
+                    if (km.getRoot && km.getRoot()) {
+                        // Manually set 3rd level node background if theme doesn't cover it deeply enough
+                        km.getRoot().traverse(function(node) {
+                            if (node.getLevel() === 3) { 
+                                node.setData('background', 'var(--km-lightblue, #8fcaed)'); 
+                                node.setData('color', 'var(--km-node-text, #ffffff)'); // Ensure text color for 3rd level
+                                node.render(); 
+                            }
+                        });
+                        km.refresh(); 
+
+                        try {
+                            let minY = Infinity, maxY = -Infinity;
+                            let minX = Infinity, maxX = -Infinity;
+                            let hasNodes = false;
+                            km.getRoot().traverse(function(nodeInstance) {
+                                hasNodes = true;
+                                const layoutBox = nodeInstance.getLayoutBox();
+                                if (layoutBox) {
+                                    minY = Math.min(minY, layoutBox.y);
+                                    maxY = Math.max(maxY, layoutBox.y + layoutBox.height);
+                                    minX = Math.min(minX, layoutBox.x);
+                                    maxX = Math.max(maxX, layoutBox.x + layoutBox.width);
+                                }
+                            });
+
+                            if (hasNodes && isFinite(minY) && isFinite(maxY) && isFinite(minX) && isFinite(maxX)) {
+                                const contentHeight = maxY - minY;
+                                const contentWidth = maxX - minX;
+                                const padding = 60; 
+                                
+                                if (contentHeight > 0 && contentWidth > 0) {
+                                    containerElement.style.minHeight = '0px'; 
+                                    if (!isModal) {
+                                       containerElement.style.height = (contentHeight + padding) + 'px';
+                                    }
+                                    
+                                    km.execCommand('camera', km.getRoot(), 100); 
+                                    
+                                    const viewWidth = containerElement.clientWidth - padding; 
+                                    const viewHeight = containerElement.clientHeight - padding; 
+                                    
+                                    let zoomLevelTarget;
+                                    if (contentWidth / contentHeight > viewWidth / viewHeight) {
+                                        zoomLevelTarget = viewWidth / contentWidth; 
+                                    } else {
+                                        zoomLevelTarget = viewHeight / contentHeight; 
+                                    }
+                                    zoomLevelTarget = Math.min(zoomLevelTarget * 100, 100); 
+
+                                    const finalZoom = isModal ? Math.min(zoomLevelTarget, 90) : Math.min(zoomLevelTarget, 75);
+                                    km.execCommand('zoom', finalZoom);
+                                } else {
+                                     km.execCommand('camera', km.getRoot(), 100); km.execCommand('zoom', isModal ? 80 : 70);
+                                }
+                            } else {
+                                km.execCommand('camera', km.getRoot(), 100); km.execCommand('zoom', isModal ? 75 : 60);
+                            }
+                        } catch (e_height) {
+                            console.error(`KityMinder Debug: Error during dynamic height/view adjustment for ${containerElement.id}:`, e_height);
+                            km.execCommand('camera', km.getRoot(), 100); km.execCommand('zoom', isModal ? 75 : 60);
+                        }
+                        
+                        km.refresh(); 
+                    }
+                }, 400); 
+                console.log("KityMinder initialized and data imported for:", containerElement.id);
+                return km;
+            } catch (error) {
+                console.error("Error initializing KityMinder for " + containerElement.id + ":", error);
+                showFeedback(feedbackElem, `初始化KityMinder失败: ${error.message}`, 'error');
+                containerElement.innerHTML = `<p style="color:red; text-align:center; padding:20px;">初始化KityMinder失败: ${error.message}</p>`;
+                return null;
+            }
+        }
+
+        // --- Main Mindmap Logic ---
+        mainZoomInBtn.addEventListener('click', () => { if (mainKM) mainKM.execCommand('zoomIn'); });
+        mainZoomOutBtn.addEventListener('click', () => { if (mainKM) mainKM.execCommand('zoomOut'); });
+        mainDownloadBtn.addEventListener('click', () => { downloadKityMinderAsSVG(mainKM, '核心概念关系图-主视图', mainFeedbackMessage); });
+
+        // --- Fullscreen Modal Logic ---
+        fullscreenOpenBtn.addEventListener('click', () => {
+            fullscreenModal.classList.add('active'); document.body.classList.add('modal-active');
+            modalKM = initializeKityMinder(modalKityMinderContainer, kityminderData, modalFeedbackMessage, true);
+        });
+        fullscreenCloseBtn.addEventListener('click', () => {
+            fullscreenModal.classList.remove('active'); document.body.classList.remove('modal-active');
+            modalKityMinderContainer.innerHTML = ''; 
+        });
+        modalZoomInBtn.addEventListener('click', () => { if (modalKM) modalKM.execCommand('zoomIn'); });
+        modalZoomOutBtn.addEventListener('click', () => { if (modalKM) modalKM.execCommand('zoomOut'); });
+        modalDownloadBtn.addEventListener('click', () => { downloadKityMinderAsSVG(modalKM, '核心概念关系图-全屏', modalFeedbackMessage); });
+
+        // --- Initial Setup ---
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("DOM fully loaded. Initializing main KityMinder.");
+            if (typeof kityminder !== 'undefined') { 
+                 mainKM = initializeKityMinder(mainKityMinderContainer, kityminderData, mainFeedbackMessage, false);
+            } else {
+                showFeedback(mainFeedbackMessage, "KityMinder库加载失败，无法初始化思维导图。", "error");
+            }
+        });
+    </script>
+</body>
+</html>

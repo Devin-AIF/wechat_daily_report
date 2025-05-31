@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KityMinder 思维导图示例（展示多层级）</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            color: #333;
+        }
+        #minder_container {
+            width: 90%;
+            max-width: 1000px;
+            height: 700px; /* KityMinder 需要一个明确的高度 */
+            border: 1px solid #ccc;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-top: 20px;
+            position: relative; /* For absolute positioning of error messages if needed */
+        }
+        #error_message_container {
+            color: red;
+            background-color: #ffebee;
+            border: 1px solid #e57373;
+            padding: 10px;
+            margin-top: 15px;
+            border-radius: 4px;
+            text-align: left;
+            white-space: pre-wrap;
+            width: 90%;
+            max-width: 1000px;
+            box-sizing: border-box;
+        }
+    </style>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script>
+</head>
+<body>
+    <h1>KityMinder 思维导图示例</h1>
+    <div id="minder_container"></div>
+    <div id="error_message_container" style="display: none;"></div>
+
+    <script type="text/javascript">
+        function displayError(message, errorObject) {
+            const errorContainer = document.getElementById('error_message_container');
+            let fullMessage = "Error: " + message;
+            if (errorObject) {
+                fullMessage += "\nDetails: " + (errorObject.message || errorObject.toString());
+                if (errorObject.stack) {
+                    fullMessage += "\nStack:\n" + errorObject.stack;
+                }
+            }
+            errorContainer.textContent = fullMessage;
+            errorContainer.style.display = 'block';
+            console.error("KityMinder Display Error:", message, errorObject || '');
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log("KityMinder Debug: DOMContentLoaded event fired.");
+            const errorContainer = document.getElementById('error_message_container');
+            errorContainer.style.display = 'none'; // Reset error message visibility
+
+            if (typeof kity === 'undefined') {
+                displayError("Kity library (kity.min.js) not loaded.");
+                return;
+            }
+            console.log("KityMinder Debug: Kity library loaded. Version:", kity.version);
+
+            if (typeof kityminder === 'undefined' || typeof kityminder.Minder === 'undefined') {
+                displayError("KityMinder library (kityminder.core.min.js) not loaded or 'Minder' is undefined.");
+                return;
+            }
+            console.log("KityMinder Debug: KityMinder library loaded. Version:", kityminder.version);
+
+            // 详细的思维导图数据
+            const detailedMindData = {
+                root: {
+                    data: { text: "项目总览", expandState: "expand" }, // 根节点
+                    children: [
+                        { // 1级节点
+                            data: { text: "业务目标", expandState: "expand" },
+                            children: [ // 2级节点
+                                { data: { text: "降本提效" } }, // 3级节点 (叶子)
+                                { data: { text: "多项目协同" } } // 3级节点 (叶子)
+                            ]
+                        },
+                        { // 1级节点
+                            data: { text: "核心需求", expandState: "expand" },
+                            children: [ // 2级节点
+                                {
+                                    data: { text: "清单编制规则", expandState: "expand" }, // 修改: 初始展开以展示3级
+                                    children: [ // 3级节点
+                                        { data: { text: "基础维度" } },
+                                        { data: { text: "争议点" } }
+                                    ]
+                                },
+                                { data: { text: "标段功能" } }, // 2级节点 (叶子)
+                                { 
+                                    data: { text: "系统兼容性", expandState: "expand"},
+                                    children: [ // 3级节点
+                                        { data: { text: "对标ES系统"} },
+                                        { data: { text: "数据一致性"} }
+                                    ]
+                                }
+                            ]
+                        },
+                        { // 1级节点
+                            data: { text: "业务流程", expandState: "expand"},
+                            children: [ // 2级节点
+                                { data: { text: "需求发起" } },
+                                { 
+                                    data: { text: "清单编制", expandState: "expand"},
+                                    children: [ // 3级节点
+                                        { data: { text: "按项目+专业分期"} },
+                                        { data: { text: "审核清单一致性"} }
+                                    ]
+                                },
+                                { 
+                                    data: { text: "标段打包", expandState: "expand"},
+                                    children: [ // 3级节点
+                                        { data: { text: "按采购策略组合"} },
+                                        { data: { text: "定义标段属性"} }
+                                    ]
+                                }
+                            ]
+                        },
+                        { // 1级节点 (新增更多层级示例)
+                            data: { text: "关键争议点", expandState: "expand" },
+                            children: [ // 2级节点
+                                { 
+                                    data: { text: "标段与清单层级", expandState: "expand" },
+                                    children: [ // 3级节点
+                                        { data: { text: "观点1: 上层容器" } },
+                                        { data: { text: "观点2: 映射关系" } }
+                                    ]
+                                },
+                                { 
+                                    data: { text: "测试验证重点", expandState: "expand" },
+                                    children: [ // 3级节点
+                                        { data: { text: "多项目清单展示" } },
+                                        { data: { text: "跨项目数据统计" } }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                template: 'default', // 常用模板: 'default' (两边分布), 'right' (右侧分布)
+                theme: 'fresh-blue', // 常用主题: 'default', 'classic', 'fresh-red', 'fresh-blue', 'fresh-green'
+                version: "1.4.50"
+            };
+            console.log("KityMinder Debug: Using detailed mind data:", detailedMindData);
+
+
+            let km; // KityMinder instance
+
+            try {
+                console.log("KityMinder Debug: Attempting to initialize KityMinder instance...");
+                const minderContainer = document.getElementById('minder_container');
+                if (!minderContainer) {
+                    displayError("Minder container element '#minder_container' not found in DOM.");
+                    return;
+                }
+                
+                km = new kityminder.Minder({
+                    renderTo: minderContainer 
+                });
+                console.log("KityMinder Debug: KityMinder instance created.", km);
+
+                console.log("KityMinder Debug: Attempting to import JSON data (detailed)...");
+                km.importJson(detailedMindData); 
+                console.log("KityMinder Debug: Detailed JSON data imported.");
+
+                if (typeof km.getStatus === 'function') {
+                    console.log("KityMinder Debug: Minder status after import:", km.getStatus());
+                }
+
+                if (km.getRoot && km.getRoot()) {
+                    console.log("KityMinder Debug: Root node found:", km.getRoot().getText());
+                } else {
+                    console.warn("KityMinder Debug: Root node NOT found after import.");
+                }
+
+                setTimeout(function() {
+                    console.log("KityMinder Debug: Attempting delayed view adjustments...");
+                    try {
+                        if (km && typeof km.execCommand === 'function' && km.getRoot()) {
+                            console.log("KityMinder Debug: Trying to center root node with 'camera' command.");
+                            km.execCommand('camera', km.getRoot(), 100); 
+                        }
+                        
+                        if (km && typeof km.refresh === 'function') {
+                            console.log("KityMinder Debug: Calling km.refresh().");
+                            km.refresh(); 
+                        } else {
+                             console.warn("KityMinder Debug: km.refresh() is not available.");
+                        }
+                        console.log("KityMinder Debug: Delayed view adjustments attempted.");
+
+                        const svgElement = minderContainer.querySelector('svg');
+                        if (svgElement && svgElement.childNodes.length > 0) {
+                            console.log("KityMinder Debug: SVG element found with content after refresh.");
+                        } else {
+                            console.warn("KityMinder Debug: SVG element still empty or not found after refresh.");
+                        }
+
+                    } catch(e_refresh) {
+                        displayError("Error during delayed view adjustments.", e_refresh);
+                    }
+                }, 500); 
+
+            } catch (error) {
+                displayError("An error occurred during KityMinder initialization or data import.", error);
+            }
+        });
+    </script>
+</body>
+</html>
