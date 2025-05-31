@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>[在此处填写报告标题] - [日期]</title> <link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/tailwindcss/2.2.19/tailwind.min.css"> <link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-100-M/font-awesome/6.0.0/css/all.min.css"> <link rel="preconnect" href="https://fonts.googleapis.com"> <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"> <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" xintegrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoVBL5rLesXWW/sGuLhYFChxgYnz2Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script> <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script> <style>
+        /* CSS变量定义 */
+        :root {
+            /* 主题颜色配置 */
+            --bg-primary: #F5F5EE; /* 主背景色 - 米白色 */
+            --bg-secondary: #faf9f6; /* 次背景色 - 卡片背景 */
+            --bg-tertiary: #f1f3f5; /* 第三背景色 - 标签等 */
+            --text-primary: #212529; /* 主要文字颜色 */
+            --text-secondary: #495057; /* 次要文字颜色 */
+            --accent-primary: #FB651E; /* 主要强调色 - 橙色 */
+            --accent-secondary: #ff8906; /* 次要强调色 */
+            --accent-tertiary: #e8590c; /* 第三强调色 */
+            --accent-blue: #007EFF;    /* 蓝色强调 */
+            --accent-purple: #7048e8; /* 紫色强调 */
+            --accent-cyan: #10B981;    /* 青色强调 */
+            --highlight-keyword-bg: #ffe8cc; /* 关键词高亮背景 */
+            --highlight-name-color: #7048e8; /* 人名高亮颜色 */
+
+            /* 布局与样式变量 */
+            --card-padding: 24px; /* 卡片内边距 */
+            --grid-gap: 16px; /* 网格间距 */
+            --card-radius: 12px; /* 卡片圆角 */
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); /* 卡片阴影 */
+            --font-family: 'Inter', 'SF Pro Display', 'Segoe UI', sans-serif; /* 字体栈 */
+
+            /* KityMinder自定义主题颜色 */
+            --km-orange: #FB651E;     /* KityMinder橙色，用于一级节点 */
+            --km-blue: #007EFF;       /* KityMinder蓝色，用于二级节点 */
+            --km-lightblue: #10B981;  /* KityMinder浅蓝色，用于三级节点 */
+            --km-root-bg: #f0f0f0;    /* KityMinder根节点背景 */
+            --km-root-stroke: var(--km-root-bg); /* KityMinder根节点边框 */
+            --km-root-text: #333333;  /* KityMinder根节点文字颜色 */
+            --km-node-text: #ffffff;  /* KityMinder普通节点文字颜色 */
+            --km-connect-color: #777777; /* KityMinder连接线颜色 */
+        }
+
+        /* 全局重置和基础样式 */
+        * {
+            margin: 0; /* 清除外边距 */
+            padding: 0; /* 清除内边距 */
+            box-sizing: border-box; /* 使用border-box盒模型 */
+        }
+
+        body {
+            font-family: var(--font-family); /* 应用定义的字体栈 */
+            background-color: var(--bg-primary); /* 设置页面背景色 */
+            color: var(--text-primary); /* 设置主要文字颜色 */
+            line-height: 1.6; /* 设置行高 */
+            font-size: 16px; /* 设置基础字号 */
+            width: 100%; /* 页面宽度占满父容器 */
+            max-width: 1000px; /* 内容最大宽度 */
+            margin: 0 auto; /* 内容居中显示 */
+            padding: 20px; /* 页面内边距 */
+        }
+        body.modal-active { /* 当模态框激活时，禁止页面滚动 */
+            overflow: hidden;
+        }
+
+        /* 标题样式 */
+        h1, h2, h3, h4 {
+            font-weight: 600; /* 标题字重 */
+            letter-spacing: 0.5px; /* 字符间距 */
+        }
+
+        h1 { /* 主标题样式 */
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-primary);
+        }
+
+        h2 { /* 二级标题样式 */
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+            color: var(--accent-primary);
+        }
+
+        h3 { /* 三级标题样式 */
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: var(--accent-blue);
+        }
+
+        /* 网格容器布局 */
+        .grid-container {
+            display: grid; /* 使用CSS Grid布局 */
+            grid-template-columns: repeat(12, 1fr); /* 12列网格系统 */
+            grid-auto-rows: minmax(100px, auto); /* 行高自动调整，最小100px */
+            gap: var(--grid-gap); /* 网格间距 */
+            margin-top: 20px; /* 与上方元素的间距 */
+            /* 网格区域定义 */
+            grid-template-areas:
+                "main        main        main        main        main        main        main        main        main        main        main        main"
+                "topics      topics      topics      topics      topics      topics      topics      topics      topics      topics      topics      topics"
+                "mindmap     mindmap     mindmap     mindmap     mindmap     mindmap     mindmap     mindmap     mindmap     mindmap     mindmap     mindmap"
+                "quote       quote       quote       quote       quote       quote       links       links       links       links       links       links"
+                "bottom_row  bottom_row  bottom_row  bottom_row  bottom_row  bottom_row  bottom_row  bottom_row  bottom_row  bottom_row  bottom_row  bottom_row"
+                "qrcode      qrcode      qrcode      qrcode      qrcode      qrcode      qrcode      qrcode      qrcode      qrcode      qrcode      qrcode";
+        }
+
+        /* 卡片通用样式 */
+        .card {
+            background-color: var(--bg-secondary); /* 卡片背景色 */
+            border-radius: var(--card-radius); /* 卡片圆角 */
+            padding: var(--card-padding); /* 卡片内边距 */
+            box-shadow: var(--card-shadow); /* 卡片阴影 */
+            position: relative; /* 用于绝对定位子元素 */
+            overflow: hidden; /* 防止内容溢出圆角 */
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* 过渡动画 */
+            display: flex; /* 使用flex布局 */
+            flex-direction: column; /* flex子元素垂直排列 */
+        }
+
+        .card:hover { /* 卡片悬停效果 */
+            transform: translateY(-5px); /* 轻微上浮 */
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); /* 增强阴影 */
+        }
+
+        .card::before { /* 卡片顶部装饰条 */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent-primary);
+        }
+
+        .card-icon { /* 卡片右下角装饰图标 */
+            position: absolute;
+            bottom: var(--card-padding);
+            right: var(--card-padding);
+            font-size: 4rem; /* 图标大小 */
+            opacity: 0.07; /* 图标透明度 */
+            color: var(--accent-primary); /* 图标颜色 */
+            z-index: 0; /*确保在内容下方*/
+        }
+
+        /* 网格区域分配 */
+        .main-card { grid-area: main; } /* 主卡片区域 */
+        .topic-cards-wrapper { /* 主题卡片包裹器区域 */
+            grid-area: topics;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr); /* 内部也使用12列网格 */
+            gap: var(--grid-gap);
+        }
+        .mindmap-card-container { grid-area: mindmap; } /* 思维导图卡片区域 */
+        .quote-card { grid-area: quote; } /* 引用卡片区域 */
+        .links-card { grid-area: links; } /* 链接卡片区域 */
+        .stats-wordcloud-row { /* 统计和词云行区域 */
+            grid-area: bottom_row;
+            display: flex; /* 使用flex布局横向排列 */
+            gap: var(--grid-gap);
+            align-items: stretch; /* 子元素等高 */
+        }
+        .qr-code-container-card { grid-area: qrcode; } /* 二维码卡片区域 */
+
+
+        .stats-card { /* 统计卡片在行内的flex属性 */
+            flex-grow: 7; /* 占据更多空间 */
+            flex-shrink: 1;
+            flex-basis: 0;
+            min-width: 0; /* 允许缩小 */
+        }
+        .wordcloud-card { /* 词云卡片在行内的flex属性 */
+            flex-grow: 5;
+            flex-shrink: 1;
+            flex-basis: 0;
+            min-width: 0; /* 允许缩小 */
+            max-width: 50%; /* 最大宽度限制 */
+        }
+
+        /* 主题卡片样式 */
+        .topic-card {
+            grid-column: span 6; /* 默认占据6列 */
+            min-height: 250px; /* 最小高度 */
+        }
+        .topic-card > .topic-card-content-wrapper { /* 主题卡片内容包裹器 */
+            flex-grow: 1; /* 占据剩余空间 */
+            padding-bottom: 1rem; /* 底部内边距 */
+        }
+        /* 如果主题卡片是奇数个，最后一个卡片占据整行 */
+        .topic-cards-wrapper > .topic-card:nth-last-child(1):nth-child(odd) {
+            grid-column: span 12;
+        }
+
+        /* 主卡片内部元素样式 */
+        .main-card h1 { text-align: center; } /* 标题居中 */
+        .main-card .date { text-align: center; } /* 日期居中 */
+        .date { font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 1rem; } /* 日期样式 */
+        .meta-info { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 1rem; justify-content: center; } /* 元信息样式 */
+        .meta-info span { background-color: var(--bg-tertiary); padding: 5px 10px; border-radius: 20px; font-size: 0.9rem; color: var(--accent-blue); } /* 元信息标签样式 */
+        .summary { margin-top: 1rem; line-height: 1.7; text-align: left; } /* 摘要样式 */
+
+        /* 主题卡片内部元素样式 */
+        .topic-category { display: inline-block; background-color: var(--accent-tertiary); color: var(--bg-primary); padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; margin-bottom: 0.5rem; } /* 主题分类标签 */
+        .topic-keywords { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 0.75rem; margin-bottom: 0.75rem; } /* 关键词容器 */
+        .keyword { background-color: var(--bg-tertiary); color: var(--accent-primary); padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; } /* 关键词标签 */
+        .highlight-keyword { background-color: var(--highlight-keyword-bg); padding: 1px 2px; border-radius: 2px; font-weight: 500; display: inline; line-height: 1.2; box-decoration-break: clone; -webkit-box-decoration-break: clone; } /* 高亮关键词 */
+        .highlight-name { color: var(--highlight-name-color); font-weight: 500; } /* 高亮人名 */
+        .topic-mentions { font-size: 0.9rem; color: var(--text-secondary); } /* 提及次数 */
+
+        /* 引用卡片样式 */
+        .quote { position: relative; padding-left: 20px; margin: 10px 0; font-style: italic; color: var(--text-secondary); } /* 引用内容 */
+        .quote::before { content: '"'; position: absolute; left: 0; top: 0; font-size: 1.5rem; color: var(--accent-tertiary); } /* 左引号 */
+        .quote-author { text-align: right; font-size: 0.9rem; color: var(--accent-tertiary); margin-top: 5px; } /* 引用作者 */
+
+        /* 链接卡片样式 */
+        .link-item { display: flex; align-items: center; margin-bottom: 10px; padding: 8px; border-radius: 6px; background-color: var(--bg-tertiary); transition: background-color 0.2s ease; text-decoration: none; } /* 链接项 */
+        .link-item:hover { background-color: rgba(0, 123, 255, 0.1); } /* 链接项悬停背景 */
+        .link-item a { text-decoration: none; color: inherit; display: flex; align-items: center; width: 100%; } /* 链接项内a标签 */
+        .link-item a:hover .link-title { text-decoration: underline; color: var(--accent-blue); } /* 链接标题悬停效果 */
+        .link-icon { margin-right: 10px; color: var(--accent-blue); } /* 链接图标 */
+        .link-title { flex-grow: 1; color: var(--text-primary); } /* 链接标题 */
+        .link-title.is-link { color: var(--accent-blue); } /* 如果是实际链接，标题颜色 */
+        .link-title.is-link:hover { text-decoration: underline; } /* 实际链接标题悬停效果 */
+
+        /* 用户统计表格样式 */
+        .user-stats-table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; } /* 表格整体 */
+        .user-stats-table th { text-align: center; padding: 0.75rem 0.5rem; border-bottom: 2px solid var(--accent-primary); color: var(--text-primary); font-weight: 600; font-size: 0.9rem; } /* 表头 */
+        .user-stats-table td { padding: 0.75rem 0.5rem; border-bottom: 1px solid var(--bg-tertiary); color: var(--text-secondary); font-size: 0.85rem; vertical-align: top; text-align: left; } /* 表格单元格 */
+        .user-stats-table .user-name-col { width: 25%; font-weight: 500; word-break: break-all; } /* 用户名列 */
+        .user-stats-table .message-count-col { text-align: center; width: 15%; white-space: nowrap; } /* 发言数列 */
+        .user-stats-table .contribution-col { width: 60%; word-break: break-all; } /* 主要贡献列 */
+        .user-stats-table tr:last-child td { border-bottom: none; } /* 最后一行无下边框 */
+
+        /* 词云样式 */
+        .wordcloud { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; padding: 20px 0; } /* 词云容器 */
+        .wordcloud-item { padding: 5px 10px; border-radius: 4px; font-weight: 500; transition: transform 0.2s ease; } /* 词云项 */
+        .wordcloud-item:hover { transform: scale(1.1); } /* 词云项悬停放大 */
+        /* 不同大小词云项的字号和颜色 */
+        .size-1 { font-size: 0.9rem; color: var(--text-secondary); }
+        .size-2 { font-size: 1.1rem; color: var(--accent-cyan); }
+        .size-3 { font-size: 1.3rem; color: var(--accent-blue); }
+        .size-4 { font-size: 1.5rem; color: var(--accent-purple); }
+        .size-5 { font-size: 1.8rem; color: var(--accent-tertiary); }
+
+        /* 二维码区域样式 */
+        .qr-code-container-card h2 { /* 二维码区域标题 */
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-primary);
+            text-align: center;
+            font-weight: 600;
+        }
+        .qr-code-container-card h2 i { /* 标题图标 */
+            margin-right: 0.5rem;
+        }
+
+        .qr-code-grid { /* 二维码网格 */
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: var(--grid-gap, 16px);
+            padding: 10px 0;
+        }
+
+        .qr-code-item { /* 单个二维码项 */
+            background-color: var(--bg-tertiary);
+            border-radius: 8px;
+            padding: 1rem;
+            flex: 0 0 130px; /* 固定基础尺寸 */
+            height: 130px; /* 固定高度，保持方形 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .qr-code-item:hover { /* 二维码项悬停效果 */
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        .qr-code-item img { /* 二维码图片 */
+            width: 100px;
+            height: 100px;
+            object-fit: contain; /* 保持图片比例 */
+            margin-bottom: 0.5rem;
+        }
+        .qr-code-item span { /* 二维码下方文字 */
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-top: auto;
+        }
+
+        /* 操作按钮区域样式 */
+        .action-buttons-container { text-align: center; margin: 20px 0; padding-bottom: 20px; } /* 按钮容器 */
+        .action-button { background-color: var(--accent-primary); color: white; border: none; padding: 10px 20px; border-radius: var(--card-radius); font-size: 1rem; font-weight: 500; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease; margin: 5px 10px; box-shadow: var(--card-shadow); display: inline-flex; align-items: center; justify-content: center; } /* 按钮通用样式 */
+        .action-button:hover { background-color: var(--accent-secondary); transform: translateY(-2px); } /* 按钮悬停效果 */
+        .action-button i, .action-button .fas { margin-right: 8px; } /* 按钮内图标间距 */
+
+        /* 页脚样式 */
+        .footer { margin-top: 30px; text-align: center; color: var(--text-secondary); font-size: 0.9rem; }
+        #report-content-wrapper .footer { margin-top: 30px; padding-bottom: 20px; } /* 确保截图时包含页脚的完整性 */
+
+        /* KityMinder特定样式 */
+        .mindmap-card {} /* 思维导图卡片（外层容器的子元素） */
+        .mindmap-card h2 i { margin-right: 8px; } /* 标题内图标 */
+        .mindmap-controls { display: flex; gap: 10px; margin-bottom: 15px; align-items: center; flex-wrap: wrap; } /* 控制按钮容器 */
+        .mindmap-controls button { background-color: var(--km-blue); color: white; border: none; padding: 8px 12px; border-radius: var(--card-radius); font-size: 0.9rem; cursor: pointer; transition: background-color 0.2s ease; font-weight: 500; display: inline-flex; align-items: center; justify-content: center; } /* 控制按钮 */
+        .mindmap-controls button:hover { background-color: #005bb5; } /* 控制按钮悬停 */
+        .mindmap-controls button i { margin-right: 5px; } /* 控制按钮内图标 */
+        .mindmap-controls .fullscreen-toggle-btn { margin-left: auto; } /* 全屏按钮推到右侧 */
+
+        .kityminder-container { /* KityMinder渲染容器 */
+            flex-grow: 1; /* 占据父元素剩余空间 */
+            overflow: hidden; /* 隐藏溢出内容 */
+            background-color: #fff; /* 背景色 */
+            border-radius: 8px; /* 圆角 */
+            padding: 0; /* 无内边距 */
+            border: 1px solid var(--bg-tertiary); /* 边框 */
+            min-height: 400px; /* 最小高度 */
+            position: relative; /* 用于内部定位 */
+            transition: height 0.3s ease-in-out; /* 高度变化动画 */
+            display: flex; /* flex布局用于居中提示文本 */
+            align-items: center;
+            justify-content: center;
+        }
+        .kityminder-container:empty::before { /* KityMinder容器为空时的提示 */
+            content: "思维导图加载中或内容为空...";
+            color: var(--text-secondary); font-style: italic; text-align: center;
+            padding: 20px; display: flex; justify-content: center; align-items: center;
+            height: 100%; min-height: 150px;
+        }
+
+        /* 思维导图反馈消息样式 */
+        #mermaid-main-feedback-message, #mermaid-modal-feedback-message {
+            text-align: center; margin-top: 15px; padding: 8px; border-radius: 4px;
+            font-weight: 500; font-size: 0.9rem; display: none; /* 默认隐藏 */
+        }
+        #mermaid-main-feedback-message.success, #mermaid-modal-feedback-message.success { /* 成功消息 */
+            color: #155724; background-color: #d4edda; border: 1px solid #c3e6cb; display: block;
+        }
+        #mermaid-main-feedback-message.error, #mermaid-modal-feedback-message.error { /* 错误消息 */
+            color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; display: block;
+        }
+        #mermaid-main-feedback-message.info, #mermaid-modal-feedback-message.info { /* 信息消息 */
+            color: #0c5460; background-color: #d1ecf1; border: 1px solid #bee5eb; display: block;
+        }
+
+        /* 通用反馈消息样式 (例如截图按钮) */
+        #feedback-message { text-align: center; margin-top: 10px; font-weight: 500; }
+        #feedback-message.success { color: green; } /* 成功 */
+        #feedback-message.error { color: red; } /* 失败 */
+
+        /* 全屏模态框样式 */
+        .modal-overlay { /* 模态框遮罩层 */
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.75); display: none; /* 默认隐藏 */
+            justify-content: center; align-items: center; z-index: 1000; padding: 20px;
+        }
+        .modal-overlay.active { display: flex; } /* 激活时显示 */
+        .modal-content { /* 模态框内容区域 */
+            width: 95%; height: 90%; max-width: 1200px; /* 尺寸限制 */
+        }
+        .modal-close-btn { /* 模态框关闭按钮 */
+            position: absolute; top: 15px; right: 20px; background: none; border: none;
+            font-size: 2.2rem; color: var(--text-secondary); cursor: pointer;
+            line-height: 1; padding: 5px; z-index: 1010; /* 确保在最上层 */
+        }
+        .modal-close-btn:hover { color: var(--text-primary); } /* 关闭按钮悬停 */
+        #modalKityMinderContainer { /* 全屏模态框内的KityMinder容器 */
+            flex-grow: 1; min-height: 0; /* 占据剩余空间 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 卡片淡入动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .card { animation: fadeIn 0.5s ease forwards; } /* 所有卡片应用动画 */
+        /* 不同卡片的动画延迟，实现依次出现效果 */
+        .main-card { animation-delay: 0.1s; }
+        .topic-cards-wrapper .topic-card:nth-child(1) { animation-delay: 0.2s; }
+        .topic-cards-wrapper .topic-card:nth-child(2) { animation-delay: 0.3s; }
+        .topic-cards-wrapper .topic-card:nth-child(3) { animation-delay: 0.4s; }
+        .topic-cards-wrapper .topic-card:nth-child(4) { animation-delay: 0.5s; } /* 假设最多4个主题卡片，可调整 */
+        .mindmap-card-container .card { animation-delay: 0.6s; }
+        .quote-card { animation-delay: 0.7s; }
+        .links-card { animation-delay: 0.8s; }
+        .stats-wordcloud-row { animation: fadeIn 0.5s ease forwards; animation-delay: 0.9s; }
+        .qr-code-container-card { animation: fadeIn 0.5s ease forwards; animation-delay: 1.0s; }
+
+
+        #report-content-wrapper .footer { animation: fadeIn 0.5s ease forwards; animation-delay: 1.1s; }
+        .action-buttons-container { animation: fadeIn 0.5s ease forwards; animation-delay: 1.2s; }
+
+
+        /* 响应式设计 - 针对中等屏幕 (平板) */
+        @media (max-width: 768px) {
+            body { padding: 10px; font-size: 14px; } /* 调整内边距和字号 */
+            h1 { font-size: 1.8rem; } /* 调整标题大小 */
+            h2 { font-size: 1.4rem; }
+            h3 { font-size: 1.1rem; }
+            .grid-container { /* 网格布局调整为单列 */
+                grid-template-columns: 1fr;
+                grid-template-areas: /* 区域重新排列 */
+                    "main"
+                    "topics"
+                    "mindmap"
+                    "quote"
+                    "links"
+                    "bottom_row"
+                    "qrcode";
+            }
+            .stats-wordcloud-row { /* 统计和词云行改为垂直排列 */
+                flex-direction: column;
+            }
+            .stats-wordcloud-row > .card { /* 行内卡片宽度占满 */
+                width: 100%;
+                flex-basis: auto !important;
+                max-width: none;
+            }
+
+            .topic-cards-wrapper { grid-template-columns: 1fr; } /* 主题卡片单列 */
+            .topic-card { grid-column: 1 / -1; min-height: auto; } /* 主题卡片占满宽度，高度自动 */
+            .topic-card > .topic-card-content-wrapper { padding-bottom: 1rem; }
+            .topic-mentions { position: static; margin-top: 10px; margin-bottom: 10px; text-align: left; } /* 提及次数布局调整 */
+            .card-icon { font-size: 2.5rem; opacity:0.05; } /* 卡片图标调整 */
+            .mindmap-card .card-icon { bottom: 15px; right: 15px; }
+
+            .user-stats-table th, .user-stats-table td { padding: 0.5rem 0.25rem; font-size: 0.8rem; } /* 表格内边距和字号调整 */
+            .user-stats-table td { text-align: left; }
+            .user-stats-table .message-count-col { text-align: center; } /* 发言数居中 */
+            .action-button { padding: 8px 15px; font-size: 0.9rem; } /* 操作按钮调整 */
+            .action-buttons-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; } /* 操作按钮容器flex布局 */
+            .action-buttons-container .action-button { width: calc(50% - 10px); min-width: 180px; margin: 5px 0; } /* 操作按钮宽度 */
+
+            .mindmap-card-container .card { padding: 15px; } /* 思维导图卡片内边距 */
+            .mindmap-controls button { font-size: 0.8rem; padding: 6px 10px; } /* 思维导图控制按钮 */
+            .modal-content { width: 100%; height: 95%; padding:15px; } /* 全屏模态框内容区域 */
+            .modal-close-btn { font-size: 1.8rem; top:10px; right:10px;} /* 全屏模态框关闭按钮 */
+
+            /* 二维码区域响应式调整 */
+            .qr-code-container-card h2 {
+                font-size: 1.4rem;
+                margin-bottom: 1rem;
+            }
+            .qr-code-grid {
+                gap: 12px;
+            }
+            .qr-code-item {
+                flex-basis: calc(50% - 6px); /* 每行两个二维码 */
+                height: auto;
+                aspect-ratio: 1/1; /* 保持方形 */
+                padding: 0.75rem;
+            }
+            .qr-code-item img {
+                width: 70%;
+                height: 70%;
+                max-width: 80px;
+                max-height: 80px;
+                margin-bottom: 0.3rem;
+            }
+            .qr-code-item span {
+                font-size: 0.7rem;
+            }
+        }
+        /* 响应式设计 - 针对小屏幕 (手机) */
+        @media (max-width: 480px) {
+            .action-buttons-container .action-button { width: 80%; } /* 操作按钮宽度进一步调整 */
+            .user-stats-table { display: block; overflow-x: auto; } /* 表格允许水平滚动 */
+            .user-stats-table th, .user-stats-table td { white-space: normal; } /* 允许内容换行 */
+            .user-stats-table thead, .user-stats-table tbody, .user-stats-table tr { display: block; } /* 表格元素块状显示 */
+            .user-stats-table tr { border-bottom: 1px solid var(--bg-tertiary); } /* 行下边框 */
+            .user-stats-table th { display: none; } /* 隐藏表头 */
+            .user-stats-table td { display: block; text-align: left; border-bottom: none; padding-left: 0.5rem; } /* 单元格块状显示 */
+            .user-stats-table td.message-count-col { text-align: left; } /* 发言数左对齐 */
+            .user-stats-table td::before { content: attr(data-label); font-weight: bold; display: inline-block; width: 100px; margin-right: 10px; color: var(--text-primary); text-align: left; } /* 使用data-label模拟表头 */
+            .user-stats-table tr:last-child { border-bottom: none; } /* 最后一行无下边框 */
+
+            /* 更小屏幕二维码调整 */
+            .qr-code-item {
+                 flex-basis: calc(50% - 6px); /* 保持每行两个，可能会比较拥挤 */
+            }
+            .qr-code-item img {
+                width: 60%;
+                height: 60%;
+                max-width: 70px;
+                max-height: 70px;
+            }
+            .qr-code-item span {
+                font-size: 0.65rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="report-content-wrapper">
+        <div class="grid-container">
+            <div class="card main-card">
+                <h1 contenteditable="false">[主报告标题 - 例如：AI产品团日报]</h1> <div class="date">[日期 - 例如：2025年5月19日]</div> <div class="meta-info"> <span><i class="fas fa-comment"></i> 消息数: [数字]+</span>
+                    <span><i class="fas fa-users"></i> 活跃用户: [数字]+</span>
+                    <span><i class="fas fa-fire"></i> 热点话题: [数字]</span>
+                </div>
+                <p class="summary">[在此处填写当日讨论的总体摘要。保持简洁明了，突出群组的主要主题和氛围。]</p> <i class="fas fa-microchip card-icon"></i> </div>
+
+            <div class="topic-cards-wrapper">
+                <div class="card topic-card">
+                    <div class="topic-card-content-wrapper">
+                        <h2 contenteditable="false"><i class="fas fa-lightbulb"></i> [主题1标题]</h2> <div class="topic-category">[分类1 - 例如：工具技巧]</div> <p>关于<span class="highlight-keyword">插件功能</span>的讨论，特别是<span class="highlight-name">@用户A</span>提到的<span class="highlight-keyword">上下文处理</span>能力。</p> <div class="topic-keywords"> <span class="keyword">[关键词1A]</span>
+                            <span class="keyword">[关键词1B]</span>
+                            <span class="keyword">[关键词1C]</span>
+                        </div>
+                        <div class="topic-mentions"><i class="fas fa-bullhorn"></i> 提及次数: [数量1]</div> </div>
+                    <i class="fas fa-tools card-icon"></i> </div>
+                <div class="card topic-card">
+                    <div class="topic-card-content-wrapper">
+                        <h2 contenteditable="false"><i class="fas fa-rocket"></i> [主题2标题]</h2>
+                        <div class="topic-category">[分类2 - 例如：新功能]</div>
+                        <p><span class="highlight-name">@用户B</span>分享了<span class="highlight-keyword">AI搜索</span>的最新进展和<span class="highlight-keyword">地区限制</span>问题。</p>
+                        <div class="topic-keywords">
+                            <span class="keyword">[关键词2A]</span>
+                            <span class="keyword">[关键词2B]</span>
+                        </div>
+                        <div class="topic-mentions"><i class="fas fa-bullhorn"></i> 提及次数: [数量2]</div>
+                    </div>
+                    <i class="fas fa-star card-icon"></i>
+                </div>
+                <div class="card topic-card">
+                    <div class="topic-card-content-wrapper">
+                        <h2 contenteditable="false"><i class="fas fa-comments-dollar"></i> [主题3标题]</h2>
+                        <div class="topic-category">[分类3 - 例如：工具体验]</div>
+                        <p>大家对<span class="highlight-keyword">Agent技术</span>的<span class="highlight-keyword">商业化前景</span>进行了探讨，<span class="highlight-name">@用户C</span>提出了独到见解。</p>
+                        <div class="topic-keywords">
+                            <span class="keyword">[关键词3A]</span>
+                            <span class="keyword">[关键词3B]</span>
+                            <span class="keyword">[关键词3C]</span>
+                        </div>
+                        <div class="topic-mentions"><i class="fas fa-bullhorn"></i> 提及次数: [数量3]</div>
+                    </div>
+                    <i class="fas fa-comments card-icon"></i>
+                </div>
+            </div>
+
+            <div class="mindmap-card-container card">
+                <div class="mindmap-card"> <h2><i class="fas fa-sitemap"></i> 核心概念关系图</h2> <div class="mindmap-controls"> <button id="zoomInBtn"><i class="fas fa-search-plus"></i> 放大</button>
+                        <button id="zoomOutBtn"><i class="fas fa-search-minus"></i> 缩小</button>
+                        <button id="downloadDiagramBtn"><i class="fas fa-download"></i> 下载 SVG</button>
+                        <button id="fullscreenOpenBtn" class="fullscreen-toggle-btn"><i class="fas fa-expand"></i> 全屏</button>
+                    </div>
+                    <div class="kityminder-container" id="mainKityMinderContainer"></div> <div id="mermaid-main-feedback-message"></div> <i class="fas fa-project-diagram card-icon"></i> </div>
+            </div>
+
+            <div class="card quote-card">
+                <h2 contenteditable="false"><i class="fas fa-quote-left"></i> 精彩引用</h2> <div class="quote"> "[引言1内容。使其具有影响力或代表性。]"
+                    <div class="quote-author">- @[发言人1]</div>
+                </div>
+                <div class="quote"> "[引言2内容。]"
+                    <div class="quote-author">- @[发言人2]</div>
+                </div>
+                <div class="quote"> "[引言3内容。]"
+                    <div class="quote-author">- @[发言人3]</div>
+                </div>
+                <i class="fas fa-comment-dots card-icon"></i> </div>
+
+            <div class="card links-card">
+                <h2 contenteditable="false"><i class="fas fa-link"></i> 重要链接与资源</h2> <div class="link-item"> <a href="[URL链接1]" target="_blank"> <i class="fas fa-external-link-alt link-icon"></i>
+                        <span class="link-title">[链接1标题]</span>
+                    </a>
+                </div>
+                <div class="link-item"> <a href="[URL链接2]" target="_blank">
+                        <i class="fas fa-external-link-alt link-icon"></i>
+                        <span class="link-title">[链接2标题]</span>
+                    </a>
+                </div>
+                <div class="link-item"> <i class="fas fa-file link-icon"></i>
+                    <span class="link-title">[文档1标题 - 例如：共享提示词V5]</span>
+                </div>
+                <i class="fas fa-share-alt card-icon"></i> </div>
+
+            <div class="stats-wordcloud-row">
+                <div class="card stats-card">
+                    <h2 contenteditable="false"><i class="fas fa-chart-line"></i> 活跃之星</h2> <table class="user-stats-table"> <thead>
+                            <tr>
+                                <th class="user-name-col">用户</th>
+                                <th class="message-count-col">发言数</th>
+                                <th class="contribution-col">主要贡献</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr> <td data-label="用户" class="user-name-col">@发言人1</td>
+                                <td data-label="发言数" class="message-count-col">[数量1]+</td>
+                                <td data-label="主要贡献" class="contribution-col">[用户1的主要贡献内容 - 例如：分享 PageTalk 插件和万能 Prompt 生成器]</td>
+                            </tr>
+                            <tr> <td data-label="用户" class="user-name-col">@发言人2</td>
+                                <td data-label="发言数" class="message-count-col">[数量2]+</td>
+                                <td data-label="主要贡献" class="contribution-col">[用户2的主要贡献内容 - 例如：PageTalk 插件开发者，分享使用体验]</td>
+                            </tr>
+                            <tr> <td data-label="用户" class="user-name-col">@发言人3</td>
+                                <td data-label="发言数" class="message-count-col">[数量3]+</td>
+                                <td data-label="主要贡献" class="contribution-col">[用户3的主要贡献内容 - 例如：参与 Agent 讨论和工具测试]</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <i class="fas fa-user-friends card-icon"></i> </div>
+
+                <div class="card wordcloud-card">
+                    <h2 contenteditable="false"><i class="fas fa-cloud"></i> 词云</h2> <div class="wordcloud"> <span class="wordcloud-item size-5">[关键词A]</span>
+                        <span class="wordcloud-item size-5">[关键词B]</span>
+                        <span class="wordcloud-item size-4">[关键词C]</span>
+                        <span class="wordcloud-item size-4">[关键词D]</span>
+                        <span class="wordcloud-item size-3">[关键词E]</span>
+                        <span class="wordcloud-item size-3">[关键词F]</span>
+                        <span class="wordcloud-item size-2">[关键词G]</span>
+                        <span class="wordcloud-item size-2">[关键词H]</span>
+                        <span class="wordcloud-item size-1">[关键词I]</span>
+                    </div>
+                    <i class="fas fa-tags card-icon"></i> </div>
+            </div>
+
+            <div class="card qr-code-container-card">
+                <h2><i class="fas fa-qrcode"></i> 扫码关注 / 加入我们</h2> <div class="qr-code-grid"> <div class="qr-code-item"> <img src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/LdWMb8iS4oIyQixXxmMc089Pnzz/?fallback_source=1&height=1280&mount_node_token=VxYUdQXCMoZT7rxb25xciQFhn6T&mount_point=docx_image&policy=equal&width=1280" alt="向阳乔木个人微信">
+                        <span>个人微信</span>
+                    </div>
+                    <div class="qr-code-item"> <img src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/I1w7b4cR7ot8WUxVcDac2FFInJh/?fallback_source=1&height=1280&mount_node_token=V0y8d0wYAoktYOx0eMhcYywLnOh&mount_point=docx_image&policy=equal&width=1280" alt="向阳乔木推荐看">
+                        <span>微信公众号</span>
+                    </div>
+                    <div class="qr-code-item"> <img src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Urr2bN1yMoqmqqxuwPIcnOoFnEe/?fallback_source=1&height=1280&mount_node_token=W0IwdNMLyowx1rx7lpScsGMjnfM&mount_point=docx_image&policy=equal&width=1280" alt="向阳乔木X">
+                        <span>X</span>
+                    </div>
+                    <div class="qr-code-item"> <img src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/JPhybwuwNoccdTxnprwclHPxnOW/?fallback_source=1&height=1280&mount_node_token=P8FYdGaUkowBFzxUVFAcq6AanFb&mount_point=docx_image&policy=equal&width=1280" alt="AI 领导力">
+                        <span>AI 领导力</span>
+                    </div>
+                </div>
+                 <i class="fas fa-users card-icon" style="opacity: 0.07;"></i> </div>
+
+        </div> <div class="footer">
+            <p>数据来源：[您的数据来源 - 例如：AI产品团聊天记录] | 生成日期：[生成日期] | 统计周期：[统计周期 - 例如：[日期]全天]</p>
+            <p>[免责声明 - 例如：本报告由AI自动生成，仅供参考，不代表所有群成员观点。]</p>
+        </div>
+    </div> <div class="action-buttons-container">
+        <button id="screenshotToClipboardBtn" class="action-button"><i class="fas fa-clipboard"></i> 拷贝截图</button>
+        <button id="screenshotDownloadBtn" class="action-button"><i class="fas fa-camera"></i> 下载截图</button>
+        <button id="copyHtmlBtn" class="action-button"><i class="fas fa-copy"></i> 拷贝源码</button>
+        <button id="downloadHtmlBtn" class="action-button"><i class="fas fa-download"></i> 下载报告</button>
+        <button id="viewPreviousReportBtn" class="action-button"><i class="fas fa-calendar-alt"></i> 查看昨日日报</button>
+    </div>
+    <div id="feedback-message"></div>
+
+    <div id="fullscreenModal" class="modal-overlay">
+        <div class="modal-content card"> <button id="fullscreenCloseBtn" class="modal-close-btn" aria-label="关闭全屏">&times;</button> <h2 style="padding-top: 15px;"><i class="fas fa-sitemap"></i> 核心概念关系图 (全屏)</h2> <div class="mindmap-controls"> <button id="modalZoomInBtn"><i class="fas fa-search-plus"></i> 放大</button>
+                <button id="modalZoomOutBtn"><i class="fas fa-search-minus"></i> 缩小</button>
+                <button id="modalDownloadDiagramBtn"><i class="fas fa-download"></i> 下载 SVG</button>
+            </div>
+            <div class="kityminder-container" id="modalKityMinderContainer"></div> <div id="mermaid-modal-feedback-message"></div> </div>
+    </div>
+
+    <script>
+    // --- KityMinder (思维导图) JavaScript 开始 ---
+
+    // --- 全局变量 ---
+    let mainKM, modalKM; // 分别存储主视图和模态框视图的KityMinder实例
+    const kityminderData = { // 思维导图数据结构
+        root: { // 根节点定义
+            data: { text: "核心概念", expandState: "expand" }, // 根节点显示文本和默认展开状态
+            children: [ // 子节点数组，添加示例数据
+                { data: { text: "主要议题A", expandState: "expand" }, children: [
+                    { data: { text: "议题A-1" } },
+                    { data: { text: "议题A-2", expandState: "collapse" }, children: [ // 默认折叠的子节点
+                        { data: { text: "A-2-详情1" } },
+                        { data: { text: "A-2-详情2" } }
+                    ]},
+                    { data: { text: "议题A-3" } }
+                ]},
+                { data: { text: "主要议题B" } },
+                { data: { text: "主要议题C", expandState: "expand" }, children: [
+                    { data: { text: "议题C-1" } },
+                    { data: { text: "议题C-2" } }
+                ]}
+            ]
+        },
+        template: 'default', // 使用KityMinder的默认模板
+        theme: 'customPictureTheme', // 应用自定义主题
+        version: "1.4.50" // KityMinder版本号
+    };
+
+    // --- DOM元素获取 ---
+    // 主视图思维导图相关元素
+    const mainZoomInBtn = document.getElementById('zoomInBtn'); // 放大按钮
+    const mainZoomOutBtn = document.getElementById('zoomOutBtn'); // 缩小按钮
+    const mainDownloadDiagramBtn = document.getElementById('downloadDiagramBtn'); // 下载SVG按钮
+    const mainKityMinderContainer = document.getElementById('mainKityMinderContainer'); // 主渲染容器
+    const mermaidMainFeedbackMessage = document.getElementById('mermaid-main-feedback-message'); // 主视图反馈消息区
+
+    // 全屏模态框相关元素
+    const fullscreenOpenBtn = document.getElementById('fullscreenOpenBtn'); // 打开全屏按钮
+    const fullscreenModal = document.getElementById('fullscreenModal'); // 全屏模态框本身
+    const fullscreenCloseBtn = document.getElementById('fullscreenCloseBtn'); // 关闭全屏按钮
+    const modalKityMinderContainer = document.getElementById('modalKityMinderContainer'); // 模态框渲染容器
+    const modalZoomInBtn = document.getElementById('modalZoomInBtn'); // 模态框放大按钮
+    const modalZoomOutBtn = document.getElementById('modalZoomOutBtn'); // 模态框缩小按钮
+    const modalDownloadDiagramBtn = document.getElementById('modalDownloadDiagramBtn'); // 模态框下载SVG按钮
+    const mermaidModalFeedbackMessage = document.getElementById('mermaid-modal-feedback-message'); // 模态框反馈消息区
+
+    // --- KityMinder 自定义主题定义 ---
+    // 检查KityMinder库是否已加载
+    if (typeof kityminder !== 'undefined' && kityminder.Theme) {
+        // 注册名为 'customPictureTheme' 的自定义主题
+        kityminder.Theme.register('customPictureTheme', {
+            'root-color': 'var(--km-root-text, #333333)',      // 根节点文字颜色
+            'root-background': 'var(--km-root-bg, #f0f0f0)',  // 根节点背景色
+            'root-stroke': 'var(--km-root-bg)',               // 根节点边框颜色
+            'root-font-size': 19,                             // 根节点字号
+            'root-font-weight': 'bold',                       // 根节点字重
+            'root-padding': [14, 24],                         // 根节点内边距 [垂直, 水平]
+            'root-margin': [10, 2],                           // 根节点外边距
+            'root-radius': 5,                                 // 根节点圆角
+            'root-space': 8,                                  // 根节点与子节点的间距
+            'root-stroke-width': 1,                           // 根节点边框宽度
+
+            'main-color': 'var(--km-node-text, #ffffff)',     // 一级节点文字颜色
+            'main-background': 'var(--km-orange)',            // 一级节点背景色
+            'main-stroke': 'var(--km-orange)',                // 一级节点边框颜色
+            'main-font-size': 19,
+            'main-font-weight': 'bold',
+            'main-padding': [10, 20],
+            'main-margin': [10, 2],
+            'main-radius': 5,
+            'main-space': 4,
+            'main-stroke-width': 1,
+
+            'sub-color': 'var(--km-node-text, #ffffff)',      // 二级及以下节点文字颜色
+            'sub-background': 'var(--km-blue)',               // 二级节点背景色
+            'sub-stroke': 'var(--km-blue)',                   // 二级节点边框颜色
+            'sub-font-size': 19,
+            'sub-font-weight': 'bold',
+            'sub-padding': [8, 16],
+            'sub-margin': [8, 15],
+            'sub-radius': 5,
+            'sub-space': 4,
+            'sub-stroke-width': 1,
+            // 注意：三级及更深层节点的颜色在initializeKityMinder函数中通过遍历节点单独设置
+
+            'connect-color': 'var(--km-connect-color, #777777)', // 连接线颜色
+            'connect-width': 1.5,                             // 连接线宽度
+            'main-connect-width': 1.5,                        // 主干连接线宽度
+            'selected-connect-color': 'var(--km-orange)',     // 选中时连接线颜色
+            'selected-connect-width': 2.5,                    // 选中时连接线宽度
+
+            'background': "#ffffff",                          // 思维导图区域背景色
+            'text-selection-color': 'var(--km-blue)',         // 文本选中颜色
+            'node-padding': [6, 12],                          // 节点默认内边距 (会被层级样式覆盖)
+            'node-margin': [8, 15],                           // 节点默认外边距 (会被层级样式覆盖)
+            'node-radius': 5,                                 // 节点默认圆角 (会被层级样式覆盖)
+            'font-size': 19,                                  // 默认字号 (会被层级样式覆盖)
+            'font-weight': 'bold',                            // 默认字重 (会被层级样式覆盖)
+        });
+        console.log("KityMinder Debug: 自定义主题 'customPictureTheme' 已注册。");
+    } else {
+        console.error("KityMinder Debug: kityminder 或 kityminder.Theme 未定义。无法注册自定义主题。");
+    }
+
+    // --- KityMinder 辅助函数 ---
+    // 显示KityMinder操作的反馈消息
+    function showKityMinderFeedback(element, message, type = 'info', duration = 3000) {
+        if (element) {
+            element.textContent = message; // 设置消息文本
+            element.className = type; // 设置消息类型 (success, error, info)
+            element.style.display = 'block'; // 显示消息
+            // duration时间后自动隐藏消息
+            setTimeout(() => {
+                element.textContent = '';
+                element.className = '';
+                element.style.display = 'none';
+            }, duration);
+        }
+    }
+
+    // 将KityMinder实例导出为SVG并触发下载
+    async function downloadKityMinderAsSVG(kmInstance, baseFilename, feedbackElem) {
+        // 检查KityMinder实例是否有效
+        if (!kmInstance || typeof kmInstance.exportData !== 'function' || !kmInstance.getRoot || !kmInstance.getRoot()) {
+            showKityMinderFeedback(feedbackElem, '无法下载：思维导图实例无效或内容为空。', 'error');
+            return;
+        }
+        try {
+            // 尝试刷新以确保获取最新状态 (某些情况下可能需要)
+            if (typeof kmInstance.refresh === 'function') {
+                kmInstance.refresh();
+                await new Promise(resolve => setTimeout(resolve, 100)); // 短暂延迟确保刷新完成
+            }
+
+            // 导出SVG数据
+            const svgExportPromise = kmInstance.exportData('svg');
+            if (!svgExportPromise || typeof svgExportPromise.then !== 'function') {
+                showKityMinderFeedback(feedbackElem, '下载失败：导出函数行为异常。', 'error');
+                return;
+            }
+            const exportedObject = await svgExportPromise; // 等待导出完成
+
+            let svgString = ""; // 初始化SVG字符串
+            // 根据导出对象的不同结构提取SVG数据
+            if (typeof exportedObject === 'string') {
+                svgString = exportedObject;
+            } else if (exportedObject && typeof exportedObject.data === 'string') {
+                svgString = exportedObject.data;
+            } else { // 备用方案：尝试从 Kity 的 Paper 对象获取 SVG 节点
+                const paper = kmInstance.getPaper && kmInstance.getPaper();
+                const svgNode = paper && paper.container && paper.container.firstChild;
+                if (svgNode && typeof XMLSerializer !== 'undefined') {
+                    svgString = new XMLSerializer().serializeToString(svgNode);
+                }
+            }
+
+            // 检查SVG字符串是否有效
+            if (svgString && svgString.length > 100) { // 简单检查SVG内容是否为空
+                const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' }); // 创建Blob对象
+                const url = URL.createObjectURL(blob); // 创建对象URL
+                const link = document.createElement('a'); // 创建下载链接
+                link.href = url;
+                link.download = `${baseFilename}.svg`; // 设置下载文件名
+                document.body.appendChild(link); // 将链接添加到DOM
+                link.click(); // 模拟点击下载
+                document.body.removeChild(link); // 从DOM移除链接
+                URL.revokeObjectURL(url); // 释放对象URL
+                showKityMinderFeedback(feedbackElem, `${baseFilename}.svg 已下载!`, 'success');
+            } else {
+                showKityMinderFeedback(feedbackElem, `下载失败：生成的SVG内容为空或无效。请确保导图已正确渲染。`, 'error');
+            }
+        } catch (error) {
+            console.error(`下载 ${baseFilename}.svg 失败:`, error);
+            showKityMinderFeedback(feedbackElem, `下载 ${baseFilename}.svg 失败: ${error.message || error}`, 'error');
+        }
+    }
+
+    // 初始化KityMinder实例
+    async function initializeKityMinder(containerElement, data, feedbackElem, isModal = false) {
+        console.log("正在初始化KityMinder于容器:", containerElement.id);
+        containerElement.innerHTML = ''; // 清空容器，防止重复初始化
+
+        // 检查KityMinder库是否加载
+        if (typeof kityminder === 'undefined' || typeof kityminder.Minder === 'undefined') {
+            showKityMinderFeedback(feedbackElem, "KityMinder库未加载!", 'error');
+            return null;
+        }
+
+        try {
+            // 创建KityMinder实例
+            const km = new kityminder.Minder({ renderTo: containerElement });
+            km.importJson(data); // 导入数据
+            km.enable(); // 启用交互
+
+            await new Promise(resolve => setTimeout(resolve, 500)); // 等待渲染
+
+            // 检查根节点是否存在，然后应用样式并调整视图
+            if (km.getRoot && km.getRoot()) {
+                // 遍历所有节点设置特定样式 (主题中未完全覆盖或需要动态调整的部分)
+                km.getRoot().traverse(function(node) {
+                    node.setData('font-weight', 'bold'); // 统一设置字重
+                    node.setData('font-size', 19);      // 统一设置字号 (会被主题层级样式覆盖)
+                    node.setData('stroke-width', 1);    // 统一设置边框宽度
+
+                    // 根据节点层级设置不同样式 (补充或覆盖主题)
+                    if (node.getLevel() === 0) { // 根节点
+                        node.setData('stroke', 'var(--km-root-bg)'); // 确保边框与背景一致
+                        node.setData('padding', [14, 24]);
+                    } else if (node.getLevel() === 1) { // 一级子节点
+                         node.setData('stroke', 'var(--km-orange)');
+                         node.setData('padding', [10, 20]);
+                    } else if (node.getLevel() === 2) { // 二级子节点
+                         node.setData('stroke', 'var(--km-blue)');
+                         node.setData('padding', [8, 16]);
+                    } else if (node.getLevel() >= 3) { // 三级及更深层子节点
+                        node.setData('background', 'var(--km-lightblue)'); // 使用浅蓝色背景
+                        node.setData('color', 'var(--km-node-text, #ffffff)'); // 文字颜色
+                        node.setData('padding', [8, 16]);
+                        node.setData('stroke', 'var(--km-lightblue)'); // 边框颜色
+                    }
+                    node.render(); // 重新渲染节点以应用样式
+                });
+                km.refresh(); // 刷新整个思维导图
+
+                await new Promise(resolve => setTimeout(resolve, 100)); // 短暂延迟
+
+                // 视图自适应调整逻辑
+                try {
+                    const paper = km.getPaper(); // 获取Kity的Paper对象
+                    const renderContainer = km.getRenderContainer(); // 获取渲染容器
+
+                    if (!paper || !renderContainer) {
+                        console.error("KityMinder paper 或 render container 不可用，无法进行自适应显示。");
+                        km.execCommand('camera', km.getRoot(), 100); // 定位到根节点
+                        km.execCommand('zoom', isModal ? 85 : 75);   // 设置默认缩放比例
+                        return km;
+                    }
+
+                    const diagramBox = renderContainer.getBoundaryBox(); // 获取导图内容的边界框
+
+                    // 检查边界框是否有效
+                    if (diagramBox && diagramBox.width > 0 && diagramBox.height > 0 &&
+                        isFinite(diagramBox.x) && isFinite(diagramBox.y) &&
+                        isFinite(diagramBox.width) && isFinite(diagramBox.height)) {
+
+                        const viewPadding = 2; // 视图边缘的最小留白
+                        const containerWidth = containerElement.clientWidth; // 容器宽度
+                        const containerHeight = containerElement.clientHeight; // 容器高度
+
+                        // 如果容器尺寸无效，则回退到默认视图
+                        if (containerWidth <= 0 || containerHeight <= 0) {
+                            console.warn("KityMinder Debug: 容器尚无尺寸，无法进行自适应缩放。回退到默认视图。");
+                            km.execCommand('camera', km.getRoot(), 100);
+                            km.execCommand('zoom', isModal ? 85 : 75);
+                            return km;
+                        }
+
+                        // 计算可用宽高和缩放比例
+                        const usableWidth = containerWidth - 2 * viewPadding;
+                        const usableHeight = containerHeight - 2 * viewPadding;
+                        const scaleX = usableWidth / diagramBox.width;
+                        const scaleY = usableHeight / diagramBox.height;
+                        let targetScale = Math.min(scaleX, scaleY); // 取较小的缩放比以适应容器
+
+                        const PADDED_ZOOM_FACTOR = 0.995; // 轻微缩小因子，避免贴边
+                        targetScale *= PADDED_ZOOM_FACTOR;
+
+                        // 限制缩放范围
+                        const MIN_ZOOM_PERCENT = 20;  // 最小缩放20%
+                        const MAX_ZOOM_PERCENT = 100; // 最大缩放100% (不放大超过原始大小)
+                        let finalZoomPercent = targetScale * 100;
+                        finalZoomPercent = Math.max(MIN_ZOOM_PERCENT, finalZoomPercent);
+                        finalZoomPercent = Math.min(finalZoomPercent, MAX_ZOOM_PERCENT);
+
+                        // 计算导图中心点并执行缩放和定位
+                        const diagramCenterX = diagramBox.x + diagramBox.width / 2;
+                        const diagramCenterY = diagramBox.y + diagramBox.height / 2;
+                        const diagramCenterPoint = new kity.Point(diagramCenterX, diagramCenterY);
+                        km.execCommand('zoom', finalZoomPercent, diagramCenterPoint); // 缩放到计算出的比例
+
+                        // 动态调整主视图容器高度 (仅针对非模态框的主视图)
+                        if (!isModal) {
+                            const actualDiagramHeightAfterZoom = diagramBox.height * (finalZoomPercent / 100);
+                            const PADDING_FOR_HEIGHT = 15; // 额外的垂直内边距
+                            // 确保高度不小于CSS中定义的min-height (400px)，同时能容纳缩放后的导图
+                            containerElement.style.height = Math.max(parseInt(getComputedStyle(containerElement).minHeight) || 350, actualDiagramHeightAfterZoom + PADDING_FOR_HEIGHT * 2) + 'px';
+                            containerElement.style.minHeight = '0px'; // 允许动态高度覆盖CSS的min-height
+                        }
+
+                    } else { // 边界框无效，回退
+                        console.warn("KityMinder Debug: 无效的 diagramBox 尺寸。回退到默认视图。");
+                        km.execCommand('camera', km.getRoot(), 100);
+                        km.execCommand('zoom', isModal ? 80 : 70); // 默认缩放比例
+                    }
+                } catch (e_view) { // 视图调整出错，回退
+                    console.error(`KityMinder Debug: 自适应视图调整出错 (${containerElement.id}):`, e_view);
+                    km.execCommand('camera', km.getRoot(), 100);
+                    km.execCommand('zoom', isModal ? 80 : 70);
+                }
+
+                km.refresh(); // 最后刷新一次确保所有变更生效
+            }
+            console.log("KityMinder 初始化并导入数据完成:", containerElement.id);
+            return km; // 返回KityMinder实例
+        } catch (error) { // 初始化过程出错
+            console.error("初始化 KityMinder 出错 (" + containerElement.id + "):", error);
+            showKityMinderFeedback(feedbackElem, `初始化KityMinder失败: ${error.message}`, 'error');
+            containerElement.innerHTML = `<p style="color:red; text-align:center; padding:20px;">初始化KityMinder失败: ${error.message}</p>`; // 在容器内显示错误信息
+            return null;
+        }
+    }
+
+    // --- 主视图思维导图逻辑 ---
+    // 绑定按钮事件
+    if(mainZoomInBtn) mainZoomInBtn.addEventListener('click', () => { if (mainKM) mainKM.execCommand('zoomIn'); }); // 放大
+    if(mainZoomOutBtn) mainZoomOutBtn.addEventListener('click', () => { if (mainKM) mainKM.execCommand('zoomOut'); }); // 缩小
+    if(mainDownloadDiagramBtn) mainDownloadDiagramBtn.addEventListener('click', () => { downloadKityMinderAsSVG(mainKM, '核心概念关系图-主视图', mermaidMainFeedbackMessage); }); // 下载SVG
+
+    // --- 全屏模态框思维导图逻辑 ---
+    if(fullscreenOpenBtn) fullscreenOpenBtn.addEventListener('click', () => { // 打开全屏
+        if(fullscreenModal) fullscreenModal.classList.add('active'); // 显示模态框
+        document.body.classList.add('modal-active'); // 禁止页面滚动
+        if(modalKityMinderContainer) modalKityMinderContainer.innerHTML = ''; // 清空模态框容器
+        // 初始化模态框内的KityMinder实例
+        initializeKityMinder(modalKityMinderContainer, kityminderData, mermaidModalFeedbackMessage, true)
+            .then(kmInstance => modalKM = kmInstance);
+    });
+    if(fullscreenCloseBtn) fullscreenCloseBtn.addEventListener('click', () => { // 关闭全屏
+        if(fullscreenModal) fullscreenModal.classList.remove('active'); // 隐藏模态框
+        document.body.classList.remove('modal-active'); // 恢复页面滚动
+        if(modalKityMinderContainer) modalKityMinderContainer.innerHTML = ''; // 清空模态框容器
+        modalKM = null; // 释放实例
+    });
+    // 绑定模态框内按钮事件
+    if(modalZoomInBtn) modalZoomInBtn.addEventListener('click', () => { if (modalKM) modalKM.execCommand('zoomIn'); });
+    if(modalZoomOutBtn) modalZoomOutBtn.addEventListener('click', () => { if (modalKM) modalKM.execCommand('zoomOut'); });
+    if(modalDownloadDiagramBtn) modalDownloadDiagramBtn.addEventListener('click', () => { downloadKityMinderAsSVG(modalKM, '核心概念关系图-全屏', mermaidModalFeedbackMessage); });
+
+    // --- KityMinder 初始化调用 ---
+    // 定义初始化主思维导图的函数
+    function initializeMainKityMinderDiagram() {
+        console.log("DOM完全加载或函数被调用。正在初始化主KityMinder。");
+        // 确保KityMinder库和容器都存在
+        if (typeof kityminder !== 'undefined' && mainKityMinderContainer) {
+            initializeKityMinder(mainKityMinderContainer, kityminderData, mermaidMainFeedbackMessage, false)
+                .then(kmInstance => mainKM = kmInstance);
+        } else {
+            if (mermaidMainFeedbackMessage) { // 如果反馈元素存在，显示错误
+                 showKityMinderFeedback(mermaidMainFeedbackMessage, "KityMinder库加载失败或容器未找到，无法初始化思维导图。", "error");
+            }
+            console.error("KityMinder库或主容器不可用，无法初始化。");
+        }
+    }
+    // --- KityMinder (思维导图) JavaScript 结束 ---
+
+
+    // --- 报告页面通用 JavaScript 开始 ---
+
+    // 辅助函数：获取CSS变量值
+    function getCssVariable(variableName, defaultValue = null) {
+        // 此函数在 window 上下文中执行，可以访问 document.documentElement
+        const value = getComputedStyle(document.documentElement).getPropertyValue(variableName).trim();
+        return value || defaultValue;
+    }
+
+    // 函数：获取报告文件名基础部分 (例如 "AI产品团日报")
+    function getReportBaseName() {
+        const mainTitleElement = document.querySelector('.main-card h1'); // 获取主标题元素
+        let reportTitle = "报告"; // 默认标题
+        const placeholderTitle = "[主报告标题 - 例如：AI产品团日报]"; // 占位符文本
+
+        if (mainTitleElement && mainTitleElement.textContent) {
+            const currentTitle = mainTitleElement.textContent.trim();
+            // 如果当前标题有效且不是占位符，则使用当前标题
+            if (currentTitle && currentTitle !== placeholderTitle) {
+                reportTitle = currentTitle;
+            }
+        }
+        // 确保最终名称以 "日报" 结尾，但避免重复添加
+        if (reportTitle.endsWith("日报")) {
+            reportTitle = reportTitle.substring(0, reportTitle.length - 2); // 如果已包含，先移除
+        }
+        return reportTitle + "日报"; // 添加 "日报"
+    }
+
+    // 函数：获取格式化的日期字符串 (例如 "2023-10-26")
+    function getFormattedDateString() {
+        const reportDateElement = document.querySelector('.main-card .date'); // 获取日期元素
+        let dateStr = "nodate"; // 默认日期字符串
+        const placeholderDate = "[日期 - 例如：2025年5月19日]"; // 占位符文本
+
+        if (reportDateElement && reportDateElement.textContent) {
+            const dateContent = reportDateElement.textContent.trim();
+            // 如果日期内容有效且不是占位符
+            if (dateContent && dateContent !== placeholderDate) {
+                // 尝试匹配 "YYYY年M月D日" 格式
+                const match = dateContent.match(/(\d{4})年\s*(\d{1,2})月\s*(\d{1,2})日/);
+                if (match) {
+                    const year = match[1];
+                    const month = match[2].padStart(2, '0'); // 月份补零
+                    const day = match[3].padStart(2, '0');   // 日期补零
+                    dateStr = `${year}-${month}-${day}`;
+                } else { // 格式不匹配则警告
+                    console.warn("日期内容 '" + dateContent + "' 与 'YYYY年M月D日' 格式不匹配。文件名将使用 'nodate'。");
+                }
+            } else { // 内容为占位符或空
+                 console.warn("日期内容为占位符或空。文件名将使用 'nodate'。");
+            }
+        } else { // 未找到日期元素
+            console.warn("未找到日期元素或无内容。文件名将使用 'nodate'。");
+        }
+        return dateStr;
+    }
+
+    // 函数：清理文件名中的非法字符
+    function sanitizeFilename(filename) {
+        // 允许中文字符、字母数字、下划线、连字符、点。其他替换为下划线。
+        return filename.replace(/[^\w\u4e00-\u9fa5\-\.]/g, '_').replace(/_+/g, '_'); // 连续下划线替换为单个
+    }
+
+    // “查看昨日日报”按钮的URL占位符 (重要: 需要用户更新此URL)
+    const previousReportUrl = "在此处填写昨日日报的URL";
+
+    // 函数：向用户显示操作反馈消息
+    function showReportFeedbackMessage(message, type = 'info', duration = 3000) {
+        const feedbackElement = document.getElementById('feedback-message'); // 获取反馈消息元素
+        if (feedbackElement) {
+            feedbackElement.textContent = message; // 设置消息文本
+            feedbackElement.className = type; // 设置消息类型 (用于CSS样式)
+            // duration时间后清除消息
+            setTimeout(() => {
+                feedbackElement.textContent = '';
+                feedbackElement.className = '';
+            }, duration);
+        }
+    }
+
+    // 使用 html2canvas 进行截图的异步函数 (重写版本)
+    async function captureScreenshot(elementToCapture) {
+        await document.fonts.ready; // 确保所有字体已加载
+
+        // 获取CSS变量以供onclone回调使用
+        const bodyBgColor = getComputedStyle(document.documentElement).getPropertyValue('--bg-primary').trim() || '#F5F5EE';
+        const cardBgColor = getComputedStyle(document.documentElement).getPropertyValue('--bg-secondary').trim() || '#faf9f6';
+        const tertiaryBgColor = getComputedStyle(document.documentElement).getPropertyValue('--bg-tertiary').trim() || '#f1f3f5';
+        const kityMinderContainerBgColor = '#ffffff'; // KityMinder通常是白色背景
+
+        return html2canvas(elementToCapture, {
+            useCORS: true,
+            scale: window.devicePixelRatio || 2, // 提高截图比例以获得更好质量
+            logging: false,
+            backgroundColor: bodyBgColor, // 设置画布的背景色
+            scrollX: 0, // 从文档的0,0开始截图
+            scrollY: 0,
+            x: elementToCapture.offsetLeft, // 确保从元素左上角开始
+            y: elementToCapture.offsetTop,
+            width: elementToCapture.scrollWidth,  // 捕获完整宽度
+            height: elementToCapture.scrollHeight, // 捕获完整高度
+            windowWidth: document.documentElement.scrollWidth, // 提供窗口宽度给html2canvas
+            windowHeight: document.documentElement.scrollHeight, // 提供窗口高度给html2canvas
+            onclone: function(clonedDoc) {
+                // 1. 显式设置克隆文档中主要元素的背景颜色
+                clonedDoc.body.style.backgroundColor = bodyBgColor;
+
+                const reportWrapper = clonedDoc.getElementById('report-content-wrapper');
+                if (reportWrapper) {
+                    reportWrapper.style.backgroundColor = bodyBgColor; // 确保包裹器也有背景
+                }
+
+
+                const cards = clonedDoc.querySelectorAll('.card');
+                cards.forEach(card => {
+                    // 对于KityMinder容器的父卡片，让其背景透明或与页面背景一致，以显示KityMinder自身白色背景
+                    if (card.classList.contains('mindmap-card-container')) {
+                         card.style.backgroundColor = bodyBgColor; // 或者 'transparent' 如果希望KityMinder的白色背景更突出
+                    } else if (card.classList.contains('modal-content')) {
+                         card.style.backgroundColor = cardBgColor; // 模态框内容卡片
+                    }
+                    else {
+                        card.style.backgroundColor = cardBgColor;
+                    }
+                });
+
+                // KityMinder容器应有自己的白色背景
+                const kmContainers = clonedDoc.querySelectorAll('.kityminder-container');
+                kmContainers.forEach(kmContainer => {
+                    kmContainer.style.backgroundColor = kityMinderContainerBgColor;
+                    // 确保SVG内容可见，html2canvas有时难以处理复杂的SVG样式
+                    const svgElements = kmContainer.querySelectorAll('svg');
+                    svgElements.forEach(svg => {
+                        svg.style.overflow = 'visible'; // 确保SVG内容不被裁剪
+                    });
+                });
+                
+                // 其他使用特定背景色的元素
+                const tertiaryBgElements = clonedDoc.querySelectorAll('.link-item, .qr-code-item, .meta-info span, .keyword');
+                tertiaryBgElements.forEach(el => {
+                    el.style.backgroundColor = tertiaryBgColor;
+                });
+
+
+                // 2. 修复高亮关键词的样式
+                const highlightElements = clonedDoc.querySelectorAll('.highlight-keyword');
+                highlightElements.forEach(el => {
+                    el.style.display = 'inline';
+                    el.style.padding = '1px 2px';
+                    el.style.lineHeight = '1.2';
+                    el.style.boxDecorationBreak = 'clone';
+                    el.style.webkitBoxDecorationBreak = 'clone';
+                     // 显式设置高亮背景色
+                    el.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--highlight-keyword-bg').trim() || '#ffe8cc';
+                });
+
+                // 3. 确保图片已加载 (对于 src 指向的图片)
+                // html2canvas 尝试加载图片，但有时可能需要额外处理
+                // 此处假设图片URL是可访问的
+            }
+        });
+    }
+
+
+    // “拷贝截图”按钮事件监听
+    const screenshotToClipboardBtn = document.getElementById('screenshotToClipboardBtn');
+    if(screenshotToClipboardBtn) screenshotToClipboardBtn.addEventListener('click', async function() {
+        const reportContent = document.getElementById('report-content-wrapper'); // 获取报告内容区域
+        if (!reportContent) {
+            showReportFeedbackMessage('截图错误: 未找到报告内容。', 'error');
+            return;
+        }
+        // 获取按钮和反馈元素，用于临时隐藏和状态更新
+        const actionButtons = document.querySelector('.action-buttons-container');
+        const feedbackMsgElement = document.getElementById('feedback-message');
+        const originalButtonText = this.innerHTML; // 保存原始按钮文本
+        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 处理中...'; // 更新按钮为处理中状态
+        this.disabled = true; // 禁用按钮
+
+        // 截图时隐藏操作按钮和反馈消息，避免它们出现在截图中
+        if(actionButtons) actionButtons.style.visibility = 'hidden';
+        if(feedbackMsgElement) feedbackMsgElement.style.visibility = 'hidden';
+
+        try {
+            const canvas = await captureScreenshot(reportContent); // 执行截图
+            // 将canvas转换为Blob对象以便写入剪贴板
+            canvas.toBlob(async function(blob) {
+                if (blob) {
+                    try {
+                        // 优先使用现代Clipboard API (navigator.clipboard.write)
+                        if (navigator.clipboard && navigator.clipboard.write) {
+                            await navigator.clipboard.write([
+                                new ClipboardItem({ 'image/png': blob }) // 创建剪贴板项目
+                            ]);
+                            showReportFeedbackMessage('截图已拷贝到剪贴板!', 'success');
+                        } else { // 如果不支持，提供备选方案或提示
+                            // 备选：显示图片让用户手动复制 (或提示浏览器不支持)
+                            const dataUrl = canvas.toDataURL('image/png');
+                            const img = document.createElement('img');
+                            img.src = dataUrl;
+                            img.style.maxWidth = '100%';
+                            img.style.border = '1px solid #ccc';
+
+                            const tempContainer = document.createElement('div'); // 创建临时容器显示图片
+                            tempContainer.style.position = 'fixed';
+                            tempContainer.style.top = '10px'; tempContainer.style.left = '10px';
+                            tempContainer.style.zIndex = '9999'; tempContainer.style.backgroundColor = 'white';
+                            tempContainer.style.padding = '10px'; tempContainer.style.border = '1px solid black';
+                            tempContainer.innerHTML = '<strong>请手动右键复制图片:</strong><br>';
+                            tempContainer.appendChild(img);
+                            document.body.appendChild(tempContainer);
+                            showReportFeedbackMessage('截图已生成。请手动右键复制图片。此提示将在10秒后消失。', 'info', 10000);
+                            setTimeout(() => { if(document.body.contains(tempContainer)) document.body.removeChild(tempContainer); }, 10000);
+                        }
+                    } catch (copyError) { // 拷贝到剪贴板失败
+                        console.error('拷贝到剪贴板失败:', copyError);
+                        showReportFeedbackMessage('拷贝截图到剪贴板失败: ' + copyError.message, 'error', 5000);
+                    }
+                } else { // canvas转Blob失败
+                    throw new Error('无法将Canvas转换为Blob。');
+                }
+            }, 'image/png'); // 指定Blob类型为PNG
+        } catch (error) { // 截图过程出错
+            console.error('截图捕获失败:', error);
+            showReportFeedbackMessage('截图捕获失败: ' + error.message, 'error');
+        } finally { // 无论成功或失败，恢复按钮和反馈消息的可见性及状态
+            if(actionButtons) actionButtons.style.visibility = 'visible';
+            if(feedbackMsgElement) feedbackMsgElement.style.visibility = 'visible';
+            this.innerHTML = originalButtonText;
+            this.disabled = false;
+        }
+    });
+
+    // “下载截图”按钮事件监听
+    const screenshotDownloadBtn = document.getElementById('screenshotDownloadBtn');
+    if(screenshotDownloadBtn) screenshotDownloadBtn.addEventListener('click', async function() {
+        const reportContent = document.getElementById('report-content-wrapper');
+        if (!reportContent) {
+            showReportFeedbackMessage('截图错误: 未找到报告内容。', 'error');
+            return;
+        }
+        const actionButtons = document.querySelector('.action-buttons-container');
+        const feedbackMsgElement = document.getElementById('feedback-message');
+        const originalButtonText = this.innerHTML;
+        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 生成中...';
+        this.disabled = true;
+        if(actionButtons) actionButtons.style.visibility = 'hidden';
+        if(feedbackMsgElement) feedbackMsgElement.style.visibility = 'hidden';
+
+        try {
+            const canvas = await captureScreenshot(reportContent); // 执行截图
+            const image = canvas.toDataURL('image/png'); // 将canvas转为PNG格式的Data URL
+            const link = document.createElement('a'); // 创建下载链接
+
+            // 生成文件名
+            const reportBaseName = getReportBaseName();
+            const dateSuffix = getFormattedDateString();
+            let filename = sanitizeFilename(reportBaseName + '-' + dateSuffix) + '.png';
+
+            link.href = image; // 设置链接的href为图片Data URL
+            link.download = filename; // 设置下载文件名
+            document.body.appendChild(link); // 添加到DOM
+            link.click(); // 模拟点击下载
+            document.body.removeChild(link); // 从DOM移除
+            showReportFeedbackMessage('截图已下载为 ' + filename + '!', 'success');
+        } catch (error) { // 下载截图失败
+            console.error('下载截图失败:', error);
+            showReportFeedbackMessage('下载截图失败: ' + error.message, 'error');
+        } finally { // 恢复按钮和反馈状态
+            if(actionButtons) actionButtons.style.visibility = 'visible';
+            if(feedbackMsgElement) feedbackMsgElement.style.visibility = 'visible';
+            this.innerHTML = originalButtonText;
+            this.disabled = false;
+        }
+    });
+
+    // “下载报告” (HTML源码) 按钮事件监听
+    const downloadHtmlBtn = document.getElementById('downloadHtmlBtn');
+    if(downloadHtmlBtn) downloadHtmlBtn.addEventListener('click', function() {
+        try {
+            const htmlContent = document.documentElement.outerHTML; // 获取整个HTML文档内容
+            const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' }); // 创建Blob对象
+            const link = document.createElement('a'); // 创建下载链接
+
+            // 生成文件名
+            const reportBaseName = getReportBaseName();
+            const dateSuffix = getFormattedDateString();
+            let filename = sanitizeFilename(reportBaseName + '-' + dateSuffix) + '.html';
+
+            link.href = URL.createObjectURL(blob); // 设置链接href为Blob URL
+            link.download = filename; // 设置下载文件名
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(link.href); // 释放Blob URL
+            showReportFeedbackMessage('HTML报告已下载为 ' + filename + '!', 'success');
+        } catch (error) { // 下载HTML失败
+            console.error('下载HTML失败:', error);
+            showReportFeedbackMessage('下载HTML失败: ' + error.message, 'error');
+        }
+    });
+
+    // “拷贝源码” (HTML源码) 按钮事件监听
+    const copyHtmlBtn = document.getElementById('copyHtmlBtn');
+    if(copyHtmlBtn) copyHtmlBtn.addEventListener('click', function() {
+        const htmlContent = document.documentElement.outerHTML; // 获取HTML内容
+        const Gthis = this; // 保存按钮的this上下文
+        const originalButtonHTML = Gthis.innerHTML; // 保存原始按钮内容
+        const textarea = document.createElement('textarea'); // 创建临时textarea用于复制
+        textarea.value = htmlContent;
+        // 隐藏textarea
+        textarea.style.position = 'fixed';
+        textarea.style.top = '-9999px';
+        textarea.style.left = '-9999px';
+        document.body.appendChild(textarea);
+        try {
+            textarea.select(); // 选中内容
+            textarea.setSelectionRange(0, textarea.value.length); // 确保移动设备上全选
+            if (document.execCommand('copy')) { // 执行复制命令
+                Gthis.innerHTML = '<i class="fas fa-check"></i> 已拷贝!'; // 更新按钮状态
+                showReportFeedbackMessage('HTML已拷贝到剪贴板!', 'success', 2000);
+            } else { // 复制失败
+                Gthis.innerHTML = '<i class="fas fa-times"></i> 拷贝失败';
+                showReportFeedbackMessage('拷贝失败。您的浏览器可能不支持此操作。', 'error', 2000);
+            }
+        } catch (err) { // 复制出错
+            Gthis.innerHTML = '<i class="fas fa-times"></i> 拷贝出错';
+            showReportFeedbackMessage('拷贝出错: ' + err.message, 'error', 2000);
+            console.error('拷贝HTML源码出错:', err);
+        } finally { // 恢复按钮状态并移除textarea
+            setTimeout(function() {
+                Gthis.innerHTML = originalButtonHTML;
+            }, 2000);
+            document.body.removeChild(textarea);
+        }
+    });
+
+    // “查看昨日日报”按钮事件监听
+    const viewPreviousReportBtn = document.getElementById('viewPreviousReportBtn');
+    if(viewPreviousReportBtn) viewPreviousReportBtn.addEventListener('click', function() {
+        const urlToOpen = previousReportUrl.trim(); // 获取配置的URL
+        const placeholderUrlText = "在此处填写昨日日报的URL"; // 占位符文本
+        // 检查URL是否有效且不是占位符
+        if (urlToOpen && urlToOpen !== placeholderUrlText && (urlToOpen.startsWith('http://') || urlToOpen.startsWith('https://') || !urlToOpen.includes('://'))) {
+            let finalUrl = urlToOpen;
+            // 不需要额外添加 'http://'，因为相对路径或已有协议的URL可以直接使用
+            const newWindow = window.open(finalUrl, '_blank'); // 在新标签页打开
+            // 检查是否被弹出窗口拦截器阻止
+            if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
+                showReportFeedbackMessage('无法打开新窗口。请检查您的弹出窗口拦截设置。', 'error', 5000);
+            }
+        } else { // URL无效或未配置
+            showReportFeedbackMessage('昨日日报的URL未配置或无效。请检查脚本中的 previousReportUrl 变量。', 'error', 5000);
+        }
+    });
+
+    // 根据窗口大小调整操作按钮的布局 (flex vs block)
+    function adjustActionButtonsLayout() {
+        const actionButtonsContainer = document.querySelector('.action-buttons-container');
+        if (actionButtonsContainer) {
+            if (window.innerWidth <= 768) { // 对应CSS中的 @media (max-width: 768px)
+                // 移动设备上使用flex布局使按钮换行并居中
+                actionButtonsContainer.style.display = 'flex';
+                actionButtonsContainer.style.flexWrap = 'wrap';
+                actionButtonsContainer.style.justifyContent = 'center';
+            } else { // 桌面设备上恢复默认的块状布局 (或CSS中定义的布局)
+                actionButtonsContainer.style.display = 'block';
+                actionButtonsContainer.style.flexWrap = 'nowrap'; // 重置flex属性
+            }
+        }
+    }
+
+    // --- 页面加载和窗口大小改变时的事件监听 ---
+    window.addEventListener('load', () => {
+        initializeMainKityMinderDiagram(); // 页面加载完成后初始化主思维导图
+        adjustActionButtonsLayout();       // 页面加载完成后调整按钮布局
+    });
+    window.addEventListener('resize', adjustActionButtonsLayout); // 窗口大小改变时调整按钮布局
+
+    // --- 报告页面通用 JavaScript 结束 ---
+</script>
+</body>
+</html>
+
